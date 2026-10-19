@@ -1,304 +1,103 @@
-'use client';
+import Link from "next/link";
+import { Container } from "@/components/ui/Container";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Heading } from "@/components/ui/Heading";
+import { EnquiryForm } from "@/components/forms/EnquiryForm";
+import { COMPANY } from "@/config/company";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { 
-  Phone, Mail, MapPin, Calendar, Clock, MessageSquare, 
-  ExternalLink, CheckCircle2, ShieldCheck, Car 
-} from 'lucide-react';
-import { COMPANY_INFO, PROJECTS } from '@/data/mockData';
-import { useApp } from '@/context/AppContext';
+export const metadata = {
+  title: "Contact & Advisory Desk | V.V Properties Coimbatore",
+  description: "Schedule a site visit or connect with property advisors at V.V Properties Coimbatore.",
+};
 
 export default function ContactPage() {
-  const { addEnquiry, showToast } = useApp();
-
-  const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [projectInterest, setProjectInterest] = useState(PROJECTS[0]?.name || '');
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('10:30 AM');
-  const [needCab, setNeedCab] = useState(false);
-  const [message, setMessage] = useState('');
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name.trim() || !phone.trim()) {
-      showToast('Please enter your name and phone number', 'error');
-      return;
-    }
-
-    addEnquiry({
-      name,
-      phone,
-      email,
-      project: projectInterest,
-      enquiryType: 'general',
-      preferredDate: date || undefined,
-      preferredTime: time,
-      needCabPickup: needCab,
-      message
-    });
-
-    setSubmitted(true);
-  };
+  const waUrl = getWhatsAppUrl("Hello V.V Properties, I would like to enquire about your plotted layouts.");
 
   return (
-    <div className="pt-28 pb-20 bg-brand-warmwhite min-h-screen text-left">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        
-        {/* Breadcrumb & Title */}
-        <div>
-          <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-brand-secondary mb-3">
-            <Link href="/" className="hover:text-brand-primary">Home</Link>
-            <span>/</span>
-            <span className="text-brand-navy font-semibold">Contact & Site Visit</span>
-          </div>
+    <div className="py-24 md:py-32 bg-ivory min-h-screen text-left">
+      <Container>
+        {/* Breadcrumb & Header */}
+        <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted mb-4">
+          <Link href="/" className="hover:text-ink">Home</Link>
+          <span>/</span>
+          <span className="text-ink font-semibold">Contact</span>
+        </div>
 
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-brand-primary block mb-1">
-            DIRECT ENGAGEMENT
-          </span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-brand-navy tracking-tight">
+        <div className="max-w-3xl mb-12">
+          <Eyebrow>Direct Engagement</Eyebrow>
+          <Heading level={1} className="mt-2">
             Connect with V.V Properties
-          </h1>
-          <p className="text-sm text-brand-secondary mt-2 max-w-2xl leading-relaxed">
-            Visit our corporate office on Sathy Main Road or schedule an on-site inspection with free AC cab pickup across Coimbatore.
+          </Heading>
+          <p className="text-sm md:text-base text-muted mt-3 font-light leading-relaxed">
+            Schedule a private layout inspection or request title dossiers directly from our team in Coimbatore.
           </p>
         </div>
 
-        {/* 2-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column: Office Details & Channels */}
-          <div className="lg:col-span-5 space-y-6">
-            
-            <div className="bg-white rounded-xl p-6 sm:p-8 border border-brand-border shadow-sm space-y-6">
-              <h2 className="text-xl font-bold text-brand-navy">Coimbatore Head Office</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          {/* Left Column: Office & Channels */}
+          <div className="lg:col-span-5 space-y-8">
+            <div className="bg-paper p-8 rounded-3xl border border-stone/40 space-y-6 shadow-sm">
+              <h2 className="font-serif text-2xl text-ink font-light">
+                Office & Direct Channels
+              </h2>
 
               <div className="space-y-4 text-xs">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-brand-ice text-brand-primary flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <strong className="block text-brand-navy text-sm font-bold">Office Address</strong>
-                    <p className="text-brand-secondary leading-relaxed mt-0.5">
-                      {COMPANY_INFO.officeAddress}
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-brand-ice text-brand-primary flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <strong className="block text-brand-navy text-sm font-bold">Phone Hotlines</strong>
-                    <a href={`tel:${COMPANY_INFO.phone}`} className="text-brand-primary font-semibold block hover:underline mt-0.5">
-                      {COMPANY_INFO.displayPhone}
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-brand-ice text-brand-primary flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <strong className="block text-brand-navy text-sm font-bold">Official Email</strong>
-                    <a href={`mailto:${COMPANY_INFO.email}`} className="text-brand-secondary block hover:text-brand-primary mt-0.5">
-                      {COMPANY_INFO.email}
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Instant WhatsApp Action */}
-              <div className="pt-2">
-                <a
-                  href={`https://wa.me/${COMPANY_INFO.whatsapp}?text=Hello%20V.V%20Properties,%20I%20would%20like%20to%20connect%20regarding%20Coimbatore%20plots.`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-3.5 px-4 bg-brand-darkgreen hover:bg-brand-foliage text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-colors shadow-sm"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Chat on WhatsApp Directly</span>
-                </a>
-              </div>
-            </div>
-
-            {/* Free Cab Inspection Notice */}
-            <div className="p-5 rounded-xl bg-brand-ice/60 border border-brand-softblue/30 space-y-2 text-xs">
-              <div className="flex items-center gap-2 font-bold text-brand-navy">
-                <Car className="w-4 h-4 text-brand-primary" />
-                <span>Complimentary On-Site Cab Service</span>
-              </div>
-              <p className="text-brand-secondary leading-relaxed">
-                We provide round-trip AC cab transportation for prospective buyers and families from anywhere in Coimbatore (Airport, Railway Station, RS Puram, Peelamedu, Gandhipuram).
-              </p>
-            </div>
-
-          </div>
-
-          {/* Right Column: Interactive Contact & Visit Scheduler */}
-          <div className="lg:col-span-7 bg-white rounded-xl p-6 sm:p-10 border border-brand-border shadow-sm">
-            
-            {submitted ? (
-              <div className="text-center py-12 space-y-4">
-                <div className="w-16 h-16 bg-brand-foliage/10 text-brand-darkgreen rounded-full flex items-center justify-center mx-auto border border-brand-foliage/20">
-                  <CheckCircle2 className="w-10 h-10 text-brand-foliage" />
-                </div>
-                <h3 className="text-2xl font-bold text-brand-navy">Thank You for Connecting!</h3>
-                <p className="text-sm text-brand-secondary max-w-sm mx-auto">
-                  Your enquiry has been assigned to a Senior Property Consultant. We will call you on <strong className="text-brand-navy">{phone}</strong> within 15 minutes.
-                </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-4 px-6 py-2.5 bg-brand-primary text-white font-bold rounded-lg text-xs hover:bg-brand-royal transition-colors"
-                >
-                  Send Another Message
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
-                  <h3 className="text-2xl font-bold text-brand-navy">Send an Enquiry or Book Site Visit</h3>
-                  <p className="text-xs text-brand-secondary mt-1">
-                    Fill out the form below. Zero sales pressure, thoroughly verified documentation.
+                  <span className="text-muted block uppercase tracking-wider text-[10px]">Office Address</span>
+                  <p className="text-ink font-medium mt-1 leading-relaxed">
+                    {COMPANY.officeAddress ?? "Coimbatore, Tamil Nadu (Registered office address pending client confirmation)"}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-brand-navy mb-1">
-                      Full Name <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Balaji Natarajan"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-brand-border bg-brand-cloudwhite text-sm text-brand-navy focus:outline-none focus:border-brand-primary"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-brand-navy mb-1">
-                      Mobile Number <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="+91 98422 12345"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-brand-border bg-brand-cloudwhite text-sm text-brand-navy focus:outline-none focus:border-brand-primary"
-                    />
-                  </div>
+                <div className="pt-2 border-t border-stone/30">
+                  <span className="text-muted block uppercase tracking-wider text-[10px]">Telephone Desk</span>
+                  <p className="text-ink font-medium mt-1">
+                    {COMPANY.phone ?? "Official phone number pending verification"}
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-brand-navy mb-1">
-                      Email Address (Optional)
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="balaji@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-brand-border bg-brand-cloudwhite text-sm text-brand-navy focus:outline-none focus:border-brand-primary"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-brand-navy mb-1">
-                      Interested Development
-                    </label>
-                    <select
-                      value={projectInterest}
-                      onChange={(e) => setProjectInterest(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-brand-border text-sm text-brand-navy font-medium focus:outline-none focus:border-brand-primary bg-brand-cloudwhite"
-                    >
-                      {PROJECTS.map((p) => (
-                        <option key={p.id} value={p.name}>
-                          {p.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div className="pt-2 border-t border-stone/30">
+                  <span className="text-muted block uppercase tracking-wider text-[10px]">Official Email</span>
+                  <p className="text-ink font-medium mt-1">
+                    {COMPANY.email ?? "Official email pending verification"}
+                  </p>
                 </div>
+              </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-brand-navy mb-1">
-                      Preferred Date for Site Tour (Optional)
-                    </label>
-                    <input
-                      type="date"
-                      value={date}
-                      onChange={(e) => setDate(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-brand-border bg-brand-cloudwhite text-sm text-brand-navy focus:outline-none focus:border-brand-primary"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-bold text-brand-navy mb-1">
-                      Preferred Time Slot
-                    </label>
-                    <select
-                      value={time}
-                      onChange={(e) => setTime(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-brand-border text-sm text-brand-navy font-medium focus:outline-none focus:border-brand-primary bg-brand-cloudwhite"
-                    >
-                      <option value="10:00 AM">10:00 AM (Morning)</option>
-                      <option value="02:30 PM">02:30 PM (Afternoon)</option>
-                      <option value="05:00 PM">05:00 PM (Golden Hour)</option>
-                    </select>
-                  </div>
+              {waUrl && (
+                <div className="pt-2">
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3.5 px-4 rounded-full bg-emerald-800 text-ivory hover:bg-emerald-900 transition-colors flex items-center justify-center gap-2 text-xs font-medium uppercase tracking-wider shadow-sm"
+                  >
+                    <span>Instant WhatsApp Connect</span>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 1.77.814 2.8.814 3.182 0 5.768-2.587 5.768-5.766 0-3.181-2.586-5.766-5.772-5.766zm8.472 5.766c0 4.686-3.813 8.498-8.472 8.498-1.455 0-2.825-.373-4.025-1.026l-4.506 1.182 1.206-4.394c-.754-1.272-1.187-2.766-1.187-4.26 0-4.686 3.813-8.498 8.472-8.498 4.686 0 8.512 3.812 8.512 8.498z" />
+                    </svg>
+                  </a>
                 </div>
+              )}
+            </div>
 
-                <div className="p-3 rounded-lg bg-brand-cloudwhite border border-brand-border">
-                  <label className="flex items-center gap-2 cursor-pointer text-xs font-bold text-brand-navy">
-                    <input
-                      type="checkbox"
-                      checked={needCab}
-                      onChange={(e) => setNeedCab(e.target.checked)}
-                      className="w-4 h-4 text-brand-primary rounded border-brand-border"
-                    />
-                    <span>Yes, arrange complimentary pickup & drop cab in Coimbatore</span>
-                  </label>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-bold text-brand-navy mb-1">
-                    Your Requirements or Specific Questions
-                  </label>
-                  <textarea
-                    rows={3}
-                    placeholder="e.g. Need an East-facing 3.5 Cent plot near Saravanampatti IT corridor..."
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-lg border border-brand-border bg-brand-cloudwhite text-xs sm:text-sm text-brand-navy focus:outline-none focus:border-brand-primary resize-none"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 px-4 bg-brand-primary hover:bg-brand-royal text-white font-bold rounded-lg text-sm transition-all shadow-sm"
-                >
-                  Submit Enquiry / Confirm Tour
-                </button>
-              </form>
-            )}
-
+            <div className="p-6 rounded-2xl bg-ivory border border-stone/40 space-y-2 text-xs">
+              <span className="font-serif text-base text-ink font-normal block">
+                Guided Site Inspections
+              </span>
+              <p className="text-muted leading-relaxed font-light">
+                Chauffeured vehicle pickups can be arranged for family visits from major transit points in Coimbatore including the Airport, Railway Station, or Gandhipuram.
+              </p>
+            </div>
           </div>
 
+          {/* Right Column: Lead Form */}
+          <div className="lg:col-span-7">
+            <EnquiryForm />
+          </div>
         </div>
-
-      </div>
+      </Container>
     </div>
   );
 }

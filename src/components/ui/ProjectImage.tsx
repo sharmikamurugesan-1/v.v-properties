@@ -5,7 +5,7 @@ interface ProjectImageProps {
   src: string;
   alt: string;
   isRender?: boolean;
-  aspectRatio?: 'video' | 'portrait' | 'square' | 'wide';
+  aspectRatio?: 'video' | 'portrait' | 'square' | 'wide' | '16/10' | '16/9';
   priority?: boolean;
   className?: string;
   sizes?: string;
@@ -20,12 +20,14 @@ export function ProjectImage({
   className = '',
   sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 }: ProjectImageProps) {
-  const aspectClasses = {
+  const aspectClasses: Record<string, string> = {
     video: 'aspect-[16/10]',
+    '16/10': 'aspect-[16/10]',
+    '16/9': 'aspect-[16/9]',
     wide: 'aspect-[21/9]',
     portrait: 'aspect-[3/4]',
     square: 'aspect-square'
-  }[aspectRatio];
+  };
 
   return (
     <div className={`relative w-full overflow-hidden rounded-2xl bg-stone/30 ${aspectClasses} ${className}`}>

@@ -1,636 +1,409 @@
-'use client';
+import Link from "next/link";
+import Image from "next/image";
+import { Container } from "@/components/ui/Container";
+import { Section } from "@/components/ui/Section";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Heading } from "@/components/ui/Heading";
+import { Button } from "@/components/ui/Button";
+import { ProjectImage } from "@/components/ui/ProjectImage";
+import { ReraBlock } from "@/components/compliance/ReraBlock";
+import { BlueprintToBuilding } from "@/components/home/BlueprintToBuilding";
+import { EnquiryForm } from "@/components/forms/EnquiryForm";
+import { PROJECTS } from "@/config/projects";
+import { LOCATIONS } from "@/config/locations";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
-import React, { useState, useMemo } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { 
-  ChevronRight, Calendar, Phone, CheckCircle2, 
-  ArrowRight, Check, Compass, RotateCcw
-} from 'lucide-react';
-import { useApp } from '@/context/AppContext';
-import { PROJECTS, PROPERTIES, COMPANY_INFO } from '@/data/mockData';
-import PropertyCard from '@/components/properties/PropertyCard';
-import LocationIntelligence from '@/components/locations/LocationIntelligence';
+export const metadata = {
+  title: "V.V Properties | Verified Residential Plotted Land in Coimbatore",
+  description:
+    "Quiet luxury and title-verified residential plots across Coimbatore's prime growth corridors. TNRERA and DTCP verified developments.",
+};
 
 export default function HomePage() {
-  const { openSiteVisitModal, showToast } = useApp();
-
-  // Property Discovery Filters (Section 4)
-  const [selectedLocation, setSelectedLocation] = useState('all');
-  const [selectedType, setSelectedType] = useState('all');
-  const [selectedBudget, setSelectedBudget] = useState('all');
-  const [selectedSort, setSelectedSort] = useState('featured');
-
-  // Filtered properties backed by actual data
-  const filteredProperties = useMemo(() => {
-    return PROPERTIES.filter((prop) => {
-      if (selectedLocation !== 'all' && !prop.location.toLowerCase().includes(selectedLocation.toLowerCase())) {
-        return false;
-      }
-      if (selectedType !== 'all' && prop.type !== selectedType) {
-        return false;
-      }
-      if (selectedBudget === 'under20' && prop.totalPrice > 25) return false;
-      if (selectedBudget === '20to50' && (prop.totalPrice < 20 || prop.totalPrice > 55)) return false;
-      if (selectedBudget === 'above50' && prop.totalPrice < 50) return false;
-      return true;
-    }).sort((a, b) => {
-      if (selectedSort === 'price-low') return a.totalPrice - b.totalPrice;
-      if (selectedSort === 'price-high') return b.totalPrice - a.totalPrice;
-      if (selectedSort === 'area-high') return b.areaCents - a.areaCents;
-      return 0;
-    });
-  }, [selectedLocation, selectedType, selectedBudget, selectedSort]);
-
-  // Section 7 Form State
-  const [visitName, setVisitName] = useState('');
-  const [visitPhone, setVisitPhone] = useState('');
-  const [visitProject, setVisitProject] = useState('Tech Valley — Saravanampatti');
-  const [visitDate, setVisitDate] = useState('');
-  const [cabRequired, setCabRequired] = useState(true);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleQuickVisitSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!visitName.trim() || !visitPhone.trim()) {
-      showToast('Please provide your full name and phone number.', 'error');
-      return;
-    }
-    setIsSubmitted(true);
-    showToast(`Site tour requested for ${visitName}. Our team will contact you shortly.`, 'success');
-  };
+  const waUrl = getWhatsAppUrl("Hello V.V Properties, I would like to schedule a private site visit.");
 
   return (
-    <div className="flex flex-col w-full bg-[#FAFAF8] text-[#162438] font-sans antialiased">
-      
-      {/* =========================================================================
-          1. HERO: FULL-BLEED PHOTO, ONE HEADLINE, ONE SUBLINE, ONE PRIMARY CTA
-          ========================================================================= */}
-      <section className="relative min-h-[88vh] sm:min-h-[92vh] flex items-center justify-start px-6 lg:px-16 overflow-hidden">
-        {/* Full-Bleed Photo Background */}
+    <main className="min-h-screen">
+      {/* SECTION 1: HERO */}
+      <section className="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden bg-ink text-ivory">
+        {/* Full-bleed photography with subtle Ken-Burns zoom */}
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/hero.jpg"
-            alt="V.V Properties Architectural Residence"
+            alt="V.V Properties prime residential landscape in Coimbatore"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-center brightness-[0.45] contrast-[1.05] scale-100 animate-[kenburns_24s_ease-out_infinite_alternate]"
           />
-          {/* Subtle warm cinematic vignette overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
         </div>
 
-        {/* Hero Content: Pure, Spacious, Architectural Elegance */}
-        <div className="relative z-10 max-w-4xl text-left pt-24 sm:pt-28 pb-16">
-          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-serif text-white tracking-tight leading-[1.12] max-w-2xl break-words">
-            Spaces of quiet distinction.
+        <Container className="relative z-10 text-center max-w-4xl pt-16">
+          <Eyebrow className="text-accent mb-4">Coimbatore &bull; Tamil Nadu</Eyebrow>
+          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-light tracking-tight text-ivory leading-[1.08] mb-6">
+            Verified land.
+            <br />
+            <span className="italic font-normal text-ivory/90">Thoughtfully planned.</span>
           </h1>
-
-          <p className="text-sm sm:text-base lg:text-lg text-white/80 max-w-xl font-sans font-light leading-relaxed mt-4 sm:mt-6">
-            Master-planned residential land and bespoke villas in Coimbatore’s prime growth corridors.
+          <p className="text-base sm:text-lg text-ivory/80 max-w-xl mx-auto font-light leading-relaxed mb-10">
+            Clear-title residential plotted communities across prime growth corridors in Coimbatore. Registered with TNRERA and DTCP.
           </p>
 
-          <div className="mt-8 sm:mt-10">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+            <Button href="#featured-projects" variant="primary" size="lg">
+              Explore Projects
+            </Button>
             <Link
-              href="/projects"
-              className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-lg bg-white text-[#0E2138] font-sans font-semibold text-xs tracking-wider uppercase hover:bg-white/95 transition-all shadow-md"
+              href="#enquiry"
+              className="text-sm font-medium text-ivory/80 hover:text-ivory underline underline-offset-8 transition-colors"
             >
-              <span>Explore Projects</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              Book a Site Visit &rarr;
             </Link>
           </div>
+        </Container>
+
+        {/* 1px Scroll Cue */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none opacity-60">
+          <span className="text-[10px] uppercase font-mono tracking-widest text-ivory/60">Scroll</span>
+          <div className="w-[1px] h-8 bg-ivory/40 animate-pulse" />
         </div>
       </section>
 
-      {/* 2. Blueprint to Building Section (Built in Phase 2) */}
-      <div id="blueprint-to-building" />
+      {/* SECTION 2: SIGNATURE BLUEPRINT-TO-BUILDING INTERACTIVE SECTION */}
+      <BlueprintToBuilding />
 
-      {/* =========================================================================
-          3. FEATURED PROJECTS: REFINED EDITORIAL PRESENTATION
-          ========================================================================= */}
-      <section id="featured-projects" className="py-28 sm:py-36 px-6 lg:px-16 bg-[#FAFAF8] text-left">
-        <div className="max-w-7xl mx-auto space-y-20 sm:space-y-24">
-          
-          {/* Section Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 border-b border-black/[0.08] pb-8">
-            <div className="space-y-2">
-              <span className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-[#64748B] block">
-                Selected Portfolio
+      {/* SECTION 3: FEATURED PROJECTS */}
+      <Section id="featured-projects" background="ivory" padding="lg">
+        <Container>
+          <div className="max-w-2xl mb-16">
+            <Eyebrow>Verified Plotted Developments</Eyebrow>
+            <Heading level={2} className="mt-2">
+              Planned for long-term residential value
+            </Heading>
+            <p className="text-muted text-sm md:text-base mt-4 font-light">
+              Each estate carries independent legal scrutiny, recorded DTCP and TNRERA sanction numbers, and complete subterranean infrastructure.
+            </p>
+          </div>
+
+          <div className="space-y-24">
+            {PROJECTS.map((project, idx) => {
+              const isEven = idx % 2 === 0;
+              return (
+                <div
+                  key={project.slug}
+                  className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center ${
+                    !isEven ? "lg:flex-row-reverse" : ""
+                  }`}
+                >
+                  <div className={`lg:col-span-7 ${!isEven ? "lg:order-2" : ""}`}>
+                    <ProjectImage
+                      src={project.heroImage}
+                      alt={project.title}
+                      aspectRatio="16/10"
+                      className="rounded-3xl shadow-sm"
+                      isRender={true}
+                    />
+                  </div>
+
+                  <div className={`lg:col-span-5 space-y-6 ${!isEven ? "lg:order-1" : ""}`}>
+                    <div>
+                      <span className="text-xs font-mono uppercase tracking-widest text-accent font-semibold">
+                        {project.location.taluk}, {project.location.district}
+                      </span>
+                      <h3 className="font-serif text-3xl md:text-4xl text-ink font-light mt-1">
+                        {project.title}
+                      </h3>
+                      <p className="text-muted text-sm leading-relaxed mt-3 font-light">
+                        {project.shortDescription}
+                      </p>
+                    </div>
+
+                    {/* Quick Specs */}
+                    <div className="grid grid-cols-2 gap-4 py-4 border-y border-stone/30 text-xs">
+                      <div>
+                        <span className="text-muted block">Road Infrastructure</span>
+                        <span className="font-medium text-ink mt-0.5 block">{project.features.roadWidthFt} ft Blacktop</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Total Layout Size</span>
+                        <span className="font-medium text-ink mt-0.5 block">{project.facts.totalPlots} Individual Plots</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Zoning</span>
+                        <span className="font-medium text-ink mt-0.5 block">{project.facts.zoning}</span>
+                      </div>
+                      <div>
+                        <span className="text-muted block">Pricing Basis</span>
+                        <span className="font-medium text-ink mt-0.5 block">
+                          {project.pricing.startingPriceInLakhs !== null
+                            ? `From ₹${project.pricing.startingPriceInLakhs} L`
+                            : "Price on Application"}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* RERA and Statutory Block */}
+                    <ReraBlock
+                      reraNumber={project.statutory.reraNumber}
+                      dtcpNumber={project.statutory.dtcpNumber}
+                      projectName={project.title}
+                      compact
+                    />
+
+                    <div className="pt-2 flex items-center gap-4">
+                      <Button href={`/projects/${project.slug}`} variant="outline" size="md">
+                        View Project Dossier
+                      </Button>
+                      <Button href={`/plot-explorer?project=${project.slug}`} variant="ghost" size="md">
+                        Plot Explorer &rarr;
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Container>
+      </Section>
+
+      {/* SECTION 4: PLOT EXPLORER TEASER */}
+      <section className="bg-ink text-ivory py-24 border-y border-stone/20">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div className="lg:col-span-5 space-y-6">
+              <span className="text-accent text-xs font-mono uppercase tracking-widest">
+                Interactive Land Intelligence
               </span>
-              <h2 className="text-3xl sm:text-5xl font-serif text-[#0E2138] tracking-tight">
-                Featured Developments
+              <h2 className="font-serif text-3xl md:text-5xl font-light text-ivory leading-tight">
+                Inspect plot boundaries before your site visit
               </h2>
-            </div>
-
-            <Link
-              href="/projects"
-              className="text-xs font-sans font-semibold text-[#102B50] hover:underline flex items-center gap-1.5 self-start sm:self-auto"
-            >
-              <span>View All Projects</span>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* Project 1: Tech Valley — Saravanampatti */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            
-            {/* Project Image */}
-            <div className="lg:col-span-7">
-              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-[#EEEEEC] shadow-sm group">
-                <Image
-                  src={PROJECTS[0].bannerImage}
-                  alt={PROJECTS[0].name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-              </div>
-            </div>
-
-            {/* Project Details */}
-            <div className="lg:col-span-5 space-y-6">
-              <div>
-                <span className="text-[11px] font-sans font-medium text-[#64748B] uppercase tracking-wider block">
-                  Saravanampatti, Coimbatore
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-serif text-[#0E2138] tracking-tight mt-1">
-                  {PROJECTS[0].name.split('—')[0]}
-                </h3>
-              </div>
-
-              <p className="text-sm text-[#475569] leading-relaxed font-light">
-                {PROJECTS[0].overview}
+              <p className="text-ivory/70 text-sm md:text-base leading-relaxed font-light">
+                Filter by plot dimension, orientation (East / North / South / West), corner configurations, and road frontage widths directly through our vector Plot Explorer.
               </p>
 
-              {/* Specifications */}
-              <div className="pt-2 border-t border-black/[0.06] space-y-2 text-xs text-[#334155]">
-                <div className="flex items-center justify-between py-1">
-                  <span className="text-[#64748B]">Starting Value</span>
-                  <span className="font-semibold text-[#0E2138]">₹{PROJECTS[0].priceStartingPerCent} L / Cent</span>
-                </div>
-                <div className="flex items-center justify-between py-1 border-t border-black/[0.04]">
-                  <span className="text-[#64748B]">Approvals</span>
-                  <span className="text-[#475569]">{PROJECTS[0].dtcpNumber}</span>
-                </div>
-                <div className="flex items-center justify-between py-1 border-t border-black/[0.04]">
-                  <span className="text-[#64748B]">Registration</span>
-                  <span className="text-[#475569]">{PROJECTS[0].reraNumber}</span>
-                </div>
+              <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                <Button href="/plot-explorer" variant="primary" size="md">
+                  Open Interactive Plot Explorer
+                </Button>
+                <Button href="/calculator" variant="ghost" size="md" className="text-ivory hover:text-accent">
+                  Financial Calculator &rarr;
+                </Button>
               </div>
-
-              <div className="pt-2">
-                <Link
-                  href={`/projects/${PROJECTS[0].slug}`}
-                  className="inline-flex items-center gap-2 text-xs font-sans font-semibold text-[#102B50] hover:underline"
-                >
-                  <span>Explore Master Plan & Plots</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
             </div>
 
-          </div>
-
-          {/* Project 2: The Garden City — Kovilpalayam */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-8">
-            
-            {/* Project Image */}
             <div className="lg:col-span-7">
-              <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-[#EEEEEC] shadow-sm group">
-                <Image
-                  src={PROJECTS[1].bannerImage}
-                  alt={PROJECTS[1].name}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
+              {/* Minimal Line-art Layout Preview */}
+              <div className="bg-paper/5 border border-stone/20 rounded-3xl p-6 md:p-8 relative overflow-hidden backdrop-blur-sm">
+                <div className="flex items-center justify-between pb-4 border-b border-stone/10 text-xs font-mono text-ivory/60">
+                  <span>SCHEMATIC LAYOUT GRID &bull; THE GARDEN CITY</span>
+                  <span className="text-accent">NORTH &uarr;</span>
+                </div>
+
+                <div className="grid grid-cols-4 sm:grid-cols-6 gap-2.5 my-6">
+                  {Array.from({ length: 18 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className={`p-3 rounded-lg border text-center transition-all ${
+                        i % 5 === 0
+                          ? "border-accent/40 bg-accent/10 text-accent font-medium"
+                          : "border-stone/20 bg-stone/5 text-ivory/70 hover:border-accent hover:bg-accent/5 cursor-pointer"
+                      }`}
+                    >
+                      <span className="block text-[10px] font-mono opacity-60">P-{i + 1}</span>
+                      <span className="block text-xs mt-1">2.5 C</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between pt-4 border-t border-stone/10 text-xs text-ivory/50">
+                  <span className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-accent/30 border border-accent" /> Selected / Verified
+                  </span>
+                  <span className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-stone/20 border border-stone/30" /> Open Layout
+                  </span>
+                </div>
               </div>
             </div>
-
-            {/* Project Details */}
-            <div className="lg:col-span-5 space-y-6">
-              <div>
-                <span className="text-[11px] font-sans font-medium text-[#64748B] uppercase tracking-wider block">
-                  Kovilpalayam, Coimbatore
-                </span>
-                <h3 className="text-2xl sm:text-3xl font-serif text-[#0E2138] tracking-tight mt-1">
-                  {PROJECTS[1].name.split('—')[0]}
-                </h3>
-              </div>
-
-              <p className="text-sm text-[#475569] leading-relaxed font-light">
-                {PROJECTS[1].overview}
-              </p>
-
-              {/* Specifications */}
-              <div className="pt-2 border-t border-black/[0.06] space-y-2 text-xs text-[#334155]">
-                <div className="flex items-center justify-between py-1">
-                  <span className="text-[#64748B]">Starting Value</span>
-                  <span className="font-semibold text-[#0E2138]">₹{PROJECTS[1].priceStartingPerCent} L / Cent</span>
-                </div>
-                <div className="flex items-center justify-between py-1 border-t border-black/[0.04]">
-                  <span className="text-[#64748B]">Approvals</span>
-                  <span className="text-[#475569]">{PROJECTS[1].dtcpNumber}</span>
-                </div>
-                <div className="flex items-center justify-between py-1 border-t border-black/[0.04]">
-                  <span className="text-[#64748B]">Registration</span>
-                  <span className="text-[#475569]">{PROJECTS[1].reraNumber}</span>
-                </div>
-              </div>
-
-              <div className="pt-2">
-                <Link
-                  href={`/projects/${PROJECTS[1].slug}`}
-                  className="inline-flex items-center gap-2 text-xs font-sans font-semibold text-[#102B50] hover:underline"
-                >
-                  <span>Explore Master Plan & Plots</span>
-                  <ChevronRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-
-            </div>
-
           </div>
-
-        </div>
+        </Container>
       </section>
 
-      {/* =========================================================================
-          4. PROPERTY DISCOVERY (Search & Filter Without Neon or Clutter)
-          ========================================================================= */}
-      <section id="property-discovery" className="py-24 sm:py-32 px-6 lg:px-16 bg-[#F4F4F1] border-y border-black/[0.06] text-left">
-        <div className="max-w-7xl mx-auto space-y-12">
-          
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div className="space-y-1.5">
-              <span className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-[#64748B] block">
-                Inventory
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-serif text-[#0E2138] tracking-tight">
-                Available Plots & Residences
-              </h2>
-            </div>
-
-            <Link
-              href="/properties"
-              className="text-xs font-sans font-semibold text-[#102B50] hover:underline flex items-center gap-1 self-start sm:self-auto"
-            >
-              <span>View Full Directory</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
+      {/* SECTION 5: LOCATIONS & CONNECTIVITY */}
+      <Section background="paper" padding="lg">
+        <Container>
+          <div className="max-w-2xl mb-14">
+            <Eyebrow>Strategic Geography</Eyebrow>
+            <Heading level={2} className="mt-2">
+              Growth Corridors of Coimbatore
+            </Heading>
+            <p className="text-muted text-sm md:text-base mt-3 font-light">
+              Locations chosen for civic connectivity, educational institutions, industrial corridors, and clean suburban living.
+            </p>
           </div>
 
-          {/* Minimal Filter Bar */}
-          <div className="bg-white p-5 rounded-xl shadow-sm border border-black/[0.06]">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              
-              <div>
-                <label className="text-[11px] font-sans text-[#64748B] uppercase tracking-wider block mb-1">
-                  Corridor
-                </label>
-                <select
-                  value={selectedLocation}
-                  onChange={(e) => setSelectedLocation(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-black/10 bg-[#FAFAF8] text-xs text-[#0E2138] focus:outline-none focus:border-[#102B50]"
-                >
-                  <option value="all">All Corridors</option>
-                  <option value="Saravanampatti">Saravanampatti</option>
-                  <option value="Kovilpalayam">Kovilpalayam</option>
-                </select>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {LOCATIONS.map((loc) => (
+              <div
+                key={loc.id}
+                className="bg-ivory p-6 rounded-2xl border border-stone/40 hover:border-accent/60 transition-colors space-y-4"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-mono uppercase tracking-wider text-accent font-semibold">
+                    {loc.name}
+                  </span>
+                  {loc.distanceKm !== null && (
+                    <span className="text-xs font-mono bg-stone/10 px-2 py-0.5 rounded text-ink">
+                      {loc.distanceKm} km
+                    </span>
+                  )}
+                </div>
+
+                <div>
+                  <h4 className="font-serif text-lg text-ink font-normal">{loc.landmark}</h4>
+                  <p className="text-xs text-muted mt-1 leading-relaxed">{loc.significance}</p>
+                </div>
+
+                <div className="pt-2 border-t border-stone/20 flex items-center justify-between text-xs">
+                  <span className="text-muted capitalize">{loc.category}</span>
+                  <a
+                    href="https://maps.google.com/?q=Coimbatore,Tamil+Nadu"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ink font-medium hover:text-accent transition-colors"
+                  >
+                    View on Map &rarr;
+                  </a>
+                </div>
               </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
 
-              <div>
-                <label className="text-[11px] font-sans text-[#64748B] uppercase tracking-wider block mb-1">
-                  Classification
-                </label>
-                <select
-                  value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-black/10 bg-[#FAFAF8] text-xs text-[#0E2138] focus:outline-none focus:border-[#102B50]"
-                >
-                  <option value="all">All Classifications</option>
-                  <option value="Residential Plot">Residential Plot</option>
-                  <option value="Luxury Villa">Luxury Villa</option>
-                </select>
+      {/* SECTION 6: TRUST & STATUTORY PROCESS */}
+      <Section background="ivory" padding="lg" className="border-t border-stone/30">
+        <Container>
+          <div className="max-w-2xl mb-14">
+            <Eyebrow>Due Diligence Framework</Eyebrow>
+            <Heading level={2} className="mt-2">
+              How we verify every square foot
+            </Heading>
+            <p className="text-muted text-sm md:text-base mt-3 font-light">
+              No shortcuts. Every development undergoes multi-tiered scrutiny before being released for private reservation.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                step: "01",
+                title: "30-Year Title Search",
+                desc: "Full encumbrance and lineage verification from certified advocates to guarantee unencumbered freehold ownership.",
+              },
+              {
+                step: "02",
+                title: "Statutory Sanctions",
+                desc: "Complete clearance from DTCP and TNRERA prior to road marking or plot division.",
+              },
+              {
+                step: "03",
+                title: "Civil Infrastructure",
+                desc: "Compacted blacktop roads, underground water manifolds, electricity supply, and boundary markers.",
+              },
+              {
+                step: "04",
+                title: "Transparent Conveyance",
+                desc: "Direct individual deed registration at the jurisdictional Sub-Registrar office with zero hidden dues.",
+              },
+            ].map((item) => (
+              <div key={item.step} className="space-y-3">
+                <span className="font-mono text-xs text-accent font-semibold">{item.step}</span>
+                <h4 className="font-serif text-xl text-ink font-normal">{item.title}</h4>
+                <p className="text-xs text-muted leading-relaxed font-light">{item.desc}</p>
               </div>
+            ))}
+          </div>
 
-              <div>
-                <label className="text-[11px] font-sans text-[#64748B] uppercase tracking-wider block mb-1">
-                  Budget
-                </label>
-                <select
-                  value={selectedBudget}
-                  onChange={(e) => setSelectedBudget(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-black/10 bg-[#FAFAF8] text-xs text-[#0E2138] focus:outline-none focus:border-[#102B50]"
-                >
-                  <option value="all">All Budgets</option>
-                  <option value="under20">Under ₹25 Lakhs</option>
-                  <option value="20to50">₹20 Lakhs – ₹55 Lakhs</option>
-                  <option value="above50">Above ₹50 Lakhs</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="text-[11px] font-sans text-[#64748B] uppercase tracking-wider block mb-1">
-                  Sort
-                </label>
-                <select
-                  value={selectedSort}
-                  onChange={(e) => setSelectedSort(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-black/10 bg-[#FAFAF8] text-xs text-[#0E2138] focus:outline-none focus:border-[#102B50]"
-                >
-                  <option value="featured">Featured First</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                  <option value="area-high">Area: Largest First</option>
-                </select>
-              </div>
-
-            </div>
-
-            <div className="mt-3 pt-3 border-t border-black/[0.04] flex items-center justify-between text-xs text-[#64748B]">
-              <span>
-                Showing <strong className="text-[#0E2138]">{filteredProperties.length}</strong> verified properties
+          {/* Legal Vault Card */}
+          <div className="mt-14 p-8 rounded-3xl bg-paper border border-stone/40 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-1 max-w-xl">
+              <span className="text-xs font-mono uppercase tracking-widest text-ink/70 font-semibold">
+                Client Legal Guarantee
               </span>
-              {(selectedLocation !== 'all' || selectedType !== 'all' || selectedBudget !== 'all') && (
-                <button
-                  onClick={() => {
-                    setSelectedLocation('all');
-                    setSelectedType('all');
-                    setSelectedBudget('all');
-                    setSelectedSort('featured');
-                  }}
-                  className="text-[#102B50] font-semibold hover:underline flex items-center gap-1"
-                >
-                  <RotateCcw className="w-3 h-3" />
-                  <span>Reset</span>
-                </button>
+              <h3 className="font-serif text-2xl text-ink font-light">
+                Complete Document Scrutiny Vault
+              </h3>
+              <p className="text-xs text-muted leading-relaxed font-light">
+                Prospective buyers are welcome to review parent deeds, FMB sketches, patta records, and approved layout plans with their own independent legal counsel.
+              </p>
+            </div>
+            <Button href="/trust-centre" variant="outline" size="md">
+              Explore Trust Centre
+            </Button>
+          </div>
+        </Container>
+      </Section>
+
+      {/* SECTION 7: DIRECT ENQUIRY & CONVERSIONS */}
+      <Section id="enquiry" background="paper" padding="lg" className="border-t border-stone/30">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            <div className="lg:col-span-5 space-y-6">
+              <Eyebrow>Private Consultations</Eyebrow>
+              <Heading level={2}>
+                Schedule a site visit or request a project dossier
+              </Heading>
+              <p className="text-muted text-sm leading-relaxed font-light">
+                Our property advisors provide honest guidance on zoning, infrastructure completion timelines, and registry procedures across Coimbatore.
+              </p>
+
+              <div className="space-y-4 pt-4 border-t border-stone/30 text-xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent/20 text-ink flex items-center justify-center font-mono">
+                    ✓
+                  </div>
+                  <div>
+                    <span className="font-medium text-ink block">Zero Invented Claims</span>
+                    <span className="text-muted block">Direct, factual property details without marketing hyperbole.</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent/20 text-ink flex items-center justify-center font-mono">
+                    ✓
+                  </div>
+                  <div>
+                    <span className="font-medium text-ink block">Guided Chauffeured Visits</span>
+                    <span className="text-muted block">Complimentary site inspections from Coimbatore city center.</span>
+                  </div>
+                </div>
+              </div>
+
+              {waUrl && (
+                <div className="pt-4">
+                  <a
+                    href={waUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-emerald-800 text-ivory hover:bg-emerald-900 transition-colors text-xs font-medium tracking-wide uppercase shadow-sm"
+                  >
+                    <span>Connect on WhatsApp</span>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.664-.699c.971.53 1.77.814 2.8.814 3.182 0 5.768-2.587 5.768-5.766 0-3.181-2.586-5.766-5.772-5.766zm8.472 5.766c0 4.686-3.813 8.498-8.472 8.498-1.455 0-2.825-.373-4.025-1.026l-4.506 1.182 1.206-4.394c-.754-1.272-1.187-2.766-1.187-4.26 0-4.686 3.813-8.498 8.472-8.498 4.686 0 8.512 3.812 8.512 8.498z" />
+                    </svg>
+                  </a>
+                </div>
               )}
             </div>
-          </div>
 
-          {/* Properties Grid */}
-          {filteredProperties.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-              {filteredProperties.slice(0, 6).map((property) => (
-                <PropertyCard key={property.id} property={property} />
-              ))}
-            </div>
-          ) : (
-            <div className="bg-white rounded-xl p-12 text-center border border-black/[0.06] space-y-3">
-              <Compass className="w-8 h-8 text-[#94A3B8] mx-auto" />
-              <h4 className="text-base font-serif text-[#0E2138]">No properties match this filter</h4>
-              <button
-                onClick={() => {
-                  setSelectedLocation('all');
-                  setSelectedType('all');
-                  setSelectedBudget('all');
-                }}
-                className="px-4 py-2 bg-[#0E2138] text-white text-xs font-sans font-medium rounded-lg"
-              >
-                Reset Filters
-              </button>
-            </div>
-          )}
-
-        </div>
-      </section>
-
-      {/* =========================================================================
-          5. LOCATION INTELLIGENCE (Saravanampatti vs Kovilpalayam)
-          ========================================================================= */}
-      <section id="location-intelligence" className="py-28 sm:py-36 px-6 lg:px-16 bg-[#FAFAF8] text-left">
-        <div className="max-w-7xl mx-auto space-y-14">
-          
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-black/[0.08] pb-6">
-            <div className="space-y-1.5">
-              <span className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-[#64748B] block">
-                Regional Dynamics
-              </span>
-              <h2 className="text-3xl sm:text-4xl font-serif text-[#0E2138] tracking-tight">
-                Location Intelligence
-              </h2>
-            </div>
-
-            <Link
-              href="/locations"
-              className="text-xs font-sans font-semibold text-[#102B50] hover:underline flex items-center gap-1 self-start sm:self-auto"
-            >
-              <span>Explore Commute Matrix</span>
-              <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-
-          <LocationIntelligence />
-
-        </div>
-      </section>
-
-      {/* =========================================================================
-          6. TRUST AND BUYING PROCESS (Clear 4-Step Journey)
-          ========================================================================= */}
-      <section id="trust-process" className="py-28 sm:py-36 px-6 lg:px-16 bg-[#F4F4F1] border-y border-black/[0.06] text-left">
-        <div className="max-w-7xl mx-auto space-y-16">
-          
-          <div className="max-w-2xl space-y-2">
-            <span className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-[#64748B] block">
-              Governance & Integrity
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-serif text-[#0E2138] tracking-tight">
-              The Acquisition Process
-            </h2>
-            <p className="text-sm text-[#475569] font-light leading-relaxed">
-              Transparent legal scrutiny, certified clearances, and verified land demarcation at every step.
-            </p>
-          </div>
-
-          {/* 4 Steps */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            <div className="space-y-3">
-              <span className="text-xs font-sans font-bold text-[#64748B] tracking-widest block">01</span>
-              <h3 className="text-lg font-serif text-[#0E2138]">Digital Demarcation</h3>
-              <p className="text-xs text-[#475569] leading-relaxed font-light">
-                Inspect cadastral plot boundaries, road centerlines, and stone pillars on our interactive CAD plan.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <span className="text-xs font-sans font-bold text-[#64748B] tracking-widest block">02</span>
-              <h3 className="text-lg font-serif text-[#0E2138]">Title Due Diligence</h3>
-              <p className="text-xs text-[#475569] leading-relaxed font-light">
-                Review certified 30-year Nil Encumbrance Certificates and High Court legal opinions before proceeding.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <span className="text-xs font-sans font-bold text-[#64748B] tracking-widest block">03</span>
-              <h3 className="text-lg font-serif text-[#0E2138]">On-Site Inspection</h3>
-              <p className="text-xs text-[#475569] leading-relaxed font-light">
-                Inspect physical plot boundaries, blacktop roads, and groundwater levels with free doorstep cab pickup.
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              <span className="text-xs font-sans font-bold text-[#64748B] tracking-widest block">04</span>
-              <h3 className="text-lg font-serif text-[#0E2138]">Deed Registration</h3>
-              <p className="text-xs text-[#475569] leading-relaxed font-light">
-                Direct deed execution at the Sub-Registrar office with clear possession and dedicated Patta name transfer.
-              </p>
-            </div>
-
-          </div>
-
-          {/* Standards strip with clear TODO placeholders */}
-          <div className="pt-8 border-t border-black/[0.06] flex flex-wrap items-center justify-between gap-6 text-xs text-[#475569]">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#102B50]" />
-              <span>Sanctioned Layouts ({COMPANY_INFO.reraOfficeRegistration})</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#102B50]" />
-              <span>Direct Developer Pricing • 0% Brokerage</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-[#102B50]" />
-              <span>Track Record: {COMPANY_INFO.satisfiedFamilies}</span>
+            <div className="lg:col-span-7">
+              <EnquiryForm />
             </div>
           </div>
-
-        </div>
-      </section>
-
-      {/* =========================================================================
-          7. CONVERSION SECTION: COMPACT SITE VISIT ENQUIRY & DIRECT ACCESS
-          ========================================================================= */}
-      <section id="conversion-section" className="py-28 sm:py-36 px-6 lg:px-16 bg-[#FAFAF8] text-left">
-        <div className="max-w-4xl mx-auto space-y-12">
-          
-          <div className="text-center space-y-3 max-w-xl mx-auto">
-            <span className="text-[11px] font-sans font-semibold uppercase tracking-[0.2em] text-[#64748B] block">
-              Site Inspection
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-serif text-[#0E2138] tracking-tight">
-              Arrange a Personal Tour
-            </h2>
-            <p className="text-sm text-[#475569] font-light leading-relaxed">
-              Inspect physical plot demarcations, road widths, and water quality with our senior development team.
-            </p>
-          </div>
-
-          {/* Form */}
-          <div className="bg-white p-8 sm:p-10 rounded-2xl shadow-sm border border-black/[0.06]">
-            {isSubmitted ? (
-              <div className="py-8 text-center space-y-3">
-                <div className="w-10 h-10 rounded-full bg-[#102B50] text-white mx-auto flex items-center justify-center">
-                  <Check className="w-5 h-5" />
-                </div>
-                <h4 className="text-xl font-serif text-[#0E2138]">Tour Request Received</h4>
-                <p className="text-xs text-[#64748B] max-w-md mx-auto">
-                  Thank you, {visitName}. Our team will contact you at {visitPhone} to confirm details for {visitProject}.
-                </p>
-                <button
-                  onClick={() => setIsSubmitted(false)}
-                  className="mt-2 text-xs font-semibold text-[#102B50] hover:underline"
-                >
-                  Submit another request
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleQuickVisitSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-[11px] font-sans font-semibold text-[#64748B] uppercase tracking-wider block mb-1">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={visitName}
-                      onChange={(e) => setVisitName(e.target.value)}
-                      placeholder="e.g. Ramesh Krishnan"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-black/10 bg-[#FAFAF8] text-xs text-[#0E2138] focus:outline-none focus:border-[#102B50]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-sans font-semibold text-[#64748B] uppercase tracking-wider block mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={visitPhone}
-                      onChange={(e) => setVisitPhone(e.target.value)}
-                      placeholder="+91 98422 00000"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-black/10 bg-[#FAFAF8] text-xs text-[#0E2138] focus:outline-none focus:border-[#102B50]"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-[11px] font-sans font-semibold text-[#64748B] uppercase tracking-wider block mb-1">
-                      Development
-                    </label>
-                    <select
-                      value={visitProject}
-                      onChange={(e) => setVisitProject(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-black/10 bg-[#FAFAF8] text-xs text-[#0E2138] focus:outline-none focus:border-[#102B50]"
-                    >
-                      <option value="Tech Valley — Saravanampatti">Tech Valley (Saravanampatti)</option>
-                      <option value="The Garden City — Kovilpalayam">The Garden City (Kovilpalayam)</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="text-[11px] font-sans font-semibold text-[#64748B] uppercase tracking-wider block mb-1">
-                      Preferred Date
-                    </label>
-                    <input
-                      type="date"
-                      value={visitDate}
-                      onChange={(e) => setVisitDate(e.target.value)}
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-black/10 bg-[#FAFAF8] text-xs text-[#0E2138] focus:outline-none focus:border-[#102B50]"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2 pt-1">
-                  <input
-                    type="checkbox"
-                    id="cabToggle"
-                    checked={cabRequired}
-                    onChange={(e) => setCabRequired(e.target.checked)}
-                    className="w-4 h-4 text-[#102B50] rounded border-black/20 focus:ring-[#102B50]"
-                  />
-                  <label htmlFor="cabToggle" className="text-xs text-[#334155] font-sans select-none">
-                    Include complimentary doorstep AC cab pickup & drop
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-3.5 rounded-lg bg-[#0E2138] hover:bg-[#1A365D] text-white font-sans font-semibold text-xs tracking-wider uppercase transition-all shadow-sm"
-                >
-                  Confirm Site Visit
-                </button>
-              </form>
-            )}
-          </div>
-
-          {/* Direct Office Reference with TODO placeholders */}
-          <div className="text-center text-xs text-[#64748B] space-y-1">
-            <p>Direct Inquiries: {COMPANY_INFO.phone}</p>
-            <p>{COMPANY_INFO.officeAddress}</p>
-          </div>
-
-        </div>
-      </section>
-
-    </div>
+        </Container>
+      </Section>
+    </main>
   );
 }

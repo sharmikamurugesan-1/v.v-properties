@@ -8,3 +8,8 @@ export const COMPLIANCE = {
   statutoryNotice:
     "TNRERA registration status can be verified at https://rera.tn.gov.in. Prospective buyers are advised to independently inspect sanctioned layout orders and Nil Encumbrance Certificates."
 };
+
+export const TNRERA = {
+  authorityName: COMPLIANCE.authorityName,
+  portalUrl: COMPLIANCE.authorityUrl,
+};

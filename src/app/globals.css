@@ -12,6 +12,10 @@
   --color-accent: #B08D57;
   --color-success: #2F6F4F;
   --color-danger: #9B2C2C;
+
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-tamil: 'Noto Sans Tamil', 'Latha', 'Tamil Sangam MN', sans-serif;
 }
 
 html {
