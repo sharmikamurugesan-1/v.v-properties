@@ -1,5 +1,6 @@
+import fs from "fs";
+import path from "path";
 import Link from "next/link";
-import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { Eyebrow } from "@/components/ui/Eyebrow";
@@ -7,13 +8,13 @@ import { Heading } from "@/components/ui/Heading";
 import { Button } from "@/components/ui/Button";
 import { ProjectImage } from "@/components/ui/ProjectImage";
 import { ReraBlock } from "@/components/compliance/ReraBlock";
-import { BlueprintToBuilding } from "@/components/home/BlueprintToBuilding";
+import { HeroSection } from "@/components/home/HeroSection";
+import { SignatureResidence } from "@/components/home/SignatureResidence";
 import { PropertyVideoReels } from "@/components/home/PropertyVideoReels";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { PROJECTS } from "@/config/projects";
 import { LOCATIONS } from "@/config/locations";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { Play } from "lucide-react";
 
 export const metadata = {
   title: "V.V Properties | Verified Residential Plotted Land in Coimbatore",
@@ -24,68 +25,33 @@ export const metadata = {
 export default function HomePage() {
   const waUrl = getWhatsAppUrl("Hello V.V Properties, I would like to schedule a private site visit.");
 
+  // Server-side check for media assets existence
+  const videoPath = path.join(process.cwd(), "public", "video", "hero.mp4");
+  const webmPath = path.join(process.cwd(), "public", "video", "hero.webm");
+  const posterPath = path.join(process.cwd(), "public", "images", "hero.jpg");
+  const villaPath = path.join(process.cwd(), "public", "images", "villa.jpg");
+
+  const hasHeroVideo = fs.existsSync(videoPath);
+  const hasHeroWebm = fs.existsSync(webmPath);
+  const hasHeroPoster = fs.existsSync(posterPath);
+  const hasVillaImage = fs.existsSync(villaPath);
+
   return (
     <main className="min-h-screen">
-      {/* SECTION 1: HERO */}
-      <section className="relative h-screen min-h-[640px] flex items-center justify-center overflow-hidden bg-ink text-ivory">
-        {/* Full-bleed photography with subtle Ken-Burns zoom */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/hero.jpg"
-            alt="V.V Properties prime residential landscape in Coimbatore"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-center brightness-[0.45] contrast-[1.05] scale-100 animate-[kenburns_24s_ease-out_infinite_alternate]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/40 to-transparent" />
-        </div>
+      {/* SECTION 1: HERO (3-Second Looping Video with Poster Fallback) */}
+      <HeroSection
+        hasVideo={hasHeroVideo}
+        hasWebm={hasHeroWebm}
+        hasPoster={hasHeroPoster}
+      />
 
-        <Container className="relative z-10 text-center max-w-4xl pt-16">
-          <Eyebrow className="text-accent mb-4">Coimbatore &bull; Tamil Nadu</Eyebrow>
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl font-light tracking-tight text-ivory leading-[1.08] mb-6">
-            Verified land.
-            <br />
-            <span className="italic font-normal text-ivory/90">Thoughtfully planned.</span>
-          </h1>
-          <p className="text-base sm:text-lg text-ivory/80 max-w-xl mx-auto font-light leading-relaxed mb-10">
-            Clear-title residential plotted communities across prime growth corridors in Coimbatore. Registered with TNRERA and DTCP.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
-            <Button href="#featured-projects" variant="primary" size="lg">
-              Explore Projects
-            </Button>
-            <Link
-              href="#property-videos"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-ivory/10 hover:bg-ivory/20 text-ivory text-sm font-medium border border-ivory/20 transition-all backdrop-blur-sm"
-            >
-              <Play className="w-3.5 h-3.5 text-accent fill-current" />
-              <span>Watch Video Tours</span>
-            </Link>
-            <Link
-              href="#enquiry"
-              className="text-sm font-medium text-ivory/80 hover:text-ivory underline underline-offset-8 transition-colors"
-            >
-              Book Site Visit &rarr;
-            </Link>
-          </div>
-        </Container>
-
-        {/* 1px Scroll Cue */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none opacity-60">
-          <span className="text-[10px] uppercase font-mono tracking-widest text-ivory/60">Scroll</span>
-          <div className="w-[1px] h-8 bg-ivory/40 animate-pulse" />
-        </div>
-      </section>
-
-      {/* SECTION 2: SIGNATURE BLUEPRINT-TO-BUILDING INTERACTIVE SECTION */}
-      <BlueprintToBuilding />
+      {/* SECTION 2: SIGNATURE RESIDENCE (Lightweight 3D Depth View) */}
+      <SignatureResidence hasVillaImage={hasVillaImage} />
 
       {/* SECTION 3: FEATURED PROJECTS */}
-      <Section id="featured-projects" background="ivory" padding="lg">
+      <Section id="featured-projects" background="ivory" padding="lg" className="section-deferred">
         <Container>
-          <div className="max-w-2xl mb-16">
+          <div className="max-w-2xl mb-16 text-left">
             <Eyebrow>Verified Plotted Developments</Eyebrow>
             <Heading level={2} className="mt-2">
               Planned for long-term residential value
@@ -110,12 +76,12 @@ export default function HomePage() {
                       src={project.heroImage}
                       alt={project.title}
                       aspectRatio="16/10"
-                      className="rounded-3xl shadow-sm"
+                      className="rounded-3xl"
                       isRender={true}
                     />
                   </div>
 
-                  <div className={`lg:col-span-5 space-y-6 ${!isEven ? "lg:order-1" : ""}`}>
+                  <div className={`lg:col-span-5 space-y-6 text-left ${!isEven ? "lg:order-1" : ""}`}>
                     <div>
                       <span className="text-xs font-mono uppercase tracking-widest text-accent font-semibold">
                         {project.location.taluk}, {project.location.district}
@@ -177,13 +143,15 @@ export default function HomePage() {
       </Section>
 
       {/* SECTION 4: PROPERTY VIDEO REELS & VIRTUAL SITE TOURS */}
-      <PropertyVideoReels />
+      <div className="section-deferred">
+        <PropertyVideoReels />
+      </div>
 
       {/* SECTION 5: PLOT EXPLORER TEASER */}
-      <section className="bg-ink text-ivory py-24 border-y border-stone/20">
+      <section className="bg-ink text-ivory py-24 border-y border-stone/20 section-deferred">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6 text-left">
               <span className="text-accent text-xs font-mono uppercase tracking-widest">
                 Interactive Land Intelligence
               </span>
@@ -205,8 +173,8 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-7">
-              {/* Minimal Line-art Layout Preview */}
-              <div className="bg-paper/5 border border-stone/20 rounded-3xl p-6 md:p-8 relative overflow-hidden backdrop-blur-sm">
+              {/* Minimal Line-art Layout Preview (Solid color, no blur) */}
+              <div className="bg-[#0F223D] border border-stone/20 rounded-3xl p-6 md:p-8 relative overflow-hidden">
                 <div className="flex items-center justify-between pb-4 border-b border-stone/10 text-xs font-mono text-ivory/60">
                   <span>SCHEMATIC LAYOUT GRID &bull; THE GARDEN CITY</span>
                   <span className="text-accent">NORTH &uarr;</span>
@@ -242,10 +210,10 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* SECTION 5: LOCATIONS & CONNECTIVITY */}
-      <Section background="paper" padding="lg">
+      {/* SECTION 6: LOCATIONS & CONNECTIVITY */}
+      <Section background="paper" padding="lg" className="section-deferred">
         <Container>
-          <div className="max-w-2xl mb-14">
+          <div className="max-w-2xl mb-14 text-left">
             <Eyebrow>Strategic Geography</Eyebrow>
             <Heading level={2} className="mt-2">
               Growth Corridors of Coimbatore
@@ -255,7 +223,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-left">
             {LOCATIONS.map((loc) => (
               <div
                 key={loc.id}
@@ -294,10 +262,10 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* SECTION 6: TRUST & STATUTORY PROCESS */}
-      <Section background="ivory" padding="lg" className="border-t border-stone/30">
+      {/* SECTION 7: TRUST & STATUTORY PROCESS */}
+      <Section background="ivory" padding="lg" className="border-t border-stone/30 section-deferred">
         <Container>
-          <div className="max-w-2xl mb-14">
+          <div className="max-w-2xl mb-14 text-left">
             <Eyebrow>Due Diligence Framework</Eyebrow>
             <Heading level={2} className="mt-2">
               How we verify every square foot
@@ -307,7 +275,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
             {[
               {
                 step: "01",
@@ -339,7 +307,7 @@ export default function HomePage() {
           </div>
 
           {/* Legal Vault Card */}
-          <div className="mt-14 p-8 rounded-3xl bg-paper border border-stone/40 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="mt-14 p-8 rounded-3xl bg-paper border border-stone/40 flex flex-col md:flex-row items-center justify-between gap-6 text-left">
             <div className="space-y-1 max-w-xl">
               <span className="text-xs font-mono uppercase tracking-widest text-ink/70 font-semibold">
                 Client Legal Guarantee
@@ -358,10 +326,10 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* SECTION 7: DIRECT ENQUIRY & CONVERSIONS */}
-      <Section id="enquiry" background="paper" padding="lg" className="border-t border-stone/30">
+      {/* SECTION 8: DIRECT ENQUIRY & CONVERSIONS */}
+      <Section id="enquiry" background="paper" padding="lg" className="border-t border-stone/30 section-deferred">
         <Container>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start text-left">
             <div className="lg:col-span-5 space-y-6">
               <Eyebrow>Private Consultations</Eyebrow>
               <Heading level={2}>
