@@ -94,14 +94,14 @@ export function BlueprintToBuilding() {
       const slides = slideRefs.current.filter(Boolean) as HTMLDivElement[];
       if (slides.length < 4) return;
 
-      // Pinned scroll-scrub timeline
+      // Pinned scroll-scrub timeline with short, snappy range (850px instead of 2600px)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: container,
           start: "top top",
-          end: "+=2600",
+          end: "+=850",
           pin: true,
-          scrub: 0.5,
+          scrub: 0.3,
           anticipatePin: 1,
           onUpdate: (self) => {
             const p = self.progress;
@@ -154,7 +154,7 @@ export function BlueprintToBuilding() {
 
     if (!isReducedMotion && containerRef.current && window.innerWidth >= 1024) {
       const scrollStart = containerRef.current.offsetTop;
-      const targetY = scrollStart + (idx / (STAGES.length - 1)) * 2400;
+      const targetY = scrollStart + (idx / (STAGES.length - 1)) * 800;
       window.scrollTo({ top: targetY, behavior: "smooth" });
     }
   };

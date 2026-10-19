@@ -67,7 +67,7 @@ export const PROJECTS_CONFIG: ProjectConfig[] = [
     area: "Kovilpalayam, Coimbatore",
     type: "Plotted Layout & Residential Villas",
     shortDescription: "Plotted residential community along the Kovilpalayam corridor with underground infrastructure and DTCP statutory approvals.",
-    heroImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/projects/the-garden-city.png",
     plotLayout: "garden-city-cad",
     brochureUrl: null, // TODO(client): Real brochure URL
     location: {
@@ -117,17 +117,17 @@ export const PROJECTS_CONFIG: ProjectConfig[] = [
     ),
     gallery: [
       {
-        src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+        src: "/images/projects/the-garden-city.png",
         alt: "The Garden City — Entrance Portal & Avenue",
         isRender: true,
       },
       {
-        src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+        src: "/images/projects/interior.png",
         alt: "The Garden City — Planned Villa Architecture",
         isRender: true,
       },
       {
-        src: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+        src: "/images/projects/blueprint.png",
         alt: "The Garden City — Landscaped Open Reserve",
         isRender: true,
       },
@@ -140,7 +140,7 @@ export const PROJECTS_CONFIG: ProjectConfig[] = [
     area: "Saravanampatti, Coimbatore",
     type: "Plotted Residential Community",
     shortDescription: "Urban plotted development in Saravanampatti IT corridor, designed for contemporary villas with immediate highway proximity.",
-    heroImage: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
+    heroImage: "/images/projects/tech-valley.png",
     plotLayout: "tech-valley-cad",
     brochureUrl: null, // TODO(client): Real brochure URL
     location: {
@@ -190,17 +190,17 @@ export const PROJECTS_CONFIG: ProjectConfig[] = [
     ),
     gallery: [
       {
-        src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+        src: "/images/projects/tech-valley.png",
         alt: "Tech Valley — Architectural Street View",
         isRender: true,
       },
       {
-        src: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+        src: "/images/projects/interior.png",
         alt: "Tech Valley — Contemporary Residential Planning",
         isRender: true,
       },
       {
-        src: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80",
+        src: "/images/projects/blueprint.png",
         alt: "Tech Valley — Internal Avenue Landscaping",
         isRender: true,
       },

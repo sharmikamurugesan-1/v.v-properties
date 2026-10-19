@@ -36,12 +36,13 @@ export default function MotionProvider({ children }: { children: React.ReactNode
       }
 
       if (!lenisRef.current) {
-        // Desktop-only Lenis with lerp 0.1 as specified in Task 1
+        // High-performance snappy Lenis configuration (no dragging lag)
         const lenis = new Lenis({
-          lerp: 0.1,
-          wheelMultiplier: 1.0,
+          duration: 0.6,
+          wheelMultiplier: 1.2,
           touchMultiplier: 0, // Disabled on touch
           infinite: false,
+          syncTouch: false,
         });
 
         lenisRef.current = lenis;

@@ -8,10 +8,12 @@ import { Button } from "@/components/ui/Button";
 import { ProjectImage } from "@/components/ui/ProjectImage";
 import { ReraBlock } from "@/components/compliance/ReraBlock";
 import { BlueprintToBuilding } from "@/components/home/BlueprintToBuilding";
+import { PropertyVideoReels } from "@/components/home/PropertyVideoReels";
 import { EnquiryForm } from "@/components/forms/EnquiryForm";
 import { PROJECTS } from "@/config/projects";
 import { LOCATIONS } from "@/config/locations";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { Play } from "lucide-react";
 
 export const metadata = {
   title: "V.V Properties | Verified Residential Plotted Land in Coimbatore",
@@ -50,15 +52,22 @@ export default function HomePage() {
             Clear-title residential plotted communities across prime growth corridors in Coimbatore. Registered with TNRERA and DTCP.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6">
             <Button href="#featured-projects" variant="primary" size="lg">
               Explore Projects
             </Button>
             <Link
+              href="#property-videos"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-ivory/10 hover:bg-ivory/20 text-ivory text-sm font-medium border border-ivory/20 transition-all backdrop-blur-sm"
+            >
+              <Play className="w-3.5 h-3.5 text-accent fill-current" />
+              <span>Watch Video Tours</span>
+            </Link>
+            <Link
               href="#enquiry"
               className="text-sm font-medium text-ivory/80 hover:text-ivory underline underline-offset-8 transition-colors"
             >
-              Book a Site Visit &rarr;
+              Book Site Visit &rarr;
             </Link>
           </div>
         </Container>
@@ -167,7 +176,10 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* SECTION 4: PLOT EXPLORER TEASER */}
+      {/* SECTION 4: PROPERTY VIDEO REELS & VIRTUAL SITE TOURS */}
+      <PropertyVideoReels />
+
+      {/* SECTION 5: PLOT EXPLORER TEASER */}
       <section className="bg-ink text-ivory py-24 border-y border-stone/20">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">

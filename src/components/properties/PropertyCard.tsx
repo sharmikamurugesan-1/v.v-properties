@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { 
@@ -44,15 +44,21 @@ export default function PropertyCard({ property, featured = false }: PropertyCar
     toggleFavourite(property.id);
   };
 
+  const [imgSrc, setImgSrc] = useState(
+    property.featuredImage || '/images/projects/the-garden-city.png'
+  );
+
   return (
     <div className="group relative bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-brand-border hover:border-brand-electric/40 shadow-subtle hover:shadow-architectural transition-all duration-300 flex flex-col h-full text-left">
       
       {/* Editorial Image Container with 16:10 ratio */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-brand-cloudwhite">
         <Image
-          src={property.featuredImage}
+          src={imgSrc}
           alt={property.title}
           fill
+          unoptimized
+          onError={() => setImgSrc('/images/projects/the-garden-city.png')}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
         />
