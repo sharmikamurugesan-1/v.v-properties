@@ -24,7 +24,11 @@ export default function Header() {
   // IntersectionObserver sentinel for 24px scroll without scroll listener performance tax
   useEffect(() => {
     const sentinel = document.getElementById('scroll-sentinel');
-    if (!sentinel) return;
+    if (!sentinel) {
+      const handleScroll = () => setIsScrolled(window.scrollY > 24);
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => window.removeEventListener('scroll', handleScroll);
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -96,10 +100,10 @@ export default function Header() {
       </a>
 
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled || !isHome
-            ? 'bg-ivory border-b border-stone py-4 text-ink'
-            : 'bg-black/60 py-5 sm:py-6 text-paper'
+            ? 'bg-ivory/95 backdrop-blur-md border-b border-stone py-4 shadow-subtle text-ink'
+            : 'bg-gradient-to-b from-black/70 via-black/30 to-transparent py-5 sm:py-6 text-paper'
         }`}
       >
         <div className="max-w-[1280px] mx-auto px-5 md:px-10 flex items-center justify-between">

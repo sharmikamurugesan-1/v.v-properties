@@ -128,10 +128,10 @@ export function PropertyVideoReels() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
                 {/* Duration & Category Tags */}
-                <div className="absolute top-3 left-3 bg-black/85 px-2.5 py-1 rounded-md text-[10px] font-mono text-accent uppercase font-medium border border-white/10">
+                <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-md text-[10px] font-mono text-accent uppercase font-medium border border-white/10">
                   {reel.category}
                 </div>
-                <div className="absolute top-3 right-3 bg-black/85 px-2 py-0.5 rounded text-[11px] font-mono text-white/90">
+                <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-2 py-0.5 rounded text-[11px] font-mono text-white/90">
                   {reel.duration}
                 </div>
 
@@ -194,7 +194,7 @@ export function PropertyVideoReels() {
           role="dialog"
           aria-modal="true"
           aria-label={activeVideo.title}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/95 animate-in fade-in duration-150"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/90 backdrop-blur-md animate-in fade-in duration-200"
           onClick={() => setActiveVideo(null)}
         >
           <div

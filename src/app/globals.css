@@ -19,7 +19,7 @@
 }
 
 html {
-  scroll-behavior: auto;
+  scroll-behavior: smooth;
   color: #0B1F3A;
   background-color: #F7F4EE;
   -webkit-font-smoothing: antialiased;
@@ -33,43 +33,10 @@ body {
   color: #0B1F3A;
 }
 
-/* Lightweight CSS reveal animation: transform and opacity only (0.7s ease-out, 24px max) */
-.reveal-item {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-html.js-ready .reveal-item {
+/* Progressive Enhancement: Hide .reveal ONLY when JS is initialized and ready */
+html.js-ready .reveal-init {
   opacity: 0;
   transform: translateY(24px);
-  transition-property: opacity, transform;
-  transition-duration: 0.7s;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-html.js-ready .reveal-item.reveal-none {
-  transform: none;
-}
-
-html.js-ready .reveal-item.revealed {
-  opacity: 1;
-  transform: translateY(0);
-  will-change: auto;
-}
-
-@media (max-width: 767px), (prefers-reduced-motion: reduce) {
-  html.js-ready .reveal-item {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-
-/* Performance: Long below-the-fold sections content visibility */
-.section-deferred {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 800px;
 }
 
 /* Accessible focus ring: 2px accent outline offset 3px */
