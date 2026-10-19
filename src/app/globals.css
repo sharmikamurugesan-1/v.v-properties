@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-ink: #0B1F3A;
+  --color-ink-soft: #1B3354;
+  --color-ivory: #F7F4EE;
+  --color-paper: #FFFFFF;
+  --color-stone: #E6E1D6;
+  --color-muted: #5B6577;
+  --color-accent: #B08D57;
+  --color-success: #2F6F4F;
+  --color-danger: #9B2C2C;
+}
+
+html {
+  scroll-behavior: smooth;
+  color: #0B1F3A;
+  background-color: #F7F4EE;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  background-color: #F7F4EE;
+  color: #0B1F3A;
+}
+
+/* Progressive Enhancement: Hide .reveal ONLY when JS is initialized and ready */
+html.js-ready .reveal-init {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+/* Accessible focus ring: 2px accent outline offset 3px */
+*:focus-visible {
+  outline: 2px solid #B08D57 !important;
+  outline-offset: 3px !important;
+}
+
+/* Refined minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F4EE;
+}
+::-webkit-scrollbar-thumb {
+  background: #E6E1D6;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B08D57;
+}
+
+/* Text Selection */
+::selection {
+  background-color: #0B1F3A;
+  color: #F7F4EE;
+}
+
+/* Touch targets */
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
