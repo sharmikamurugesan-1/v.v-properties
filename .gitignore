@@ -30,3 +30,6 @@ next-env.d.ts
 
 # Captures / temp
 screenshot*.png
+
+# Durable JSON store (Task 3)
+/data

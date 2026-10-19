@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { store } from "@/lib/store";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 const leadSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(80),
@@ -18,30 +20,17 @@ const leadSchema = z.object({
   }),
 });
 
-// In-memory rate limiter for serverless instance
-const ipRateLimit = new Map<string, { count: number; expiresAt: number }>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const record = ipRateLimit.get(ip);
-  if (!record || record.expiresAt < now) {
-    ipRateLimit.set(ip, { count: 1, expiresAt: now + 10 * 60 * 1000 });
-    return false;
-  }
-  if (record.count >= 5) {
-    return true;
-  }
-  record.count += 1;
-  return false;
-}
-
 export async function POST(req: NextRequest) {
   try {
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
 
-    if (isRateLimited(ip)) {
+    // Durable rate limit check
+    const rateLimit = checkRateLimit(`lead_${ip}`, 5, 10);
+    if (!rateLimit.allowed) {
       return NextResponse.json(
-        { error: "Too many enquiries sent from this address. Please try again in 10 minutes." },
+        {
+          error: `Too many submissions. Please wait ${rateLimit.resetInMinutes} minute(s) before trying again.`,
+        },
         { status: 429 }
       );
     }
@@ -56,36 +45,61 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const leadData = result.data;
+    const data = result.data;
 
-    // Log in development / server stdout
-    console.log("[LEAD RECEIVED]", {
-      name: leadData.name,
-      phone: leadData.phone,
-      email: leadData.email,
-      project: leadData.project,
-      budget: leadData.budget,
-      visitDate: leadData.visitDate,
-      ip,
-      timestamp: new Date().toISOString(),
-    });
+    // 1. Durably persist lead before reporting success (Task 3 requirement)
+    let savedLead;
+    try {
+      savedLead = await store.addLead({
+        name: data.name.trim(),
+        phone: data.phone.trim(),
+        email: data.email?.trim() || undefined,
+        project: data.project,
+        budget: data.budget,
+        visitDate: data.visitDate,
+        notes: data.notes?.trim() || undefined,
+        source: "Website Direct Form",
+        ip,
+      });
+    } catch (storeError) {
+      console.error("[LEAD STORAGE FAILURE]", storeError);
+      return NextResponse.json(
+        { error: "Failed to persist lead record. Please retry or contact us directly on WhatsApp." },
+        { status: 500 }
+      );
+    }
 
-    // Optional webhook forwarder
+    // 2. Safe, non-PII operational logging
+    console.log(`[LEAD RECEIVED] ID: ${savedLead.id} | Project: ${savedLead.project}`);
+
+    // 3. Optional webhook dispatch
     const webhookUrl = process.env.LEAD_WEBHOOK_URL;
     if (webhookUrl) {
       try {
         await fetch(webhookUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...leadData, ip }),
+          body: JSON.stringify({
+            id: savedLead.id,
+            name: savedLead.name,
+            phone: savedLead.phone,
+            email: savedLead.email,
+            project: savedLead.project,
+            budget: savedLead.budget,
+            visitDate: savedLead.visitDate,
+            notes: savedLead.notes,
+            timestamp: savedLead.createdAt,
+          }),
         });
-      } catch (err) {
-        console.error("[LEAD WEBHOOK ERROR]", err);
+      } catch (webhookErr) {
+        // Log webhook failure without failing the lead since it is safely stored in store
+        console.error("[LEAD WEBHOOK ERROR]", webhookErr);
       }
     }
 
     return NextResponse.json({
       success: true,
+      leadId: savedLead.id,
       message: "Enquiry received. A representative will contact you shortly.",
     });
   } catch (error) {
