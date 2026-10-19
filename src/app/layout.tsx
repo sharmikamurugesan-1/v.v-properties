@@ -3,7 +3,7 @@ import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import { LanguageProvider } from "@/i18n";
 import MotionProvider from "@/components/motion/MotionProvider";
-import Header from "@/components/layout/Header";
+import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import StickyMobileBar from "@/components/layout/StickyMobileBar";
 import ToastContainer from "@/components/layout/ToastContainer";
@@ -67,7 +67,7 @@ export default function RootLayout({
           <MotionProvider>
             <AppProvider>
               <div className="flex flex-col min-h-screen">
-                <Header />
+                <Navbar />
                 <main id="main" className="flex-grow w-full overflow-x-hidden">
                   {children}
                 </main>

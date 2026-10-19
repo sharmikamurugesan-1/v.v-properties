@@ -28,12 +28,12 @@ export const PROJECTS: Project[] = [
     tagline: "In the Heart of Growth | Under Corporation Limit | Near CHIL SEZ IT Park",
     location: "Saravanampatti, Coimbatore",
     corridor: "Saravanampatti IT Corridor",
-    bannerImage: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1600&q=80",
+    bannerImage: "/images/hero-villa.png",
     gallery: [
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80"
+      "/images/hero-villa.png",
+      "/images/night-pool-villa.jpg",
+      "/images/properties/prop-1.png",
+      "/images/properties/prop-2.png"
     ],
     priceStartingPerCent: 14.50,
     type: "DTCP & RERA Approved Residential Plots",
@@ -78,11 +78,12 @@ export const PROJECTS: Project[] = [
     tagline: "Build Your Dream Home | Thoughtfully Planned Plotted Community",
     location: "Kovilpalayam, Coimbatore",
     corridor: "Sathy Main Road Highway",
-    bannerImage: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1600&q=80",
+    bannerImage: "/images/night-pool-villa.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80"
+      "/images/night-pool-villa.jpg",
+      "/images/hero-villa.png",
+      "/images/properties/prop-3.png",
+      "/images/properties/prop-4.png"
     ],
     priceStartingPerCent: 5.60,
     type: "DTCP & RERA Approved Affordable Luxury Plots",
@@ -166,10 +167,10 @@ export const PROJECTS: Project[] = [
     tagline: "Little Ooty Foothills | Pure Mountain Breeze & Tranquil Privacy",
     location: "Kovaipudur, Coimbatore",
     corridor: "Kovaipudur Western Ghats Corridor",
-    bannerImage: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1600&q=80",
+    bannerImage: "/images/properties/prop-1.png",
     gallery: [
-      "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80"
+      "/images/properties/prop-1.png",
+      "/images/properties/prop-2.png"
     ],
     priceStartingPerCent: 7.20,
     type: "Scenic Hillview Residential Plots",
@@ -222,10 +223,10 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/1429/2023",
     facing: "East",
     roadWidthFt: 40,
-    featuredImage: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1000&q=80",
+    featuredImage: "/images/hero-villa.png",
     gallery: [
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80"
+      "/images/hero-villa.png",
+      "/images/properties/prop-1.png"
     ],
     description: "Prime East-facing residential plot in Tech Valley directly fronting the 40-foot main central boulevard. Only 3 minutes to CHIL SEZ IT Park, ideal for immediate villa construction or rental duplex investment.",
     highlights: [
@@ -263,9 +264,10 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/1429/2023",
     facing: "North",
     roadWidthFt: 33,
-    featuredImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
+    featuredImage: "/images/night-pool-villa.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+      "/images/night-pool-villa.jpg",
+      "/images/hero-villa.png"
     ],
     description: "Spacious 4.5 Cent rectangular plot designed for a grand independent luxury villa with private garden, portico, and terrace deck.",
     highlights: [
@@ -302,9 +304,10 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/0892/2023",
     facing: "North-East",
     roadWidthFt: 30,
-    featuredImage: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1000&q=80",
+    featuredImage: "/images/properties/prop-1.png",
     gallery: [
-      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80"
+      "/images/properties/prop-1.png",
+      "/images/properties/prop-2.png"
     ],
     description: "Unbeatable value for money at just ₹15.40 Lakhs total package price! Perfect for first-time land buyers and tech professionals seeking high capital appreciation.",
     highlights: [
@@ -342,9 +345,10 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/0892/2023",
     facing: "East",
     roadWidthFt: 30,
-    featuredImage: "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=80",
+    featuredImage: "/images/properties/prop-2.png",
     gallery: [
-      "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&q=80"
+      "/images/properties/prop-2.png",
+      "/images/properties/prop-3.png"
     ],
     description: "4 Cents ready-to-build plot with 35 feet frontage. 85% home loan pre-approved with State Bank of India and HDFC Bank.",
     highlights: [
@@ -381,9 +385,10 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/1105/2023",
     facing: "North",
     roadWidthFt: 33,
-    featuredImage: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80",
+    featuredImage: "/images/properties/prop-3.png",
     gallery: [
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80"
+      "/images/properties/prop-3.png",
+      "/images/properties/prop-4.png"
     ],
     description: "Exclusive plot situated just 8 minutes from the International Airport and 10 minutes to KMCH Medical Centre.",
     highlights: [
@@ -420,9 +425,10 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/0612/2023",
     facing: "East",
     roadWidthFt: 33,
-    featuredImage: "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1000&q=80",
+    featuredImage: "/images/properties/prop-4.png",
     gallery: [
-      "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1200&q=80"
+      "/images/properties/prop-4.png",
+      "/images/hero-villa.png"
     ],
     description: "Enjoy mountain views and pristine air in Coimbatore's Little Ooty. 5 Cents of clear title land ideal for retirement or holiday villa.",
     highlights: [
