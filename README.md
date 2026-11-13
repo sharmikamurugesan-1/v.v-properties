@@ -97,7 +97,12 @@ v.v-properties/
 │   ├── data/                # Initial curated property matrices and plot data
 │   ├── lib/                 # Store management, crypto utilities, validators
 │   └── types/               # Comprehensive TypeScript definitions
+├── index.html               # Primary executive admin portal (localhost:3000 / GitHub Pages)
 ├── admin-portal.html        # Root mirror of executive portal
+├── public/
+│   ├── index.html           # Public root static admin portal
+│   ├── admin.html           # Public static admin portal route
+│   └── logo.png             # Official V.V Properties emblem badge
 ├── package.json             # Application dependencies and execution scripts
 ├── tailwind.config.ts       # Tailored color palettes (Brand Azure, Obsidian Navy)
 ├── tsconfig.json            # TypeScript configuration
