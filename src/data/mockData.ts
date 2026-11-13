@@ -304,9 +304,9 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/0892/2023",
     facing: "North-East",
     roadWidthFt: 30,
-    featuredImage: "/images/properties/prop-1.png",
+    featuredImage: "/images/projects/the-garden-city.png",
     gallery: [
-      "/images/properties/prop-1.png",
+      "/images/projects/the-garden-city.png",
       "/images/properties/prop-2.png"
     ],
     description: "Unbeatable value for money at just ₹15.40 Lakhs total package price! Perfect for first-time land buyers and tech professionals seeking high capital appreciation.",
@@ -345,10 +345,10 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/0892/2023",
     facing: "East",
     roadWidthFt: 30,
-    featuredImage: "/images/properties/prop-2.png",
+    featuredImage: "/images/hero-villa.png",
     gallery: [
-      "/images/properties/prop-2.png",
-      "/images/properties/prop-3.png"
+      "/images/hero-villa.png",
+      "/images/properties/prop-2.png"
     ],
     description: "4 Cents ready-to-build plot with 35 feet frontage. 85% home loan pre-approved with State Bank of India and HDFC Bank.",
     highlights: [
@@ -385,10 +385,10 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/1105/2023",
     facing: "North",
     roadWidthFt: 33,
-    featuredImage: "/images/properties/prop-3.png",
+    featuredImage: "/images/night-pool-villa.jpg",
     gallery: [
-      "/images/properties/prop-3.png",
-      "/images/properties/prop-4.png"
+      "/images/night-pool-villa.jpg",
+      "/images/properties/prop-3.png"
     ],
     description: "Exclusive plot situated just 8 minutes from the International Airport and 10 minutes to KMCH Medical Centre.",
     highlights: [
@@ -425,9 +425,9 @@ export const PROPERTIES: Property[] = [
     reraNumber: "TN/11/Layout/0612/2023",
     facing: "East",
     roadWidthFt: 33,
-    featuredImage: "/images/properties/prop-4.png",
+    featuredImage: "/images/hero-luxury-villa.png",
     gallery: [
-      "/images/properties/prop-4.png",
+      "/images/hero-luxury-villa.png",
       "/images/hero-villa.png"
     ],
     description: "Enjoy mountain views and pristine air in Coimbatore's Little Ooty. 5 Cents of clear title land ideal for retirement or holiday villa.",
