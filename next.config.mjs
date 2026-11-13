@@ -35,6 +35,20 @@ const nextConfig = {
     ],
     unoptimized: true,
   },
+  async rewrites() {
+    return {
+      beforeFiles: [
+        {
+          source: "/",
+          destination: "/index.html",
+        },
+        {
+          source: "/admin",
+          destination: "/index.html",
+        },
+      ],
+    };
+  },
   async headers() {
     return [
       {

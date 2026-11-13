@@ -34,6 +34,10 @@ export default function Navbar() {
         : 'text-[#4A6278] hover:text-[#0E2138]'
     }`;
 
+  if (pathname === '/' || pathname === '/admin' || pathname === '/admin/login') {
+    return null;
+  }
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 bg-white transition-shadow duration-200 ${

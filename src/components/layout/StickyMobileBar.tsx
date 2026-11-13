@@ -2,11 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Phone, MessageCircle, Calendar } from 'lucide-react';
 import { COMPANY } from '@/config/company';
 import { useApp } from '@/context/AppContext';
 
 export default function StickyMobileBar() {
+  const pathname = usePathname();
   const { openSiteVisitModal } = useApp();
   const [isInputFocused, setIsInputFocused] = useState(false);
 
@@ -32,6 +34,10 @@ export default function StickyMobileBar() {
       window.removeEventListener('focusout', handleFocusOut);
     };
   }, []);
+
+  if (pathname === '/' || pathname === '/admin' || pathname === '/admin/login') {
+    return null;
+  }
 
   if (isInputFocused) return null;
 

@@ -1,11 +1,19 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
 import { COMPANY } from '@/config/company';
 import { COMPLIANCE } from '@/config/compliance';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname === '/' || pathname === '/admin' || pathname === '/admin/login') {
+    return null;
+  }
   return (
     <footer className="bg-ink text-ivory border-t border-ink-soft/40 py-16 md:py-24 text-left">
       <div className="max-w-[1280px] mx-auto px-5 md:px-10">
