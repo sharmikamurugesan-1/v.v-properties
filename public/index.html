@@ -1,28 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-white">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>V.V Properties — Executive Admin Portal</title>
-<!-- Tailwind CSS via CDN -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script>
   tailwind.config = {
     theme: {
       extend: {
         colors: {
           navy: {
+            950: '#060112',
             900: '#0D0221',
-            950: '#070114',
+            800: '#150536',
+            700: '#1F0B4D',
           },
           royal: {
             DEFAULT: '#4062BB',
-            hover: '#314fa5',
-            light: '#EEF3FC',
+            hover: '#314fa3',
+            light: '#5B7BD6',
           },
           ice: {
             DEFAULT: '#CDE6F5',
-            border: '#A9D2EE',
+            border: '#B6DCF2',
           },
           emerald: {
             DEFAULT: '#10B981',
@@ -34,50 +39,41 @@
           }
         },
         fontFamily: {
-          sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
+          sans: ['"Plus Jakarta Sans"', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         }
       }
     }
   }
 </script>
-<!-- Google Fonts: Plus Jakarta Sans + Inter -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Lucide Icons -->
-<script src="https://unpkg.com/lucide@latest"></script>
-
 <style>
   body {
-    font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
-    color: #0D0221;
+    font-family: 'Plus Jakarta Sans', Inter, -apple-system, BlinkMacSystemFont, sans-serif;
     background-color: #FFFFFF;
-    letter-spacing: -0.012em;
-    -webkit-font-smoothing: antialiased;
+    color: #0F172A;
   }
-  
-  /* Refined Scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
-  ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
-
-  /* Smooth Dropdown Animation */
   .menu-anim {
-    animation: menuIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: menuFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform-origin: top right;
   }
-  @keyframes menuIn {
-    from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+  @keyframes menuFadeIn {
+    from { opacity: 0; transform: scale(0.95) translateY(-4px); }
     to { opacity: 1; transform: scale(1) translateY(0); }
   }
-
-  /* Modal Backdrop Fade */
-  .modal-overlay {
-    animation: fadeIn 0.2s ease-out;
+  .fade-in {
+    animation: fadeIn 0.25s ease-out forwards;
   }
   @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+  }
+  .banner-item.dragging {
+    opacity: 0.4;
+    border-style: dashed;
+    border-color: #4062BB;
+    background-color: #EFF6FF;
+  }
+  .banner-item.drag-over {
+    border-top: 2px solid #4062BB;
   }
 </style>
 </head>
@@ -86,13 +82,13 @@
 <div class="flex min-h-screen bg-white">
 
   <!-- ========================================================= -->
-  <!-- SIDEBAR (DEEP AUTHORITY NAVY #0D0221, ZERO SUBTITLE)      -->
+  <!-- SIDEBAR (DEEP NAVY #0D0221, BLENDED HD EMBLEM)             -->
   <!-- ========================================================= -->
   <aside class="fixed inset-y-0 left-0 w-64 bg-navy-900 border-r border-navy-950 z-30 flex flex-col shadow-2xl transition-all duration-300">
     
-    <!-- BRAND / LOGO AREA (Clean, Emblem & Title Only) -->
-    <div class="px-6 pt-7 pb-6 border-b border-white/10 flex items-center gap-3.5">
-      <div class="w-11 h-11 rounded-full overflow-hidden border-2 border-white/20 shadow-md flex-shrink-0 bg-white">
+    <!-- BRAND / LOGO AREA (HD Emblem Seamlessly Blended into Sidebar Environment) -->
+    <div class="px-5 pt-6 pb-5 border-b border-white/10 flex items-center gap-3">
+      <div class="w-11 h-11 rounded-xl overflow-hidden border border-white/10 shadow-lg flex-shrink-0 bg-[#0e0422]">
         <img src="logo.png" alt="V.V Properties Logo" class="w-full h-full object-cover">
       </div>
       <div>
@@ -101,10 +97,10 @@
     </div>
 
     <!-- NAVIGATION MENU -->
-    <div class="px-3.5 py-6 flex-1 overflow-y-auto space-y-7">
+    <div class="px-3.5 py-5 flex-1 overflow-y-auto space-y-6">
       <div>
-        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3.5 mb-2.5">Management</div>
-        <nav class="space-y-1.5" id="sidebarNav">
+        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3.5 mb-2">Management</div>
+        <nav class="space-y-1" id="sidebarNav">
           <button onclick="go('dashboard')" data-page="dashboard" class="nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-white bg-royal shadow-md shadow-royal/30 transition-all">
             <i data-lucide="layout-dashboard" class="w-4 h-4 text-white"></i>
             <span>Dashboard</span>
@@ -130,8 +126,8 @@
       </div>
 
       <div>
-        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3.5 mb-2.5">System</div>
-        <nav class="space-y-1.5">
+        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3.5 mb-2">System</div>
+        <nav class="space-y-1">
           <button onclick="go('profile')" data-page="profile" class="nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             <i data-lucide="shield-check" class="w-4 h-4 text-slate-400"></i>
             <span>Admin Settings</span>
@@ -144,17 +140,17 @@
       </div>
     </div>
 
-    <!-- SPACIOUS EXECUTIVE ADMINISTRATOR PROFILE CARD (SPACIOUS, HUMAN-CRAFTED, NON-AI) -->
-    <div class="px-4 pb-7 pt-4 mt-auto border-t border-white/10">
-      <div class="p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-all flex items-center justify-between group">
+    <!-- EXECUTIVE ADMINISTRATOR PROFILE CARD -->
+    <div class="px-4 pb-5 pt-3 mt-auto border-t border-white/10">
+      <div class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-all flex items-center justify-between group">
         <div class="flex items-center gap-3 min-w-0">
-          <div class="relative w-9 h-9 rounded-full overflow-hidden bg-gradient-to-br from-royal to-royal-hover text-white font-bold flex items-center justify-center text-xs shadow-md border border-white/20 flex-shrink-0">
-            <span>VP</span>
+          <div class="relative w-9 h-9 rounded-full overflow-hidden bg-royal text-white font-bold flex items-center justify-center text-xs shadow-md border border-white/20 flex-shrink-0">
+            <span id="sidebarAdminInitial">V</span>
             <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald border-2 border-navy-900"></span>
           </div>
           <div class="min-w-0 flex-1">
             <div class="flex items-center gap-1.5">
-              <span class="text-xs font-bold text-white tracking-tight truncate block">Victor Paul</span>
+              <span class="text-xs font-bold text-white tracking-tight truncate block" id="sidebarAdminName">Victor Paul</span>
               <span class="text-[9px] px-1.5 py-0.5 rounded bg-royal/30 text-ice font-semibold">Admin</span>
             </div>
             <p class="text-[10px] text-slate-400 truncate mt-0.5 font-medium">admin@vvproperties.in</p>
@@ -172,77 +168,64 @@
   <!-- ========================================================= -->
   <main class="ml-64 flex-1 min-h-screen flex flex-col bg-white">
     
-    <!-- TOP BAR (CLEAN, DATE ON LEFT, NOTIFICATIONS & ADMIN ON RIGHT, NO AI TECH BADGES) -->
+    <!-- TOP BAR (LIVE DATE ON LEFT, ADMIN PROFILE ON RIGHT, NO BREADCRUMBS, NO BELL ICON) -->
     <header class="sticky top-0 z-20 h-16 bg-white/95 backdrop-blur-md border-b border-slate-100 px-8 lg:px-12 flex items-center justify-between">
       
-      <!-- TOP LEFT: BREADCRUMB / DATE -->
-      <div class="flex items-center gap-2.5 text-xs font-semibold text-slate-600">
-        <span>V.V Properties</span>
-        <span class="text-slate-300">/</span>
-        <span id="crumb" class="text-navy-900 font-bold">Dashboard</span>
+      <!-- TOP LEFT: LIVE DATE (IN PLACE OF BREADCRUMB) -->
+      <div class="flex items-center gap-2 text-xs font-semibold text-slate-600">
+        <i data-lucide="calendar" class="w-4 h-4 text-royal"></i>
+        <span id="liveHeaderDate">Friday, 13 November 2026</span>
       </div>
 
-      <!-- TOP RIGHT: NOTIFICATION BELL & ADMIN PROFILE -->
-      <div class="flex items-center gap-4">
-        <span id="liveHeaderDate" class="text-xs font-medium text-slate-500 hidden sm:inline-block">Saturday, 14 November 2026</span>
-
-        <button onclick="showToast('All notifications are up to date')" class="relative p-2 rounded-xl text-slate-500 hover:text-navy-900 hover:bg-slate-100 transition-colors" title="Notifications">
-          <i data-lucide="bell" class="w-4 h-4"></i>
-          <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-royal ring-2 ring-white"></span>
-        </button>
-
-        <div class="h-5 w-px bg-slate-200"></div>
-
+      <!-- TOP RIGHT: ADMIN PROFILE (INITIAL DYNAMIC 'V', NO BELL ICON) -->
+      <div class="flex items-center gap-3">
         <div class="flex items-center gap-2.5 cursor-pointer hover:opacity-90 transition-opacity" onclick="go('profile')">
-          <div class="w-8 h-8 rounded-full overflow-hidden bg-ice text-royal font-bold flex items-center justify-center text-xs shadow-sm font-sans border border-ice-border flex-shrink-0">
-            <span>VP</span>
+          <div class="w-8 h-8 rounded-full overflow-hidden bg-royal text-white font-bold flex items-center justify-center text-xs shadow-sm font-sans border border-royal flex-shrink-0">
+            <span id="headerAdminInitial">V</span>
           </div>
           <div class="text-left hidden md:block">
-            <p class="text-xs font-bold text-navy-900 leading-none">Victor Paul</p>
-            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Super Administrator</p>
+            <p class="text-xs font-bold text-navy-900 leading-none" id="headerAdminName">Victor Paul</p>
+            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Admin Workspace</p>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- CONTENT WRAPPER (SPACIOUS EXECUTIVE CANVAS, MAX-WIDTH 1600PX) -->
-    <div class="px-8 lg:px-12 py-8 max-w-[1600px] w-full mx-auto flex-1 space-y-8">
+    <!-- CONTENT WRAPPER (MINIMIZED VERTICAL GAP ACROSS ALL SECTIONS) -->
+    <div class="px-8 lg:px-12 py-5 max-w-[1600px] w-full mx-auto flex-1 space-y-5">
 
       <!-- ======================================================= -->
       <!-- PAGE: DASHBOARD                                         -->
       <!-- ======================================================= -->
-      <section id="dashboard" class="page-view block space-y-8">
+      <section id="dashboard" class="page-view block space-y-5">
         
         <div class="flex items-center justify-between">
           <div>
             <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Executive Dashboard</h1>
             <p class="text-sm text-slate-500 mt-1 font-medium">Real-time overview of listing portfolios, lead generation, and performance.</p>
           </div>
-          <button onclick="openAddPropertyModal()" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Add Property</span>
-          </button>
+          <!-- Top right add property button removed from dashboard as requested -->
         </div>
 
-        <!-- 4 STAT METRICS (CLEAN WHITE ELEVATED CARDS) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between text-slate-400 mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Properties</span>
-              <div class="w-8 h-8 rounded-xl bg-royal/10 text-royal flex items-center justify-center">
+        <!-- 4 STAT METRICS (TEXT INTEL FORMAT & PALETTE FROM IMAGE 2) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between text-slate-400 mb-2.5">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Total Properties</span>
+              <div class="w-8 h-8 rounded-xl bg-blue-50 text-royal flex items-center justify-center">
                 <i data-lucide="building" class="w-4 h-4"></i>
               </div>
             </div>
             <div class="text-3xl font-extrabold text-navy-900 tracking-tight" id="dashTotalProps">10</div>
             <p class="text-xs font-semibold text-emerald mt-2 flex items-center gap-1">
-              <span>↑ 14% this month</span>
+              <span>↑ +14% this month</span>
             </p>
           </div>
 
-          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between text-slate-400 mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Published Active</span>
-              <div class="w-8 h-8 rounded-xl bg-emerald/10 text-emerald flex items-center justify-center">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between text-slate-400 mb-2.5">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Published Active</span>
+              <div class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald flex items-center justify-center">
                 <i data-lucide="check-circle-2" class="w-4 h-4"></i>
               </div>
             </div>
@@ -252,40 +235,41 @@
             </p>
           </div>
 
-          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between text-slate-400 mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Enquiries</span>
-              <div class="w-8 h-8 rounded-xl bg-royal/10 text-royal flex items-center justify-center">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between text-slate-400 mb-2.5">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">Total Enquiries</span>
+              <div class="w-8 h-8 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
                 <i data-lucide="mail" class="w-4 h-4"></i>
               </div>
             </div>
             <div class="text-3xl font-extrabold text-navy-900 tracking-tight">86</div>
             <p class="text-xs font-semibold text-royal mt-2 flex items-center gap-1">
-              <span>↗ +22% enquiries</span>
+              <span>↗ +22% inquiries</span>
             </p>
           </div>
 
-          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between text-slate-400 mb-3">
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">New Leads</span>
-              <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between text-slate-400 mb-2.5">
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500">New Leads</span>
+              <div class="w-8 h-8 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center">
                 <i data-lucide="sparkles" class="w-4 h-4"></i>
               </div>
             </div>
-            <div class="text-3xl font-extrabold text-emerald tracking-tight">12</div>
+            <div class="text-3xl font-extrabold text-navy-900 tracking-tight">12</div>
             <p class="text-xs font-semibold text-amber-600 mt-2 flex items-center gap-1">
+              <i data-lucide="clock" class="w-3 h-3"></i>
               <span>Needs follow-up</span>
             </p>
           </div>
         </div>
 
         <!-- 2-COLUMNS: PERFORMANCE CHART & PRIORITY LEADS -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div class="lg:col-span-2 bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div class="lg:col-span-2 bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <h3 class="font-sans font-bold text-navy-900 text-base">Enquiry Acquisition Velocity</h3>
-                <p class="text-xs text-slate-500 mt-0.5">Customer outreach trends across channels</p>
+                <h3 class="font-sans font-bold text-navy-900 text-base">Performance</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Direct inquiries received through web contact and property forms</p>
               </div>
               <div class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl" id="ranges">
                 <button class="px-3 py-1 rounded-lg text-xs font-semibold text-royal bg-white shadow-sm transition-all" data-range="1W">1W</button>
@@ -323,12 +307,12 @@
             <div class="text-xs text-slate-400 font-medium" id="chartCaption">Enquiries received during the last 7 days · Demo data</div>
           </div>
 
-          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between pb-3 border-b border-slate-100">
                 <div>
                   <h3 class="font-sans font-bold text-navy-900 text-base">Priority Leads</h3>
-                  <p class="text-xs text-slate-500 mt-0.5">Needs immediate reply</p>
+                  <p class="text-xs text-slate-500 mt-0.5">Needs prompt follow-up</p>
                 </div>
                 <button onclick="go('enquiries')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
                   <span>View All</span>
@@ -342,7 +326,7 @@
                     <h4 class="text-xs font-bold text-navy-900">Suresh Kumar</h4>
                     <p class="text-[11px] text-slate-400 font-medium mt-0.5">Lake View Residency</p>
                   </div>
-                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald/10 text-emerald border border-emerald/20">New</span>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald border border-emerald-200">New</span>
                 </div>
 
                 <div class="py-3 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition-colors" onclick="openEnquiry(1)">
@@ -369,25 +353,44 @@
             </button>
           </div>
         </div>
+
+        <!-- NEW: RECENTLY ADDED PROPERTIES (5 PROPERTIES AS REQUESTED) -->
+        <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <div>
+              <h3 class="font-sans font-bold text-navy-900 text-base">Recently Added Properties</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Latest listings registered in the portfolio database</p>
+            </div>
+            <button onclick="go('properties')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
+              <span>Manage All Properties</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+
+          <div class="divide-y divide-slate-100" id="recentPropsList">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: PROPERTIES (SPACIOUS, MEDIUM-HEIGHT, NO BOTTOM EDIT BAR) -->
+      <!-- PAGE: PROPERTIES (IMAGE-FIRST, 3-DOTS ON HOVER, AMENITIES) -->
       <!-- ======================================================= -->
-      <section id="properties" class="page-view hidden space-y-8">
+      <section id="properties" class="page-view hidden space-y-5">
         
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-1">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-1">
           <div>
             <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Properties</h1>
             <p class="text-sm text-slate-500 mt-1 font-medium">Manage active residential and commercial property listings across Chennai.</p>
           </div>
-          <button onclick="openAddPropertyModal()" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
+          <button onclick="openAddPropertyModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Add Property</span>
           </button>
         </div>
 
-        <!-- FILTERS BAR (SPACIOUS, ELEVATED, ANTI-AUTOFILL PROTECTED) -->
+        <!-- FILTERS BAR (ANTI-AUTOFILL PROTECTED) -->
         <div class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
           <div class="relative flex-1 w-full">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
@@ -435,62 +438,54 @@
           </div>
         </div>
 
-        <!-- 3-COLUMNS PROPERTIES GRID (MEDIUM CARD HEIGHT, NO BOTTOM CARD/EDIT SECTION) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertyCards">
+        <!-- 3-COLUMNS PROPERTIES GRID (MEDIUM CARD HEIGHT, ZERO BOTTOM EDIT BAR, 3-DOTS ON HOVER ONLY) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="propertyCards">
           <!-- Populated dynamically -->
         </div>
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: BANNER MANAGEMENT (NO TEMPLATES, 6 CURATED LIVE BANNERS) -->
+      <!-- PAGE: BANNER MANAGEMENT (DRAGGABLE, 5/10 CAPACITY, CLEAN) -->
       <!-- ======================================================= -->
-      <section id="banners" class="page-view hidden space-y-8">
+      <section id="banners" class="page-view hidden space-y-5">
         
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-1">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-1">
           <div>
             <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Banner Management</h1>
             <p class="text-sm text-slate-500 mt-1 font-medium">Upload, edit and arrange the slides shown in the homepage carousel.</p>
           </div>
-          <button onclick="openModal('bannerModal')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
+          <button onclick="openModal('bannerModal')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Add Banner</span>
           </button>
         </div>
 
-        <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-5">
-          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+        <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
               <h3 class="font-sans font-bold text-navy-900 text-base">Homepage Carousel</h3>
-              <p class="text-xs text-slate-500 mt-0.5">Drag to reorder slide sequence. Up to 5 slides active concurrently.</p>
+              <p class="text-xs text-slate-500 mt-0.5">Drag handle to reorder slide sequence. Up to 5 slides active concurrently.</p>
             </div>
-            <span id="slideCapacity" class="px-4 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-navy-900 border border-slate-200 shadow-sm">
-              5 / 10 Active
+            <span id="slideCapacity" class="px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-navy-900 border border-slate-200 shadow-sm">
+              5 / 10
             </span>
           </div>
 
-          <!-- BANNER LIST (6 BANNERS) -->
-          <div class="space-y-3" id="bannerList"></div>
-
-          <!-- DRAG & DROP UPLOAD ZONE -->
-          <div class="border-2 border-dashed border-blue-200 bg-slate-50 hover:bg-blue-50/50 rounded-2xl p-8 text-center cursor-pointer transition-all" id="dropzone">
-            <i data-lucide="cloud-upload" class="w-8 h-8 text-royal mx-auto mb-2"></i>
-            <b class="block text-navy-900 text-sm font-bold">＋ Drag & drop banner image here</b>
-            <span class="text-xs text-slate-500 block mt-1">or click to browse from device · JPG, PNG, WebP · recommended 1920 × 720 px</span>
-            <input id="bannerFile" type="file" accept="image/*" hidden>
-          </div>
+          <!-- BANNER LIST (DRAGGABLE, CLEAN ACTIONS, NO ACTIVE BADGE, NO SLIDE POSITION WORDING) -->
+          <div class="space-y-2.5" id="bannerList"></div>
         </div>
       </section>
 
       <!-- ======================================================= -->
       <!-- PAGE: ENQUIRIES                                         -->
       <!-- ======================================================= -->
-      <section id="enquiries" class="page-view hidden space-y-8">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-1">
+      <section id="enquiries" class="page-view hidden space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-1">
           <div>
             <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Customer Enquiries</h1>
             <p class="text-sm text-slate-500 mt-1 font-medium">Customer messages and site visit requests submitted through the website.</p>
           </div>
-          <button onclick="showToast('Exporting verified enquiries to CSV...')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold shadow-sm transition-all">
+          <button onclick="showToast('Exporting verified enquiries to CSV...')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold shadow-sm transition-all">
             <i data-lucide="download" class="w-4 h-4 text-slate-500"></i>
             <span>Export CSV</span>
           </button>
@@ -519,41 +514,51 @@
       <!-- ======================================================= -->
       <!-- PAGE: TESTIMONIALS                                      -->
       <!-- ======================================================= -->
-      <section id="testimonials" class="page-view hidden space-y-8">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-1">
+      <section id="testimonials" class="page-view hidden space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-1">
           <div>
             <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Client Testimonials</h1>
-            <p class="text-sm text-slate-500 mt-1 font-medium">Manage customer reviews and feedback displayed on the public website.</p>
+            <p class="text-sm text-slate-500 mt-1 font-medium">Verified customer reviews and feedback showcased on the landing page.</p>
           </div>
-          <button onclick="openModal('testimonialModal')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
+          <button onclick="openModal('testimonialModal')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
             <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Add Testimonial</span>
+            <span>Add Review</span>
           </button>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="testCards"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="testCards">
+          <!-- Dynamically populated -->
+        </div>
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: ADMIN PROFILE                                     -->
+      <!-- PAGE: ADMIN SETTINGS / PROFILE                          -->
       <!-- ======================================================= -->
-      <section id="profile" class="page-view hidden space-y-8">
-        <div class="pb-1">
-          <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Admin Settings</h1>
-          <p class="text-sm text-slate-500 mt-1 font-medium">Manage administrator security and portal credentials.</p>
+      <section id="profile" class="page-view hidden space-y-5">
+        <div>
+          <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Admin Profile & System Settings</h1>
+          <p class="text-sm text-slate-500 mt-1 font-medium">Update credentials and workspace preferences.</p>
         </div>
-        <div class="bg-white border border-slate-200/90 rounded-2xl p-7 max-w-xl shadow-sm space-y-4">
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Username</label>
-              <input value="admin" readonly class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-slate-700 outline-none">
+
+        <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm max-w-2xl space-y-5">
+          <div class="flex items-center gap-4 pb-5 border-b border-slate-100">
+            <div class="w-14 h-14 rounded-full bg-royal text-white font-extrabold flex items-center justify-center text-xl shadow-md border-2 border-slate-100">
+              <span id="profileInitial">V</span>
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Role</label>
-              <input value="Super Administrator" readonly class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-slate-700 outline-none">
+              <h3 class="text-base font-bold text-navy-900" id="profileDisplayName">Victor Paul</h3>
+              <p class="text-xs text-slate-400 font-medium">Super Administrator · System Owner</p>
             </div>
-            <div class="col-span-2">
-              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Current Password</label>
-              <input type="password" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-royal/20 outline-none">
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Administrator Name</label>
+              <input type="text" id="adminNameInput" value="Victor Paul" oninput="updateAdminName(this.value)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-royal/20 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Official Contact Email</label>
+              <input type="email" value="admin@vvproperties.in" readonly class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-500 outline-none cursor-not-allowed">
             </div>
             <div>
               <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">New Password</label>
@@ -564,7 +569,7 @@
               <input type="password" placeholder="Confirm password" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-royal/20 outline-none">
             </div>
           </div>
-          <button onclick="showToast('Password updated successfully')" class="px-5 py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/25 transition-all mt-2">
+          <button onclick="showToast('Password and profile updated successfully')" class="px-5 py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/25 transition-all mt-2">
             Update Password
           </button>
         </div>
@@ -575,12 +580,12 @@
 </div>
 
 <!-- ======================================================== -->
-<!-- MODAL: ADD / EDIT PROPERTY                               -->
+<!-- MODAL: ADD / EDIT PROPERTY WITH AMENITIES SECTION         -->
 <!-- ======================================================== -->
 <div class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 modal-overlay" id="propertyModal">
   <div class="bg-white rounded-2xl w-full max-w-xl shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
     <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-      <h2 class="font-sans font-bold text-navy-900 text-base" id="propModalTitle">Add Property</h2>
+      <h2 class="font-sans font-bold text-navy-900 text-base" id="propModalTitle">Edit Property</h2>
       <button onclick="closeModal('propertyModal')" class="p-1 rounded-lg text-slate-400 hover:text-navy-900 hover:bg-slate-100">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
@@ -624,9 +629,50 @@
           <label class="block font-bold text-slate-600 mb-1">Cover Image URL</label>
           <input id="propImageInput" placeholder="https://images.unsplash.com/..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
         </div>
-        <div class="col-span-2">
-          <label class="block font-bold text-slate-600 mb-1">Short Description *</label>
-          <textarea id="propDescInput" rows="3" placeholder="Summary shown on hover overlay" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none"></textarea>
+      </div>
+
+      <!-- AMENITIES SPECIFICATION SECTION (AS REQUESTED) -->
+      <div class="pt-2 border-t border-slate-100">
+        <label class="block font-bold text-slate-700 text-xs mb-2">Amenities & Features</label>
+        <p class="text-[11px] text-slate-400 mb-3 font-medium">Select key amenities available for this property listing:</p>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5" id="amenitiesCheckboxes">
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="Swimming Pool" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">🏊 Swimming Pool</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="Clubhouse & Gym" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">🏋️ Clubhouse & Gym</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="Covered Parking" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">🚗 Covered Parking</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="24/7 Security" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">🛡️ 24/7 Security</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="Private Garden" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">🌳 Private Garden</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="Lake / Sea Facing" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">🌅 Lake / Sea Facing</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="Power Backup" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">⚡ 100% Power Backup</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="High Speed Lifts" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">🛗 High Speed Lifts</span>
+          </label>
+          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 hover:bg-slate-50 cursor-pointer">
+            <input type="checkbox" value="CMDA & RERA" class="rounded text-royal focus:ring-royal amenity-chk">
+            <span class="text-[11px] font-semibold text-slate-700">📜 CMDA & RERA Approved</span>
+          </label>
         </div>
       </div>
     </div>
@@ -661,17 +707,18 @@
 </div>
 
 <!-- ======================================================== -->
-<!-- MODAL: ADD / EDIT BANNER                                 -->
+<!-- MODAL: ADD / EDIT BANNER (WITH INTEGRATED DROPZONE)       -->
 <!-- ======================================================== -->
 <div class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 modal-overlay" id="bannerModal">
   <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 overflow-hidden">
     <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-      <h2 class="font-sans font-bold text-navy-900 text-base">Add Banner Slide</h2>
+      <h2 class="font-sans font-bold text-navy-900 text-base" id="bannerModalTitle">Add Banner Slide</h2>
       <button onclick="closeModal('bannerModal')" class="p-1 rounded-lg text-slate-400 hover:text-navy-900">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
     </div>
     <div class="p-6 space-y-4 text-xs">
+      <input type="hidden" id="editBannerIndex" value="-1">
       <div>
         <label class="block font-bold text-slate-600 mb-1">Banner Headline *</label>
         <input id="bannerHeadline" placeholder="e.g. Signature Luxury Residences on ECR" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
@@ -684,6 +731,15 @@
         <label class="block font-bold text-slate-600 mb-1">Banner Image URL</label>
         <input id="bannerImgUrl" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
       </div>
+
+      <!-- DRAG & DROP ZONE MOVED INSIDE BANNER EDIT/ADD MODAL (AS REQUESTED) -->
+      <div class="border-2 border-dashed border-blue-200 bg-slate-50 hover:bg-blue-50/50 rounded-2xl p-5 text-center cursor-pointer transition-all" id="modalDropzone">
+        <i data-lucide="cloud-upload" class="w-6 h-6 text-royal mx-auto mb-1.5"></i>
+        <b class="block text-navy-900 text-xs font-bold">Drag & drop new banner image here, or browse device</b>
+        <span class="text-[10px] text-slate-400 block mt-0.5">Recommended 1920 × 720 px · JPG, PNG, WebP</span>
+        <input id="bannerModalFileInput" type="file" accept="image/*" hidden>
+      </div>
+
       <div>
         <label class="block font-bold text-slate-600 mb-1">Status</label>
         <select id="bannerStatus" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none bg-white">
@@ -798,10 +854,10 @@
 
 <!-- TOAST ALERT -->
 <div id="toast" class="fixed bottom-6 right-6 z-50 bg-navy-900 text-white px-5 py-3 rounded-xl shadow-2xl text-xs font-bold hidden flex items-center gap-2">
-  <span id="toastMsg">Changes saved</span>
+  <i data-lucide="check" class="w-4 h-4 text-emerald"></i>
+  <span id="toastMsg">Notification</span>
 </div>
 
-<!-- JAVASCRIPT APPLICATION CORE -->
 <script>
 const img1 = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80';
 const img2 = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80';
@@ -810,21 +866,21 @@ const img4 = 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=120
 const img5 = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80';
 const img6 = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80';
 
-// 10 LUXURY REAL ESTATE PROPERTIES
+// 10 LUXURY REAL ESTATE PROPERTIES WITH TAILORED AMENITIES LIST
 let properties = [
-  ['Lake View Residency', 'OMR, Chennai', '₹78 Lakhs', 'Featured', 'Apartment · 2 BHK', 'Premium lakeside homes with panoramic water views and modern club amenities.', img1],
-  ['Green Avenue Villas', 'Kelambakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 4 BHK', 'Spacious luxury family villas with private landscaped garden terraces.', img2],
-  ['City Centre Plots', 'Tambaram', '₹32 Lakhs', 'New Launch', 'Residential Plot', 'CMDA & RERA approved prime residential plots with clear freehold titles.', img3],
-  ['Skyline Apartments', 'Sholinganallur', '₹1.10 Cr', 'Featured', 'Apartment · 3 BHK', 'Contemporary high-rise residences with open vistas and smart home wiring.', img4],
-  ['Garden View Villas', 'Medavakkam', '₹95 Lakhs', 'New Launch', 'Villa · 3 BHK', 'Private garden community homes designed for tranquil family living.', img5],
-  ['Royal Meadows', 'Anna Nagar', '₹1.65 Cr', 'Special Offer', 'Apartment · 3 BHK', 'Exclusive central city luxury residences close to premier institutions.', img6],
-  ['Blue Horizon Beachfront', 'ECR, Chennai', '₹2.40 Cr', 'Featured', 'Villa · 4 BHK', 'Ultra-luxury coastal estates featuring private pools and sea views.', img2],
-  ['Vista Greens', 'Porur, Chennai', '₹88 Lakhs', 'New Launch', 'Apartment · 3 BHK', 'Vastu-compliant residential apartments with landscaped open spaces.', img1],
-  ['Prime Commercial Hub', 'Guindy, Chennai', '₹3.10 Cr', 'Featured', 'Commercial', 'Grade-A office suites and retail showrooms on arterial high-traffic corridor.', img5],
-  ['Emerald Park Residences', 'Thiruvanmiyur', '₹1.45 Cr', 'Special Offer', 'Apartment · 3 BHK', 'Serene coastal community homes built to international luxury standards.', img3]
+  ['Lake View Residency', 'OMR, Chennai', '₹78 Lakhs', 'Featured', 'Apartment · 2 BHK', img1, ['Swimming Pool', 'Clubhouse & Gym', 'Covered Parking', '24/7 Security']],
+  ['Green Avenue Villas', 'Kelambakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 4 BHK', img2, ['Private Garden', 'Swimming Pool', '24/7 Security', 'Covered Parking']],
+  ['City Centre Plots', 'Tambaram', '₹32 Lakhs', 'New Launch', 'Residential Plot', img3, ['CMDA & RERA', '24/7 Security', 'Power Backup']],
+  ['Skyline Apartments', 'Sholinganallur', '₹1.10 Cr', 'Featured', 'Apartment · 3 BHK', img4, ['Swimming Pool', 'High Speed Lifts', 'Clubhouse & Gym', 'Power Backup']],
+  ['Garden View Villas', 'Medavakkam', '₹95 Lakhs', 'New Launch', 'Villa · 3 BHK', img5, ['Private Garden', 'Covered Parking', '24/7 Security']],
+  ['Royal Meadows', 'Anna Nagar', '₹1.65 Cr', 'Special Offer', 'Apartment · 3 BHK', img6, ['Clubhouse & Gym', 'High Speed Lifts', 'Covered Parking']],
+  ['Blue Horizon Beachfront', 'ECR, Chennai', '₹2.40 Cr', 'Featured', 'Villa · 4 BHK', img2, ['Lake / Sea Facing', 'Swimming Pool', 'Private Garden', '24/7 Security']],
+  ['Vista Greens', 'Porur, Chennai', '₹88 Lakhs', 'New Launch', 'Apartment · 3 BHK', img1, ['Clubhouse & Gym', 'Covered Parking', 'Power Backup']],
+  ['Prime Commercial Hub', 'Guindy, Chennai', '₹3.10 Cr', 'Featured', 'Commercial', img5, ['High Speed Lifts', 'Power Backup', '24/7 Security']],
+  ['Emerald Park Residences', 'Thiruvanmiyur', '₹1.45 Cr', 'Special Offer', 'Apartment · 3 BHK', img3, ['Swimming Pool', 'Clubhouse & Gym', 'Covered Parking']]
 ];
 
-// RENDER PROPERTY CARD (IMAGE-FIRST, MEDIUM HEIGHT h-56, HOVER OVERLAY, 3-DOTS, ZERO BOTTOM EDIT BAR)
+// RENDER PROPERTY CARD (IMAGE-FIRST, MEDIUM HEIGHT h-56, 3-DOTS ON HOVER ONLY, ZERO PARAGRAPH TEXT)
 function renderPropertyCard(p, i) {
   const menuId = `propMenu_${i}`;
   const badgeHtml = (p[3] && p[3] !== 'None') ? `
@@ -835,16 +891,23 @@ function renderPropertyCard(p, i) {
     </div>
   ` : '';
 
+  const amenities = p[6] || [];
+  const amenitiesChips = amenities.slice(0, 3).map(a => `
+    <span class="px-2 py-0.5 rounded-md bg-white/15 backdrop-blur-md text-[10px] font-semibold text-ice border border-white/10">
+      ${a}
+    </span>
+  `).join('');
+
   return `
     <article class="relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 h-56" data-index="${i}">
       <!-- Architectural Image -->
-      <img src="${p[6] || img1}" alt="${p[0]}" onerror="this.src='${img1}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      <img src="${p[5] || img1}" alt="${p[0]}" onerror="this.src='${img1}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
 
       <!-- Badge Tag -->
       ${badgeHtml}
 
-      <!-- Vertical 3-Dots Button (Top Right) -->
-      <div class="menu-wrapper absolute top-3 right-3 z-30 opacity-90 group-hover:opacity-100 transition-opacity duration-200">
+      <!-- Vertical 3-Dots Button (Top Right) - APPEARS ONLY ON HOVER / POINT -->
+      <div class="menu-wrapper absolute top-3 right-3 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <button type="button" onclick="toggleMenu(event, '${menuId}')" class="w-8 h-8 rounded-full bg-white/95 backdrop-blur-md hover:bg-white text-navy-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none" aria-label="Options">
           <i data-lucide="more-vertical" class="w-4 h-4"></i>
         </button>
@@ -866,17 +929,20 @@ function renderPropertyCard(p, i) {
         </div>
       </div>
 
-      <!-- COMPLETE HOVER OVERLAY (ALL DETAILS REVEAL OVER IMAGE, NO BOTTOM EDIT BAR) -->
+      <!-- COMPLETE HOVER OVERLAY: TITLE, PRICE, LOCATION & AMENITIES ONLY (NO PARAGRAPH TEXT LINE) -->
       <div class="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-950/60 via-40% to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end text-white pointer-events-none">
         <h4 class="font-sans font-bold text-white text-base tracking-tight mb-1 drop-shadow">${p[0]}</h4>
         <div class="flex items-center justify-between mb-1">
           <span class="text-[10px] font-bold uppercase tracking-wider text-ice font-sans">${p[4]}</span>
           <span class="text-base font-extrabold text-white drop-shadow font-sans">${p[2]}</span>
         </div>
-        <p class="text-[11px] text-slate-300 flex items-center gap-1 font-medium">
+        <p class="text-[11px] text-slate-300 flex items-center gap-1 font-medium mb-2">
           <i data-lucide="map-pin" class="w-3 h-3 text-ice"></i>
           <span>${p[1]}</span>
         </p>
+        <div class="flex flex-wrap gap-1.5">
+          ${amenitiesChips}
+        </div>
       </div>
     </article>
   `;
@@ -892,7 +958,45 @@ function renderProperties(list = properties) {
   container.innerHTML = list.map((p, i) => renderPropertyCard(p, properties.indexOf(p) !== -1 ? properties.indexOf(p) : i)).join('');
   const countEl = document.getElementById('dashTotalProps');
   if (countEl) countEl.textContent = properties.length;
+  renderRecentProperties();
   lucide.createIcons();
+}
+
+// 5 RECENTLY ADDED PROPERTIES FOR DASHBOARD (AS REQUESTED)
+function renderRecentProperties() {
+  const container = document.getElementById('recentPropsList');
+  if (!container) return;
+  const recentItems = [
+    { name: properties[2][0], loc: properties[2][1], price: properties[2][2], type: properties[2][4], img: properties[2][5], time: 'Added 2 days ago' },
+    { name: properties[0][0], loc: properties[0][1], price: properties[0][2], type: properties[0][4], img: properties[0][5], time: 'Added 4 days ago' },
+    { name: properties[1][0], loc: properties[1][1], price: properties[1][2], type: properties[1][4], img: properties[1][5], time: 'Added 1 week ago' },
+    { name: properties[5][0], loc: properties[5][1], price: properties[5][2], type: properties[5][4], img: properties[5][5], time: 'Added 1 week ago' },
+    { name: properties[6][0], loc: properties[6][1], price: properties[6][2], type: properties[6][4], img: properties[6][5], time: 'Added 2 weeks ago' }
+  ];
+
+  container.innerHTML = recentItems.map((item, idx) => `
+    <div class="py-3.5 flex items-center justify-between gap-4 hover:bg-slate-50 px-2 rounded-xl transition-colors cursor-pointer" onclick="go('properties')">
+      <div class="flex items-center gap-3.5 min-w-0">
+        <img src="${item.img}" alt="${item.name}" class="w-12 h-12 rounded-xl object-cover border border-slate-200 flex-shrink-0">
+        <div class="min-w-0">
+          <h4 class="text-xs font-bold text-navy-900 truncate">${item.name}</h4>
+          <p class="text-[11px] text-slate-400 font-medium flex items-center gap-1 mt-0.5">
+            <i data-lucide="map-pin" class="w-3 h-3 text-slate-400"></i>
+            <span>${item.loc}</span>
+            <span class="text-slate-300">•</span>
+            <span class="text-slate-500 font-semibold">${item.type}</span>
+          </p>
+        </div>
+      </div>
+      <div class="text-right flex-shrink-0 flex items-center gap-3">
+        <div>
+          <span class="text-xs font-extrabold text-navy-900 block font-sans">${item.price}</span>
+          <span class="text-[10px] text-slate-400 font-medium">${item.time}</span>
+        </div>
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald border border-emerald-200">Active</span>
+      </div>
+    </div>
+  `).join('');
 }
 
 // 3-DOTS MENU HANDLERS
@@ -919,65 +1023,72 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// EDIT PROPERTY
+function openAddPropertyModal() {
+  document.getElementById('propModalTitle').textContent = 'Add Property';
+  document.getElementById('editPropIndex').value = '-1';
+  document.getElementById('propNameInput').value = '';
+  document.getElementById('propTypeInput').value = 'Apartment · 3 BHK';
+  document.getElementById('propLocInput').value = '';
+  document.getElementById('propPriceInput').value = '';
+  document.getElementById('propTagInput').value = 'None';
+  document.getElementById('propImageInput').value = '';
+  document.querySelectorAll('.amenity-chk').forEach(c => c.checked = false);
+  openModal('propertyModal');
+}
+
 function editProperty(e, i) {
   e.stopPropagation();
   closeAllMenus();
   const p = properties[i];
   if (!p) return;
-  document.getElementById('editPropIndex').value = i;
   document.getElementById('propModalTitle').textContent = 'Edit Property';
+  document.getElementById('editPropIndex').value = i;
   document.getElementById('propNameInput').value = p[0];
+  document.getElementById('propTypeInput').value = p[4];
   document.getElementById('propLocInput').value = p[1];
   document.getElementById('propPriceInput').value = p[2];
   document.getElementById('propTagInput').value = p[3] || 'None';
-  document.getElementById('propTypeInput').value = p[4] || 'Apartment · 2 BHK';
-  document.getElementById('propImageInput').value = p[6] || img1;
-  document.getElementById('propDescInput').value = p[5];
-  openModal('propertyModal');
-}
-
-function openAddPropertyModal() {
-  document.getElementById('editPropIndex').value = -1;
-  document.getElementById('propModalTitle').textContent = 'Add Property';
-  document.getElementById('propNameInput').value = '';
-  document.getElementById('propLocInput').value = '';
-  document.getElementById('propPriceInput').value = '';
-  document.getElementById('propTagInput').value = 'Featured';
-  document.getElementById('propTypeInput').value = 'Apartment · 2 BHK';
-  document.getElementById('propImageInput').value = img1;
-  document.getElementById('propDescInput').value = '';
+  document.getElementById('propImageInput').value = p[5] || '';
+  
+  // Set amenities checkboxes
+  const currentAmenities = p[6] || [];
+  document.querySelectorAll('.amenity-chk').forEach(c => {
+    c.checked = currentAmenities.includes(c.value);
+  });
+  
   openModal('propertyModal');
 }
 
 function saveProperty() {
   const idx = parseInt(document.getElementById('editPropIndex').value, 10);
   const name = document.getElementById('propNameInput').value.trim();
+  const type = document.getElementById('propTypeInput').value;
   const loc = document.getElementById('propLocInput').value.trim();
   const price = document.getElementById('propPriceInput').value.trim();
   const tag = document.getElementById('propTagInput').value;
-  const type = document.getElementById('propTypeInput').value;
-  const img = document.getElementById('propImageInput').value.trim() || img1;
-  const desc = document.getElementById('propDescInput').value.trim();
+  const imgUrl = document.getElementById('propImageInput').value.trim() || img1;
+  
+  // Collect selected amenities
+  const selectedAmenities = [];
+  document.querySelectorAll('.amenity-chk:checked').forEach(c => selectedAmenities.push(c.value));
 
-  if (!name || !loc || !price) {
-    alert('Please enter property name, location, and price.');
+  if (!name || !price || !loc) {
+    alert('Please enter Property Name, Location, and Price.');
     return;
   }
 
-  if (idx >= 0 && properties[idx]) {
-    properties[idx] = [name, loc, price, tag, type, desc, img];
-    showToast(`Updated "${name}"`);
+  if (idx >= 0 && idx < properties.length) {
+    properties[idx] = [name, loc, price, tag, type, imgUrl, selectedAmenities];
+    showToast('Property updated successfully');
   } else {
-    properties.unshift([name, loc, price, tag, type, desc, img]);
-    showToast(`Added "${name}"`);
+    properties.unshift([name, loc, price, tag, type, imgUrl, selectedAmenities]);
+    showToast('New property created successfully');
   }
 
-  closeModal('propertyModal');
   renderProperties();
+  closeModal('propertyModal');
 }
 
-// RENAME PROPERTY
 function openRenameModal(e, i) {
   e.stopPropagation();
   closeAllMenus();
@@ -990,50 +1101,47 @@ function openRenameModal(e, i) {
 }
 
 function saveRename() {
-  const i = parseInt(document.getElementById('renamePropIndex').value, 10);
-  const next = document.getElementById('renamePropInput').value.trim();
-  if (!next) return;
-  if (properties[i]) {
-    const old = properties[i][0];
-    properties[i][0] = next;
+  const idx = parseInt(document.getElementById('renamePropIndex').value, 10);
+  const newName = document.getElementById('renamePropInput').value.trim();
+  if (newName && idx >= 0 && idx < properties.length) {
+    properties[idx][0] = newName;
     renderProperties();
-    closeModal('renameModal');
-    showToast(`Renamed "${old}" to "${next}"`);
+    showToast('Property renamed successfully');
   }
+  closeModal('renameModal');
 }
 
-// DELETE PROPERTY
 function deleteProperty(e, i) {
   e.stopPropagation();
   closeAllMenus();
-  const name = properties[i]?.[0] || 'listing';
-  if (confirm(`Are you sure you want to delete "${name}"?`)) {
+  const title = properties[i] ? properties[i][0] : 'Property';
+  if (confirm(`Are you sure you want to delete "${title}"?`)) {
     properties.splice(i, 1);
     renderProperties();
-    showToast(`Deleted "${name}"`);
+    showToast('Property deleted successfully');
   }
 }
 
-// FILTER PROPERTIES (WITH AUTOFILL MITIGATION)
+// SEARCH & FILTERS
 function filterProperties() {
-  const search = (document.getElementById('propSearchInput')?.value || '').toLowerCase();
-  const loc = document.getElementById('propFilterLoc')?.value || 'All';
-  const type = document.getElementById('propFilterType')?.value || 'All';
-  const badge = document.getElementById('propFilterBadge')?.value || 'All';
+  const query = (document.getElementById('propSearchInput').value || '').toLowerCase().trim();
+  const loc = document.getElementById('propFilterLoc').value;
+  const type = document.getElementById('propFilterType').value;
+  const badge = document.getElementById('propFilterBadge').value;
 
   const filtered = properties.filter(p => {
-    const matchSearch = !search || p[0].toLowerCase().includes(search) || p[1].toLowerCase().includes(search);
-    const matchLoc = (loc === 'All') || p[1].toLowerCase().includes(loc.toLowerCase().split(',')[0]);
-    const matchType = (type === 'All') || p[4].toLowerCase().includes(type.toLowerCase());
+    const matchQuery = !query || p[0].toLowerCase().includes(query) || p[1].toLowerCase().includes(query);
+    const matchLoc = (loc === 'All') || p[1].includes(loc.replace(', Chennai', ''));
+    const matchType = (type === 'All') || p[4].includes(type);
     const matchBadge = (badge === 'All') || (badge === 'None' && (!p[3] || p[3] === 'None')) || (p[3] === badge);
-    return matchSearch && matchLoc && matchType && matchBadge;
+    return matchQuery && matchLoc && matchType && matchBadge;
   });
 
   renderProperties(filtered);
 }
 
 // =============================================================
-// BANNER MANAGEMENT (NO TEMPLATES, 6 CURATED LIVE BANNERS)
+// BANNER MANAGEMENT WITH DRAG & DROP REORDERING
 // =============================================================
 let bannerData = [
   ['Find Your Dream Luxury Home in Chennai', 'Explore hand-picked luxury apartments and gated villas across OMR & ECR.', img1, true],
@@ -1044,27 +1152,43 @@ let bannerData = [
   ['High-Growth Gated Community Plots in Tambaram', 'CMDA & RERA approved residential plots with underground utilities ready for build.', img3, false]
 ];
 
+let draggedBannerIdx = null;
+
 function renderBanners() {
   const container = document.getElementById('bannerList');
   if (!container) return;
   
   container.innerHTML = bannerData.map((b, i) => `
-    <div class="banner-item flex items-center justify-between p-4 rounded-xl border border-slate-200/90 bg-white hover:shadow-sm transition-all gap-4">
-      <div class="flex items-center gap-4 flex-1 min-w-0">
+    <div 
+      class="banner-item flex items-center justify-between p-3.5 rounded-xl border border-slate-200/90 bg-white hover:shadow-sm transition-all gap-4" 
+      draggable="true"
+      ondragstart="onBannerDragStart(event, ${i})"
+      ondragover="onBannerDragOver(event)"
+      ondragleave="onBannerDragLeave(event)"
+      ondrop="onBannerDrop(event, ${i})"
+      ondragend="onBannerDragEnd(event)"
+      data-index="${i}">
+      
+      <div class="flex items-center gap-3.5 flex-1 min-w-0">
+        <!-- DRAG HANDLE -->
+        <div class="cursor-grab text-slate-400 hover:text-navy-900 p-1 flex-shrink-0" title="Drag to reorder sequence">
+          <i data-lucide="grip-vertical" class="w-4 h-4"></i>
+        </div>
         <img src="${b[2]}" alt="${b[0]}" class="w-24 h-14 rounded-lg object-cover flex-shrink-0 border border-slate-200">
         <div class="min-w-0 flex-1">
           <h4 class="text-xs font-bold text-navy-900 truncate">${b[0]}</h4>
           <p class="text-[11px] text-slate-400 truncate mt-0.5 font-medium">${b[1]}</p>
         </div>
       </div>
-      <div class="flex items-center gap-3">
-        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${b[3] ? 'bg-emerald/10 text-emerald border border-emerald/20' : 'bg-slate-100 text-slate-500'}">
-          ${b[3] ? 'Active' : 'Inactive'}
-        </span>
-        <button onclick="toggleBannerStatus(${i})" class="px-3 py-1.5 rounded-lg border text-xs font-bold transition-colors ${b[3] ? 'border-rose-200 text-rose-600 hover:bg-rose-50' : 'border-emerald/30 text-emerald hover:bg-emerald/5'}">
+      
+      <div class="flex items-center gap-2 flex-shrink-0">
+        <button onclick="editBannerModal(${i})" class="p-1.5 rounded-lg text-slate-400 hover:text-royal hover:bg-slate-50 transition-colors" title="Edit banner details & image">
+          <i data-lucide="edit-3" class="w-4 h-4"></i>
+        </button>
+        <button onclick="toggleBannerStatus(${i})" class="px-3 py-1.5 rounded-lg border text-xs font-bold transition-colors ${b[3] ? 'border-rose-200 text-rose-600 hover:bg-rose-50' : 'border-emerald-200 text-emerald hover:bg-emerald-50'}">
           ${b[3] ? 'Deactivate' : 'Activate'}
         </button>
-        <button onclick="deleteBanner(${i})" class="p-1.5 rounded-lg text-slate-400 hover:text-coral hover:bg-rose-50 transition-colors">
+        <button onclick="deleteBanner(${i})" class="p-1.5 rounded-lg text-slate-400 hover:text-coral hover:bg-rose-50 transition-colors" title="Delete banner">
           <i data-lucide="trash-2" class="w-4 h-4"></i>
         </button>
       </div>
@@ -1073,8 +1197,47 @@ function renderBanners() {
 
   const activeCount = bannerData.filter(b => b[3]).length;
   const cap = document.getElementById('slideCapacity');
-  if (cap) cap.textContent = `${activeCount} / 10 Active`;
+  if (cap) cap.textContent = `${activeCount} / 10`;
   lucide.createIcons();
+}
+
+// DRAG AND DROP REORDERING HANDLERS
+function onBannerDragStart(e, idx) {
+  draggedBannerIdx = idx;
+  e.dataTransfer.effectAllowed = 'move';
+  e.currentTarget.classList.add('dragging');
+}
+
+function onBannerDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  const item = e.currentTarget.closest('.banner-item');
+  if (item) item.classList.add('drag-over');
+}
+
+function onBannerDragLeave(e) {
+  const item = e.currentTarget.closest('.banner-item');
+  if (item) item.classList.remove('drag-over');
+}
+
+function onBannerDrop(e, targetIdx) {
+  e.preventDefault();
+  const item = e.currentTarget.closest('.banner-item');
+  if (item) item.classList.remove('drag-over');
+  
+  if (draggedBannerIdx !== null && draggedBannerIdx !== targetIdx) {
+    const moved = bannerData.splice(draggedBannerIdx, 1)[0];
+    bannerData.splice(targetIdx, 0, moved);
+    renderBanners();
+    showToast('Banner sequence updated');
+  }
+}
+
+function onBannerDragEnd(e) {
+  draggedBannerIdx = null;
+  document.querySelectorAll('.banner-item').forEach(el => {
+    el.classList.remove('dragging', 'drag-over');
+  });
 }
 
 function toggleBannerStatus(i) {
@@ -1084,7 +1247,7 @@ function toggleBannerStatus(i) {
   }
   bannerData[i][3] = !bannerData[i][3];
   renderBanners();
-  showToast(`Banner status updated to ${bannerData[i][3] ? 'Active' : 'Inactive'}`);
+  showToast(`Banner status updated`);
 }
 
 function deleteBanner(i) {
@@ -1095,7 +1258,20 @@ function deleteBanner(i) {
   }
 }
 
+function editBannerModal(i) {
+  const b = bannerData[i];
+  if (!b) return;
+  document.getElementById('bannerModalTitle').textContent = 'Edit Banner Slide';
+  document.getElementById('editBannerIndex').value = i;
+  document.getElementById('bannerHeadline').value = b[0];
+  document.getElementById('bannerSubtext').value = b[1];
+  document.getElementById('bannerImgUrl').value = b[2];
+  document.getElementById('bannerStatus').value = b[3] ? 'Active' : 'Inactive';
+  openModal('bannerModal');
+}
+
 function addNewBanner() {
+  const idx = parseInt(document.getElementById('editBannerIndex').value, 10);
   const head = document.getElementById('bannerHeadline').value.trim();
   const sub = document.getElementById('bannerSubtext').value.trim();
   const imgUrl = document.getElementById('bannerImgUrl').value.trim() || img1;
@@ -1105,20 +1281,27 @@ function addNewBanner() {
     alert('Please enter banner headline');
     return;
   }
-  bannerData.unshift([head, sub, imgUrl, status]);
+
+  if (idx >= 0 && idx < bannerData.length) {
+    bannerData[idx] = [head, sub, imgUrl, status];
+    showToast('Banner slide updated');
+  } else {
+    bannerData.unshift([head, sub, imgUrl, status]);
+    showToast('New banner added');
+  }
+
   renderBanners();
   closeModal('bannerModal');
-  showToast('New banner added');
 }
 
-// BANNER DROPZONE
-const drop = document.getElementById('dropzone');
-const fileInput = document.getElementById('bannerFile');
-if (drop && fileInput) {
-  drop.onclick = () => fileInput.click();
-  fileInput.onchange = () => {
-    if (fileInput.files.length) {
-      showToast(`${fileInput.files.length} banner image(s) uploaded`);
+// INTEGRATED MODAL DROPZONE FOR BANNER UPLOAD
+const modalDrop = document.getElementById('modalDropzone');
+const modalFileInput = document.getElementById('bannerModalFileInput');
+if (modalDrop && modalFileInput) {
+  modalDrop.onclick = () => modalFileInput.click();
+  modalFileInput.onchange = () => {
+    if (modalFileInput.files.length) {
+      showToast(`${modalFileInput.files[0].name} staged for banner`);
     }
   };
 }
@@ -1240,99 +1423,104 @@ function deleteTestimonial(i) {
 }
 
 // =============================================================
-// NAVIGATION & MODALS
+// NAVIGATION & ADMIN DYNAMICS
 // =============================================================
-const pageTitles = {
-  dashboard: 'Dashboard',
-  properties: 'Properties',
-  banners: 'Banner Management',
-  enquiries: 'Customer Enquiries',
-  testimonials: 'Testimonials',
-  profile: 'Admin Settings'
-};
-
 function go(pageId) {
-  closeEnquiry();
   document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
   const target = document.getElementById(pageId);
-  if (target) target.classList.remove('hidden');
+  if (target) {
+    target.classList.remove('hidden');
+    target.classList.add('fade-in');
+  }
 
   document.querySelectorAll('.nav-btn').forEach(btn => {
-    const isCurrent = btn.dataset.page === pageId;
-    btn.classList.toggle('bg-royal', isCurrent);
-    btn.classList.toggle('text-white', isCurrent);
-    btn.classList.toggle('shadow-md', isCurrent);
-    btn.classList.toggle('shadow-royal/30', isCurrent);
-    btn.classList.toggle('font-semibold', isCurrent);
-    btn.classList.toggle('text-slate-300', !isCurrent);
+    if (btn.getAttribute('data-page') === pageId) {
+      btn.className = 'nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-white bg-royal shadow-md shadow-royal/30 transition-all';
+      const ic = btn.querySelector('i');
+      if (ic) ic.className = 'w-4 h-4 text-white';
+    } else {
+      btn.className = 'nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all';
+      const ic = btn.querySelector('i');
+      if (ic) ic.className = 'w-4 h-4 text-slate-400';
+    }
   });
 
-  const crumb = document.getElementById('crumb');
-  if (crumb) crumb.textContent = pageTitles[pageId] || 'Workspace';
-  window.scrollTo(0, 0);
-  lucide.createIcons();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function openModal(id) {
-  const el = document.getElementById(id);
-  if (el) el.classList.remove('hidden'), el.classList.add('flex');
-  lucide.createIcons();
+  const m = document.getElementById(id);
+  if (m) {
+    m.classList.remove('hidden');
+    m.classList.add('flex');
+  }
 }
 
 function closeModal(id) {
-  const el = document.getElementById(id);
-  if (el) el.classList.add('hidden'), el.classList.remove('flex');
-}
-
-function logout() {
-  if (confirm('Logout of V.V Properties Executive Suite?')) {
-    showToast('Session ended');
+  const m = document.getElementById(id);
+  if (m) {
+    m.classList.add('hidden');
+    m.classList.remove('flex');
   }
 }
 
 function showToast(msg) {
   const t = document.getElementById('toast');
   const txt = document.getElementById('toastMsg');
-  if (!t || !txt) return;
-  txt.textContent = msg;
-  t.classList.remove('hidden');
-  clearTimeout(t.timer);
-  t.timer = setTimeout(() => t.classList.add('hidden'), 2800);
+  if (t && txt) {
+    txt.textContent = msg;
+    t.classList.remove('hidden');
+    setTimeout(() => t.classList.add('hidden'), 2800);
+  }
 }
 
-// CHART RANGES
-const ranges = {
-  '1W': { caption: 'Enquiries received during the last 7 days · Demo data', pts: [142,111,119,105,68,83,45], labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] },
-  '1M': { caption: 'Enquiries over the last 30 days · Demo data', pts: [140,125,115,128,83,70,42], labels: ['Week 1','Week 2','Week 3','Week 4','','',''] },
-  '3M': { caption: 'Enquiries over the last 3 months · Demo data', pts: [145,130,110,115,83,65,40], labels: ['Aug','Sep','Oct','','','',''] },
-  '6M': { caption: 'Enquiries over the last 6 months · Demo data', pts: [150,138,117,105,79,64,35], labels: ['Jun','Jul','Aug','Sep','Oct','Nov',''] },
-  '1Y': { caption: 'Enquiries over the last 12 months · Demo data', pts: [153,139,132,111,92,69,32], labels: ['Dec','Feb','Apr','Jun','Aug','Oct','Nov'] }
-};
+function logout() {
+  if (confirm('Log out from V.V Properties Executive Admin Workspace?')) {
+    showToast('Signing out...');
+    setTimeout(() => {
+      window.location.reload();
+    }, 600);
+  }
+}
 
-document.getElementById('ranges')?.querySelectorAll('button').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('#ranges button').forEach(b => {
-      b.classList.remove('bg-white', 'text-royal', 'shadow-sm');
-      b.classList.add('text-slate-600');
-    });
-    btn.classList.add('bg-white', 'text-royal', 'shadow-sm');
-    btn.classList.remove('text-slate-600');
+// DYNAMIC ADMIN USERNAME INITIAL ('V' BY DEFAULT, RESPONDS TO ADMIN USERNAME)
+function updateAdminName(name) {
+  const trimmed = name.trim();
+  const initial = trimmed ? trimmed.charAt(0).toUpperCase() : 'V';
+  
+  const headerInit = document.getElementById('headerAdminInitial');
+  if (headerInit) headerInit.textContent = initial;
+  
+  const sideInit = document.getElementById('sidebarAdminInitial');
+  if (sideInit) sideInit.textContent = initial;
 
-    const d = ranges[btn.dataset.range];
-    const xs = [40, 135, 230, 325, 420, 515, 610];
-    const points = d.pts.map((y, i) => `${xs[i]},${y}`).join(' ');
-    document.getElementById('chartLine').setAttribute('points', points);
-    document.getElementById('chartArea').setAttribute('d', `M${xs[0]} ${d.pts[0]} ` + xs.slice(1).map((x, i) => `L${x} ${d.pts[i+1]}`).join(' ') + ' L610 175 L40 175 Z');
-    document.getElementById('chartCaption').textContent = d.caption;
-  };
+  const profInit = document.getElementById('profileInitial');
+  if (profInit) profInit.textContent = initial;
+
+  const headerName = document.getElementById('headerAdminName');
+  if (headerName) headerName.textContent = trimmed || 'Administrator';
+
+  const sideName = document.getElementById('sidebarAdminName');
+  if (sideName) sideName.textContent = trimmed || 'Administrator';
+
+  const profName = document.getElementById('profileDisplayName');
+  if (profName) profName.textContent = trimmed || 'Administrator';
+}
+
+// INITIALIZATION
+window.addEventListener('DOMContentLoaded', () => {
+  // Set real formatted live date in header
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  const dateEl = document.getElementById('liveHeaderDate');
+  if (dateEl) dateEl.textContent = dateStr;
+
+  renderProperties();
+  renderBanners();
+  renderEnquiries();
+  renderTestimonials();
+  lucide.createIcons();
 });
-
-// INITIAL RENDER
-renderProperties();
-renderBanners();
-renderEnquiries();
-renderTestimonials();
-lucide.createIcons();
 </script>
 </body>
 </html>

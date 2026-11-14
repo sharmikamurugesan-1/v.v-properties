@@ -75,8 +75,8 @@ export default function PropertyCard({ property, featured = false }: PropertyCar
         </span>
       </div>
 
-      {/* ── Top Right: Vertical 3-Dots (⋮) Menu Button ────────── */}
-      <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5">
+      {/* ── Top Right: Vertical 3-Dots (⋮) Menu Button (On Hover Only) ────────── */}
+      <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
         <button
           type="button"
           onClick={(e) => {
