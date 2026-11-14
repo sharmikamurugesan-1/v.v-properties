@@ -6,7 +6,7 @@
   <title>V.V PROPERTIES · Executive Admin Suite</title>
   <link rel="icon" type="image/png" href="logo.png">
 
-  <!-- Inter / Intel Typography -->
+  <!-- Inter Font - Standard Body Text & UI -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -55,8 +55,11 @@
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <style>
+    /* Strict Global Inter Font */
+    *, html, body, h1, h2, h3, h4, h5, h6, p, span, button, input, select, textarea, table, th, td {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -84,20 +87,20 @@
 <body class="h-full bg-slate-50 text-slate-800 flex overflow-hidden text-xs">
 
   <!-- ======================================================== -->
-  <!-- 1. AUTHENTICATION / LOGIN SCREEN OVERLAY (24-HR EXPIRY)  -->
+  <!-- 1. AUTHENTICATION / LOGIN SCREEN (ONLY USERNAME & PW)    -->
   <!-- ======================================================== -->
   <div id="loginScreen" class="fixed inset-0 z-[100] bg-navy-950 flex items-center justify-center p-4">
-    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
+    <div class="w-full max-w-sm bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
       <!-- Header -->
       <div class="bg-navy-900 p-8 text-center text-white relative">
         <div class="w-16 h-16 mx-auto mb-3 rounded-2xl bg-white/10 p-2 flex items-center justify-center border border-white/20 backdrop-blur-sm">
           <img src="logo.png" alt="V.V Properties Logo" class="w-full h-full object-contain mix-blend-lighten">
         </div>
         <h1 class="text-xl font-extrabold tracking-wider font-sans">V.V PROPERTIES</h1>
-        <p class="text-xs text-slate-400 mt-1 font-medium">Executive Admin & Listing Management Suite</p>
+        <p class="text-xs text-slate-400 mt-1 font-medium">Executive Administration Portal</p>
       </div>
 
-      <!-- Login Form -->
+      <!-- Professional Login Form (ONLY Username, Password, and Submit button) -->
       <form onsubmit="handleLoginSubmit(event)" class="p-8 space-y-4">
         <div id="loginError" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-600 text-xs font-semibold">
           Invalid username or password. Please try again.
@@ -119,30 +122,10 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between text-[11px] text-slate-500 pt-1">
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" id="rememberMe" checked class="rounded border-slate-300 text-royal focus:ring-royal">
-            <span>Keep signed in for 24 hours</span>
-          </label>
-          <span class="text-slate-400">Secure Session</span>
-        </div>
-
         <button type="submit" class="w-full py-3 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all flex items-center justify-center gap-2 mt-2">
           <i data-lucide="log-in" class="w-4 h-4"></i>
-          <span>Sign In to Executive Suite</span>
+          <span>Sign In to Portal</span>
         </button>
-
-        <!-- Quick Switcher for Demo Team Accounts -->
-        <div class="pt-4 border-t border-slate-100">
-          <p class="text-[11px] font-semibold text-slate-400 text-center mb-2.5">Demo Team Accounts (Password is same as Username):</p>
-          <div class="flex flex-wrap gap-1.5 justify-center">
-            <button type="button" onclick="fillQuickLogin('victor', 'victor')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-navy-900 transition-colors">Victor (Super Admin)</button>
-            <button type="button" onclick="fillQuickLogin('saran', 'saran')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-navy-900 transition-colors">Saran</button>
-            <button type="button" onclick="fillQuickLogin('vibhkar', 'vibhkar')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-navy-900 transition-colors">Vibhkar</button>
-            <button type="button" onclick="fillQuickLogin('umeshwar', 'umeshwar')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-navy-900 transition-colors">Umeshwar</button>
-            <button type="button" onclick="fillQuickLogin('sharmika', 'sharmika')" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-[11px] font-bold text-navy-900 transition-colors">Sharmika</button>
-          </div>
-        </div>
       </form>
     </div>
   </div>
@@ -268,7 +251,7 @@
     <main class="flex-1 overflow-y-auto p-8 relative" id="mainContainer">
 
       <!-- ======================================================= -->
-      <!-- PAGE: DASHBOARD                                         -->
+      <!-- PAGE: DASHBOARD (NO ADD PROPERTY BUTTON ON TOP RIGHT)   -->
       <!-- ======================================================= -->
       <section id="dashboard" class="page-view space-y-6">
         <div>
@@ -338,7 +321,7 @@
         <!-- 2-COLUMN: PERFORMANCE GRAPH + PRIORITY LEADS (ONLY NEW STATUS, 4 LEADS) -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-          <!-- Performance Graph (Dynamic Ranges: 24h, 1W, 3M, 6M, 1Y, Custom with Calender) -->
+          <!-- Performance Graph with Dropdown Menu & Dense Ondulating Curves -->
           <div class="lg:col-span-2 bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
             <div>
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
@@ -347,29 +330,29 @@
                   <p class="text-xs text-slate-400 font-medium">Customer outreach trends and lead velocity across channels</p>
                 </div>
 
-                <!-- Range Filter Buttons -->
-                <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-bold text-slate-600 self-start sm:self-auto relative">
-                  <button type="button" onclick="setChartRange('24h')" id="chart-btn-24h" class="chart-tab px-2.5 py-1 rounded-lg hover:text-navy-900 transition-colors">24h</button>
-                  <button type="button" onclick="setChartRange('1W')" id="chart-btn-1W" class="chart-tab px-2.5 py-1 rounded-lg bg-white shadow-sm text-royal transition-colors">1W</button>
-                  <button type="button" onclick="setChartRange('3M')" id="chart-btn-3M" class="chart-tab px-2.5 py-1 rounded-lg hover:text-navy-900 transition-colors">3M</button>
-                  <button type="button" onclick="setChartRange('6M')" id="chart-btn-6M" class="chart-tab px-2.5 py-1 rounded-lg hover:text-navy-900 transition-colors">6M</button>
-                  <button type="button" onclick="setChartRange('1Y')" id="chart-btn-1Y" class="chart-tab px-2.5 py-1 rounded-lg hover:text-navy-900 transition-colors">1Y</button>
-                  <button type="button" onclick="toggleCustomDatePicker()" id="chart-btn-custom" class="chart-tab px-2.5 py-1 rounded-lg hover:text-navy-900 transition-colors flex items-center gap-1">
-                    <span>Custom</span>
-                    <i data-lucide="calendar" class="w-3 h-3"></i>
-                  </button>
+                <!-- DROPDOWN MENU FOR TIME RANGES (AS REQUESTED) -->
+                <div class="flex items-center gap-2 relative">
+                  <select id="chartRangeSelect" onchange="handleChartRangeSelect(this.value)" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-royal/20 shadow-sm cursor-pointer">
+                    <option value="24h">24 Hours</option>
+                    <option value="1W">1 Week</option>
+                    <option value="1M">1 Month</option>
+                    <option value="3M" selected>3 Months (Jun - Sep)</option>
+                    <option value="6M">6 Months</option>
+                    <option value="1Y">1 Year</option>
+                    <option value="custom">Customize Date Range...</option>
+                  </select>
 
-                  <!-- Custom Date Picker Popover -->
+                  <!-- Custom Date Picker Popover Modal -->
                   <div id="customDatePopover" class="hidden absolute right-0 top-10 bg-white rounded-2xl shadow-2xl border border-slate-200 p-4 z-40 w-72 space-y-3">
-                    <p class="font-bold text-navy-900 text-xs">Select Date Range</p>
+                    <p class="font-bold text-navy-900 text-xs">Select Custom Date Range</p>
                     <div class="space-y-2">
                       <div>
                         <label class="block text-[10px] font-bold text-slate-400 uppercase">From Date</label>
-                        <input type="date" id="customFromDate" value="2026-07-14" class="w-full px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs outline-none">
+                        <input type="date" id="customFromDate" value="2026-06-14" class="w-full px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs outline-none cursor-pointer">
                       </div>
                       <div>
                         <label class="block text-[10px] font-bold text-slate-400 uppercase">To Date</label>
-                        <input type="date" id="customToDate" value="2026-10-14" class="w-full px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs outline-none">
+                        <input type="date" id="customToDate" value="2026-09-14" class="w-full px-2.5 py-1.5 border border-slate-200 rounded-lg text-xs outline-none cursor-pointer">
                       </div>
                     </div>
                     <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
@@ -380,12 +363,12 @@
                 </div>
               </div>
 
-              <!-- SVG Line Chart with Dynamic Points -->
+              <!-- DENSE UNDULATING SVG LINE GRAPH ('kosa kosa nu' realistic traffic curves) -->
               <div class="relative h-48 w-full mt-2">
                 <svg viewBox="0 0 500 150" class="w-full h-full overflow-visible" preserveAspectRatio="none">
                   <defs>
                     <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#0F52BA" stop-opacity="0.25"/>
+                      <stop offset="0%" stop-color="#0F52BA" stop-opacity="0.3"/>
                       <stop offset="100%" stop-color="#0F52BA" stop-opacity="0"/>
                     </linearGradient>
                   </defs>
@@ -395,31 +378,25 @@
                   <line x1="0" y1="110" x2="500" y2="110" stroke="#F1F5F9" stroke-width="1.5" />
 
                   <!-- Area Fill -->
-                  <polygon id="chartArea" points="0,110 80,75 160,85 240,65 320,35 400,50 500,20 500,150 0,150" fill="url(#chartGrad)"/>
+                  <polygon id="chartArea" points="0,110 35,95 70,80 105,90 140,65 175,70 210,50 245,60 280,40 315,55 350,30 385,45 420,25 460,35 500,18 500,150 0,150" fill="url(#chartGrad)"/>
                   <!-- Line Curve -->
-                  <polyline id="chartPolyline" fill="none" stroke="#0F52BA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" points="0,110 80,75 160,85 240,65 320,35 400,50 500,20"/>
+                  <polyline id="chartPolyline" fill="none" stroke="#0F52BA" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" points="0,110 35,95 70,80 105,90 140,65 175,70 210,50 245,60 280,40 315,55 350,30 385,45 420,25 460,35 500,18"/>
                   <!-- Data Circles -->
                   <g id="chartPoints">
-                    <circle cx="0" cy="110" r="4" fill="#0F52BA" stroke="#fff" stroke-width="2"/>
-                    <circle cx="80" cy="75" r="4" fill="#0F52BA" stroke="#fff" stroke-width="2"/>
-                    <circle cx="160" cy="85" r="4" fill="#0F52BA" stroke="#fff" stroke-width="2"/>
-                    <circle cx="240" cy="65" r="4" fill="#0F52BA" stroke="#fff" stroke-width="2"/>
-                    <circle cx="320" cy="35" r="4" fill="#0F52BA" stroke="#fff" stroke-width="2"/>
-                    <circle cx="400" cy="50" r="4" fill="#0F52BA" stroke="#fff" stroke-width="2"/>
-                    <circle cx="500" cy="20" r="4" fill="#0F52BA" stroke="#fff" stroke-width="2"/>
+                    <!-- Populated dynamically -->
                   </g>
                 </svg>
               </div>
 
-              <!-- Dynamic X-Axis Labels -->
+              <!-- Dynamic X-Axis Labels (For 3M: June, July, August, September - June to September) -->
               <div class="flex justify-between text-[11px] font-semibold text-slate-400 mt-3 pt-2 border-t border-slate-100" id="chartXAxis">
-                <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
+                <span>June</span><span>July</span><span>August</span><span>September</span>
               </div>
             </div>
 
             <div class="mt-3 text-[11px] font-medium text-slate-400 flex items-center justify-between">
               <span>Verified traffic from Google Search and direct website visitors</span>
-              <span id="chartRangeIndicator" class="font-bold text-royal">Active Range: Last 7 Days</span>
+              <span id="chartRangeIndicator" class="font-bold text-royal">Active Range: June - September</span>
             </div>
           </div>
 
@@ -429,7 +406,7 @@
               <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-2">
                 <div>
                   <h3 class="font-sans font-bold text-navy-900 text-sm">Priority Leads</h3>
-                  <p class="text-xs text-slate-400 font-medium">Needs prompt follow-up (Status: New)</p>
+                  <p class="text-xs text-slate-400 font-medium">Fresh incoming inquiries (New Only)</p>
                 </div>
                 <button onclick="go('enquiries')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
                   <span>View All</span>
@@ -498,13 +475,6 @@
               <option value="Guindy">Guindy</option>
               <option value="Thiruvanmiyur">Thiruvanmiyur</option>
             </select>
-            <select id="propFilterType" onchange="filterProperties()" class="px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-royal/20">
-              <option value="All">All Types</option>
-              <option value="Apartment">Apartment</option>
-              <option value="Villa">Villa</option>
-              <option value="Residential Plot">Residential Plot</option>
-              <option value="Commercial">Commercial</option>
-            </select>
             <select id="propFilterBadge" onchange="filterProperties()" class="px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 outline-none focus:ring-2 focus:ring-royal/20">
               <option value="All">All Badges</option>
               <option value="Featured">Featured</option>
@@ -516,7 +486,7 @@
           </div>
         </div>
 
-        <!-- Property Grid (10 properties: 70% visible top photo, clean bottom gradient, ₹.. L price format) -->
+        <!-- Property Grid (10 properties: 4 have cover images, 6 have placeholder boxes, clean hover overlay) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="propertyCards">
           <!-- Populated dynamically -->
         </div>
@@ -604,7 +574,7 @@
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: ADMIN (REFER TO FIRST IMAGE media_..._5d1b4c3b)   -->
+      <!-- PAGE: ADMIN                                             -->
       <!-- ======================================================= -->
       <section id="admin" class="page-view hidden space-y-6">
         <div>
@@ -720,22 +690,20 @@
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: ACTIVITY AUDIT LOGS (JSON + 14-DAY AUTO PRUNING)  -->
+      <!-- PAGE: ACTIVITY AUDIT LOGS (NO PRUNE 14 DAYS BUTTON)     -->
       <!-- ======================================================= -->
       <section id="logs" class="page-view hidden space-y-5">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-1">
           <div>
             <h1 class="text-2xl lg:text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Activity Audit Logs</h1>
-            <p class="text-xs lg:text-sm text-slate-500 mt-0.5 font-medium">Immutable audit trail of portal actions within the rolling 14-day compliance window.</p>
+            <p class="text-xs lg:text-sm text-slate-500 mt-0.5 font-medium">Chronological system audit trail with automatic 14-day pruning & JSON export.</p>
           </div>
+          <!-- Top Right: ONLY Download activity_logs.json (Download JSON only) -->
           <div class="flex items-center gap-2">
             <button onclick="exportLogsJson()" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-navy-900 text-xs font-bold shadow-sm transition-all">
               <i data-lucide="download" class="w-4 h-4 text-royal"></i>
-              <span>Export JSON</span>
+              <span>Download activity_logs.json</span>
             </button>
-            <span class="px-3 py-1.5 rounded-xl bg-royal/10 text-royal text-xs font-bold border border-royal/20">
-              14-Day Rolling Retention
-            </span>
           </div>
         </div>
 
@@ -751,10 +719,11 @@
             <table class="w-full text-left text-xs">
               <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
                 <tr>
+                  <th class="px-6 py-3.5">Admin User</th>
+                  <th class="px-6 py-3.5">Action Summary</th>
+                  <th class="px-6 py-3.5">Module</th>
                   <th class="px-6 py-3.5">Timestamp</th>
-                  <th class="px-6 py-3.5">Actor</th>
-                  <th class="px-6 py-3.5">Category</th>
-                  <th class="px-6 py-3.5">Action Event Description</th>
+                  <th class="px-6 py-3.5 text-right">Status</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="activityLogsBody">
@@ -769,7 +738,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- MODAL: ADD / EDIT PROPERTY (SUBTLE LABELS, NO *, GALLERY)-->
+  <!-- MODAL: ADD / EDIT PROPERTY                               -->
   <!-- ======================================================== -->
   <div class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 modal-overlay" id="propertyModal">
     <div class="bg-white rounded-2xl w-full max-w-2xl shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
@@ -786,24 +755,22 @@
             <label class="block font-medium text-slate-500 mb-1">Property Name</label>
             <input id="propNameInput" placeholder="e.g. Prestige Bella Vista" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
           </div>
+
+          <!-- PROPERTY TYPE (CLEAN TEXT INPUT, NOT A DROPDOWN) -->
           <div>
             <label class="block font-medium text-slate-500 mb-1">Property Type</label>
-            <select id="propTypeInput" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none bg-white">
-              <option value="Apartment · 2 BHK">Apartment · 2 BHK</option>
-              <option value="Apartment · 3 BHK">Apartment · 3 BHK</option>
-              <option value="Villa · 3 BHK">Villa · 3 BHK</option>
-              <option value="Villa · 4 BHK">Villa · 4 BHK</option>
-              <option value="Residential Plot">Residential Plot</option>
-              <option value="Commercial">Commercial</option>
-            </select>
+            <input id="propTypeInput" placeholder="e.g. Villa · 4 BHK, Apartment · 3 BHK" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
           </div>
+
           <div>
             <label class="block font-medium text-slate-500 mb-1">Location / Area</label>
             <input id="propLocInput" placeholder="e.g. Porur, Chennai" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
           </div>
+
+          <!-- PRICE (CLEAN LABEL WITHOUT EXAMPLE TEXT) -->
           <div>
             <label class="block font-medium text-slate-500 mb-1">Price</label>
-            <input id="propPriceInput" placeholder="e.g. ₹78 L" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
+            <input id="propPriceInput" placeholder="₹78 L or ₹1.85 Cr" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
           </div>
           
           <!-- BADGE TAG -->
@@ -820,15 +787,15 @@
 
           <!-- DESCRIPTION TEXTAREA -->
           <div class="col-span-2">
-            <label class="block font-medium text-slate-500 mb-1">Property Description</label>
-            <textarea id="propDescInput" rows="2" placeholder="Enter key features, architectural highlights, and neighborhood proximity..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none"></textarea>
+            <label class="block font-medium text-slate-500 mb-1">Description</label>
+            <textarea id="propDescInput" rows="2" placeholder="Panoramic luxury residence with modern architecture, landscaped gardens, and premium amenities." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none"></textarea>
           </div>
 
-          <!-- COVER IMAGE SECTION: ONE IMAGE WITH UPDATE & DELETE, OR SQUARE DRAG-DROP -->
+          <!-- COVER IMAGE SECTION: ONE IMAGE WITH UPDATE & DELETE (NO URL LINK TEXT) -->
           <div class="col-span-2 pt-2 border-t border-slate-100">
             <label class="block font-medium text-slate-500 mb-1.5">Cover Image</label>
             <div id="coverImageContainer" class="flex items-center gap-4">
-              <!-- Dynamically rendered -->
+              <!-- Rendered cleanly without URL link text -->
             </div>
             <input type="file" id="propCoverFileInput" accept="image/*" class="hidden">
             <input type="hidden" id="propCoverImageVal" value="">
@@ -836,7 +803,10 @@
 
           <!-- GALLERY IMAGES (5 IMAGES WITH UPDATE & DELETE OPTIONS) -->
           <div class="col-span-2 pt-2 border-t border-slate-100">
-            <label class="block font-medium text-slate-500 mb-1.5">Gallery Images (5 Key Views: Room, Pool, Kitchen, Balcony, Facade)</label>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="font-medium text-slate-500">Gallery Images (5 Photos)</label>
+              <span class="text-[10px] text-slate-400">Room, Swimming Pool, Kitchen, Balcony, Exterior</span>
+            </div>
             <div class="grid grid-cols-5 gap-3" id="galleryContainer">
               <!-- 5 gallery slots dynamically rendered with Update & Delete options -->
             </div>
@@ -890,7 +860,7 @@
   </div>
 
   <!-- ======================================================== -->
-  <!-- MODAL: ADD BANNER (WITH DRAG & DROP UPLOAD OVERLAY)       -->
+  <!-- MODAL: ADD BANNER                                        -->
   <!-- ======================================================== -->
   <div class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 modal-overlay" id="bannerModal">
     <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 overflow-hidden">
@@ -910,7 +880,6 @@
           <input id="bannerSubInput" placeholder="e.g. Explore hand-picked luxury apartments and gated villas" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
         </div>
 
-        <!-- DRAG & DROP UPLOAD OVERLAY BOX -->
         <div>
           <label class="block font-medium text-slate-500 mb-1">Banner Image Upload</label>
           <div id="bannerDropZone" onclick="document.getElementById('bannerFileInput').click()" class="border-2 border-dashed border-royal/40 rounded-2xl p-6 text-center bg-royal/5 hover:bg-royal/10 transition-all cursor-pointer">
@@ -943,13 +912,11 @@
       <div class="p-6 space-y-4 text-xs">
         <input type="hidden" id="editTestIndex" value="-1">
         
-        <!-- 1. NAME (SUBTLE LABEL, NO *) -->
         <div>
           <label class="block font-medium text-slate-500 mb-1">Client Name</label>
           <input id="testNameInput" placeholder="Enter client name" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
         </div>
 
-        <!-- 2. STAR RATING (FIXED 5 CLICKABLE STARS, NO DROPDOWN) -->
         <div>
           <label class="block font-medium text-slate-500 mb-1.5">Rating (Click to select)</label>
           <div class="flex items-center gap-1.5 text-amber-400" id="starRatingSelector">
@@ -958,13 +925,11 @@
           <input type="hidden" id="testStarsInput" value="5">
         </div>
 
-        <!-- 3. LOCATION (SUBTLE LABEL, NO *) -->
         <div>
           <label class="block font-medium text-slate-500 mb-1">Location / Community</label>
           <input id="testLocationInput" placeholder="Enter city or area (e.g. Porur, Chennai)" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
         </div>
 
-        <!-- 4. FEEDBACK (SUBTLE LABEL, NO *) -->
         <div>
           <label class="block font-medium text-slate-500 mb-1">Client Feedback</label>
           <textarea id="testFeedbackInput" rows="3" placeholder="Enter client feedback review..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none"></textarea>
@@ -1023,7 +988,6 @@
   <!-- SLIDE-OUT DRAWER: CUSTOMER ENQUIRY (CLEAN HEADER, DOWN BTNS) -->
   <!-- ======================================================== -->
   <div id="enquiryDrawer" class="fixed inset-y-0 right-0 w-full max-w-md bg-white border-l border-slate-200 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col">
-    <!-- TOP: NAME ON TOP, PHONE NUMBER DOWN (NO 'Customer Inquiry Dossier' SUBTITLE) -->
     <div class="flex items-start justify-between pb-4 border-b border-slate-100">
       <div class="flex items-center gap-3">
         <div id="eAvatar" class="w-11 h-11 rounded-full bg-ice text-royal font-extrabold flex items-center justify-center text-base shadow-sm border border-ice-border flex-shrink-0">S</div>
@@ -1038,13 +1002,11 @@
     </div>
 
     <div class="flex-1 overflow-y-auto py-4 space-y-4 text-xs">
-      <!-- PROPERTY OF INTEREST (APARTMENT WITH LOCATION) -->
       <div>
         <label class="block font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-1">Property of Interest</label>
         <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 text-navy-900 font-bold text-xs" id="eProperty">Prestige Bella Vista, Porur, Chennai</div>
       </div>
 
-      <!-- LABEL AS -->
       <div>
         <label class="block font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-1">Label As</label>
         <div class="px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 font-bold text-slate-700 text-xs flex items-center justify-between" id="eStatusBadge">
@@ -1053,7 +1015,6 @@
         </div>
       </div>
 
-      <!-- EMAIL ADDRESS -->
       <div>
         <label class="block font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-1">Email Address</label>
         <div class="p-3 rounded-xl border border-slate-100 bg-slate-50 text-navy-900 font-semibold text-xs" id="eEmail">suresh@gmail.com</div>
@@ -1103,27 +1064,26 @@
     const img5 = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80';
     const img6 = 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80';
 
-    // 10 UNIQUE LUXURY PROPERTIES (NO 'LAKE VIEW RESIDENCY' DUPLICATES, PRICE IN 'L', ONLY 4 BADGES)
+    // 10 UNIQUE PROPERTIES: 4 HAVE COVER IMAGES, 6 HAVE NO COVER IMAGE (AS REQUESTED)
     let properties = [
-      ['Prestige Bella Vista', 'Porur, Chennai', '₹78 L', 'Featured', 'Apartment', ['Swimming Pool', 'Covered Parking'], img1, 'Premium gated community with 30+ lifestyle amenities.'],
-      ['Casagrand Zenith', 'Medavakkam', '₹1.25 Cr', 'Special Offer', 'Villa', ['Private Garden', 'Swimming Pool'], img2, 'Contemporary Mediterranean style villa with private lawn.'],
+      ['Prestige Bella Vista', 'Porur, Chennai', '₹78 L', 'Featured', 'Apartment · 2 BHK', ['Swimming Pool', 'Covered Parking'], img1, 'Premium gated community with 30+ lifestyle amenities.'],
+      ['Casagrand Zenith', 'Medavakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 3 BHK', ['Private Garden', 'Swimming Pool'], img2, 'Contemporary Mediterranean style villa with private lawn.'],
       ['TVS Emerald Greenacres', 'Tambaram', '₹32 L', 'New Launch', 'Residential Plot', ['40ft Road'], img3, 'CMDA & RERA approved gated villa plots near outer ring road.'],
-      ['Appaswamy Trellis', 'Vadapalani', '₹1.10 Cr', 'Hot Deal', 'Apartment', ['Gym', 'Swimming Pool'], img4, 'Heart of the city high-rise apartments with metro connectivity.'],
-      ['Akshaya Today', 'OMR, Chennai', '₹95 L', 'None', 'Villa', ['Private Garden'], img5, 'Thai-style luxury homes overlooking lush greenery and IT corridor.'],
-      ['Radiance Empire', 'Perambur', '₹1.65 Cr', 'None', 'Apartment', ['Clubhouse'], img6, 'Signature high-rise towers with panoramic central Chennai skyline views.'],
-      ['Oceanique Beachfront', 'ECR, Chennai', '₹2.40 Cr', 'None', 'Villa', ['Sea View', 'Private Pool'], img2, 'Direct private beach access with infinity sea-facing deck.'],
-      ['Brigade Xanadu', 'Mogappair', '₹88 L', 'None', 'Apartment', ['Private Garden'], img1, 'Spanish architecture homes with wide landscaped courtyards.'],
-      ['Olympia Technology Park', 'Guindy', '₹3.10 Cr', 'None', 'Commercial', ['Power Backup'], img5, 'Prime Grade-A commercial office floors next to metro transit.'],
-      ['Ceebros Boulevard', 'Thiruvanmiyur', '₹1.45 Cr', 'None', 'Apartment', ['Sea View'], img3, 'Boutique sea-breeze apartments steps from the coastal boulevard.']
+      ['Appaswamy Trellis', 'Vadapalani', '₹1.10 Cr', 'Hot Deal', 'Apartment · 3 BHK', ['Gym', 'Swimming Pool'], img4, 'Heart of the city high-rise apartments with metro connectivity.'],
+      ['Akshaya Today', 'OMR, Chennai', '₹95 L', 'None', 'Villa · 3 BHK', ['Private Garden'], '', 'Thai-style luxury homes overlooking lush greenery and IT corridor.'],
+      ['Radiance Empire', 'Perambur', '₹1.65 Cr', 'None', 'Apartment · 3 BHK', ['Clubhouse'], '', 'Signature high-rise towers with panoramic central Chennai skyline views.'],
+      ['Oceanique Beachfront', 'ECR, Chennai', '₹2.40 Cr', 'None', 'Villa · 4 BHK', ['Sea View', 'Private Pool'], '', 'Direct private beach access with infinity sea-facing deck.'],
+      ['Brigade Xanadu', 'Mogappair', '₹88 L', 'None', 'Apartment · 2 BHK', ['Private Garden'], '', 'Spanish architecture homes with wide landscaped courtyards.'],
+      ['Olympia Technology Park', 'Guindy', '₹3.10 Cr', 'None', 'Commercial', ['Power Backup'], '', 'Prime Grade-A commercial office floors next to metro transit.'],
+      ['Ceebros Boulevard', 'Thiruvanmiyur', '₹1.45 Cr', 'None', 'Apartment · 3 BHK', ['Sea View'], '', 'Boutique sea-breeze apartments steps from the coastal boulevard.']
     ];
 
-    // Current property gallery (5 images)
     let currentGalleryImages = [img1, img2, img3, img4, img5];
-    let currentCoverImage = img1;
+    let currentCoverImage = '';
     let currentAmenitiesList = [];
 
     // =========================================================
-    // 1. AUTHENTICATION & SESSION MANAGEMENT (24-HR EXPIRY)
+    // 1. AUTHENTICATION (STRICT 24-HR EXPIRY FOR NON-ADMIN)
     // =========================================================
     const defaultAccounts = [
       { name: 'Victor Paul', username: 'victor', role: 'Super Administrator', status: 'Active', created: '14 Nov 2026' },
@@ -1142,7 +1102,19 @@
         try {
           const auth = JSON.parse(stored);
           const now = Date.now();
-          if (auth.expiry && auth.expiry > now) {
+          const isAdmin = (auth.username && auth.username.toLowerCase() === 'victor') || (auth.role === 'Super Administrator');
+
+          // Strict 24-Hour Expiry for non-admin users
+          if (!isAdmin && auth.expiry && now > auth.expiry) {
+            localStorage.removeItem('vv_auth');
+            document.cookie = 'vv_auth=; path=/; max-age=0';
+            currentUser = null;
+            document.getElementById('loginScreen').classList.remove('hidden');
+            showToast('Session expired after 24 hours. Please log in again.');
+            return false;
+          }
+
+          if (isAdmin || (auth.expiry && auth.expiry > now)) {
             currentUser = auth;
             applyUserToUI(auth);
             document.getElementById('loginScreen').classList.add('hidden');
@@ -1150,7 +1122,6 @@
           }
         } catch (e) {}
       }
-      // Not authenticated or expired (>24 hrs)
       document.getElementById('loginScreen').classList.remove('hidden');
       return false;
     }
@@ -1170,18 +1141,11 @@
       if (adminUserInput) adminUserInput.value = u.username || 'victor';
     }
 
-    function fillQuickLogin(u, p) {
-      document.getElementById('loginUsername').value = u;
-      document.getElementById('loginPassword').value = p;
-      document.getElementById('loginError').classList.add('hidden');
-    }
-
     function handleLoginSubmit(e) {
       e.preventDefault();
       const u = document.getElementById('loginUsername').value.trim().toLowerCase();
       const p = document.getElementById('loginPassword').value.trim();
 
-      // Check against accounts or match username==password
       const match = accounts.find(a => a.username.toLowerCase() === u);
       if ((match && p.toLowerCase() === match.username.toLowerCase()) || (u === 'victor' && p === 'victor')) {
         const displayName = match ? match.name : (u.charAt(0).toUpperCase() + u.slice(1));
@@ -1192,7 +1156,7 @@
           displayName: displayName,
           role: role,
           loginTime: Date.now(),
-          expiry: Date.now() + (24 * 60 * 60 * 1000) // 24 Hours valid
+          expiry: Date.now() + (24 * 60 * 60 * 1000) // 24 Hours validity
         };
 
         localStorage.setItem('vv_auth', JSON.stringify(authData));
@@ -1201,7 +1165,7 @@
         currentUser = authData;
         applyUserToUI(authData);
         document.getElementById('loginScreen').classList.add('hidden');
-        logActivity(`User ${displayName} signed in to portal session`, 'Security');
+        logActivity(`User "${displayName}" signed in to portal`, 'Authentication');
         showToast(`Welcome back, ${displayName}`);
       } else {
         document.getElementById('loginError').classList.remove('hidden');
@@ -1211,7 +1175,7 @@
     function logout() {
       if (confirm('Logout of V.V Properties Executive Suite?')) {
         const name = currentUser?.displayName || 'User';
-        logActivity(`${name} logged out of session`, 'Security');
+        logActivity(`${name} logged out of session`, 'Authentication');
         localStorage.removeItem('vv_auth');
         document.cookie = 'vv_auth=; path=/; max-age=0';
         currentUser = null;
@@ -1224,10 +1188,14 @@
     // 2. ACTIVITY LOGS (JSON STORAGE & 14-DAY AUTO PRUNING)
     // =========================================================
     let activityLogs = JSON.parse(localStorage.getItem('vv_activity_logs_json')) || [
-      { id: 1, timestamp: Date.now() - 15 * 60 * 1000, username: 'victor', action: 'System health check - Port 3000 & 5000 responsive', section: 'System', dateStr: 'Today, 10:45 AM' },
-      { id: 2, timestamp: Date.now() - 2 * 3600 * 1000, username: 'saran', action: 'Reviewed priority inquiries and updated follow-up status', section: 'Leads', dateStr: 'Today, 08:30 AM' },
-      { id: 3, timestamp: Date.now() - 26 * 3600 * 1000, username: 'vibhkar', action: 'Updated listing price for Casagrand Zenith to ₹1.25 Cr', section: 'Properties', dateStr: 'Yesterday, 04:15 PM' },
-      { id: 4, timestamp: Date.now() - 3 * 86400 * 1000, username: 'sharmika', action: 'Published new promotional carousel banner', section: 'Banners', dateStr: '11 Nov 2026, 02:20 PM' }
+      { id: 1, timestamp: Date.now() - 10 * 60 * 1000, username: 'Victor Paul', action: 'Updated testimonial from "Meena R"', module: 'Testimonials', dateStr: 'Just now', status: 'Success' },
+      { id: 2, timestamp: Date.now() - 25 * 60 * 1000, username: 'Victor Paul', action: 'Reviewed new inquiry from Suresh Kumar (Label moved to None)', module: 'Enquiries', dateStr: 'Just now', status: 'Success' },
+      { id: 3, timestamp: Date.now() - 40 * 60 * 1000, username: 'Victor Paul', action: 'Deactivated carousel banner "A Better Address for Your Growing Family"', module: 'Banners', dateStr: 'Just now', status: 'Success' },
+      { id: 4, timestamp: Date.now() - 55 * 60 * 1000, username: 'Victor Paul', action: 'Deactivated carousel banner "Find Your Dream Luxury Home in Chennai"', module: 'Banners', dateStr: 'Just now', status: 'Success' },
+      { id: 5, timestamp: Date.now() - 70 * 60 * 1000, username: 'Victor Paul', action: 'User "Victor Paul" signed in', module: 'Authentication', dateStr: 'Just now', status: 'Success' },
+      { id: 6, timestamp: Date.now() - 2 * 3600 * 1000, username: 'Victor Paul', action: 'Reviewed lead dossier for Suresh Kumar', module: 'Enquiries', dateStr: 'Today, 11:42 AM', status: 'Success' },
+      { id: 7, timestamp: Date.now() - 4 * 3600 * 1000, username: 'Victor Paul', action: 'Updated listing price for Emerald Bay Villas to ₹1.85 Cr', module: 'Properties', dateStr: 'Today, 10:15 AM', status: 'Success' },
+      { id: 8, timestamp: Date.now() - 24 * 3600 * 1000, username: 'Sharmika Murugesan', action: 'Reordered carousel slide display priority', module: 'Banners', dateStr: 'Yesterday, 04:30 PM', status: 'Success' }
     ];
 
     function pruneActivityLogs() {
@@ -1236,17 +1204,18 @@
       localStorage.setItem('vv_activity_logs_json', JSON.stringify(activityLogs));
     }
 
-    function logActivity(action, section = 'General') {
+    function logActivity(action, module = 'General') {
       pruneActivityLogs();
       const d = new Date();
-      const dateStr = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) + ' · ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const dateStr = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) + ', ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       const newEntry = {
         id: Date.now(),
         timestamp: Date.now(),
-        username: currentUser?.username || 'victor',
+        username: currentUser?.displayName || 'Victor Paul',
         action: action,
-        section: section,
-        dateStr: dateStr
+        module: module,
+        dateStr: dateStr,
+        status: 'Success'
       };
       activityLogs.unshift(newEntry);
       pruneActivityLogs();
@@ -1259,12 +1228,13 @@
       if (!tbody) return;
       tbody.innerHTML = activityLogs.map(l => `
         <tr class="hover:bg-slate-50 transition-colors">
-          <td class="px-6 py-3.5 text-slate-400 font-medium whitespace-nowrap">${l.dateStr}</td>
           <td class="px-6 py-3.5 font-bold text-navy-900">${l.username}</td>
-          <td class="px-6 py-3.5">
-            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-royal/10 text-royal border border-royal/20">${l.section}</span>
-          </td>
           <td class="px-6 py-3.5 text-slate-700 font-medium">${l.action}</td>
+          <td class="px-6 py-3.5">
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">${l.module}</span>
+          </td>
+          <td class="px-6 py-3.5 text-slate-400 font-medium whitespace-nowrap">${l.dateStr}</td>
+          <td class="px-6 py-3.5 text-right font-bold text-emerald text-xs">● ${l.status || 'Success'}</td>
         </tr>
       `).join('');
     }
@@ -1275,14 +1245,14 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'vv_properties_activity_logs.json';
+      a.download = 'activity_logs.json';
       a.click();
       URL.revokeObjectURL(url);
-      showToast('Exported 14-day activity logs (JSON)');
+      showToast('Downloaded activity_logs.json');
     }
 
     // =========================================================
-    // 3. PROPERTY CARD RENDERING & 3-DOTS HOVER OPTIONS
+    // 3. PROPERTY CARDS (NO NAME ON HOVER OVERLAY, 4 COVERS)
     // =========================================================
     function renderPropertyCard(p, i, prefix = 'prop') {
       const menuId = `${prefix}Menu_${i}`;
@@ -1294,11 +1264,22 @@
         </div>
       ` : '';
 
+      // Image or Blueprint Placeholder if cover image is empty
+      const imageMarkup = p[6] ? `
+        <img src="${p[6]}" alt="${p[0]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+      ` : `
+        <div class="w-full h-full bg-slate-800 flex flex-col items-center justify-center text-slate-400 p-4 text-center">
+          <i data-lucide="image-plus" class="w-8 h-8 text-slate-500 mb-1.5"></i>
+          <span class="text-[11px] font-bold text-slate-300">No Cover Image</span>
+          <span class="text-[9px] text-slate-500">Click 3-dots to add photo</span>
+        </div>
+      `;
+
       return `
         <article class="relative group rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 h-56" data-index="${i}">
-          <!-- Architectural Image (70% top clearly visible, bright and crisp) -->
+          <!-- Architectural Image (70% top visible) -->
           <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
-            <img src="${p[6] || img1}" alt="${p[0]}" onerror="this.src='${img1}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            ${imageMarkup}
           </div>
 
           <!-- Badge Tag (Only shown if badge is set) -->
@@ -1327,9 +1308,8 @@
             </div>
           </div>
 
-          <!-- CLEAN HOVER OVERLAY: REDUCED TOP CONTRAST (70% PHOTO VISIBLE), CRISP BOTTOM TITLE & LAKHS TO 'L' -->
+          <!-- HOVER OVERLAY: PROPERTY NAME REMOVED ON HOVER (SHOWS ONLY PRICE, TYPE & LOCATION) -->
           <div class="absolute inset-0 rounded-2xl bg-gradient-to-t from-navy-950/90 via-navy-950/20 via-35% to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end text-white pointer-events-none">
-            <h4 class="font-sans font-bold text-white text-base tracking-tight mb-1 drop-shadow truncate">${p[0]}</h4>
             <div class="flex items-center justify-between mb-1.5">
               <span class="text-base font-extrabold text-white drop-shadow font-sans">${p[2]}</span>
               <span class="text-[10px] font-bold uppercase tracking-wider text-ice font-sans">${p[4]}</span>
@@ -1401,7 +1381,7 @@
     });
 
     // =========================================================
-    // 4. ADD / EDIT PROPERTY MODAL (COVER & 5 GALLERY IMAGES)
+    // 4. ADD / EDIT PROPERTY MODAL (CLEAN INPUTS, NO LINK TEXT)
     // =========================================================
     const availableAmenities = [
       { name: 'Swimming Pool', icon: 'waves' },
@@ -1462,7 +1442,7 @@
       `).join('');
     }
 
-    // COVER IMAGE (1 IMAGE WITH UPDATE & DELETE, OR SQUARE DRAG-DROP BOX)
+    // COVER IMAGE (NO URL LINK TEXT AT ALL)
     function renderCoverImageSection(url) {
       currentCoverImage = url || '';
       document.getElementById('propCoverImageVal').value = currentCoverImage;
@@ -1473,21 +1453,27 @@
         container.innerHTML = `
           <div class="relative w-36 h-24 rounded-2xl overflow-hidden border border-slate-200 shadow-sm group">
             <img src="${currentCoverImage}" alt="Cover Image" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-navy-950/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
-              <button type="button" onclick="document.getElementById('propCoverFileInput').click()" class="px-2 py-1 rounded-lg bg-white text-navy-900 font-bold text-[10px] hover:bg-slate-100">Update</button>
-              <button type="button" onclick="deleteCoverImage()" class="px-2 py-1 rounded-lg bg-red-600 text-white font-bold text-[10px] hover:bg-red-700">Delete</button>
-            </div>
           </div>
-          <div class="text-xs text-slate-500">
-            <p class="font-bold text-navy-900">Active Cover Photo</p>
-            <p class="text-[11px] text-slate-400">Hover to Update or Delete cover image</p>
+          <div class="text-xs text-slate-500 flex items-center gap-3">
+            <div>
+              <p class="font-bold text-navy-900">Current Cover Image</p>
+              <p class="text-[11px] text-slate-400">Custom architectural photo</p>
+            </div>
+            <button type="button" onclick="document.getElementById('propCoverFileInput').click()" class="px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 font-bold text-xs hover:bg-slate-50 transition-colors flex items-center gap-1.5">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-royal"></i>
+              <span>Update</span>
+            </button>
+            <button type="button" onclick="deleteCoverImage()" class="px-3 py-1.5 rounded-xl border border-red-200 text-red-600 font-bold text-xs hover:bg-red-50 transition-colors flex items-center gap-1.5">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              <span>Delete</span>
+            </button>
           </div>
         `;
       } else {
         container.innerHTML = `
           <div onclick="document.getElementById('propCoverFileInput').click()" class="w-24 h-24 rounded-2xl border-2 border-dashed border-royal/40 bg-royal/5 hover:bg-royal/10 flex flex-col items-center justify-center cursor-pointer transition-all text-royal">
             <i data-lucide="plus" class="w-6 h-6 stroke-[2.5]"></i>
-            <span class="text-[10px] font-bold mt-1">Cover Image</span>
+            <span class="text-[10px] font-bold mt-1">Add Cover</span>
           </div>
           <div class="text-xs text-slate-500">
             <p class="font-bold text-navy-900">Upload Cover Image</p>
@@ -1575,12 +1561,12 @@
       document.getElementById('propLocInput').value = '';
       document.getElementById('propPriceInput').value = '';
       document.getElementById('propTagInput').value = 'None';
-      document.getElementById('propTypeInput').value = 'Apartment · 2 BHK';
+      document.getElementById('propTypeInput').value = '';
       document.getElementById('propDescInput').value = '';
       currentAmenitiesList = [];
       renderPresetAmenities();
-      renderCoverImageSection(img1);
-      currentGalleryImages = [img1, img2, img3, img4, img5];
+      renderCoverImageSection('');
+      currentGalleryImages = ['', '', '', '', ''];
       renderGallerySection();
       openModal('propertyModal');
     }
@@ -1596,13 +1582,13 @@
       document.getElementById('propLocInput').value = p[1];
       document.getElementById('propPriceInput').value = p[2];
       document.getElementById('propTagInput').value = p[3] || 'None';
-      document.getElementById('propTypeInput').value = p[4] || 'Apartment · 2 BHK';
+      document.getElementById('propTypeInput').value = p[4] || '';
       document.getElementById('propDescInput').value = p[7] || '';
 
       currentAmenitiesList = Array.isArray(p[5]) ? [...p[5]] : [];
       renderPresetAmenities();
-      renderCoverImageSection(p[6] || img1);
-      currentGalleryImages = [p[6] || img1, img2, img3, img4, img5];
+      renderCoverImageSection(p[6] || '');
+      currentGalleryImages = p[6] ? [p[6], img2, img3, img4, img5] : ['', '', '', '', ''];
       renderGallerySection();
       openModal('propertyModal');
     }
@@ -1612,9 +1598,9 @@
       const loc = document.getElementById('propLocInput').value.trim();
       const price = document.getElementById('propPriceInput').value.trim();
       const tag = document.getElementById('propTagInput').value;
-      const type = document.getElementById('propTypeInput').value;
+      const type = document.getElementById('propTypeInput').value.trim() || 'Apartment · 2 BHK';
       const desc = document.getElementById('propDescInput').value.trim();
-      const cover = currentCoverImage || img1;
+      const cover = currentCoverImage || '';
 
       if (!name || !loc || !price) {
         alert('Please fill out Property Name, Location, and Price.');
@@ -1675,22 +1661,20 @@
     function filterProperties() {
       const search = (document.getElementById('propSearchInput')?.value || '').toLowerCase();
       const loc = document.getElementById('propFilterLoc')?.value || 'All';
-      const type = document.getElementById('propFilterType')?.value || 'All';
       const badge = document.getElementById('propFilterBadge')?.value || 'All';
 
       const filtered = properties.filter(p => {
         const matchSearch = !search || p[0].toLowerCase().includes(search) || p[1].toLowerCase().includes(search);
         const matchLoc = (loc === 'All') || p[1].toLowerCase().includes(loc.toLowerCase());
-        const matchType = (type === 'All') || p[4].toLowerCase().includes(type.toLowerCase());
         const matchBadge = (badge === 'All') || (badge === 'None' && (!p[3] || p[3] === 'None')) || (p[3] === badge);
-        return matchSearch && matchLoc && matchType && matchBadge;
+        return matchSearch && matchLoc && matchBadge;
       });
 
       renderProperties(filtered);
     }
 
     // =========================================================
-    // 5. BANNER MANAGEMENT (NO 4-DOTS, ELEVATED 5/10, RED/GREEN)
+    // 5. BANNER MANAGEMENT
     // =========================================================
     let banners = [
       { id: 1, title: 'Find Your Dream Luxury Home in Chennai', sub: 'Explore hand-picked luxury apartments and gated villas across OMR & ECR.', img: img1, active: true },
@@ -1768,7 +1752,7 @@
     }
 
     // =========================================================
-    // 6. ENQUIRIES (NO ACTION COLUMN, DRAWER CLOSES ON NAV)
+    // 6. ENQUIRIES
     // =========================================================
     let enquiries = [
       { name: 'Suresh Kumar', phone: '+91 98765 43210', email: 'suresh@gmail.com', property: 'Prestige Bella Vista', location: 'Porur, Chennai', date: 'Today, 10:24 AM', status: 'New' },
@@ -1846,7 +1830,7 @@
 
       if (enq.status === 'New') {
         enq.status = 'None';
-        logActivity(`Opened lead dossier for ${enq.name} - Labeled as None`, 'Leads');
+        logActivity(`Opened lead dossier for ${enq.name} - Labeled as None`, 'Enquiries');
         renderEnquiries();
       }
 
@@ -1875,7 +1859,7 @@
     }
 
     // =========================================================
-    // 7. TESTIMONIALS (5 CLICKABLE STARS, NO *, NO AI DUMMY)
+    // 7. TESTIMONIALS (5 CLICKABLE STARS, NO *)
     // =========================================================
     let selectedRatingStars = 5;
 
@@ -1919,7 +1903,6 @@
         }
         return `
           <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow flex flex-col justify-between relative group">
-            <!-- Top Right Edit (Pencil) & Delete (Trash) -->
             <div class="absolute top-4 right-4 flex items-center gap-1">
               <button onclick="editTestimonial(${i})" title="Edit Testimonial" class="p-1.5 rounded-lg text-slate-400 hover:text-royal hover:bg-royal/5 transition-colors">
                 <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
@@ -2009,7 +1992,7 @@
     }
 
     // =========================================================
-    // 8. ADMIN & TEAM ACCOUNTS (SARAN, VIBHKAR, UMESHWAR, ETC.)
+    // 8. ADMIN & TEAM ACCOUNTS
     // =========================================================
     function renderAccountsTable() {
       const tbody = document.getElementById('accountsTableBody');
@@ -2116,50 +2099,50 @@
     }
 
     // =========================================================
-    // 9. DYNAMIC PERFORMANCE GRAPH RANGES (24h, 1W, 3M, 6M, 1Y, CUSTOM)
+    // 9. DYNAMIC DENSE GRAPH ('kosa kosa nu') & DROPDOWN RANGES
     // =========================================================
     const chartDataPresets = {
       '24h': {
         labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
-        points: [[0, 120], [80, 115], [160, 95], [240, 50], [320, 35], [400, 60], [500, 40]],
+        points: [[0, 115], [35, 110], [70, 95], [105, 80], [140, 60], [175, 45], [210, 55], [245, 40], [280, 50], [315, 30], [350, 45], [385, 35], [420, 25], [460, 40], [500, 20]],
         indicator: 'Active Range: Last 24 Hours'
       },
       '1W': {
         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        points: [[0, 110], [80, 75], [160, 85], [240, 65], [320, 35], [400, 50], [500, 20]],
+        points: [[0, 110], [35, 95], [70, 75], [105, 85], [140, 70], [175, 65], [210, 50], [245, 55], [280, 35], [315, 45], [350, 50], [385, 30], [420, 35], [460, 25], [500, 18]],
         indicator: 'Active Range: Last 7 Days'
       },
+      '1M': {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+        points: [[0, 105], [35, 85], [70, 90], [105, 75], [140, 60], [175, 70], [210, 55], [245, 40], [280, 50], [315, 35], [350, 45], [385, 30], [420, 20], [460, 30], [500, 15]],
+        indicator: 'Active Range: Current Month'
+      },
       '3M': {
-        labels: ['Aug 01', 'Aug 15', 'Sep 01', 'Sep 15', 'Oct 01', 'Oct 15', 'Nov 01'],
-        points: [[0, 90], [80, 60], [160, 45], [240, 70], [320, 40], [400, 30], [500, 15]],
-        indicator: 'Active Range: Last 3 Months'
+        // Starting June, Ending September (Standard Clean Month Names, June to September)
+        labels: ['June', 'July', 'August', 'September'],
+        points: [[0, 110], [35, 95], [70, 80], [105, 90], [140, 65], [175, 70], [210, 50], [245, 60], [280, 40], [315, 55], [350, 30], [385, 45], [420, 25], [460, 35], [500, 18]],
+        indicator: 'Active Range: June - September'
       },
       '6M': {
-        labels: ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        points: [[0, 130], [80, 110], [160, 80], [240, 60], [320, 45], [400, 35], [500, 20]],
+        labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+        points: [[0, 125], [35, 110], [70, 95], [105, 100], [140, 80], [175, 75], [210, 60], [245, 65], [280, 45], [315, 50], [350, 35], [385, 40], [420, 25], [460, 30], [500, 15]],
         indicator: 'Active Range: Last 6 Months'
       },
       '1Y': {
-        labels: ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov', 'Year-End'],
-        points: [[0, 140], [80, 100], [160, 75], [240, 50], [320, 30], [400, 25], [500, 10]],
+        labels: ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov', 'Dec'],
+        points: [[0, 135], [35, 120], [70, 105], [105, 90], [140, 85], [175, 70], [210, 65], [245, 50], [280, 45], [315, 35], [350, 40], [385, 25], [420, 30], [460, 20], [500, 12]],
         indicator: 'Active Range: Full Year 2026'
       }
     };
 
-    function setChartRange(rangeKey) {
-      document.querySelectorAll('.chart-tab').forEach(b => {
-        b.classList.remove('bg-white', 'shadow-sm', 'text-royal');
-        b.classList.add('text-slate-600');
-      });
-      const activeBtn = document.getElementById(`chart-btn-${rangeKey}`);
-      if (activeBtn) {
-        activeBtn.classList.add('bg-white', 'shadow-sm', 'text-royal');
-        activeBtn.classList.remove('text-slate-600');
+    function handleChartRangeSelect(val) {
+      if (val === 'custom') {
+        toggleCustomDatePicker();
+      } else {
+        document.getElementById('customDatePopover').classList.add('hidden');
+        const preset = chartDataPresets[val] || chartDataPresets['3M'];
+        updateChartSVG(preset);
       }
-
-      const preset = chartDataPresets[rangeKey] || chartDataPresets['1W'];
-      updateChartSVG(preset);
-      document.getElementById('customDatePopover').classList.add('hidden');
     }
 
     function toggleCustomDatePicker() {
@@ -2179,18 +2162,13 @@
 
       const customPreset = {
         labels: [fStr, 'Mid-1', 'Mid-2', 'Mid-3', 'Mid-4', 'Mid-5', tStr],
-        points: [[0, 100], [80, 65], [160, 80], [240, 45], [320, 55], [400, 30], [500, 15]],
+        points: [[0, 110], [35, 95], [70, 75], [105, 85], [140, 60], [175, 70], [210, 50], [245, 60], [280, 40], [315, 55], [350, 30], [385, 40], [420, 25], [460, 30], [500, 15]],
         indicator: `Custom Range: ${fStr} to ${tStr}`
       };
 
-      document.querySelectorAll('.chart-tab').forEach(b => {
-        b.classList.remove('bg-white', 'shadow-sm', 'text-royal');
-      });
-      document.getElementById('chart-btn-custom').classList.add('bg-white', 'shadow-sm', 'text-royal');
-
       updateChartSVG(customPreset);
       document.getElementById('customDatePopover').classList.add('hidden');
-      showToast(`Chart filtered to ${fStr} - ${tStr}`);
+      showToast(`Chart filtered from ${fStr} to ${tStr}`);
     }
 
     function updateChartSVG(data) {
@@ -2200,7 +2178,7 @@
       
       const circlesGroup = document.getElementById('chartPoints');
       circlesGroup.innerHTML = data.points.map(pt => `
-        <circle cx="${pt[0]}" cy="${pt[1]}" r="4" fill="#0F52BA" stroke="#fff" stroke-width="2"/>
+        <circle cx="${pt[0]}" cy="${pt[1]}" r="3.5" fill="#0F52BA" stroke="#fff" stroke-width="1.5"/>
       `).join('');
 
       const xAxis = document.getElementById('chartXAxis');
@@ -2212,7 +2190,7 @@
     // 10. NAVIGATION ROUTER (DRAWER CLOSES AUTOMATICALLY ON NAV)
     // =========================================================
     function go(pageId) {
-      closeEnquiry(); // Close drawer if open when moving sections
+      closeEnquiry();
       document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
       const target = document.getElementById(pageId);
       if (target) target.classList.remove('hidden');
@@ -2277,6 +2255,7 @@
       renderTestimonials();
       renderAccountsTable();
       renderActivityLogs();
+      updateChartSVG(chartDataPresets['3M']);
       lucide.createIcons();
     });
   </script>
