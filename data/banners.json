@@ -1,0 +1,50 @@
+[
+  {
+    "id": "banner_1",
+    "title": "Find Your Dream Luxury Home in Chennai",
+    "subtitle": "Explore hand-picked luxury apartments and gated villas across OMR & ECR.",
+    "imageUrl": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80",
+    "active": true,
+    "order": 1
+  },
+  {
+    "id": "banner_2",
+    "title": "A Better Address for Your Growing Family",
+    "subtitle": "Discover tranquil gated communities with private gardens and clubhouses.",
+    "imageUrl": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
+    "active": true,
+    "order": 2
+  },
+  {
+    "id": "banner_3",
+    "title": "Luxury Beachfront Residences on ECR",
+    "subtitle": "Wake up to panoramic Bay of Bengal ocean vistas with private rooftop decks.",
+    "imageUrl": "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1200&q=80",
+    "active": true,
+    "order": 3
+  },
+  {
+    "id": "banner_4",
+    "title": "Prime Commercial & IT Hubs in Guindy & OMR",
+    "subtitle": "Grade-A tech parks and retail storefronts with unmatched arterial road access.",
+    "imageUrl": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80",
+    "active": true,
+    "order": 4
+  },
+  {
+    "id": "banner_5",
+    "title": "Pre-Launch Privileges: Garden County Medavakkam",
+    "subtitle": "Avail special launch pricing and zero registry fees on the first 25 villas.",
+    "imageUrl": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80",
+    "active": true,
+    "order": 5
+  },
+  {
+    "id": "banner_6",
+    "title": "High-Growth Gated Community Plots in Tambaram",
+    "subtitle": "CMDA & RERA approved residential plots with underground utilities ready for build.",
+    "imageUrl": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80",
+    "active": false,
+    "order": 6
+  }
+]

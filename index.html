@@ -294,43 +294,24 @@
           </div>
         </div>
 
-        <!-- PERFORMANCE CHART & PRIORITY LEADS -->
+        <!-- WEBSITE TRAFFIC GRAPH & PROPERTY LEADS -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
           <div class="lg:col-span-2 bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
             <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <div>
-                <h3 class="font-sans font-bold text-navy-900 text-base">Performance</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Customer outreach trends and lead velocity across channels</p>
+                <h3 class="font-sans font-bold text-navy-900 text-base">Website Traffic</h3>
               </div>
-              <div class="flex items-center gap-2">
-                <div class="relative">
-                  <select id="chartRangeSelect" onchange="onRangeSelectChange(this.value)" class="appearance-none pl-3 pr-8 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 hover:border-royal/50 focus:outline-none focus:ring-2 focus:ring-royal/20 transition-all cursor-pointer shadow-2xs">
-                    <option value="24h">24 Hours</option>
-                    <option value="1W" selected>1 Week</option>
-                    <option value="1M">1 Month</option>
-                    <option value="3M">3 Months</option>
-                    <option value="6M">6 Months</option>
-                    <option value="1Y">1 Year</option>
-                    <option value="custom">📅 Custom Date Range</option>
-                  </select>
-                  <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none"></i>
+              <div class="flex flex-wrap items-center gap-2.5">
+                <span id="trafficDateDisplay" class="text-xs font-semibold text-slate-600 bg-slate-50 border border-slate-200/80 px-2.5 py-1 rounded-lg">07/11/2026 – 14/11/2026</span>
+                <div class="flex items-center gap-1 p-1 rounded-lg bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-600" id="trafficRangeGroup">
+                  <button type="button" onclick="setTrafficRange('1W')" class="traffic-range-btn active px-2.5 py-1 rounded-md bg-white text-royal shadow-sm font-bold transition-all" data-range="1W">1W</button>
+                  <button type="button" onclick="setTrafficRange('1M')" class="traffic-range-btn px-2.5 py-1 rounded-md hover:text-slate-900 transition-colors" data-range="1M">1M</button>
+                  <button type="button" onclick="setTrafficRange('3M')" class="traffic-range-btn px-2.5 py-1 rounded-md hover:text-slate-900 transition-colors" data-range="3M">3M</button>
+                  <button type="button" onclick="setTrafficRange('6M')" class="traffic-range-btn px-2.5 py-1 rounded-md hover:text-slate-900 transition-colors" data-range="6M">6M</button>
+                  <button type="button" onclick="setTrafficRange('1Y')" class="traffic-range-btn px-2.5 py-1 rounded-md hover:text-slate-900 transition-colors" data-range="1Y">1Y</button>
+                  <button type="button" onclick="setTrafficRange('MAX')" class="traffic-range-btn px-2.5 py-1 rounded-md hover:text-slate-900 transition-colors" data-range="MAX">MAX</button>
                 </div>
               </div>
-            </div>
-
-            <!-- CUSTOM DATE RANGE SELECTION BOX -->
-            <div id="customDateRangeBox" class="hidden mb-4 p-3 bg-slate-50 border border-slate-200 rounded-xl flex flex-wrap items-center gap-3 text-xs">
-              <div class="flex items-center gap-1.5">
-                <span class="text-slate-500 font-medium">From:</span>
-                <input type="date" id="chartDateFrom" value="2026-07-14" class="px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-1 focus:ring-royal">
-              </div>
-              <div class="flex items-center gap-1.5">
-                <span class="text-slate-500 font-medium">To:</span>
-                <input type="date" id="chartDateTo" value="2026-10-14" class="px-2.5 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-700 focus:outline-none focus:ring-1 focus:ring-royal">
-              </div>
-              <button type="button" onclick="applyCustomDateRange()" class="px-3 py-1.5 bg-royal hover:bg-royal-hover text-white rounded-lg font-bold text-xs shadow-sm transition-all">
-                Apply Range
-              </button>
             </div>
 
             <div class="h-56 relative w-full pt-1">
@@ -348,25 +329,25 @@
                 <path id="chartArea" d="M40 125 L135 98 L230 105 L325 90 L420 55 L515 70 L610 35 L610 155 L40 155Z" fill="#CDE6F5" fill-opacity="0.55"/>
                 <polyline id="chartLine" points="40,125 135,98 230,105 325,90 420,55 515,70 610,35" fill="none" stroke="#4062BB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
                 <g id="chartDots" fill="#4062BB">
-                  <circle cx="40" cy="125" r="3.5"/><circle cx="135" cy="98" r="3.5"/><circle cx="230" cy="105" r="3.5"/>
-                  <circle cx="325" cy="90" r="3.5"/><circle cx="420" cy="55" r="3.5"/><circle cx="515" cy="70" r="3.5"/><circle cx="610" cy="35" r="3.5"/>
                 </g>
-                <!-- DYNAMIC X-AXIS LABELS -->
+                <!-- EXACTLY FIVE CALENDAR DATE LABELS DISTRIBUTED EVENLY ON X-AXIS -->
                 <g id="chartXLabels" fill="#94A3B8" font-size="10" font-weight="500">
-                  <text x="35" y="172">Mon</text><text x="130" y="172">Tue</text><text x="225" y="172">Wed</text>
-                  <text x="320" y="172">Thu</text><text x="415" y="172">Fri</text><text x="510" y="172">Sat</text><text x="600" y="172">Sun</text>
+                  <text x="25" y="172">07/11/2026</text>
+                  <text x="160" y="172">08/11/2026</text>
+                  <text x="305" y="172">10/11/2026</text>
+                  <text x="445" y="172">12/11/2026</text>
+                  <text x="550" y="172">14/11/2026</text>
                 </g>
               </svg>
             </div>
-            <p class="text-[11px] text-slate-400 mt-3" id="chartCaption">Verified customer outreach recorded during the last 7 days</p>
           </div>
 
-          <!-- PRIORITY LEADS PANEL (ONLY NEW LEADS, EXACTLY 4) -->
+          <!-- PROPERTY LEADS PANEL (EXACTLY 3 PRIORITY LEADS) -->
           <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm flex flex-col">
             <div class="flex items-center justify-between mb-4">
               <div>
-                <h3 class="font-sans font-bold text-navy-900 text-base">Priority Leads</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Fresh incoming inquiries (New Only)</p>
+                <h3 class="font-sans font-bold text-navy-900 text-base">Property Leads</h3>
+                <p class="text-xs text-slate-400 mt-0.5">Fresh incoming inquiries</p>
               </div>
               <button onclick="go('enquiries')" class="text-xs font-bold text-royal hover:underline">View All →</button>
             </div>
@@ -933,11 +914,30 @@
     <div class="space-y-3 mb-5">
       <div>
         <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Current Password</label>
-        <input id="currentAdminPasswordInput" type="password" placeholder="Enter current password" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
+        <div class="relative">
+          <input id="currentAdminPasswordInput" type="password" placeholder="Enter current password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
+          <button type="button" onclick="togglePasswordVisibility('currentAdminPasswordInput', 'eyeIconCurrent')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
+            <i id="eyeIconCurrent" data-lucide="eye" class="w-4 h-4"></i>
+          </button>
+        </div>
       </div>
       <div>
         <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">New Password</label>
-        <input id="newAdminPasswordInput" type="password" placeholder="Enter new password" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
+        <div class="relative">
+          <input id="newAdminPasswordInput" type="password" placeholder="Enter new password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
+          <button type="button" onclick="togglePasswordVisibility('newAdminPasswordInput', 'eyeIconNew')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
+            <i id="eyeIconNew" data-lucide="eye" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Confirm Password</label>
+        <div class="relative">
+          <input id="confirmAdminPasswordInput" type="password" placeholder="Confirm new password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
+          <button type="button" onclick="togglePasswordVisibility('confirmAdminPasswordInput', 'eyeIconConfirm')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
+            <i id="eyeIconConfirm" data-lucide="eye" class="w-4 h-4"></i>
+          </button>
+        </div>
       </div>
     </div>
     <div class="flex items-center justify-end gap-2">
@@ -1066,14 +1066,16 @@ const defaultGallery = [
 
 // Available standard amenities with Lucide icons
 const standardAmenities = [
-  { name: 'Bedrooms', icon: 'bed' },
+  { name: 'Parking', icon: 'car' },
   { name: 'Swimming Pool', icon: 'waves' },
-  { name: 'Clubhouse & Gym', icon: 'dumbbell' },
-  { name: '24/7 Security', icon: 'shield-check' },
-  { name: 'Private Garden', icon: 'trees' },
-  { name: 'Covered Parking', icon: 'car' },
+  { name: 'Security', icon: 'shield-check' },
+  { name: 'Gym', icon: 'dumbbell' },
+  { name: 'Garden', icon: 'trees' },
+  { name: 'Lift', icon: 'arrow-up-down' },
+  { name: 'CCTV', icon: 'video' },
+  { name: "Children's Play Area", icon: 'smile' },
   { name: 'Power Backup', icon: 'zap' },
-  { name: 'High-Speed WiFi', icon: 'wifi' }
+  { name: 'Water Supply', icon: 'droplet' }
 ];
 
 // 10 REAL CHENNAI LUXURY PROPERTIES DATASET:
@@ -1102,7 +1104,7 @@ let properties = [
     [...defaultGallery]
   ],
   [
-    'Prestige Grandeur', 'Anna Nagar, Chennai', '₹2.4 Cr', 'Prime', 'Apartment · 4 BHK',
+    'Prestige Grandeur', 'Anna Nagar, Chennai', '₹2.4 Cr', 'None', 'Apartment · 4 BHK',
     ['Covered Parking', 'Clubhouse & Gym', 'Power Backup'],
     img5,
     'Palatial residences in prime Anna Nagar offering Italian marble flooring, smart home automation, and 3 dedicated car parking bays.',
@@ -1215,20 +1217,46 @@ function saveActivityLogs() {
   localStorage.setItem('vv_activity_logs_json', JSON.stringify(activityLogs));
 }
 
-function logAction(action, module = 'System') {
-  const now = Date.now();
-  activityLogs.unshift({
-    user: currentAdminProfile.name,
+async function logAction(action, module = 'System', recordId = '') {
+  const now = new Date();
+  const formattedDate = new Intl.DateTimeFormat('en-IN', {
+    timeZone: 'Asia/Kolkata',
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true
+  }).format(now);
+
+  const logItem = {
+    id: `log_${Date.now()}`,
+    adminId: currentAdminProfile.username,
+    adminUsername: currentAdminProfile.username,
+    adminName: currentAdminProfile.name,
     action: action,
     module: module,
-    time: 'Just now',
-    timestamp: now,
+    recordId: String(recordId || ''),
+    date: formattedDate,
+    time: formattedDate,
+    timestamp: now.getTime(),
     status: 'Success'
-  });
-  // Auto-prune beyond 14 days
-  activityLogs = activityLogs.filter(item => (now - (item.timestamp || now)) <= FOURTEEN_DAYS_MS);
+  };
+
+  activityLogs.unshift(logItem);
+  activityLogs = activityLogs.slice(0, 200);
   saveActivityLogs();
   renderLogs();
+
+  try {
+    await fetch('/api/activity-logs', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ log: logItem })
+    });
+  } catch (e) {
+    // Graceful offline fallback
+  }
 }
 
 function clearOldLogs() {
@@ -1253,11 +1281,11 @@ function renderLogs() {
   if (!tbody) return;
   tbody.innerHTML = activityLogs.map(l => `
     <tr class="hover:bg-slate-50 transition-colors">
-      <td class="px-6 py-4 font-bold text-navy-900">${l.user}</td>
+      <td class="px-6 py-4 font-bold text-navy-900">${l.adminName || l.user || 'Victor Paul'}</td>
       <td class="px-6 py-4 text-slate-700">${l.action}</td>
       <td class="px-6 py-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">${l.module}</span></td>
-      <td class="px-6 py-4 text-slate-400 font-mono text-[11px]">${l.time}</td>
-      <td class="px-6 py-4 text-right"><span class="text-emerald font-bold">● ${l.status}</span></td>
+      <td class="px-6 py-4 text-slate-500 font-mono text-[11px]">${l.date || l.time}</td>
+      <td class="px-6 py-4 text-right"><span class="text-emerald font-bold">● ${l.status || 'Success'}</span></td>
     </tr>
   `).join('');
 }
@@ -1394,7 +1422,7 @@ function renderPropertyCard(p, i, isRecent = false) {
   const prefix = isRecent ? 'recent' : 'prop';
   const menuId = `${prefix}Menu_${realIndex}`;
 
-  const badgeHtml = (p[3] && p[3] !== 'None') ? `
+  const badgeHtml = (p[3] && p[3] !== 'None' && p[3] !== 'Prime' && p[3] !== 'Prime Exclusive') ? `
     <div class="absolute top-3 left-3 z-10 pointer-events-none">
       <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy-900/85 backdrop-blur-md text-white border border-white/20 shadow-md">
         ${p[3]}
@@ -1619,9 +1647,12 @@ function renderAmenitiesPicker() {
   container.innerHTML = standardAmenities.map(am => {
     const isSelected = currentFormAmenities.includes(am.name);
     return `
-      <button type="button" onclick="toggleAmenityTag('${am.name}')" class="flex items-center gap-2 p-2 rounded-lg border text-xs font-medium transition-all ${isSelected ? 'border-royal bg-royal/10 text-royal font-bold' : 'border-slate-200 bg-white text-slate-700 hover:border-royal/50'}">
-        <i data-lucide="${am.icon}" class="w-4 h-4 ${isSelected ? 'text-royal' : 'text-slate-500'}"></i>
-        <span>${am.name}</span>
+      <button type="button" onclick="toggleAmenityTag('${am.name}')" class="flex items-center justify-between p-2.5 rounded-lg border text-xs font-medium transition-all ${isSelected ? 'border-royal bg-royal/10 text-royal font-bold ring-1 ring-royal shadow-2xs' : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'}">
+        <div class="flex items-center gap-2">
+          <i data-lucide="${am.icon}" class="w-4 h-4 ${isSelected ? 'text-royal' : 'text-slate-500'}"></i>
+          <span>${am.name}</span>
+        </div>
+        ${isSelected ? '<i data-lucide="check" class="w-3.5 h-3.5 text-royal"></i>' : ''}
       </button>
     `;
   }).join('');
@@ -1865,9 +1896,6 @@ function renderBanners() {
         <div class="min-w-0 flex-1">
           <div class="flex items-center gap-2">
             <h4 class="text-xs font-bold text-navy-900 leading-snug font-sans truncate">${b[0]}</h4>
-            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold ${b[3] ? 'bg-emerald/15 text-emerald border border-emerald/30' : 'bg-rose-50 text-rose-600 border border-rose-200'}">
-              ${b[3] ? 'Active' : 'Inactive'}
-            </span>
           </div>
           <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">${b[1]}</p>
         </div>
@@ -2000,7 +2028,7 @@ function renderEnquiries() {
   // Update Priority Leads on Dashboard: SHOW ONLY NEW LEADS, EXACTLY 4
   const priorityContainer = document.getElementById('priorityLeadsList');
   if (priorityContainer) {
-    const newLeads = enquiries.filter(l => l.status === 'New').slice(0, 4);
+    const newLeads = enquiries.filter(l => l.status === 'New').slice(0, 3);
     if (newLeads.length === 0) {
       priorityContainer.innerHTML = '<p class="text-xs text-slate-400 py-4 text-center">No new leads pending review.</p>';
     } else {
@@ -2076,8 +2104,16 @@ function updateCurrentEnquiryStatus(val) {
 function chatOnWhatsApp() {
   if (activeEnquiryIndex >= 0 && enquiries[activeEnquiryIndex]) {
     const enq = enquiries[activeEnquiryIndex];
-    const cleanPhone = enq.phone.replace(/[^0-9]/g, '');
-    const msg = encodeURIComponent(`Hello ${enq.name}, Greetings from V.V Properties. Regarding your enquiry for ${enq.property}:`);
+    let cleanPhone = (enq.phone || '').replace(/[^0-9]/g, '');
+    if (!cleanPhone) {
+      alert('No valid phone number found for this lead.');
+      return;
+    }
+    // Convert 10-digit Indian phone number to international 91 prefix
+    if (cleanPhone.length === 10) {
+      cleanPhone = '91' + cleanPhone;
+    }
+    const msg = encodeURIComponent(`Hello ${enq.name}, thank you for contacting V.V Properties regarding ${enq.property}. How may we assist you today with property details, brochure, or a site visit?`);
     window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank');
   }
 }
@@ -2336,11 +2372,30 @@ function saveAdminProfile() {
   alert('Admin profile updated successfully.');
 }
 
+function togglePasswordVisibility(inputId, iconId) {
+  const input = document.getElementById(inputId);
+  const icon = document.getElementById(iconId);
+  if (!input) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (icon) icon.setAttribute('data-lucide', 'eye-off');
+  } else {
+    input.type = 'password';
+    if (icon) icon.setAttribute('data-lucide', 'eye');
+  }
+  lucide.createIcons();
+}
+
 function submitEditPassword() {
   const cur = document.getElementById('currentAdminPasswordInput').value.trim();
   const nw = document.getElementById('newAdminPasswordInput').value.trim();
+  const conf = document.getElementById('confirmAdminPasswordInput').value.trim();
   if (!nw) {
     alert('Please enter a new password.');
+    return;
+  }
+  if (nw !== conf) {
+    alert('New password and confirm password do not match.');
     return;
   }
   const acc = staffAccounts.find(a => a.username === currentAdminProfile.username) || staffAccounts[0];
@@ -2702,13 +2757,78 @@ function applyCustomDateRange() {
 
 // Initial System Startup
 checkAuthSession();
-renderProperties();
-renderBanners();
-renderEnquiries();
-renderTestimonials();
-renderAccounts();
-renderLogs();
-lucide.createIcons();
+
+// Assign IDs and statuses to default properties (first 7 published, last 3 draft)
+properties.forEach((p, idx) => {
+  if (!p[9]) p[9] = `prop_${String(idx + 1).padStart(3, '0')}`;
+  if (!p[10]) p[10] = idx >= 7 ? 'draft' : 'published';
+});
+
+async function syncBackendData() {
+  try {
+    // Fetch properties
+    const pRes = await fetch('/api/properties');
+    if (pRes.ok) {
+      const pData = await pRes.json();
+      if (pData.properties && pData.properties.length > 0) {
+        properties = pData.properties.map(p => [
+          p.name || p.title,
+          p.location || p.area,
+          p.price,
+          p.badge || 'None',
+          p.type,
+          p.amenities || [],
+          p.coverImage || '',
+          p.description || '',
+          p.gallery || defaultGallery,
+          p.id,
+          p.status || 'published'
+        ]);
+      }
+    }
+
+    // Fetch leads
+    const lRes = await fetch('/api/leads');
+    if (lRes.ok) {
+      const lData = await lRes.json();
+      if (lData.leads && lData.leads.length > 0) {
+        enquiries = lData.leads;
+      }
+    }
+
+    // Fetch banners
+    const bRes = await fetch('/api/banners');
+    if (bRes.ok) {
+      const bData = await bRes.json();
+      if (bData.banners && bData.banners.length > 0) {
+        bannerData = bData.banners.map(b => [b.title, b.subtitle, b.imageUrl, b.active]);
+      }
+    }
+
+    // Fetch logs
+    const aRes = await fetch('/api/activity-logs');
+    if (aRes.ok) {
+      const aData = await aRes.json();
+      if (aData.logs && aData.logs.length > 0) {
+        activityLogs = aData.logs;
+      }
+    }
+  } catch (err) {
+    console.warn('Initial backend sync offline, using persistent cache');
+  }
+
+  updatePropertyKpis();
+  renderProperties();
+  renderBanners();
+  renderEnquiries();
+  renderTestimonials();
+  renderAccounts();
+  renderLogs();
+  setTrafficRange('1W');
+  lucide.createIcons();
+}
+
+syncBackendData();
 </script>
 </body>
 </html>

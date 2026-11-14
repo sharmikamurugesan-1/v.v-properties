@@ -109,3 +109,20 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+
+
+export async function GET() {
+  const fs = await import('fs');
+  const path = await import('path');
+  const leadsFile = path.join(process.cwd(), 'data', 'leads.json');
+  if (fs.existsSync(leadsFile)) {
+    try {
+      const data = JSON.parse(fs.readFileSync(leadsFile, 'utf-8'));
+      return NextResponse.json({ success: true, leads: data });
+    } catch (e) {
+      console.error(e);
+    }
+  }
+  const leads = await store.getLeads();
+  return NextResponse.json({ success: true, leads });
+}

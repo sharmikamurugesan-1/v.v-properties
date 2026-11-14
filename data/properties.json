@@ -1,0 +1,255 @@
+[
+  {
+    "id": "prop_001",
+    "name": "Emerald Bay Villas",
+    "location": "ECR, Chennai",
+    "price": "\u20b91.85 Cr",
+    "badge": "Featured",
+    "type": "Villa \u00b7 4 BHK",
+    "status": "published",
+    "amenities": [
+      "Swimming Pool",
+      "Garden",
+      "Parking"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80",
+    "description": "Panoramic sea-facing luxury villas on East Coast Road with private beach access, landscaped lawns, and private infinity plunge pool.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-01T10:00:00Z",
+    "updatedAt": "2026-11-14T10:15:00Z"
+  },
+  {
+    "id": "prop_002",
+    "name": "Azure Sky Towers",
+    "location": "OMR, Chennai",
+    "price": "\u20b992 L",
+    "badge": "New Launch",
+    "type": "Apartment \u00b7 3 BHK",
+    "status": "published",
+    "amenities": [
+      "Gym",
+      "Swimming Pool",
+      "Security"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80",
+    "description": "High-rise lifestyle residences along the OMR IT Corridor featuring double-height clubhouse, squash courts, and rooftop infinity pool.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-02T11:00:00Z",
+    "updatedAt": "2026-11-14T09:30:00Z"
+  },
+  {
+    "id": "prop_003",
+    "name": "Greenwood Enclave",
+    "location": "Medavakkam, Chennai",
+    "price": "\u20b968 L",
+    "badge": "Special Offer",
+    "type": "Villa \u00b7 3 BHK",
+    "status": "published",
+    "amenities": [
+      "Garden",
+      "Security",
+      "Parking"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80",
+    "description": "Gated community of contemporary duplex villas surrounded by lush green parks with private backyards and solar streetlights.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-03T09:00:00Z",
+    "updatedAt": "2026-11-14T08:00:00Z"
+  },
+  {
+    "id": "prop_004",
+    "name": "Prestige Grandeur",
+    "location": "Anna Nagar, Chennai",
+    "price": "\u20b92.4 Cr",
+    "badge": "None",
+    "type": "Apartment \u00b7 4 BHK",
+    "status": "published",
+    "amenities": [
+      "Parking",
+      "Gym",
+      "Power Backup"
+    ],
+    "coverImage": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80",
+    "description": "Palatial residences in prime Anna Nagar offering Italian marble flooring, smart home automation, and 3 dedicated car parking bays.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-04T14:00:00Z",
+    "updatedAt": "2026-11-14T10:00:00Z"
+  },
+  {
+    "id": "prop_005",
+    "name": "Silicon Heights",
+    "location": "Sholinganallur, Chennai",
+    "price": "\u20b984 L",
+    "badge": "None",
+    "type": "Apartment \u00b7 2 BHK",
+    "status": "published",
+    "amenities": [
+      "Gym",
+      "Security",
+      "CCTV"
+    ],
+    "coverImage": "",
+    "description": "Contemporary urban flats near Sholinganallur ELCOT SEZ with modular German kitchen, gym, and electric vehicle charging bays.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-05T15:00:00Z",
+    "updatedAt": "2026-11-14T11:00:00Z"
+  },
+  {
+    "id": "prop_006",
+    "name": "The Palm Springs",
+    "location": "Thiruvanmiyur, Chennai",
+    "price": "\u20b91.6 Cr",
+    "badge": "None",
+    "type": "Villa \u00b7 4 BHK",
+    "status": "published",
+    "amenities": [
+      "Swimming Pool",
+      "Garden",
+      "Power Backup"
+    ],
+    "coverImage": "",
+    "description": "Boutique tropical villas with double-height living spaces, plunge pool, and walking proximity to Thiruvanmiyur beach.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-06T16:00:00Z",
+    "updatedAt": "2026-11-14T11:30:00Z"
+  },
+  {
+    "id": "prop_007",
+    "name": "Golden Habitat",
+    "location": "Tambaram, Chennai",
+    "price": "\u20b948 L",
+    "badge": "None",
+    "type": "Residential Plot",
+    "status": "published",
+    "amenities": [
+      "Security",
+      "Parking",
+      "Water Supply"
+    ],
+    "coverImage": "",
+    "description": "CMDA & RERA approved premium villa plots with paved 40ft blacktop roads, underground cabling, and avenue plantations.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-07T12:00:00Z",
+    "updatedAt": "2026-11-14T12:00:00Z"
+  },
+  {
+    "id": "prop_008",
+    "name": "Signature Crest",
+    "location": "Guindy, Chennai",
+    "price": "\u20b91.35 Cr",
+    "badge": "None",
+    "type": "Apartment \u00b7 3 BHK",
+    "status": "draft",
+    "amenities": [
+      "Gym",
+      "Power Backup",
+      "Security",
+      "Lift"
+    ],
+    "coverImage": "",
+    "description": "Executive apartments overlooking Guindy National Park featuring infinity edge pool, business conference lounge, and central air conditioning.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-08T13:00:00Z",
+    "updatedAt": "2026-11-14T12:15:00Z"
+  },
+  {
+    "id": "prop_009",
+    "name": "Marina Breeze",
+    "location": "Besant Nagar, Chennai",
+    "price": "\u20b93.1 Cr",
+    "badge": "None",
+    "type": "Villa \u00b7 4 BHK",
+    "status": "draft",
+    "amenities": [
+      "Swimming Pool",
+      "Garden",
+      "Security",
+      "Lift"
+    ],
+    "coverImage": "",
+    "description": "Bespoke coastal living nestled in quiet Besant Nagar residential avenues with designer landscaping and private glass elevator.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-09T14:30:00Z",
+    "updatedAt": "2026-11-14T12:30:00Z"
+  },
+  {
+    "id": "prop_010",
+    "name": "Urban Oasis",
+    "location": "Porur, Chennai",
+    "price": "\u20b972 L",
+    "badge": "None",
+    "type": "Apartment \u00b7 2 BHK",
+    "status": "draft",
+    "amenities": [
+      "Security",
+      "Parking",
+      "Power Backup",
+      "Children's Play Area"
+    ],
+    "coverImage": "",
+    "description": "Spacious family apartments near Porur Junction with community clubhouse, children play park, and piped gas connection.",
+    "gallery": [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+      "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
+      "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&q=80",
+      "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80",
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
+    ],
+    "createdAt": "2026-11-10T15:00:00Z",
+    "updatedAt": "2026-11-14T12:45:00Z"
+  }
+]

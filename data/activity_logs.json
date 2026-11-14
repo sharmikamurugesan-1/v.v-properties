@@ -1,0 +1,50 @@
+[
+  {
+    "id": "log_001",
+    "adminId": "victorpaul",
+    "adminUsername": "victorpaul",
+    "adminName": "Victor Paul",
+    "action": "Reviewed lead dossier for Suresh Kumar",
+    "module": "Enquiries",
+    "recordId": "1",
+    "date": "14 Nov 2026, 11:42 AM",
+    "timestamp": 1794645720000,
+    "status": "Success"
+  },
+  {
+    "id": "log_002",
+    "adminId": "victorpaul",
+    "adminUsername": "victorpaul",
+    "adminName": "Victor Paul",
+    "action": "Updated listing price for Emerald Bay Villas to \u20b91.85 Cr",
+    "module": "Properties",
+    "recordId": "prop_001",
+    "date": "14 Nov 2026, 10:15 AM",
+    "timestamp": 1794640500000,
+    "status": "Success"
+  },
+  {
+    "id": "log_003",
+    "adminId": "sharmika",
+    "adminUsername": "sharmika",
+    "adminName": "Sharmika Murugesan",
+    "action": "Reordered carousel slide display priority",
+    "module": "Banners",
+    "recordId": "banner_1",
+    "date": "13 Nov 2026, 04:30 PM",
+    "timestamp": 1794576600000,
+    "status": "Success"
+  },
+  {
+    "id": "log_004",
+    "adminId": "saran",
+    "adminUsername": "saran",
+    "adminName": "Saran",
+    "action": "Created new team account permissions for staff member Vibhkar",
+    "module": "Admin",
+    "recordId": "acc_3",
+    "date": "11 Nov 2026, 03:15 PM",
+    "timestamp": 1794401700000,
+    "status": "Success"
+  }
+]

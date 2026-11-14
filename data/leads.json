@@ -1,0 +1,102 @@
+[
+  {
+    "id": 1,
+    "name": "Suresh Kumar",
+    "phone": "+91 98765 43210",
+    "email": "suresh@gmail.com",
+    "property": "Emerald Bay Villas",
+    "location": "ECR, Chennai",
+    "date": "14 Nov 2026, 10:24 AM",
+    "status": "New"
+  },
+  {
+    "id": 2,
+    "name": "Meena Priya",
+    "phone": "+91 98401 23456",
+    "email": "meena.priya@outlook.com",
+    "property": "Azure Sky Towers",
+    "location": "OMR, Chennai",
+    "date": "14 Nov 2026, 09:15 AM",
+    "status": "New"
+  },
+  {
+    "id": 3,
+    "name": "Anand Chandran",
+    "phone": "+91 98844 11223",
+    "email": "anand.c@gmail.com",
+    "property": "Prestige Grandeur",
+    "location": "Anna Nagar",
+    "date": "13 Nov 2026, 06:45 PM",
+    "status": "New"
+  },
+  {
+    "id": 4,
+    "name": "Bhavani Shankar",
+    "phone": "+91 97910 88776",
+    "email": "bhavani.s@yahoo.com",
+    "property": "Greenwood Enclave",
+    "location": "Medavakkam",
+    "date": "13 Nov 2026, 04:30 PM",
+    "status": "Contacted"
+  },
+  {
+    "id": 5,
+    "name": "Rohit Sharma",
+    "phone": "+91 97109 87654",
+    "email": "rohit.sharma@yahoo.com",
+    "property": "Golden Habitat",
+    "location": "Tambaram",
+    "date": "11 Nov 2026, 03:40 PM",
+    "status": "Closed"
+  },
+  {
+    "id": 6,
+    "name": "Deepa Natarajan",
+    "phone": "+91 94441 55667",
+    "email": "deepa.natarajan@yahoo.com",
+    "property": "The Palm Springs",
+    "location": "Thiruvanmiyur",
+    "date": "09 Nov 2026, 02:15 PM",
+    "status": "Contacted"
+  },
+  {
+    "id": 7,
+    "name": "Karthik S",
+    "phone": "+91 98840 99881",
+    "email": "karthik.s@gmail.com",
+    "property": "Silicon Heights",
+    "location": "Sholinganallur",
+    "date": "08 Nov 2026, 01:20 PM",
+    "status": "Site Visit"
+  },
+  {
+    "id": 8,
+    "name": "Priya Sundaram",
+    "phone": "+91 99620 44551",
+    "email": "priya.sundaram@gmail.com",
+    "property": "Signature Crest",
+    "location": "Guindy",
+    "date": "07 Nov 2026, 05:10 PM",
+    "status": "Contacted"
+  },
+  {
+    "id": 9,
+    "name": "Rajesh Kannan",
+    "phone": "+91 98410 77889",
+    "email": "rajesh.k@gmail.com",
+    "property": "Urban Oasis",
+    "location": "Porur",
+    "date": "06 Nov 2026, 11:50 AM",
+    "status": "Site Visit"
+  },
+  {
+    "id": 10,
+    "name": "Lakshmi Narayanan",
+    "phone": "+91 97890 33221",
+    "email": "lakshmi.n@gmail.com",
+    "property": "Marina Breeze",
+    "location": "Besant Nagar",
+    "date": "05 Nov 2026, 10:00 AM",
+    "status": "Closed"
+  }
+]

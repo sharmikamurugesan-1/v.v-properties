@@ -1,0 +1,57 @@
+{
+  "name": "Victor Paul",
+  "username": "victorpaul",
+  "password": "admin",
+  "role": "Super Administrator",
+  "avatar": "",
+  "accounts": [
+    {
+      "name": "Victor Paul",
+      "username": "victorpaul",
+      "password": "admin",
+      "role": "Super Administrator",
+      "created": "01 Nov 2026",
+      "status": "Active"
+    },
+    {
+      "name": "Victor Paul (Alias)",
+      "username": "victor",
+      "password": "admin",
+      "role": "Super Administrator",
+      "created": "01 Nov 2026",
+      "status": "Active"
+    },
+    {
+      "name": "Saran",
+      "username": "saran",
+      "password": "saran",
+      "role": "Administrator",
+      "created": "02 Nov 2026",
+      "status": "Active"
+    },
+    {
+      "name": "Vibhkar",
+      "username": "vibhkar",
+      "password": "vibhkar",
+      "role": "Property Manager",
+      "created": "04 Nov 2026",
+      "status": "Active"
+    },
+    {
+      "name": "Umeshwar",
+      "username": "umeshwar",
+      "password": "umeshwar",
+      "role": "Marketing Lead",
+      "created": "06 Nov 2026",
+      "status": "Active"
+    },
+    {
+      "name": "Sharmika Murugesan",
+      "username": "sharmika",
+      "password": "sharmika",
+      "role": "Executive Administrator",
+      "created": "08 Nov 2026",
+      "status": "Active"
+    }
+  ]
+}
