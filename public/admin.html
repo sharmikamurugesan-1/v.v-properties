@@ -8,41 +8,39 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
   tailwind.config = {
-    darkMode: 'class',
     theme: {
       extend: {
         colors: {
           navy: {
-            900: '#0D0221', // Contrast & Authority (Deep Navy)
+            900: '#0D0221',
             950: '#070114',
           },
           royal: {
-            DEFAULT: '#4062BB', // Brand Identity & Primary Actions (Royal Blue)
+            DEFAULT: '#4062BB',
             hover: '#314fa5',
-            light: '#eef3fc',
+            light: '#EEF3FC',
           },
           ice: {
-            DEFAULT: '#CDE6F5', // Subtle Backgrounds (Ice Blue)
-            border: '#a9d2ee',
+            DEFAULT: '#CDE6F5',
+            border: '#A9D2EE',
           },
           emerald: {
-            DEFAULT: '#49A078', // Success States (Green)
-            dark: '#3b8663',
+            DEFAULT: '#10B981',
+            dark: '#059669',
           },
           coral: {
-            DEFAULT: '#F06543', // Errors & Warnings (Coral Red)
-            dark: '#d94f2f',
+            DEFAULT: '#EF4444',
+            dark: '#DC2626',
           }
         },
         fontFamily: {
-          serif: ['"Plus Jakarta Sans"', '"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
-          sans: ['"Plus Jakarta Sans"', '"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+          sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', '-apple-system', 'sans-serif'],
         }
       }
     }
   }
 </script>
-<!-- Google Fonts: Plus Jakarta Sans (Modern Executive Real Estate) + Inter -->
+<!-- Google Fonts: Plus Jakarta Sans + Inter -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -51,86 +49,48 @@
 
 <style>
   body {
-    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, -apple-system, sans-serif;
     color: #0D0221;
-    letter-spacing: -0.015em;
+    background-color: #FFFFFF;
+    letter-spacing: -0.012em;
+    -webkit-font-smoothing: antialiased;
   }
   
-  /* Smooth Custom Scrollbar */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  /* Refined Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
   ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
 
-  @keyframes menuPop {
-    from { opacity: 0; transform: translateY(-4px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+  /* Smooth Dropdown Animation */
+  .menu-anim {
+    animation: menuIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   }
-  .menu-anim { animation: menuPop 0.15s cubic-bezier(0.16, 1, 0.3, 1); }
-  .menu-wrapper.is-open { opacity: 1 !important; }
+  @keyframes menuIn {
+    from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
 
-  .drag-over {
-    border-color: #4062BB !important;
-    background-color: #EEF3FC !important;
-    transform: scale(1.02);
+  /* Modal Backdrop Fade */
+  .modal-overlay {
+    animation: fadeIn 0.2s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
   }
 </style>
 </head>
-<body class="bg-white min-h-screen text-slate-800 antialiased selection:bg-royal selection:text-white font-sans">
-
-<!-- =========================================================== -->
-<!-- FULLSCREEN LOGIN GATE (24-HOUR AUTHENTICATION EXPIRY)       -->
-<!-- =========================================================== -->
-<div id="loginGate" class="fixed inset-0 z-50 bg-navy-950 flex items-center justify-center p-4">
-  <div class="w-full max-w-md bg-navy-900 border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-    <!-- Subtle Ambient Glow -->
-    <div class="absolute -top-24 -right-24 w-48 h-48 bg-royal/30 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald/20 rounded-full blur-3xl pointer-events-none"></div>
-
-    <div class="text-center mb-6">
-      <div class="w-16 h-16 rounded-2xl bg-navy-900 border border-white/10 p-2 mx-auto flex items-center justify-center shadow-lg mb-3">
-        <img src="logo.png" alt="V.V Properties Logo" class="w-12 h-12 object-contain" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=100&q=80'">
-      </div>
-      <h2 class="font-sans font-bold text-white text-2xl tracking-tight">V.V PROPERTIES</h2>
-      <p class="text-xs text-slate-400 mt-1">Executive Administration Portal</p>
-    </div>
-
-    <!-- Login Form -->
-    <form onsubmit="handleLoginSubmit(event)" autocomplete="off" class="space-y-4">
-      <div id="loginErrorMsg" class="p-3 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-medium hidden"></div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Username</label>
-        <div class="relative">
-          <i data-lucide="user" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3 z-10"></i>
-          <input id="loginUsername" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-royal focus:border-royal transition-all shadow-sm">
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Password</label>
-        <div class="relative">
-          <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3 z-10"></i>
-          <input id="loginPassword" type="password" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-royal focus:border-royal transition-all shadow-sm">
-        </div>
-      </div>
-
-      <button type="submit" class="w-full py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/30 transition-all flex items-center justify-center gap-2 mt-2">
-        <i data-lucide="log-in" class="w-4 h-4"></i>
-        <span>Sign In to Portal</span>
-      </button>
-    </form>
-  </div>
-</div>
+<body class="bg-white min-h-screen text-slate-800 antialiased">
 
 <div class="flex min-h-screen bg-white">
 
   <!-- ========================================================= -->
-  <!-- SIDEBAR (Deep Navy #0D0221, Merged Logo, Clean Brand)     -->
+  <!-- SIDEBAR (DEEP AUTHORITY NAVY #0D0221, ZERO SUBTITLE)      -->
   <!-- ========================================================= -->
   <aside class="fixed inset-y-0 left-0 w-64 bg-navy-900 border-r border-navy-950 z-30 flex flex-col shadow-2xl transition-all duration-300">
     
-    <!-- BRAND / LOGO AREA (Clean, No Subtitle) -->
+    <!-- BRAND / LOGO AREA (Clean, Emblem & Title Only) -->
     <div class="px-6 pt-7 pb-6 border-b border-white/10 flex items-center gap-3.5">
       <div class="w-11 h-11 rounded-full overflow-hidden border-2 border-white/20 shadow-md flex-shrink-0 bg-white">
         <img src="logo.png" alt="V.V Properties Logo" class="w-full h-full object-cover">
@@ -141,28 +101,28 @@
     </div>
 
     <!-- NAVIGATION MENU -->
-    <div class="px-3.5 py-5 flex-1 overflow-y-auto space-y-6">
+    <div class="px-3.5 py-6 flex-1 overflow-y-auto space-y-7">
       <div>
-        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-2.5">Overview</div>
+        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3.5 mb-2.5">Management</div>
         <nav class="space-y-1.5" id="sidebarNav">
-          <button onclick="go('dashboard')" data-page="dashboard" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold text-white bg-royal shadow-md shadow-royal/30 transition-all">
+          <button onclick="go('dashboard')" data-page="dashboard" class="nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold text-white bg-royal shadow-md shadow-royal/30 transition-all">
             <i data-lucide="layout-dashboard" class="w-4 h-4 text-white"></i>
             <span>Dashboard</span>
           </button>
-          <button onclick="go('properties')" data-page="properties" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+          <button onclick="go('properties')" data-page="properties" class="nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             <i data-lucide="building-2" class="w-4 h-4 text-slate-400"></i>
             <span>Properties</span>
           </button>
-          <button onclick="go('banners')" data-page="banners" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+          <button onclick="go('banners')" data-page="banners" class="nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             <i data-lucide="image" class="w-4 h-4 text-slate-400"></i>
             <span>Banner Management</span>
           </button>
-          <button onclick="go('enquiries')" data-page="enquiries" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+          <button onclick="go('enquiries')" data-page="enquiries" class="nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             <i data-lucide="message-square" class="w-4 h-4 text-slate-400"></i>
             <span class="flex-1 text-left">Enquiries</span>
-            <span id="unreadEnquiriesBadge" class="bg-emerald/20 text-emerald text-[11px] px-2 py-0.5 rounded-full font-bold border border-emerald/30">4</span>
+            <span id="unreadEnquiriesBadge" class="bg-emerald/20 text-emerald text-[11px] px-2 py-0.5 rounded-full font-bold border border-emerald/30">12</span>
           </button>
-          <button onclick="go('testimonials')" data-page="testimonials" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+          <button onclick="go('testimonials')" data-page="testimonials" class="nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             <i data-lucide="star" class="w-4 h-4 text-slate-400"></i>
             <span>Testimonials</span>
           </button>
@@ -170,17 +130,13 @@
       </div>
 
       <div>
-        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-2.5">Preferences</div>
+        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3.5 mb-2.5">System</div>
         <nav class="space-y-1.5">
-          <button onclick="go('profile')" data-page="profile" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+          <button onclick="go('profile')" data-page="profile" class="nav-btn w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             <i data-lucide="shield-check" class="w-4 h-4 text-slate-400"></i>
-            <span>Admin</span>
+            <span>Admin Settings</span>
           </button>
-          <button onclick="go('logs')" data-page="logs" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-            <i data-lucide="scroll-text" class="w-4 h-4 text-slate-400"></i>
-            <span>Activity Logs</span>
-          </button>
-          <button onclick="logout()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-coral hover:bg-coral/10 transition-all">
+          <button onclick="logout()" class="w-full flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-xs font-medium text-coral hover:bg-coral/10 transition-all">
             <i data-lucide="log-out" class="w-4 h-4 text-coral"></i>
             <span>Logout</span>
           </button>
@@ -189,7 +145,7 @@
     </div>
 
     <!-- SPACIOUS EXECUTIVE ADMINISTRATOR PROFILE CARD (SPACIOUS, HUMAN-CRAFTED, NON-AI) -->
-    <div class="px-3.5 pb-6 pt-3 mt-auto border-t border-white/10">
+    <div class="px-4 pb-7 pt-4 mt-auto border-t border-white/10">
       <div class="p-3.5 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 transition-all flex items-center justify-between group">
         <div class="flex items-center gap-3 min-w-0">
           <div class="relative w-9 h-9 rounded-full overflow-hidden bg-gradient-to-br from-royal to-royal-hover text-white font-bold flex items-center justify-center text-xs shadow-md border border-white/20 flex-shrink-0">
@@ -216,19 +172,21 @@
   <!-- ========================================================= -->
   <main class="ml-64 flex-1 min-h-screen flex flex-col bg-white">
     
-    <!-- TOP BAR (Date on left; Victor Paul bold + Super Administrator below on right) -->
-    <header class="sticky top-0 z-20 h-16 bg-white/90 backdrop-blur-md border-b border-slate-100 px-8 flex items-center justify-between">
+    <!-- TOP BAR (CLEAN, DATE ON LEFT, NOTIFICATIONS & ADMIN ON RIGHT, NO AI TECH BADGES) -->
+    <header class="sticky top-0 z-20 h-16 bg-white/95 backdrop-blur-md border-b border-slate-100 px-8 lg:px-12 flex items-center justify-between">
       
-      <!-- TOP LEFT: DYNAMIC DATE -->
-      <div class="flex items-center gap-2.5 text-xs font-medium text-slate-600">
-        <i data-lucide="calendar" class="w-4 h-4 text-royal"></i>
-        <span id="liveHeaderDate" class="font-semibold text-slate-800">Saturday, 14 November 2026</span>
+      <!-- TOP LEFT: BREADCRUMB / DATE -->
+      <div class="flex items-center gap-2.5 text-xs font-semibold text-slate-600">
+        <span>V.V Properties</span>
+        <span class="text-slate-300">/</span>
+        <span id="crumb" class="text-navy-900 font-bold">Dashboard</span>
       </div>
 
-      <!-- TOP RIGHT: NOTIFICATION BELL & ADMIN PROFILE (CLEAN, NO AI TECH BADGES) -->
+      <!-- TOP RIGHT: NOTIFICATION BELL & ADMIN PROFILE -->
       <div class="flex items-center gap-4">
-        <!-- Notification Center -->
-        <button onclick="showToast('All notifications read')" class="relative p-2 rounded-xl text-slate-500 hover:text-navy-900 hover:bg-slate-100 transition-colors" title="Notifications">
+        <span id="liveHeaderDate" class="text-xs font-medium text-slate-500 hidden sm:inline-block">Saturday, 14 November 2026</span>
+
+        <button onclick="showToast('All notifications are up to date')" class="relative p-2 rounded-xl text-slate-500 hover:text-navy-900 hover:bg-slate-100 transition-colors" title="Notifications">
           <i data-lucide="bell" class="w-4 h-4"></i>
           <span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-royal ring-2 ring-white"></span>
         </button>
@@ -236,201 +194,185 @@
         <div class="h-5 w-px bg-slate-200"></div>
 
         <div class="flex items-center gap-2.5 cursor-pointer hover:opacity-90 transition-opacity" onclick="go('profile')">
-          <div id="adminAvatarContainer" class="w-8 h-8 rounded-full overflow-hidden bg-ice text-royal font-bold flex items-center justify-center text-xs shadow-sm font-sans border border-ice-border flex-shrink-0">
-            <span id="adminAvatarInitial">V</span>
-            <img id="adminAvatarImg" src="" alt="Admin" class="w-full h-full object-cover hidden">
+          <div class="w-8 h-8 rounded-full overflow-hidden bg-ice text-royal font-bold flex items-center justify-center text-xs shadow-sm font-sans border border-ice-border flex-shrink-0">
+            <span>VP</span>
           </div>
-          <div class="text-left">
-            <p id="topAdminName" class="text-xs font-bold text-navy-900 leading-none">Victor Paul</p>
-            <p id="topAdminSubtitle" class="text-[10px] text-slate-400 font-medium mt-0.5">Super Administrator</p>
+          <div class="text-left hidden md:block">
+            <p class="text-xs font-bold text-navy-900 leading-none">Victor Paul</p>
+            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Super Administrator</p>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- CONTENT WRAPPER (SPACIOUS EXECUTIVE LAYOUT) -->
+    <!-- CONTENT WRAPPER (SPACIOUS EXECUTIVE CANVAS, MAX-WIDTH 1600PX) -->
     <div class="px-8 lg:px-12 py-8 max-w-[1600px] w-full mx-auto flex-1 space-y-8">
 
       <!-- ======================================================= -->
       <!-- PAGE: DASHBOARD                                         -->
       <!-- ======================================================= -->
-      <section id="dashboard" class="page-view block space-y-6">
+      <section id="dashboard" class="page-view block space-y-8">
         
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Executive Dashboard</h1>
-            <p class="text-xs text-slate-500 mt-1">Real-time overview of listing portfolios, lead generation, and performance.</p>
+            <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Executive Dashboard</h1>
+            <p class="text-sm text-slate-500 mt-1 font-medium">Real-time overview of listing portfolios, lead generation, and performance.</p>
           </div>
-          
+          <button onclick="openAddPropertyModal()" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            <span>Add Property</span>
+          </button>
         </div>
 
-        <!-- 4 STAT METRICS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Properties</span>
-              <div class="w-8 h-8 rounded-lg bg-royal/10 text-royal flex items-center justify-center">
+        <!-- 4 STAT METRICS (CLEAN WHITE ELEVATED CARDS) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between text-slate-400 mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Properties</span>
+              <div class="w-8 h-8 rounded-xl bg-royal/10 text-royal flex items-center justify-center">
                 <i data-lucide="building" class="w-4 h-4"></i>
               </div>
             </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-sans" id="statTotalProps">10</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-emerald">
-              <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
-              <span>+14% this month</span>
-            </div>
+            <div class="text-3xl font-extrabold text-navy-900 tracking-tight" id="dashTotalProps">10</div>
+            <p class="text-xs font-semibold text-emerald mt-2 flex items-center gap-1">
+              <span>↑ 14% this month</span>
+            </p>
           </div>
 
-          <!-- DRAFT PROPERTIES (Value 3, Awaiting publication) -->
-          <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Draft Properties</span>
-              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
-                <i data-lucide="file-edit" class="w-4 h-4"></i>
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between text-slate-400 mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Published Active</span>
+              <div class="w-8 h-8 rounded-xl bg-emerald/10 text-emerald flex items-center justify-center">
+                <i data-lucide="check-circle-2" class="w-4 h-4"></i>
               </div>
             </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-sans" id="statDraftProps">3</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-amber-600">
-              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-              <span>Awaiting publication</span>
-            </div>
+            <div class="text-3xl font-extrabold text-navy-900 tracking-tight">10</div>
+            <p class="text-xs font-semibold text-emerald mt-2 flex items-center gap-1">
+              <span>✓ 100% active visibility</span>
+            </p>
           </div>
 
-          <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Enquiries</span>
-              <div class="w-8 h-8 rounded-lg bg-ice text-royal flex items-center justify-center">
-                <i data-lucide="inbox" class="w-4 h-4"></i>
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between text-slate-400 mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Total Enquiries</span>
+              <div class="w-8 h-8 rounded-xl bg-royal/10 text-royal flex items-center justify-center">
+                <i data-lucide="mail" class="w-4 h-4"></i>
               </div>
             </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-sans">86</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-royal">
-              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-              <span>+22% inquiries</span>
-            </div>
+            <div class="text-3xl font-extrabold text-navy-900 tracking-tight">86</div>
+            <p class="text-xs font-semibold text-royal mt-2 flex items-center gap-1">
+              <span>↗ +22% enquiries</span>
+            </p>
           </div>
 
-          <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">New Leads</span>
-              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between text-slate-400 mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-500">New Leads</span>
+              <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center">
                 <i data-lucide="sparkles" class="w-4 h-4"></i>
               </div>
             </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-sans">12</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-amber-600">
-              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+            <div class="text-3xl font-extrabold text-emerald tracking-tight">12</div>
+            <p class="text-xs font-semibold text-amber-600 mt-2 flex items-center gap-1">
               <span>Needs follow-up</span>
-            </div>
+            </p>
           </div>
         </div>
 
-        <!-- WEBSITE TRAFFIC GRAPH & PROPERTY LEADS -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          <div class="lg:col-span-2 bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
+        <!-- 2-COLUMNS: PERFORMANCE CHART & PRIORITY LEADS -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div class="lg:col-span-2 bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
-                <h3 class="font-sans font-bold text-navy-900 text-base">Performance</h3>
-                <p id="chartCaption" class="text-xs text-slate-400 mt-0.5">Customer outreach trends and lead velocity across channels</p>
+                <h3 class="font-sans font-bold text-navy-900 text-base">Enquiry Acquisition Velocity</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Customer outreach trends across channels</p>
               </div>
-              <div class="flex items-center gap-2">
-                <div class="relative">
-                  <select id="chartRangeSelect" onchange="onRangeSelectChange(this.value)" class="appearance-none pl-3 pr-8 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 hover:border-royal/50 focus:outline-none focus:ring-2 focus:ring-royal/20 transition-all cursor-pointer shadow-2xs">
-                    <option value="24h">24 Hours</option>
-                    <option value="1W" selected>1 Week</option>
-                    <option value="1M">1 Month</option>
-                    <option value="3M">3 Months</option>
-                    <option value="6M">6 Months</option>
-                    <option value="1Y">1 Year</option>
-                    <option value="custom">📅 Customize Range</option>
-                  </select>
-                  <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none"></i>
-                </div>
+              <div class="flex items-center gap-1 p-1 bg-slate-100 rounded-xl" id="ranges">
+                <button class="px-3 py-1 rounded-lg text-xs font-semibold text-royal bg-white shadow-sm transition-all" data-range="1W">1W</button>
+                <button class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-navy-900 transition-all" data-range="1M">1M</button>
+                <button class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-navy-900 transition-all" data-range="3M">3M</button>
+                <button class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-navy-900 transition-all" data-range="6M">6M</button>
+                <button class="px-3 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:text-navy-900 transition-all" data-range="1Y">1Y</button>
               </div>
             </div>
-
-            <!-- CUSTOM DATE PICKER BOX (OPENS WHEN CUSTOMIZE IS SELECTED) -->
-            <div id="customDateRangeBox" class="hidden mb-4 p-3 bg-slate-50 border border-slate-200 rounded-lg flex flex-wrap items-center justify-between gap-3 transition-all">
-              <div class="flex flex-wrap items-center gap-3">
-                <div class="flex items-center gap-1.5 text-xs text-slate-700 font-medium">
-                  <span class="text-slate-400 font-bold uppercase text-[10px]">From:</span>
-                  <input type="date" id="chartDateFrom" value="2026-06-01" onchange="applyCustomDateRange()" class="px-2.5 py-1 bg-white border border-slate-200 rounded text-xs font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-royal/20 cursor-pointer shadow-2xs">
-                </div>
-                <div class="flex items-center gap-1.5 text-xs text-slate-700 font-medium">
-                  <span class="text-slate-400 font-bold uppercase text-[10px]">To:</span>
-                  <input type="date" id="chartDateTo" value="2026-09-30" onchange="applyCustomDateRange()" class="px-2.5 py-1 bg-white border border-slate-200 rounded text-xs font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-royal/20 cursor-pointer shadow-2xs">
-                </div>
-              </div>
-              <button type="button" onclick="applyCustomDateRange()" class="px-3 py-1 bg-royal text-white text-xs font-semibold rounded hover:bg-royal-hover transition-colors shadow-sm">
-                Apply Date Filter
-              </button>
-            </div>
-
-            <div class="h-56 relative w-full pt-1">
-              <svg viewBox="0 0 620 180" preserveAspectRatio="none" class="w-full h-full">
+            
+            <div class="h-56 relative pt-2">
+              <svg viewBox="0 0 620 180" class="w-full h-full overflow-visible" preserveAspectRatio="none">
                 <g stroke="#F1F5F9" stroke-width="1">
-                  <path d="M40 15H610M40 50H610M40 85H610M40 120H610M40 155H610"/>
+                  <path d="M40 15H610M40 55H610M40 95H610M40 135H610M40 175H610"/>
                 </g>
-                <g fill="#94A3B8" font-size="10" font-weight="600">
-                  <text x="6" y="18">100</text>
-                  <text x="12" y="53">75</text>
-                  <text x="12" y="88">50</text>
-                  <text x="12" y="123">25</text>
-                  <text x="18" y="158">0</text>
+                <g fill="#94A3B8" font-size="10">
+                  <text x="8" y="18">100</text>
+                  <text x="12" y="58">75</text>
+                  <text x="12" y="98">50</text>
+                  <text x="12" y="138">25</text>
+                  <text x="18" y="178">0</text>
                 </g>
-                <path id="chartArea" d="M40 125 L135 98 L230 105 L325 90 L420 55 L515 70 L610 35 L610 155 L40 155Z" fill="#CDE6F5" fill-opacity="0.55"/>
-                <polyline id="chartLine" points="40,125 135,98 230,105 325,90 420,55 515,70 610,35" fill="none" stroke="#4062BB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path id="chartArea" d="M40 142 L135 111 L230 119 L325 105 L420 68 L515 83 L610 45 L610 175 L40 175Z" fill="#EFF6FF"/>
+                <polyline id="chartLine" points="40,142 135,111 230,119 325,105 420,68 515,83 610,45" fill="none" stroke="#4062BB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 <g id="chartDots" fill="#4062BB">
+                  <circle cx="40" cy="142" r="4"/><circle cx="135" cy="111" r="4"/><circle cx="230" cy="119" r="4"/>
+                  <circle cx="325" cy="105" r="4"/><circle cx="420" cy="68" r="4"/><circle cx="515" cy="83" r="4"/><circle cx="610" cy="45" r="4"/>
                 </g>
-                <!-- EXACTLY FIVE CALENDAR DATE LABELS DISTRIBUTED EVENLY ON X-AXIS -->
-                <g id="chartXLabels" fill="#94A3B8" font-size="10" font-weight="500">
-                  <text x="25" y="172">07/11/2026</text>
-                  <text x="160" y="172">08/11/2026</text>
-                  <text x="305" y="172">10/11/2026</text>
-                  <text x="445" y="172">12/11/2026</text>
-                  <text x="550" y="172">14/11/2026</text>
+                <g id="chartXLabels" fill="#94A3B8" font-size="10">
+                  <text x="35" y="188">Mon</text><text x="130" y="188">Tue</text><text x="225" y="188">Wed</text>
+                  <text x="320" y="188">Thu</text><text x="415" y="188">Fri</text><text x="510" y="188">Sat</text><text x="600" y="188">Sun</text>
                 </g>
               </svg>
             </div>
+            <div class="text-xs text-slate-400 font-medium" id="chartCaption">Enquiries received during the last 7 days · Demo data</div>
           </div>
 
-          <!-- PROPERTY LEADS PANEL (EXACTLY 3 PRIORITY LEADS) -->
-          <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm flex flex-col">
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <h3 class="font-sans font-bold text-navy-900 text-base">Property Leads</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Fresh incoming inquiries</p>
-              </div>
-              <button onclick="go('enquiries')" class="text-xs font-bold text-royal hover:underline">View All →</button>
-            </div>
-
-            <div class="space-y-2.5 flex-1 overflow-y-auto" id="priorityLeadsList">
-              <!-- Dynamically populated with 4 NEW leads -->
-            </div>
-          </div>
-        </div>
-
-        <!-- RECENTLY ADDED PROPERTIES -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
+          <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
             <div>
-              <h3 class="font-sans font-bold text-navy-900 text-base">Recently Added Properties</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Latest curated listings added to the active portfolio</p>
+              <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div>
+                  <h3 class="font-sans font-bold text-navy-900 text-base">Priority Leads</h3>
+                  <p class="text-xs text-slate-500 mt-0.5">Needs immediate reply</p>
+                </div>
+                <button onclick="go('enquiries')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
+                  <span>View All</span>
+                  <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </button>
+              </div>
+
+              <div class="divide-y divide-slate-100 mt-3">
+                <div class="py-3 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition-colors" onclick="openEnquiry(0)">
+                  <div>
+                    <h4 class="text-xs font-bold text-navy-900">Suresh Kumar</h4>
+                    <p class="text-[11px] text-slate-400 font-medium mt-0.5">Lake View Residency</p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald/10 text-emerald border border-emerald/20">New</span>
+                </div>
+
+                <div class="py-3 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition-colors" onclick="openEnquiry(1)">
+                  <div>
+                    <h4 class="text-xs font-bold text-navy-900">Meena Priya</h4>
+                    <p class="text-[11px] text-slate-400 font-medium mt-0.5">Green Avenue Villas</p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-royal/10 text-royal border border-royal/20">Contacted</span>
+                </div>
+
+                <div class="py-3 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition-colors" onclick="openEnquiry(2)">
+                  <div>
+                    <h4 class="text-xs font-bold text-navy-900">Rohit Sharma</h4>
+                    <p class="text-[11px] text-slate-400 font-medium mt-0.5">City Centre Plots</p>
+                  </div>
+                  <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-rose-50 text-coral border border-rose-200">Closed</span>
+                </div>
+              </div>
             </div>
-            <button onclick="go('properties')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
-              <span>View All Properties</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+
+            <button onclick="go('enquiries')" class="w-full mt-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-center gap-2">
+              <span>Open Lead Ingestion Center</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
             </button>
           </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="recentPropertiesGrid">
-            <!-- Dynamically populated with pure image-card hover overlay style -->
-          </div>
         </div>
-
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: PROPERTIES (SPACIOUS EXECUTIVE PRESENTATION)      -->
+      <!-- PAGE: PROPERTIES (SPACIOUS, MEDIUM-HEIGHT, NO BOTTOM EDIT BAR) -->
       <!-- ======================================================= -->
       <section id="properties" class="page-view hidden space-y-8">
         
@@ -445,11 +387,23 @@
           </button>
         </div>
 
-        <!-- FILTERS BAR (SPACIOUS & ELEVATED - AUTOCOMPLETE BLOCKED) -->
+        <!-- FILTERS BAR (SPACIOUS, ELEVATED, ANTI-AUTOFILL PROTECTED) -->
         <div class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
           <div class="relative flex-1 w-full">
             <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5"></i>
-            <input id="propSearchInput" oninput="filterProperties()" type="search" name="vv_prop_search_query" autocomplete="new-password" data-lpignore="true" autocorrect="off" autocapitalize="off" spellcheck="false" value="" placeholder="Search by property name..." class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-royal/20">
+            <input 
+              id="propSearchInput" 
+              oninput="filterProperties()" 
+              type="search" 
+              name="vv_properties_query_search" 
+              autocomplete="new-password" 
+              data-lpignore="true" 
+              autocorrect="off" 
+              autocapitalize="off" 
+              spellcheck="false" 
+              value="" 
+              placeholder="Search by property name or location..." 
+              class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-royal/20">
           </div>
           <div class="flex items-center gap-3 w-full md:w-auto">
             <div class="relative">
@@ -461,10 +415,7 @@
                 <option value="Anna Nagar">Anna Nagar</option>
                 <option value="Medavakkam">Medavakkam</option>
                 <option value="Sholinganallur">Sholinganallur</option>
-                <option value="Thiruvanmiyur">Thiruvanmiyur</option>
                 <option value="Tambaram">Tambaram</option>
-                <option value="Guindy">Guindy</option>
-                <option value="Besant Nagar">Besant Nagar</option>
                 <option value="Porur">Porur</option>
               </select>
             </div>
@@ -479,81 +430,86 @@
               <option value="Featured">Featured</option>
               <option value="New Launch">New Launch</option>
               <option value="Special Offer">Special Offer</option>
-              <option value="Prime">Prime</option>
               <option value="None">No Badge</option>
             </select>
           </div>
         </div>
 
-        <!-- 3-COLUMNS PROPERTIES GRID (SPACIOUS GAP) -->
+        <!-- 3-COLUMNS PROPERTIES GRID (MEDIUM CARD HEIGHT, NO BOTTOM CARD/EDIT SECTION) -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="propertyCards">
           <!-- Populated dynamically -->
         </div>
-
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: BANNER MANAGEMENT                                 -->
+      <!-- PAGE: BANNER MANAGEMENT (NO TEMPLATES, 6 CURATED LIVE BANNERS) -->
       <!-- ======================================================= -->
-      <section id="banners" class="page-view hidden space-y-5">
+      <section id="banners" class="page-view hidden space-y-8">
         
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-1">
           <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Banner Management</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Drag to reorder carousel slides. Manage display priority and upload banners.</p>
+            <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Banner Management</h1>
+            <p class="text-sm text-slate-500 mt-1 font-medium">Upload, edit and arrange the slides shown in the homepage carousel.</p>
           </div>
-          <button onclick="openModal('addBannerModal')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
+          <button onclick="openModal('bannerModal')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Add Banner</span>
           </button>
         </div>
 
-        <!-- CAROUSEL SLIDES (Clean white elevated 5/10 pill) -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-4">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-5">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-100">
             <div>
-              <h3 class="font-sans font-bold text-navy-900 text-sm">Carousel Slides</h3>
+              <h3 class="font-sans font-bold text-navy-900 text-base">Homepage Carousel</h3>
+              <p class="text-xs text-slate-500 mt-0.5">Drag to reorder slide sequence. Up to 5 slides active concurrently.</p>
             </div>
-            <!-- Elevated white pill without blue background -->
-            <span id="slideCapacity" class="px-3.5 py-1 rounded-full text-xs font-bold bg-white text-navy-900 border border-slate-200/90 shadow-sm">
-              5/10
+            <span id="slideCapacity" class="px-4 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-navy-900 border border-slate-200 shadow-sm">
+              5 / 10 Active
             </span>
           </div>
 
-          <!-- DRAGGABLE BANNER LIST (Without left 4-dots grip) -->
-          <div id="bannerList" class="space-y-2.5"></div>
+          <!-- BANNER LIST (6 BANNERS) -->
+          <div class="space-y-3" id="bannerList"></div>
+
+          <!-- DRAG & DROP UPLOAD ZONE -->
+          <div class="border-2 border-dashed border-blue-200 bg-slate-50 hover:bg-blue-50/50 rounded-2xl p-8 text-center cursor-pointer transition-all" id="dropzone">
+            <i data-lucide="cloud-upload" class="w-8 h-8 text-royal mx-auto mb-2"></i>
+            <b class="block text-navy-900 text-sm font-bold">＋ Drag & drop banner image here</b>
+            <span class="text-xs text-slate-500 block mt-1">or click to browse from device · JPG, PNG, WebP · recommended 1920 × 720 px</span>
+            <input id="bannerFile" type="file" accept="image/*" hidden>
+          </div>
         </div>
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: ENQUIRIES (WITHOUT ACTION COLUMN, ROW CLICK OPENS) -->
+      <!-- PAGE: ENQUIRIES                                         -->
       <!-- ======================================================= -->
-      <section id="enquiries" class="page-view hidden space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <section id="enquiries" class="page-view hidden space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-1">
           <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Customer Enquiries</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Incoming leads and site visit reservations received from property pages.</p>
+            <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Customer Enquiries</h1>
+            <p class="text-sm text-slate-500 mt-1 font-medium">Customer messages and site visit requests submitted through the website.</p>
           </div>
-          <button onclick="exportEnquiriesCSV()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all shadow-sm">
+          <button onclick="showToast('Exporting verified enquiries to CSV...')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold shadow-sm transition-all">
             <i data-lucide="download" class="w-4 h-4 text-slate-500"></i>
             <span>Export CSV</span>
           </button>
         </div>
 
-        <div class="bg-white border border-slate-200/90 rounded-xl shadow-sm overflow-hidden">
+        <div class="bg-white border border-slate-200/90 rounded-2xl shadow-sm overflow-hidden">
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
               <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
                 <tr>
                   <th class="px-6 py-4">Client Name</th>
                   <th class="px-6 py-4">Phone / Email</th>
-                  <th class="px-6 py-4">Property & Location</th>
-                  <th class="px-6 py-4">Date Submitted</th>
-                  <th class="px-6 py-4">Lead Status</th>
+                  <th class="px-6 py-4">Interested Property</th>
+                  <th class="px-6 py-4">Submitted</th>
+                  <th class="px-6 py-4">Status</th>
                 </tr>
               </thead>
               <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="enquiriesTableBody">
-                <!-- Populated dynamically without action column -->
+                <!-- Dynamically populated -->
               </tbody>
             </table>
           </div>
@@ -561,152 +517,56 @@
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: TESTIMONIALS (TOP-RIGHT PENCIL EDIT & TRASH)       -->
+      <!-- PAGE: TESTIMONIALS                                      -->
       <!-- ======================================================= -->
-      <section id="testimonials" class="page-view hidden space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <section id="testimonials" class="page-view hidden space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 pb-1">
           <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Client Testimonials</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Verified customer reviews displayed on public landing pages.</p>
+            <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Client Testimonials</h1>
+            <p class="text-sm text-slate-500 mt-1 font-medium">Manage customer reviews and feedback displayed on the public website.</p>
           </div>
-          <button onclick="openAddTestimonialModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
+          <button onclick="openModal('testimonialModal')" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Add Testimonial</span>
           </button>
         </div>
-        <div id="testCards" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="testCards"></div>
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: ADMIN PROFILE & TEAM ACCOUNTS                     -->
+      <!-- PAGE: ADMIN PROFILE                                     -->
       <!-- ======================================================= -->
-      <section id="profile" class="page-view hidden space-y-6">
-        <div>
-          <h1 class="text-2xl font-bold text-navy-900 tracking-tight mb-1 font-sans">Admin Profile & Settings</h1>
-          <p class="text-xs text-slate-500">Manage administrator credentials, profile details, and authorized staff accounts.</p>
+      <section id="profile" class="page-view hidden space-y-8">
+        <div class="pb-1">
+          <h1 class="text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Admin Settings</h1>
+          <p class="text-sm text-slate-500 mt-1 font-medium">Manage administrator security and portal credentials.</p>
         </div>
-
-        <!-- ADMIN PROFILE CARD (Left photo, right name/username/password/edit password) -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm max-w-3xl">
-          <form autocomplete="off" onsubmit="event.preventDefault();saveAdminProfile();">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              
-              <!-- LEFT: PROFILE PHOTO UPLOAD BOX -->
-              <div>
-                <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Profile Photo</label>
-                <div id="adminPhotoDropzone" class="w-full aspect-square max-w-[200px] rounded-2xl border-2 border-dashed border-slate-300 hover:border-royal bg-slate-50 hover:bg-royal/5 flex flex-col items-center justify-center cursor-pointer transition-all relative overflow-hidden group">
-                  <div id="photoPlaceholder" class="flex flex-col items-center justify-center text-slate-400 group-hover:text-royal p-4 text-center">
-                    <i data-lucide="plus" class="w-8 h-8 stroke-[2.5]"></i>
-                    <span class="text-xs font-bold mt-1.5">Upload Photo</span>
-                    <span class="text-[10px] text-slate-400 mt-1">Drag & drop or click</span>
-                  </div>
-                  <img id="photoPreviewImg" src="" alt="Profile Photo" class="w-full h-full object-cover hidden absolute inset-0">
-                  <input id="adminPhotoFileInput" type="file" accept="image/*" class="hidden">
-                </div>
-              </div>
-
-              <!-- RIGHT: DISPLAY NAME, USERNAME, PASSWORD & EDIT PASSWORD -->
-              <div class="md:col-span-2 space-y-4">
-                <div>
-                  <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Display Name</label>
-                  <input id="profileDisplayName" type="text" value="Victor Paul" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-royal/20">
-                </div>
-
-                <div>
-                  <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Username</label>
-                  <input id="profileUsername" type="text" value="victor" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-royal/20">
-                </div>
-
-                <div>
-                  <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Password</label>
-                  <input id="profilePassword" type="password" value="admin" readonly class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-500 tracking-widest">
-                  <div class="flex justify-end mt-1.5">
-                    <button type="button" onclick="openModal('editPasswordModal')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
-                      <i data-lucide="key" class="w-3.5 h-3.5"></i>
-                      <span>Edit Password</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="pt-2">
-                  <button type="submit" class="px-5 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white font-bold text-xs shadow-md shadow-royal/25 transition-all">
-                    Save Profile Changes
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </form>
-        </div>
-
-        <!-- TEAM ACCOUNTS TABLE (saran, vibhkar, umeshwar, sharmika, victor) -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
+        <div class="bg-white border border-slate-200/90 rounded-2xl p-7 max-w-xl shadow-sm space-y-4">
+          <div class="grid grid-cols-2 gap-4">
             <div>
-              <h3 class="font-sans font-bold text-navy-900 text-base">Admin & Team Accounts</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Authorized accounts with identical username and password</p>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Username</label>
+              <input value="admin" readonly class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-slate-700 outline-none">
             </div>
-            <button onclick="openModal('addAccountModal')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-sm transition-all">
-              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-              <span>+ Add New Account</span>
-            </button>
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Role</label>
+              <input value="Super Administrator" readonly class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-bold text-slate-700 outline-none">
+            </div>
+            <div class="col-span-2">
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Current Password</label>
+              <input type="password" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-royal/20 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">New Password</label>
+              <input type="password" placeholder="New password" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-royal/20 outline-none">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Confirm Password</label>
+              <input type="password" placeholder="Confirm password" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-royal/20 outline-none">
+            </div>
           </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
-                <tr>
-                  <th class="px-5 py-3">Display Name</th>
-                  <th class="px-5 py-3">Username</th>
-                  <th class="px-5 py-3">Role</th>
-                  <th class="px-5 py-3">Created Date</th>
-                  <th class="px-5 py-3">Status</th>
-                  <th class="px-5 py-3 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="accountsTableBody">
-                <!-- Dynamically populated accounts -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ======================================================= -->
-      <!-- PAGE: ACTIVITY LOGS (14-DAY PERSISTENCE & JSON EXPORT)  -->
-      <!-- ======================================================= -->
-      <section id="logs" class="page-view hidden space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Activity Audit Logs</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Chronological system audit trail with automatic 14-day pruning & JSON export.</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="downloadLogsJSON()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-sm transition-all">
-              <i data-lucide="download" class="w-3.5 h-3.5 text-royal"></i>
-              <span>Download activity_logs.json</span>
-            </button>
-            
-          </div>
-        </div>
-
-        <div class="bg-white border border-slate-200/90 rounded-xl shadow-sm overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
-                <tr>
-                  <th class="px-6 py-4">Admin User</th>
-                  <th class="px-6 py-4">Action Summary</th>
-                  <th class="px-6 py-4">Module</th>
-                  <th class="px-6 py-4">Timestamp</th>
-                  <th class="px-6 py-4 text-right">Status</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="logsTableBody">
-                <!-- Dynamically populated from JSON store -->
-              </tbody>
-            </table>
-          </div>
+          <button onclick="showToast('Password updated successfully')" class="px-5 py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/25 transition-all mt-2">
+            Update Password
+          </button>
         </div>
       </section>
 
@@ -714,766 +574,260 @@
   </main>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: ADD / EDIT PROPERTY (SUBTLE LABELS, COVER & GALLERY) -->
-<!-- =========================================================== -->
-<div id="propertyModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
+<!-- ======================================================== -->
+<!-- MODAL: ADD / EDIT PROPERTY                               -->
+<!-- ======================================================== -->
+<div class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 modal-overlay" id="propertyModal">
+  <div class="bg-white rounded-2xl w-full max-w-xl shadow-2xl border border-slate-200 overflow-hidden max-h-[92vh] flex flex-col">
     <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-      <h3 id="modalPropTitle" class="text-base font-bold text-navy-900 font-sans">Add Property</h3>
-      <button onclick="closeModal('propertyModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors">
+      <h2 class="font-sans font-bold text-navy-900 text-base" id="propModalTitle">Add Property</h2>
+      <button onclick="closeModal('propertyModal')" class="p-1 rounded-lg text-slate-400 hover:text-navy-900 hover:bg-slate-100">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
     </div>
-    
-    <div class="p-6 space-y-4 overflow-y-auto flex-1 text-xs">
+    <div class="p-6 overflow-y-auto space-y-4 text-xs">
       <input type="hidden" id="editPropIndex" value="-1">
-      
-      <!-- Property Name & Type -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+      <div class="grid grid-cols-2 gap-4">
         <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Property Name</label>
-          <input id="formPropName" placeholder="e.g. Emerald Bay Villas" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
+          <label class="block font-bold text-slate-600 mb-1">Property Name *</label>
+          <input id="propNameInput" placeholder="e.g. Lake View Residency" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
         </div>
         <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Property Type</label>
-          <input id="formPropType" type="text" placeholder="e.g. Villa · 4 BHK, Apartment · 3 BHK" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-        </div>
-      </div>
-
-      <!-- Location & Price in L -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Location / Area</label>
-          <input id="formPropLoc" placeholder="e.g. OMR, Chennai" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Price</label>
-          <input id="formPropPrice" placeholder="e.g. ₹78 L" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-        </div>
-      </div>
-
-      <!-- Badge Tag & Description -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-        <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Badge Tag</label>
-          <select id="formPropTag" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-            <option value="None">None (No Badge)</option>
-            <option value="Featured">Featured</option>
-            <option value="New Launch">New Launch</option>
-            <option value="Special Offer">Special Offer</option>
-            <option value="Prime">Prime</option>
-            <option value="Exclusive">Exclusive</option>
+          <label class="block font-bold text-slate-600 mb-1">Property Type *</label>
+          <select id="propTypeInput" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none bg-white">
+            <option value="Apartment · 2 BHK">Apartment · 2 BHK</option>
+            <option value="Apartment · 3 BHK">Apartment · 3 BHK</option>
+            <option value="Villa · 3 BHK">Villa · 3 BHK</option>
+            <option value="Villa · 4 BHK">Villa · 4 BHK</option>
+            <option value="Residential Plot">Residential Plot</option>
+            <option value="Commercial">Commercial</option>
           </select>
         </div>
-        <div class="sm:col-span-2">
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Description</label>
-          <textarea id="formPropDesc" rows="2" placeholder="Brief architectural overview, highlights, and specifications..." class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none resize-none"></textarea>
+        <div>
+          <label class="block font-bold text-slate-600 mb-1">Area / Location *</label>
+          <input id="propLocInput" placeholder="e.g. OMR, Chennai" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
         </div>
-      </div>
-
-      <!-- COVER IMAGE: SINGLE PREVIEW WITH UPDATE & DELETE (OR SQUARE DRAG & DROP BOX) -->
-      <div class="border-t border-slate-100 pt-3">
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Cover Image</label>
-        
-        <div id="coverImageContainer">
-          <!-- Populated by JS: either a preview box with Update/Delete or drag-drop square -->
+        <div>
+          <label class="block font-bold text-slate-600 mb-1">Price *</label>
+          <input id="propPriceInput" placeholder="e.g. ₹78 Lakhs" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
         </div>
-        <input type="hidden" id="formPropImage" value="">
-        <input id="propCoverFileInput" type="file" accept="image/*" class="hidden">
-      </div>
-
-      <!-- GALLERY IMAGES: 5 PHOTOS (ROOM, POOL, KITCHEN, BALCONY, EXTERIOR) -->
-      <div class="border-t border-slate-100 pt-3">
-        <div class="flex items-center justify-between mb-2">
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider">Gallery Images (5 Photos)</label>
-          <span class="text-[11px] text-slate-400">Room, Swimming Pool, Kitchen, Balcony, Exterior</span>
+        <div>
+          <label class="block font-bold text-slate-600 mb-1">Property Tag</label>
+          <select id="propTagInput" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none bg-white">
+            <option value="Featured">Featured</option>
+            <option value="Special Offer">Special Offer</option>
+            <option value="New Launch">New Launch</option>
+            <option value="None">None</option>
+          </select>
         </div>
-        
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5" id="galleryGridContainer">
-          <!-- Populated dynamically with 5 slots having Change / Delete / Add -->
+        <div>
+          <label class="block font-bold text-slate-600 mb-1">Cover Image URL</label>
+          <input id="propImageInput" placeholder="https://images.unsplash.com/..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
         </div>
-        <input id="propGalleryFileInput" type="file" accept="image/*" class="hidden">
-      </div>
-
-      <!-- AMENITIES & FACILITIES (Lucide SVG line icons, start unselected) -->
-      <div class="border-t border-slate-100 pt-3">
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Amenities & Facilities</label>
-        <p class="text-[11px] text-slate-400 mb-2.5">Click any amenity icon below to toggle or add custom tags</p>
-
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3" id="amenitiesIconPicker">
-          <!-- Populated with clean Lucide SVG icons -->
-        </div>
-
-        <div class="flex items-center gap-2 mb-2">
-          <input id="newAmenityInput" placeholder="Add custom amenity (e.g. EV Charging Point)..." class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomAmenity();}">
-          <button type="button" onclick="addCustomAmenity()" class="px-3.5 py-2 rounded-lg bg-royal text-white text-xs font-bold hover:bg-royal-hover">
-            + Add
-          </button>
-        </div>
-
-        <div id="selectedAmenitiesList" class="flex flex-wrap gap-1.5 min-h-[34px] p-2 rounded-lg bg-slate-50 border border-slate-200/80">
-          <!-- Selected tags with remove x -->
+        <div class="col-span-2">
+          <label class="block font-bold text-slate-600 mb-1">Short Description *</label>
+          <textarea id="propDescInput" rows="3" placeholder="Summary shown on hover overlay" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none"></textarea>
         </div>
       </div>
     </div>
-
-    <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2.5">
-      <button onclick="closeModal('propertyModal')" class="px-4 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
-      <button onclick="savePropertyForm()" class="px-5 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Property</button>
+    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+      <button onclick="closeModal('propertyModal')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+      <button onclick="saveProperty()" class="px-5 py-2 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/25">Save Property</button>
     </div>
   </div>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: ADD BANNER MODAL (OVERLAY WITH DRAG & DROP UPLOAD)   -->
-<!-- =========================================================== -->
-<div id="addBannerModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-lg w-full border border-slate-200 shadow-2xl p-6">
-    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-      <h3 class="text-base font-bold text-navy-900 font-sans">Add Banner Slide</h3>
-      <button onclick="closeModal('addBannerModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+<!-- ======================================================== -->
+<!-- MODAL: RENAME PROPERTY                                   -->
+<!-- ======================================================== -->
+<div class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 modal-overlay" id="renameModal">
+  <div class="bg-white rounded-2xl w-full max-w-sm shadow-2xl border border-slate-200 overflow-hidden">
+    <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+      <h3 class="font-sans font-bold text-navy-900 text-sm">Rename Property</h3>
+      <button onclick="closeModal('renameModal')" class="p-1 rounded-lg text-slate-400 hover:text-navy-900">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+    <div class="p-5 text-xs">
+      <input type="hidden" id="renamePropIndex" value="-1">
+      <label class="block font-bold text-slate-600 mb-1.5">New Property Title</label>
+      <input id="renamePropInput" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none text-xs font-semibold">
+    </div>
+    <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2">
+      <button onclick="closeModal('renameModal')" class="px-3.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+      <button onclick="saveRename()" class="px-4 py-1.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-sm">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ======================================================== -->
+<!-- MODAL: ADD / EDIT BANNER                                 -->
+<!-- ======================================================== -->
+<div class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 modal-overlay" id="bannerModal">
+  <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <h2 class="font-sans font-bold text-navy-900 text-base">Add Banner Slide</h2>
+      <button onclick="closeModal('bannerModal')" class="p-1 rounded-lg text-slate-400 hover:text-navy-900">
         <i data-lucide="x" class="w-5 h-5"></i>
       </button>
     </div>
-
-    <div class="space-y-3.5">
+    <div class="p-6 space-y-4 text-xs">
       <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Headline</label>
-        <input id="modalBannerHead" placeholder="e.g. Ultra Luxury Living in ECR" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
+        <label class="block font-bold text-slate-600 mb-1">Banner Headline *</label>
+        <input id="bannerHeadline" placeholder="e.g. Signature Luxury Residences on ECR" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
       </div>
       <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Subtext</label>
-        <textarea id="modalBannerSub" rows="2" placeholder="Short description..." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs resize-none"></textarea>
-      </div>
-
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Banner Image (Drag & Drop)</label>
-        <div id="modalDropzone" class="border-2 border-dashed border-slate-300 hover:border-royal bg-slate-50/70 hover:bg-royal/5 rounded-xl p-6 text-center cursor-pointer transition-all group">
-          <div class="w-9 h-9 rounded-lg bg-white shadow-sm border border-slate-200 text-royal flex items-center justify-center mx-auto mb-2">
-            <i data-lucide="upload-cloud" class="w-5 h-5"></i>
-          </div>
-          <p class="text-xs font-bold text-navy-900">Drag & drop new banner image here, or <span class="text-royal underline">browse device</span></p>
-          <p class="text-[10px] text-slate-400 mt-0.5">Recommended 1920 × 720 px</p>
-          <input id="modalBannerFile" type="file" accept="image/*" class="hidden">
-        </div>
-        <p id="modalBannerFileName" class="text-[11px] text-emerald font-semibold mt-1 hidden"></p>
-      </div>
-    </div>
-
-    <div class="flex items-center justify-end gap-2.5 mt-5 pt-3 border-t border-slate-100">
-      <button onclick="closeModal('addBannerModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="submitNewBanner()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Slide</button>
-    </div>
-  </div>
-</div>
-
-<!-- =========================================================== -->
-<!-- MODAL: ADD / EDIT TESTIMONIAL (5 CLICKABLE STARS, NO ASTERISK) -->
-<!-- =========================================================== -->
-<div id="testimonialModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl p-6">
-    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-      <h3 id="testimonialModalTitle" class="text-base font-bold text-navy-900 font-sans">Add Testimonial</h3>
-      <button onclick="closeModal('testimonialModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-    </div>
-
-    <div class="space-y-3.5">
-      <input type="hidden" id="editTestimonialIndex" value="-1">
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Client Name</label>
-        <input id="testNameInput" placeholder="Enter client name" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
-      </div>
-      
-      <!-- 5 Interactive Clickable Stars (No dropdown) -->
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Rating (Click to Select)</label>
-        <input type="hidden" id="testStarInput" value="5">
-        <div class="flex items-center gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg w-fit" id="starRatingContainer">
-          <button type="button" onclick="setTestimonialStar(1)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <button type="button" onclick="setTestimonialStar(2)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <button type="button" onclick="setTestimonialStar(3)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <button type="button" onclick="setTestimonialStar(4)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <button type="button" onclick="setTestimonialStar(5)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <span id="starRatingLabel" class="text-xs font-bold text-slate-700 ml-1">5 Stars</span>
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Location</label>
-        <input id="testLocInput" placeholder="e.g. Anna Nagar, Chennai" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
+        <label class="block font-bold text-slate-600 mb-1">Supporting Subtext</label>
+        <input id="bannerSubtext" placeholder="Short description" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
       </div>
       <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Feedback Quote</label>
-        <textarea id="testQuoteInput" rows="3" placeholder="Client review or feedback..." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs resize-none"></textarea>
-      </div>
-    </div>
-
-    <div class="flex items-center justify-end gap-2 mt-5 pt-3 border-t border-slate-100">
-      <button onclick="closeModal('testimonialModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="saveTestimonialModal()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Review</button>
-    </div>
-  </div>
-</div>
-
-<!-- =========================================================== -->
-<!-- MODAL: ADD NEW ACCOUNT                                      -->
-<!-- =========================================================== -->
-<div id="addAccountModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl p-6">
-    <h3 class="text-base font-bold text-navy-900 mb-1 font-sans">Create Team Account</h3>
-    <p class="text-xs text-slate-400 mb-4">Authorized team accounts use matching username and password.</p>
-    <div class="space-y-3 mb-5">
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Display Name</label>
-        <input id="newAccDisplayName" placeholder="e.g. Sharmika Murugesan" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
+        <label class="block font-bold text-slate-600 mb-1">Banner Image URL</label>
+        <input id="bannerImgUrl" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
       </div>
       <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Username</label>
-        <input id="newAccUsername" placeholder="e.g. sharmika" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Password</label>
-        <input id="newAccPassword" placeholder="e.g. sharmika" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Role</label>
-        <select id="newAccRole" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
-          <option value="Administrator">Administrator</option>
-          <option value="Property Manager">Property Manager</option>
-          <option value="Marketing Lead">Marketing Lead</option>
-          <option value="Executive Administrator">Executive Administrator</option>
+        <label class="block font-bold text-slate-600 mb-1">Status</label>
+        <select id="bannerStatus" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none bg-white">
+          <option value="Active">Active</option>
+          <option value="Inactive">Inactive</option>
         </select>
       </div>
     </div>
-    <div class="flex items-center justify-end gap-2">
-      <button onclick="closeModal('addAccountModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="submitNewAccount()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Create Account</button>
+    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+      <button onclick="closeModal('bannerModal')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+      <button onclick="addNewBanner()" class="px-5 py-2 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/25">Save Banner</button>
     </div>
   </div>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: EDIT PASSWORD                                        -->
-<!-- =========================================================== -->
-<div id="editPasswordModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl p-6">
-    <h3 class="text-base font-bold text-navy-900 mb-1 font-sans">Change Password</h3>
-    <p class="text-xs text-slate-400 mb-4">Set a new secure access credential for this account.</p>
-    <div class="space-y-3 mb-5">
+<!-- ======================================================== -->
+<!-- MODAL: ADD TESTIMONIAL                                   -->
+<!-- ======================================================== -->
+<div class="fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4 modal-overlay" id="testimonialModal">
+  <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl border border-slate-200 overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+      <h3 class="font-sans font-bold text-navy-900 text-sm">Add Client Review</h3>
+      <button onclick="closeModal('testimonialModal')" class="p-1 rounded-lg text-slate-400 hover:text-navy-900">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+    <div class="p-6 space-y-3.5 text-xs">
       <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Current Password</label>
-        <div class="relative">
-          <input id="currentAdminPasswordInput" type="password" placeholder="Enter current password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
-          <button type="button" onclick="togglePasswordVisibility('currentAdminPasswordInput', 'eyeIconCurrent')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
-            <i id="eyeIconCurrent" data-lucide="eye" class="w-4 h-4"></i>
-          </button>
-        </div>
+        <label class="block font-bold text-slate-600 mb-1">Client Name *</label>
+        <input placeholder="e.g. Ramesh Kumar" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
       </div>
       <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">New Password</label>
-        <div class="relative">
-          <input id="newAdminPasswordInput" type="password" placeholder="Enter new password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
-          <button type="button" onclick="togglePasswordVisibility('newAdminPasswordInput', 'eyeIconNew')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
-            <i id="eyeIconNew" data-lucide="eye" class="w-4 h-4"></i>
-          </button>
-        </div>
+        <label class="block font-bold text-slate-600 mb-1">Location / Community</label>
+        <input placeholder="e.g. OMR, Chennai" class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none">
       </div>
       <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Confirm Password</label>
-        <div class="relative">
-          <input id="confirmAdminPasswordInput" type="password" placeholder="Confirm new password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
-          <button type="button" onclick="togglePasswordVisibility('confirmAdminPasswordInput', 'eyeIconConfirm')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
-            <i id="eyeIconConfirm" data-lucide="eye" class="w-4 h-4"></i>
-          </button>
-        </div>
+        <label class="block font-bold text-slate-600 mb-1">Client Review *</label>
+        <textarea rows="3" placeholder="Feedback on service and properties..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none"></textarea>
       </div>
     </div>
-    <div class="flex items-center justify-end gap-2">
-      <button onclick="closeModal('editPasswordModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="submitEditPassword()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Update Password</button>
+    <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2">
+      <button onclick="closeModal('testimonialModal')" class="px-4 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+      <button onclick="closeModal('testimonialModal'); showToast('Testimonial added');" class="px-5 py-1.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-sm">Save</button>
     </div>
   </div>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: RENAME PROPERTY                                      -->
-<!-- =========================================================== -->
-<div id="renameModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl p-6">
-    <h3 class="text-base font-bold text-navy-900 mb-1 font-sans">Rename Property</h3>
-    <p class="text-xs text-slate-400 mb-4">Enter the new marketing title for this listing.</p>
-    <input type="hidden" id="renamePropIndex" value="-1">
-    <input id="renameInput" type="text" autocomplete="off" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none mb-4">
-    <div class="flex items-center justify-end gap-2">
-      <button onclick="closeModal('renameModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="submitRename()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Update Name</button>
-    </div>
-  </div>
-</div>
-
-<!-- =========================================================== -->
-<!-- DRAWER: ENQUIRY DETAILS (NAME & PHONE AT TOP, LABEL AS, DOWN BUTTONS) -->
-<!-- =========================================================== -->
+<!-- ======================================================== -->
+<!-- SLIDE-OUT DRAWER: CUSTOMER ENQUIRY DOSSIER                -->
+<!-- ======================================================== -->
 <div id="enquiryDrawer" class="fixed inset-y-0 right-0 w-full max-w-md bg-white border-l border-slate-200 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col">
-  
-  <!-- HEADER: NAME ON TOP, PHONE NUMBER BELOW -->
-  <div class="flex items-start justify-between pb-4 border-b border-slate-100">
-    <div class="flex items-center gap-3">
-      <div id="eAvatar" class="w-10 h-10 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-sm shadow-sm font-sans">S</div>
-      <div>
-        <h3 id="eName" class="font-sans font-bold text-navy-900 text-base leading-tight">Suresh Kumar</h3>
-        <p id="ePhoneTop" class="text-xs text-slate-500 font-medium mt-0.5">+91 98765 43210</p>
-      </div>
+  <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+    <div>
+      <h3 class="font-sans font-bold text-navy-900 text-base">Customer Dossier</h3>
+      <p class="text-xs text-slate-400 mt-0.5">Direct Lead Information & Site Visit Request</p>
     </div>
-    <button onclick="closeEnquiry()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+    <button onclick="closeEnquiry()" class="p-1.5 rounded-lg text-slate-400 hover:text-navy-900 hover:bg-slate-100">
       <i data-lucide="x" class="w-5 h-5"></i>
     </button>
   </div>
 
-  <div class="py-5 space-y-4 flex-1 overflow-y-auto text-xs">
-    <!-- PROPERTY OF INTEREST WITH LOCATION -->
-    <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Property of Interest & Location</span>
-      <p id="eProperty" class="text-sm font-bold text-navy-900 mt-1 flex items-center gap-1.5">
-        <i data-lucide="building-2" class="w-3.5 h-3.5 text-royal"></i>
-        <span>Emerald Bay Villas, ECR, Chennai</span>
-      </p>
+  <div class="flex-1 overflow-y-auto py-5 space-y-5 text-xs">
+    <div class="flex items-center gap-3 p-3.5 rounded-2xl bg-slate-50 border border-slate-100">
+      <div id="eAvatar" class="w-12 h-12 rounded-full bg-royal text-white font-extrabold flex items-center justify-center text-base shadow-md">S</div>
+      <div>
+        <h4 id="eName" class="text-sm font-bold text-navy-900">Suresh Kumar</h4>
+        <p id="ePhone" class="text-slate-500 font-semibold mt-0.5">+91 98765 43210</p>
+        <p id="eEmail" class="text-slate-400 font-medium">suresh@gmail.com</p>
+      </div>
     </div>
-    
-    <!-- LABEL AS -->
+
     <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Label As</span>
-      <select id="eStatus" onchange="updateCurrentEnquiryStatus(this.value)" class="mt-1 w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-royal/20">
-        <option value="None">None</option>
+      <label class="block font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-1">Lead Verification Status</label>
+      <select id="eStatus" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl text-xs font-bold bg-white focus:ring-2 focus:ring-royal/20 outline-none">
         <option value="New">New</option>
         <option value="Contacted">Contacted</option>
-        <option value="Site Visit">Site Visit</option>
         <option value="Closed">Closed</option>
       </select>
     </div>
 
-    <!-- CLIENT PHONE -->
     <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Phone Number</span>
-      <p id="ePhone" class="text-xs font-semibold text-navy-900 mt-0.5">+91 98765 43210</p>
-    </div>
-
-    <!-- CLIENT EMAIL -->
-    <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Email Address</span>
-      <p id="eEmail" class="text-xs font-semibold text-navy-900 mt-0.5">suresh@gmail.com</p>
+      <label class="block font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-1">Interested Property</label>
+      <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50 text-navy-900 font-bold text-xs" id="eProperty">Lake View Residency</div>
     </div>
 
     <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Date Submitted</span>
-      <p id="eDate" class="text-xs font-semibold text-navy-900 mt-0.5">Today, 10:24 AM</p>
+      <label class="block font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-1">Customer Message</label>
+      <div class="p-3.5 rounded-xl border border-slate-100 bg-slate-50 text-slate-700 leading-relaxed font-medium">
+        I would like to know more about this property and arrange a site visit this weekend with my family. Please share details and master layout.
+      </div>
     </div>
 
     <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Inquiry Notes</span>
-      <p class="text-xs text-slate-600 mt-1 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
-        Client requested brochure, payment milestone schedule, and weekend site visit confirmation. Interested in east-facing layout.
-      </p>
+      <label class="block font-bold text-slate-400 uppercase tracking-wider text-[10px] mb-1">Submitted Timestamp</label>
+      <p class="text-slate-600 font-semibold">14 Nov 2026 · 10:24 AM (Web Contact Form)</p>
     </div>
   </div>
 
-  <!-- ACTION BUTTONS AT VERY BOTTOM -->
-  <div class="pt-4 border-t border-slate-100 space-y-2 mt-auto">
-    <button onclick="chatOnWhatsApp()" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold shadow-md shadow-emerald-500/20 transition-all">
+  <div class="pt-4 border-t border-slate-100 space-y-2">
+    <a id="whatsappLink" href="https://wa.me/919876543210" target="_blank" class="w-full py-3 rounded-xl bg-emerald hover:bg-emerald-dark text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald/20 transition-all">
       <i data-lucide="message-circle" class="w-4 h-4"></i>
-      <span>Chat on WhatsApp</span>
+      <span>Launch WhatsApp Chat</span>
+    </a>
+    <button onclick="copyContactPhone()" class="w-full py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 hover:bg-slate-50 transition-colors">
+      Copy Phone Number
     </button>
-    
-    <button onclick="copyPhoneNumber()" class="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all">
-      <i data-lucide="copy" class="w-3.5 h-3.5 text-slate-500"></i>
-      <span id="copyPhoneText">Copy Phone Number</span>
+    <button onclick="saveEnquiryStatus()" class="w-full py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20 transition-all">
+      Save Status & Close
     </button>
   </div>
 </div>
 
-<!-- =========================================================== -->
-<!-- JAVASCRIPT APPLICATION LOGIC                                -->
-<!-- =========================================================== -->
+<!-- TOAST ALERT -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 bg-navy-900 text-white px-5 py-3 rounded-xl shadow-2xl text-xs font-bold hidden flex items-center gap-2">
+  <span id="toastMsg">Changes saved</span>
+</div>
+
+<!-- JAVASCRIPT APPLICATION CORE -->
 <script>
-// Sample HD Real Estate Photography
-const img1 = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&auto=format&fit=crop&q=85';
-const img2 = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&auto=format&fit=crop&q=85';
-const img3 = 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1000&auto=format&fit=crop&q=85';
-const img4 = 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1000&auto=format&fit=crop&q=85';
-const img5 = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1000&auto=format&fit=crop&q=85';
-const img6 = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000&auto=format&fit=crop&q=85';
+const img1 = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80';
+const img2 = 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&q=80';
+const img3 = 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?w=1200&q=80';
+const img4 = 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1200&q=80';
+const img5 = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&q=80';
+const img6 = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80';
 
-// Gallery presets for 5 photos (Room, Pool, Kitchen, Balcony, Exterior)
-const defaultGallery = [
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
-  'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80',
-  'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800&q=80',
-  'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80',
-  'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80'
-];
-
-// Available standard amenities with Lucide icons
-const standardAmenities = [
-  { name: 'Parking', icon: 'car' },
-  { name: 'Swimming Pool', icon: 'waves' },
-  { name: 'Security', icon: 'shield-check' },
-  { name: 'Gym', icon: 'dumbbell' },
-  { name: 'Garden', icon: 'trees' },
-  { name: 'Lift', icon: 'arrow-up-down' },
-  { name: 'CCTV', icon: 'video' },
-  { name: "Children's Play Area", icon: 'smile' },
-  { name: 'Power Backup', icon: 'zap' },
-  { name: 'Water Supply', icon: 'droplet' }
-];
-
-// 10 REAL CHENNAI LUXURY PROPERTIES DATASET:
-// [Name, Location, Price(L/Cr), Tag(Only 4 tagged, rest None), Type, Amenities, CoverImage, Description, GalleryArray]
-// Exactly 4 curated properties have cover images, remaining 6 have empty cover images as requested
+// 10 LUXURY REAL ESTATE PROPERTIES
 let properties = [
-  [
-    'Emerald Bay Villas', 'ECR, Chennai', '₹1.85 Cr', 'Featured', 'Villa · 4 BHK',
-    ['Swimming Pool', 'Private Garden', 'Covered Parking'],
-    img6,
-    'Panoramic sea-facing luxury villas on East Coast Road with private beach access, landscaped lawns, and private infinity plunge pool.',
-    [...defaultGallery]
-  ],
-  [
-    'Azure Sky Towers', 'OMR, Chennai', '₹92 L', 'New Launch', 'Apartment · 3 BHK',
-    ['Clubhouse & Gym', 'Swimming Pool', '24/7 Security'],
-    img1,
-    'High-rise lifestyle residences along the OMR IT Corridor featuring double-height clubhouse, squash courts, and rooftop infinity pool.',
-    [...defaultGallery]
-  ],
-  [
-    'Greenwood Enclave', 'Medavakkam, Chennai', '₹68 L', 'Special Offer', 'Villa · 3 BHK',
-    ['Private Garden', '24/7 Security', 'Covered Parking'],
-    img2,
-    'Gated community of contemporary duplex villas surrounded by lush green parks with private backyards and solar streetlights.',
-    [...defaultGallery]
-  ],
-  [
-    'Prestige Grandeur', 'Anna Nagar, Chennai', '₹2.4 Cr', 'None', 'Apartment · 4 BHK',
-    ['Covered Parking', 'Clubhouse & Gym', 'Power Backup'],
-    img5,
-    'Palatial residences in prime Anna Nagar offering Italian marble flooring, smart home automation, and 3 dedicated car parking bays.',
-    [...defaultGallery]
-  ],
-  [
-    'Silicon Heights', 'Sholinganallur, Chennai', '₹84 L', 'None', 'Apartment · 2 BHK',
-    ['Clubhouse & Gym', '24/7 Security', 'High-Speed WiFi'],
-    '', // No cover image
-    'Contemporary urban flats near Sholinganallur ELCOT SEZ with modular German kitchen, gym, and electric vehicle charging bays.',
-    [...defaultGallery]
-  ],
-  [
-    'The Palm Springs', 'Thiruvanmiyur, Chennai', '₹1.6 Cr', 'None', 'Villa · 4 BHK',
-    ['Swimming Pool', 'Private Garden', 'Power Backup'],
-    '', // No cover image
-    'Boutique tropical villas with double-height living spaces, plunge pool, and walking proximity to Thiruvanmiyur beach.',
-    [...defaultGallery]
-  ],
-  [
-    'Golden Habitat', 'Tambaram, Chennai', '₹48 L', 'None', 'Residential Plot',
-    ['24/7 Security', 'Covered Parking'],
-    '', // No cover image
-    'CMDA & RERA approved premium villa plots with paved 40ft blacktop roads, underground cabling, and avenue plantations.',
-    [...defaultGallery]
-  ],
-  [
-    'Signature Crest', 'Guindy, Chennai', '₹1.35 Cr', 'None', 'Apartment · 3 BHK',
-    ['Clubhouse & Gym', 'Power Backup', '24/7 Security'],
-    '', // No cover image
-    'Executive apartments overlooking Guindy National Park featuring infinity edge pool, business conference lounge, and central air conditioning.',
-    [...defaultGallery]
-  ],
-  [
-    'Marina Breeze', 'Besant Nagar, Chennai', '₹3.1 Cr', 'None', 'Villa · 4 BHK',
-    ['Swimming Pool', 'Private Garden', '24/7 Security'],
-    '', // No cover image
-    'Bespoke coastal living nestled in quiet Besant Nagar residential avenues with designer landscaping and private glass elevator.',
-    [...defaultGallery]
-  ],
-  [
-    'Urban Oasis', 'Porur, Chennai', '₹72 L', 'None', 'Apartment · 2 BHK',
-    ['24/7 Security', 'Covered Parking', 'Power Backup'],
-    '', // No cover image
-    'Spacious family apartments near Porur Junction with community clubhouse, children play park, and piped gas connection.',
-    [...defaultGallery]
-  ]
+  ['Lake View Residency', 'OMR, Chennai', '₹78 Lakhs', 'Featured', 'Apartment · 2 BHK', 'Premium lakeside homes with panoramic water views and modern club amenities.', img1],
+  ['Green Avenue Villas', 'Kelambakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 4 BHK', 'Spacious luxury family villas with private landscaped garden terraces.', img2],
+  ['City Centre Plots', 'Tambaram', '₹32 Lakhs', 'New Launch', 'Residential Plot', 'CMDA & RERA approved prime residential plots with clear freehold titles.', img3],
+  ['Skyline Apartments', 'Sholinganallur', '₹1.10 Cr', 'Featured', 'Apartment · 3 BHK', 'Contemporary high-rise residences with open vistas and smart home wiring.', img4],
+  ['Garden View Villas', 'Medavakkam', '₹95 Lakhs', 'New Launch', 'Villa · 3 BHK', 'Private garden community homes designed for tranquil family living.', img5],
+  ['Royal Meadows', 'Anna Nagar', '₹1.65 Cr', 'Special Offer', 'Apartment · 3 BHK', 'Exclusive central city luxury residences close to premier institutions.', img6],
+  ['Blue Horizon Beachfront', 'ECR, Chennai', '₹2.40 Cr', 'Featured', 'Villa · 4 BHK', 'Ultra-luxury coastal estates featuring private pools and sea views.', img2],
+  ['Vista Greens', 'Porur, Chennai', '₹88 Lakhs', 'New Launch', 'Apartment · 3 BHK', 'Vastu-compliant residential apartments with landscaped open spaces.', img1],
+  ['Prime Commercial Hub', 'Guindy, Chennai', '₹3.10 Cr', 'Featured', 'Commercial', 'Grade-A office suites and retail showrooms on arterial high-traffic corridor.', img5],
+  ['Emerald Park Residences', 'Thiruvanmiyur', '₹1.45 Cr', 'Special Offer', 'Apartment · 3 BHK', 'Serene coastal community homes built to international luxury standards.', img3]
 ];
 
-// 10 ENQUIRIES (WITH AT LEAST 4 NEW LEADS)
-let enquiries = [
-  { id: 0, name: 'Suresh Kumar', phone: '+91 98765 43210', email: 'suresh@gmail.com', property: 'Emerald Bay Villas', location: 'ECR, Chennai', date: 'Today, 10:24 AM', status: 'New' },
-  { id: 1, name: 'Meena Priya', phone: '+91 98401 23456', email: 'meena.priya@outlook.com', property: 'Azure Sky Towers', location: 'OMR, Chennai', date: 'Today, 09:15 AM', status: 'New' },
-  { id: 2, name: 'Anand Chandran', phone: '+91 98844 11223', email: 'anand.c@gmail.com', property: 'Prestige Grandeur', location: 'Anna Nagar', date: 'Yesterday, 06:45 PM', status: 'New' },
-  { id: 3, name: 'Bhavani Shankar', phone: '+91 97910 88776', email: 'bhavani.s@yahoo.com', property: 'Greenwood Enclave', location: 'Medavakkam', date: 'Yesterday, 04:30 PM', status: 'New' },
-  { id: 4, name: 'Rohit Sharma', phone: '+91 97109 87654', email: 'rohit.sharma@yahoo.com', property: 'Golden Habitat', location: 'Tambaram', date: '11 Nov, 03:40 PM', status: 'Closed' },
-  { id: 5, name: 'Deepa Natarajan', phone: '+91 94441 55667', email: 'deepa.natarajan@yahoo.com', property: 'The Palm Springs', location: 'Thiruvanmiyur', date: '09 Nov, 02:15 PM', status: 'Contacted' },
-  { id: 6, name: 'Karthik S', phone: '+91 98840 99881', email: 'karthik.s@gmail.com', property: 'Silicon Heights', location: 'Sholinganallur', date: '08 Nov, 01:20 PM', status: 'Site Visit' },
-  { id: 7, name: 'Priya Sundaram', phone: '+91 99620 44551', email: 'priya.sundaram@gmail.com', property: 'Signature Crest', location: 'Guindy', date: '07 Nov, 05:10 PM', status: 'Contacted' },
-  { id: 8, name: 'Rajesh Kannan', phone: '+91 98410 77889', email: 'rajesh.k@gmail.com', property: 'Urban Oasis', location: 'Porur', date: '06 Nov, 11:50 AM', status: 'Site Visit' },
-  { id: 9, name: 'Lakshmi Narayanan', phone: '+91 97890 33221', email: 'lakshmi.n@gmail.com', property: 'Marina Breeze', location: 'Besant Nagar', date: '05 Nov, 10:00 AM', status: 'Closed' }
-];
-
-let activeEnquiryIndex = -1;
-
-// TEAM ACCOUNTS: EXACT MATCHING NAME & PASSWORD (victor, saran, vibhkar, umeshwar, sharmika)
-let staffAccounts = [
-  { name: 'Victor Paul', username: 'victorpaul', password: 'admin', role: 'Super Administrator', created: '01 Nov 2026', status: 'Active' },
-  { name: 'Victor Paul (Alias)', username: 'victor', password: 'admin', role: 'Super Administrator', created: '01 Nov 2026', status: 'Active' },
-  { name: 'Saran', username: 'saran', password: 'saran', role: 'Administrator', created: '02 Nov 2026', status: 'Active' },
-  { name: 'Vibhkar', username: 'vibhkar', password: 'vibhkar', role: 'Property Manager', created: '04 Nov 2026', status: 'Active' },
-  { name: 'Umeshwar', username: 'umeshwar', password: 'umeshwar', role: 'Marketing Lead', created: '06 Nov 2026', status: 'Active' },
-  { name: 'Sharmika Murugesan', username: 'sharmika', password: 'sharmika', role: 'Executive Administrator', created: '08 Nov 2026', status: 'Active' }
-];
-
-// Current logged in user profile
-let currentAdminProfile = {
-  name: 'Victor Paul',
-  username: 'victorpaul',
-  role: 'Super Administrator',
-  avatar: ''
-};
-
-// 14-DAY ACTIVITY AUDIT LOGS (Stored in localStorage as JSON, auto-pruned)
-const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
-
-function loadActivityLogs() {
-  const saved = localStorage.getItem('vv_activity_logs_json');
-  if (saved) {
-    try {
-      let parsed = JSON.parse(saved);
-      const now = Date.now();
-      parsed = parsed.filter(item => (now - (item.timestamp || now)) <= FOURTEEN_DAYS_MS);
-      return parsed;
-    } catch (e) {
-      console.error(e);
-    }
-  }
-  return [
-    { user: 'Victor Paul', action: 'Reviewed lead dossier for Suresh Kumar', module: 'Enquiries', time: 'Today, 11:42 AM', timestamp: Date.now() - 3600000, status: 'Success' },
-    { user: 'Victor Paul', action: 'Updated listing price for Emerald Bay Villas to ₹1.85 Cr', module: 'Properties', time: 'Today, 10:15 AM', timestamp: Date.now() - 7200000, status: 'Success' },
-    { user: 'Sharmika Murugesan', action: 'Reordered carousel slide display priority', module: 'Banners', time: 'Yesterday, 04:30 PM', timestamp: Date.now() - 86400000, status: 'Success' },
-    { user: 'Saran', action: 'Created new team account permissions for staff member Vibhkar', module: 'Admin', time: '11 Nov 2026, 03:15 PM', timestamp: Date.now() - 3 * 86400000, status: 'Success' }
-  ];
-}
-
-let activityLogs = loadActivityLogs();
-
-function saveActivityLogs() {
-  localStorage.setItem('vv_activity_logs_json', JSON.stringify(activityLogs));
-}
-
-async function logAction(action, module = 'System', recordId = '') {
-  const now = new Date();
-  const formattedDate = new Intl.DateTimeFormat('en-IN', {
-    timeZone: 'Asia/Kolkata',
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true
-  }).format(now);
-
-  const logItem = {
-    id: `log_${Date.now()}`,
-    adminId: currentAdminProfile.username,
-    adminUsername: currentAdminProfile.username,
-    adminName: currentAdminProfile.name,
-    action: action,
-    module: module,
-    recordId: String(recordId || ''),
-    date: formattedDate,
-    time: formattedDate,
-    timestamp: now.getTime(),
-    status: 'Success'
-  };
-
-  activityLogs.unshift(logItem);
-  activityLogs = activityLogs.slice(0, 200);
-  saveActivityLogs();
-  renderLogs();
-
-  try {
-    await fetch('/api/activity-logs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ log: logItem })
-    });
-  } catch (e) {
-    // Graceful offline fallback
-  }
-}
-
-function clearOldLogs() {
-  const now = Date.now();
-  const initialCount = activityLogs.length;
-  activityLogs = activityLogs.filter(item => (now - (item.timestamp || now)) <= FOURTEEN_DAYS_MS);
-  saveActivityLogs();
-  renderLogs();
-  alert(`Audit check complete. Pruned ${initialCount - activityLogs.length} logs exceeding 14 days.`);
-}
-
-function downloadLogsJSON() {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activityLogs, null, 2));
-  const dlAnchorElem = document.createElement('a');
-  dlAnchorElem.setAttribute("href", dataStr);
-  dlAnchorElem.setAttribute("download", "vv_activity_logs_14days.json");
-  dlAnchorElem.click();
-}
-
-function renderLogs() {
-  const tbody = document.getElementById('logsTableBody');
-  if (!tbody) return;
-  tbody.innerHTML = activityLogs.map(l => `
-    <tr class="hover:bg-slate-50 transition-colors">
-      <td class="px-6 py-4 font-bold text-navy-900">${l.adminName || l.user || 'Victor Paul'}</td>
-      <td class="px-6 py-4 text-slate-700">${l.action}</td>
-      <td class="px-6 py-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">${l.module}</span></td>
-      <td class="px-6 py-4 text-slate-500 font-mono text-[11px]">${l.date || l.time}</td>
-      <td class="px-6 py-4 text-right"><span class="text-emerald font-bold">● ${l.status || 'Success'}</span></td>
-    </tr>
-  `).join('');
-}
-
-// =============================================================
-// AUTHENTICATION & 24-HOUR SESSION MANAGEMENT
-// =============================================================
-function checkAuthSession() {
-  try {
-    const raw = localStorage.getItem('vv_auth_session');
-    if (!raw) {
-      showLoginGate();
-      return;
-    }
-    const session = JSON.parse(raw);
-    const now = Date.now();
-    // Non-admin accounts (anyone other than victor) strictly expire after 24 hrs
-    const isPrimaryAdmin = (session.username === 'victorpaul' || session.username === 'victor');
-    const isExpired = isPrimaryAdmin 
-      ? (now > session.expiresAt) 
-      : ((now - (session.loginTime || session.expiresAt - 86400000)) > 86400000 || now > session.expiresAt);
-
-    if (!session || !session.expiresAt || isExpired) {
-      localStorage.removeItem('vv_auth_session');
-      document.cookie = "vv_auth=; max-age=0; path=/;";
-      showLoginGate();
-      return;
-    }
-    applyUserSession(session);
-    hideLoginGate();
-  } catch (e) {
-    showLoginGate();
-  }
-}
-
-function showLoginGate() {
-  const gate = document.getElementById('loginGate');
-  if (gate) gate.classList.remove('hidden');
-}
-
-function hideLoginGate() {
-  const gate = document.getElementById('loginGate');
-  if (gate) gate.classList.add('hidden');
-}
-
-function quickFillLogin(username) {
-  document.getElementById('loginUsername').value = username;
-  document.getElementById('loginPassword').value = username;
-}
-
-function handleLoginSubmit(e) {
-  e.preventDefault();
-  const u = document.getElementById('loginUsername').value.trim().toLowerCase();
-  const p = document.getElementById('loginPassword').value.trim();
-  const errorEl = document.getElementById('loginErrorMsg');
-
-  const match = staffAccounts.find(acc => acc.username.toLowerCase() === u && acc.password === p);
-
-  if (match) {
-    errorEl.classList.add('hidden');
-    // Store 24-hr session in cookie & localStorage
-    document.cookie = `vv_auth=${encodeURIComponent(match.username)}; max-age=86400; path=/;`;
-    const sessionData = {
-      username: match.username,
-      name: match.name,
-      role: match.role,
-      avatar: match.avatar || '',
-      loginTime: Date.now(),
-      expiresAt: Date.now() + 24 * 60 * 60 * 1000
-    };
-    localStorage.setItem('vv_auth_session', JSON.stringify(sessionData));
-    applyUserSession(sessionData);
-    logAction(`User "${match.name}" signed in`, 'Authentication');
-    hideLoginGate();
-  } else {
-    errorEl.textContent = 'Invalid username or password. Please use authorized credentials.';
-    errorEl.classList.remove('hidden');
-  }
-}
-
-function applyUserSession(session) {
-  currentAdminProfile.name = session.name || 'Victor Paul';
-  currentAdminProfile.username = session.username || 'victor';
-  currentAdminProfile.role = session.role || 'Super Administrator';
-  currentAdminProfile.avatar = session.avatar || '';
-
-  // Update top right header
-  const nameEl = document.getElementById('topAdminName');
-  const roleEl = document.getElementById('topAdminSubtitle');
-  const avatarInit = document.getElementById('adminAvatarInitial');
-  const avatarImg = document.getElementById('adminAvatarImg');
-
-  if (nameEl) nameEl.textContent = currentAdminProfile.name;
-  if (roleEl) roleEl.textContent = currentAdminProfile.role;
-  if (avatarInit) avatarInit.textContent = currentAdminProfile.name.charAt(0).toUpperCase();
-
-  if (currentAdminProfile.avatar && avatarImg && avatarInit) {
-    avatarImg.src = currentAdminProfile.avatar;
-    avatarImg.classList.remove('hidden');
-    avatarInit.classList.add('hidden');
-  } else if (avatarImg && avatarInit) {
-    avatarImg.classList.add('hidden');
-    avatarInit.classList.remove('hidden');
-  }
-
-  // Update profile inputs
-  const pName = document.getElementById('profileDisplayName');
-  const pUser = document.getElementById('profileUsername');
-  const pPass = document.getElementById('profilePassword');
-  if (pName) pName.value = currentAdminProfile.name;
-  if (pUser) pUser.value = currentAdminProfile.username;
-  if (pPass) pPass.value = currentAdminProfile.username; // Same password as name
-}
-
-function logout() {
-  document.cookie = "vv_auth=; max-age=0; path=/;";
-  localStorage.removeItem('vv_auth_session');
-  logAction(`User "${currentAdminProfile.name}" logged out`, 'Authentication');
-  document.getElementById('loginUsername').value = '';
-  document.getElementById('loginPassword').value = '';
-  document.getElementById('loginErrorMsg').classList.add('hidden');
-  showLoginGate();
-  lucide.createIcons();
-}
-
-// =============================================================
-// PROPERTY SECTION: CARD RENDERING (70% TOP VISIBLE, NO LAKE VIEW FOR ALL, L PRICING)
-// =============================================================
-let currentFormAmenities = [];
-let currentFormGallery = [];
-
-function renderPropertyCard(p, i, isRecent = false) {
-  const realIndex = properties.indexOf(p) !== -1 ? properties.indexOf(p) : i;
-  const prefix = isRecent ? 'recent' : 'prop';
-  const menuId = `${prefix}Menu_${realIndex}`;
-
-  const badgeHtml = (p[3] && p[3] !== 'None' && p[3] !== 'Prime' && p[3] !== 'Prime Exclusive') ? `
+// RENDER PROPERTY CARD (IMAGE-FIRST, MEDIUM HEIGHT h-56, HOVER OVERLAY, 3-DOTS, ZERO BOTTOM EDIT BAR)
+function renderPropertyCard(p, i) {
+  const menuId = `propMenu_${i}`;
+  const badgeHtml = (p[3] && p[3] !== 'None') ? `
     <div class="absolute top-3 left-3 z-10 pointer-events-none">
       <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy-900/85 backdrop-blur-md text-white border border-white/20 shadow-md">
         ${p[3]}
@@ -1481,57 +835,43 @@ function renderPropertyCard(p, i, isRecent = false) {
     </div>
   ` : '';
 
-  // Medium property image height (Proportional, spacious, shows more properties smoothly)
-  const heightClass = isRecent ? 'h-44' : 'h-56';
-
   return `
-    <article class="relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 ${heightClass}">
-      <!-- Full Image or Architectural Placeholder if no cover image -->
-      ${p[6] ? `
-        <img src="${p[6]}" alt="${p[0]}" onerror="this.src='${img2}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      ` : `
-        <div class="w-full h-full bg-gradient-to-br from-navy-950 via-navy-900 to-royal/40 flex flex-col items-center justify-center p-4 text-center group-hover:scale-105 transition-transform duration-500">
-          <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-ice mb-2">
-            <i data-lucide="building" class="w-6 h-6"></i>
-          </div>
-          <h4 class="font-sans font-bold text-white text-sm tracking-tight drop-shadow">${p[0]}</h4>
-          <span class="text-[10px] text-ice/80 font-medium mt-0.5">${p[1]}</span>
-          <span class="mt-2 text-[9px] uppercase tracking-widest text-slate-400 border border-white/10 px-2 py-0.5 rounded-full">+ Add Cover Image</span>
-        </div>
-      `}
+    <article class="relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 h-56" data-index="${i}">
+      <!-- Architectural Image -->
+      <img src="${p[6] || img1}" alt="${p[0]}" onerror="this.src='${img1}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
 
-      <!-- Badge Tag (Optional) -->
+      <!-- Badge Tag -->
       ${badgeHtml}
 
-      <!-- Vertical 3-Dots Button: ALWAYS ACCESSIBLE & ELEVATED -->
-      <div class="menu-wrapper absolute top-3 right-3 z-30 opacity-80 group-hover:opacity-100 transition-opacity duration-200">
-        <button type="button" onclick="toggleMenu(event, '${menuId}')" class="w-8 h-8 rounded-full bg-white/95 backdrop-blur-md hover:bg-white text-navy-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none">
+      <!-- Vertical 3-Dots Button (Top Right) -->
+      <div class="menu-wrapper absolute top-3 right-3 z-30 opacity-90 group-hover:opacity-100 transition-opacity duration-200">
+        <button type="button" onclick="toggleMenu(event, '${menuId}')" class="w-8 h-8 rounded-full bg-white/95 backdrop-blur-md hover:bg-white text-navy-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none" aria-label="Options">
           <i data-lucide="more-vertical" class="w-4 h-4"></i>
         </button>
 
-        <!-- Dropdown Menu -->
+        <!-- Dropdown Menu: Edit, Rename, Delete -->
         <div id="${menuId}" class="menu-box hidden absolute right-0 mt-1.5 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 p-1 z-40 menu-anim">
-          <button type="button" onclick="editProperty(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
+          <button type="button" onclick="editProperty(event, ${i})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
             <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             <span>Edit</span>
           </button>
-          <button type="button" onclick="openRenameModal(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
+          <button type="button" onclick="openRenameModal(event, ${i})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
             <i data-lucide="type" class="w-3.5 h-3.5"></i>
             <span>Rename</span>
           </button>
-          <button type="button" onclick="deleteProperty(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-coral hover:bg-coral/5 transition-colors">
+          <button type="button" onclick="deleteProperty(event, ${i})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-coral hover:bg-coral/5 transition-colors">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             <span>Delete</span>
           </button>
         </div>
       </div>
 
-      <!-- COMPLETE HOVER / POINTER OVERLAY (NO BOTTOM EDIT SECTION, FULL DETAILS OVER IMAGE) -->
+      <!-- COMPLETE HOVER OVERLAY (ALL DETAILS REVEAL OVER IMAGE, NO BOTTOM EDIT BAR) -->
       <div class="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-950/60 via-40% to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end text-white pointer-events-none">
-        <h4 class="font-sans font-bold text-white text-base tracking-tight mb-1.5 drop-shadow">${p[0]}</h4>
-        <div class="flex items-center justify-between mb-1.5">
+        <h4 class="font-sans font-bold text-white text-base tracking-tight mb-1 drop-shadow">${p[0]}</h4>
+        <div class="flex items-center justify-between mb-1">
           <span class="text-[10px] font-bold uppercase tracking-wider text-ice font-sans">${p[4]}</span>
-          <span class="text-base font-bold text-white drop-shadow font-sans">${p[2]}</span>
+          <span class="text-base font-extrabold text-white drop-shadow font-sans">${p[2]}</span>
         </div>
         <p class="text-[11px] text-slate-300 flex items-center gap-1 font-medium">
           <i data-lucide="map-pin" class="w-3 h-3 text-ice"></i>
@@ -1549,362 +889,140 @@ function renderProperties(list = properties) {
     container.innerHTML = `<div class="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-dashed border-slate-200 font-medium text-xs">No properties found matching your filter criteria.</div>`;
     return;
   }
-  container.innerHTML = list.map((p, i) => renderPropertyCard(p, i, false)).join('');
-  
-  const totalEl = document.getElementById('statTotalProps');
-  if (totalEl) totalEl.textContent = properties.length;
-  
-  renderRecentProperties();
+  container.innerHTML = list.map((p, i) => renderPropertyCard(p, properties.indexOf(p) !== -1 ? properties.indexOf(p) : i)).join('');
+  const countEl = document.getElementById('dashTotalProps');
+  if (countEl) countEl.textContent = properties.length;
   lucide.createIcons();
 }
 
-function renderRecentProperties() {
-  const container = document.getElementById('recentPropertiesGrid');
-  if (!container) return;
-  const recent5 = properties.slice(0, 5);
-  container.innerHTML = recent5.map((p, i) => renderPropertyCard(p, i, true)).join('');
-  lucide.createIcons();
-}
-
-// COVER IMAGE BUILDER: SINGLE THUMBNAIL WITH UPDATE & DELETE (OR SQUARE DRAG & DROP BOX)
-function buildCoverImageSection(url) {
-  const container = document.getElementById('coverImageContainer');
-  if (!container) return;
-
-  if (url) {
-    container.innerHTML = `
-      <div class="flex items-center gap-4 p-3 rounded-xl border border-slate-200 bg-slate-50">
-        <div class="w-24 h-16 rounded-lg overflow-hidden border border-slate-300 shadow-sm flex-shrink-0">
-          <img src="${url}" alt="Cover photo" class="w-full h-full object-cover">
-        </div>
-        <div class="flex-1">
-          <p class="text-xs font-bold text-navy-900">Current Cover Image</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="triggerCoverUpload()" class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-xs font-semibold text-slate-700 shadow-sm transition-all flex items-center gap-1">
-            <i data-lucide="refresh-cw" class="w-3 h-3 text-royal"></i>
-            <span>Update</span>
-          </button>
-          <button type="button" onclick="removeCoverImage()" class="px-3 py-1.5 rounded-lg border border-rose-200 bg-rose-50 hover:bg-rose-100 text-xs font-semibold text-rose-600 transition-all flex items-center gap-1">
-            <i data-lucide="trash-2" class="w-3 h-3 text-rose-600"></i>
-            <span>Delete</span>
-          </button>
-        </div>
-      </div>
-    `;
-  } else {
-    container.innerHTML = `
-      <div id="coverDropzone" onclick="triggerCoverUpload()" class="border-2 border-dashed border-slate-300 hover:border-royal bg-slate-50/70 hover:bg-royal/5 rounded-xl p-5 text-center cursor-pointer transition-all group">
-        <div class="w-10 h-10 rounded-xl bg-white shadow-sm border border-slate-200 text-royal flex items-center justify-center mx-auto mb-1.5 group-hover:scale-105 transition-transform">
-          <i data-lucide="plus" class="w-5 h-5"></i>
-        </div>
-        <p class="text-xs font-bold text-navy-900">Drag & drop cover photo here, or <span class="text-royal underline">browse file</span></p>
-        <p class="text-[10px] text-slate-400 mt-0.5">Recommended 1600 × 1000 px</p>
-      </div>
-    `;
-    setupCoverDropzone();
-  }
-  lucide.createIcons();
-}
-
-function triggerCoverUpload() {
-  const input = document.getElementById('propCoverFileInput');
-  if (input) input.click();
-}
-
-function removeCoverImage() {
-  document.getElementById('formPropImage').value = '';
-  buildCoverImageSection('');
-}
-
-function setupCoverDropzone() {
-  const dz = document.getElementById('coverDropzone');
-  if (!dz) return;
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dz.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('drag-over'); }, false);
-  });
-  ['dragleave', 'drop'].forEach(eventName => {
-    dz.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); dz.classList.remove('drag-over'); }, false);
-  });
-  dz.addEventListener('drop', e => {
-    const files = e.dataTransfer.files;
-    if (files.length > 0 && files[0].type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        document.getElementById('formPropImage').value = ev.target.result;
-        buildCoverImageSection(ev.target.result);
-      };
-      reader.readAsDataURL(files[0]);
-    }
-  });
-}
-
-// GALLERY IMAGES SECTION: 5 PHOTOS (ROOM, POOL, KITCHEN, BALCONY, EXTERIOR)
-function buildGallerySection() {
-  const container = document.getElementById('galleryGridContainer');
-  if (!container) return;
-
-  let html = '';
-  for (let idx = 0; idx < 5; idx++) {
-    const photo = currentFormGallery[idx];
-    if (photo) {
-      html += `
-        <div class="relative group rounded-xl overflow-hidden border border-slate-200 h-20 shadow-sm bg-navy-900">
-          <img src="${photo}" alt="Gallery ${idx + 1}" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-navy-950/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
-            <button type="button" onclick="triggerGalleryUpdate(${idx})" class="p-1 rounded bg-white text-navy-900 hover:text-royal transition-colors shadow-sm" title="Change Image">
-              <i data-lucide="refresh-cw" class="w-3 h-3"></i>
-            </button>
-            <button type="button" onclick="deleteGalleryImage(${idx})" class="p-1 rounded bg-white text-coral hover:bg-coral/10 transition-colors shadow-sm" title="Delete">
-              <i data-lucide="trash-2" class="w-3 h-3"></i>
-            </button>
-          </div>
-        </div>
-      `;
-    } else {
-      html += `
-        <div onclick="triggerGalleryAdd()" class="rounded-xl border-2 border-dashed border-slate-200 hover:border-royal bg-slate-50 hover:bg-royal/5 h-20 flex flex-col items-center justify-center cursor-pointer transition-all text-slate-400 hover:text-royal group">
-          <i data-lucide="plus" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-          <span class="text-[10px] font-bold mt-1">+ Photo</span>
-        </div>
-      `;
-    }
-  }
-  container.innerHTML = html;
-  lucide.createIcons();
-}
-
-let activeGalleryUpdateSlot = -1;
-
-function triggerGalleryUpdate(idx) {
-  activeGalleryUpdateSlot = idx;
-  const input = document.getElementById('propGalleryFileInput');
-  if (input) input.click();
-}
-
-function triggerGalleryAdd() {
-  activeGalleryUpdateSlot = currentFormGallery.length < 5 ? currentFormGallery.length : 0;
-  const input = document.getElementById('propGalleryFileInput');
-  if (input) input.click();
-}
-
-function deleteGalleryImage(idx) {
-  currentFormGallery.splice(idx, 1);
-  buildGallerySection();
-}
-
-// AMENITIES: CLEAN LUCIDE LINE ICONS (START UNSELECTED)
-function renderAmenitiesPicker() {
-  const container = document.getElementById('amenitiesIconPicker');
-  if (!container) return;
-  container.innerHTML = standardAmenities.map(am => {
-    const isSelected = currentFormAmenities.includes(am.name);
-    return `
-      <button type="button" onclick="toggleAmenityTag('${am.name}')" class="flex items-center justify-between p-2.5 rounded-lg border text-xs font-medium transition-all ${isSelected ? 'border-royal bg-royal/10 text-royal font-bold ring-1 ring-royal shadow-2xs' : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'}">
-        <div class="flex items-center gap-2">
-          <i data-lucide="${am.icon}" class="w-4 h-4 ${isSelected ? 'text-royal' : 'text-slate-500'}"></i>
-          <span>${am.name}</span>
-        </div>
-        ${isSelected ? '<i data-lucide="check" class="w-3.5 h-3.5 text-royal"></i>' : ''}
-      </button>
-    `;
-  }).join('');
-  lucide.createIcons();
-}
-
-function toggleAmenityTag(tag) {
-  if (currentFormAmenities.includes(tag)) {
-    currentFormAmenities = currentFormAmenities.filter(t => t !== tag);
-  } else {
-    currentFormAmenities.push(tag);
-  }
-  renderAmenitiesPicker();
-  renderSelectedAmenitiesTags();
-}
-
-function addCustomAmenity() {
-  const input = document.getElementById('newAmenityInput');
-  const val = input.value.trim();
-  if (val && !currentFormAmenities.includes(val)) {
-    currentFormAmenities.push(val);
-    input.value = '';
-    renderAmenitiesPicker();
-    renderSelectedAmenitiesTags();
-  }
-}
-
-function renderSelectedAmenitiesTags() {
-  const container = document.getElementById('selectedAmenitiesList');
-  if (!container) return;
-  if (currentFormAmenities.length === 0) {
-    container.innerHTML = '<span class="text-[11px] text-slate-400 italic">No amenities selected. Click the icons above to add.</span>';
-    return;
-  }
-  container.innerHTML = currentFormAmenities.map(tag => `
-    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-slate-200 text-navy-900 shadow-2xs">
-      <span>${tag}</span>
-      <button type="button" onclick="removeAmenityTag('${tag}')" class="text-slate-400 hover:text-coral">
-        <i data-lucide="x" class="w-3 h-3"></i>
-      </button>
-    </span>
-  `).join('');
-  lucide.createIcons();
-}
-
-function removeAmenityTag(tag) {
-  currentFormAmenities = currentFormAmenities.filter(t => t !== tag);
-  renderAmenitiesPicker();
-  renderSelectedAmenitiesTags();
-}
-
-// MODAL OPEN / EDIT PROPERTY
-function openAddPropertyModal() {
-  document.getElementById('editPropIndex').value = -1;
-  document.getElementById('modalPropTitle').textContent = 'Add Property';
-  document.getElementById('formPropName').value = '';
-  document.getElementById('formPropLoc').value = '';
-  document.getElementById('formPropPrice').value = '';
-  document.getElementById('formPropTag').value = 'None';
-  document.getElementById('formPropType').value = 'Apartment · 2 BHK';
-  document.getElementById('formPropDesc').value = '';
-  document.getElementById('formPropImage').value = img1;
-  
-  currentFormAmenities = []; // Start completely unselected!
-  currentFormGallery = [...defaultGallery];
-  
-  buildCoverImageSection(img1);
-  buildGallerySection();
-  renderAmenitiesPicker();
-  renderSelectedAmenitiesTags();
-  openModal('propertyModal');
-}
-
-function editProperty(e, i) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  closeAllMenus();
-  const p = properties[i];
-  if (!p) return;
-  document.getElementById('editPropIndex').value = i;
-  document.getElementById('modalPropTitle').textContent = 'Edit Property';
-  document.getElementById('formPropName').value = p[0];
-  document.getElementById('formPropLoc').value = p[1];
-  document.getElementById('formPropPrice').value = p[2];
-  document.getElementById('formPropTag').value = p[3] || 'None';
-  document.getElementById('formPropType').value = p[4];
-  document.getElementById('formPropDesc').value = p[7] || '';
-  document.getElementById('formPropImage').value = p[6] || img1;
-
-  currentFormAmenities = [...(p[5] || [])];
-  currentFormGallery = p[8] ? [...p[8]] : [...defaultGallery];
-
-  buildCoverImageSection(p[6] || img1);
-  buildGallerySection();
-  renderAmenitiesPicker();
-  renderSelectedAmenitiesTags();
-  openModal('propertyModal');
-}
-
-function savePropertyForm() {
-  const i = parseInt(document.getElementById('editPropIndex').value, 10);
-  const name = document.getElementById('formPropName').value.trim();
-  const loc = document.getElementById('formPropLoc').value.trim() || 'OMR, Chennai';
-  const price = document.getElementById('formPropPrice').value.trim() || 'Price on Request';
-  const tag = document.getElementById('formPropTag').value;
-  const type = document.getElementById('formPropType').value;
-  const desc = document.getElementById('formPropDesc').value.trim();
-  const img = document.getElementById('formPropImage').value.trim() || img1;
-
-  if (!name) {
-    alert('Please enter a property name.');
-    return;
-  }
-
-  if (i >= 0 && properties[i]) {
-    properties[i] = [name, loc, price, tag, type, [...currentFormAmenities], img, desc, [...currentFormGallery]];
-    logAction(`Edited listing "${name}" (${loc}, ${price})`, 'Properties');
-  } else {
-    properties.unshift([name, loc, price, tag, type, [...currentFormAmenities], img, desc, [...currentFormGallery]]);
-    logAction(`Created new listing "${name}" (${loc}, ${price})`, 'Properties');
-  }
-
-  renderProperties();
-  closeModal('propertyModal');
-}
-
-function deleteProperty(e, i) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  closeAllMenus();
-  const propName = properties[i] ? properties[i][0] : 'this property';
-  if (confirm(`Are you sure you want to delete "${propName}"?`)) {
-    properties.splice(i, 1);
-    renderProperties();
-    logAction(`Deleted property listing "${propName}"`, 'Properties');
-  }
-}
-
-// 3-Dots Menu Operations
+// 3-DOTS MENU HANDLERS
 function toggleMenu(e, menuId) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  const targetMenu = document.getElementById(menuId);
-  if (!targetMenu) return;
-  const isCurrentlyOpen = !targetMenu.classList.contains('hidden');
-
+  e.stopPropagation();
+  const el = document.getElementById(menuId);
+  const wasOpen = el && !el.classList.contains('hidden');
   closeAllMenus();
-
-  if (!isCurrentlyOpen) {
-    targetMenu.classList.remove('hidden');
-    const wrapper = targetMenu.closest('.menu-wrapper');
-    if (wrapper) wrapper.classList.add('is-open');
+  if (el && !wasOpen) {
+    el.classList.remove('hidden');
   }
 }
 
 function closeAllMenus() {
   document.querySelectorAll('.menu-box').forEach(m => m.classList.add('hidden'));
-  document.querySelectorAll('.menu-wrapper').forEach(w => w.classList.remove('is-open'));
 }
 
-// Rename Property
-function openRenameModal(e, i) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
+document.addEventListener('click', () => closeAllMenus());
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeAllMenus();
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
+    closeEnquiry();
   }
+});
+
+// EDIT PROPERTY
+function editProperty(e, i) {
+  e.stopPropagation();
   closeAllMenus();
-  document.getElementById('renamePropIndex').value = i;
-  document.getElementById('renameInput').value = properties[i] ? properties[i][0] : '';
-  openModal('renameModal');
-  setTimeout(() => document.getElementById('renameInput').focus(), 100);
+  const p = properties[i];
+  if (!p) return;
+  document.getElementById('editPropIndex').value = i;
+  document.getElementById('propModalTitle').textContent = 'Edit Property';
+  document.getElementById('propNameInput').value = p[0];
+  document.getElementById('propLocInput').value = p[1];
+  document.getElementById('propPriceInput').value = p[2];
+  document.getElementById('propTagInput').value = p[3] || 'None';
+  document.getElementById('propTypeInput').value = p[4] || 'Apartment · 2 BHK';
+  document.getElementById('propImageInput').value = p[6] || img1;
+  document.getElementById('propDescInput').value = p[5];
+  openModal('propertyModal');
 }
 
-function submitRename() {
+function openAddPropertyModal() {
+  document.getElementById('editPropIndex').value = -1;
+  document.getElementById('propModalTitle').textContent = 'Add Property';
+  document.getElementById('propNameInput').value = '';
+  document.getElementById('propLocInput').value = '';
+  document.getElementById('propPriceInput').value = '';
+  document.getElementById('propTagInput').value = 'Featured';
+  document.getElementById('propTypeInput').value = 'Apartment · 2 BHK';
+  document.getElementById('propImageInput').value = img1;
+  document.getElementById('propDescInput').value = '';
+  openModal('propertyModal');
+}
+
+function saveProperty() {
+  const idx = parseInt(document.getElementById('editPropIndex').value, 10);
+  const name = document.getElementById('propNameInput').value.trim();
+  const loc = document.getElementById('propLocInput').value.trim();
+  const price = document.getElementById('propPriceInput').value.trim();
+  const tag = document.getElementById('propTagInput').value;
+  const type = document.getElementById('propTypeInput').value;
+  const img = document.getElementById('propImageInput').value.trim() || img1;
+  const desc = document.getElementById('propDescInput').value.trim();
+
+  if (!name || !loc || !price) {
+    alert('Please enter property name, location, and price.');
+    return;
+  }
+
+  if (idx >= 0 && properties[idx]) {
+    properties[idx] = [name, loc, price, tag, type, desc, img];
+    showToast(`Updated "${name}"`);
+  } else {
+    properties.unshift([name, loc, price, tag, type, desc, img]);
+    showToast(`Added "${name}"`);
+  }
+
+  closeModal('propertyModal');
+  renderProperties();
+}
+
+// RENAME PROPERTY
+function openRenameModal(e, i) {
+  e.stopPropagation();
+  closeAllMenus();
+  const p = properties[i];
+  if (!p) return;
+  document.getElementById('renamePropIndex').value = i;
+  document.getElementById('renamePropInput').value = p[0];
+  openModal('renameModal');
+  setTimeout(() => document.getElementById('renamePropInput').focus(), 100);
+}
+
+function saveRename() {
   const i = parseInt(document.getElementById('renamePropIndex').value, 10);
-  const newName = document.getElementById('renameInput').value.trim();
-  if (newName && properties[i]) {
-    const oldName = properties[i][0];
-    properties[i][0] = newName;
+  const next = document.getElementById('renamePropInput').value.trim();
+  if (!next) return;
+  if (properties[i]) {
+    const old = properties[i][0];
+    properties[i][0] = next;
     renderProperties();
     closeModal('renameModal');
-    logAction(`Renamed listing from "${oldName}" to "${newName}"`, 'Properties');
+    showToast(`Renamed "${old}" to "${next}"`);
   }
 }
 
+// DELETE PROPERTY
+function deleteProperty(e, i) {
+  e.stopPropagation();
+  closeAllMenus();
+  const name = properties[i]?.[0] || 'listing';
+  if (confirm(`Are you sure you want to delete "${name}"?`)) {
+    properties.splice(i, 1);
+    renderProperties();
+    showToast(`Deleted "${name}"`);
+  }
+}
+
+// FILTER PROPERTIES (WITH AUTOFILL MITIGATION)
 function filterProperties() {
-  const search = document.getElementById('propSearchInput').value.toLowerCase();
-  const loc = document.getElementById('propFilterLoc').value;
-  const type = document.getElementById('propFilterType').value;
-  const badge = document.getElementById('propFilterBadge').value;
+  const search = (document.getElementById('propSearchInput')?.value || '').toLowerCase();
+  const loc = document.getElementById('propFilterLoc')?.value || 'All';
+  const type = document.getElementById('propFilterType')?.value || 'All';
+  const badge = document.getElementById('propFilterBadge')?.value || 'All';
 
   const filtered = properties.filter(p => {
-    const matchSearch = p[0].toLowerCase().includes(search) || p[1].toLowerCase().includes(search);
+    const matchSearch = !search || p[0].toLowerCase().includes(search) || p[1].toLowerCase().includes(search);
     const matchLoc = (loc === 'All') || p[1].toLowerCase().includes(loc.toLowerCase().split(',')[0]);
     const matchType = (type === 'All') || p[4].toLowerCase().includes(type.toLowerCase());
     const matchBadge = (badge === 'All') || (badge === 'None' && (!p[3] || p[3] === 'None')) || (p[3] === badge);
@@ -1915,7 +1033,7 @@ function filterProperties() {
 }
 
 // =============================================================
-// BANNER MANAGEMENT (NO GRIP DOTS, WHITE ELEVATED 5/10, RED/GREEN BUTTONS)
+// BANNER MANAGEMENT (NO TEMPLATES, 6 CURATED LIVE BANNERS)
 // =============================================================
 let bannerData = [
   ['Find Your Dream Luxury Home in Chennai', 'Explore hand-picked luxury apartments and gated villas across OMR & ECR.', img1, true],
@@ -1926,39 +1044,27 @@ let bannerData = [
   ['High-Growth Gated Community Plots in Tambaram', 'CMDA & RERA approved residential plots with underground utilities ready for build.', img3, false]
 ];
 
-let draggedBannerIndex = null;
-
 function renderBanners() {
   const container = document.getElementById('bannerList');
   if (!container) return;
   
   container.innerHTML = bannerData.map((b, i) => `
-    <div 
-      draggable="true" 
-      ondragstart="bannerDragStart(event, ${i})" 
-      ondragover="bannerDragOver(event)" 
-      ondragleave="bannerDragLeave(event)" 
-      ondrop="bannerDrop(event, ${i})" 
-      ondragend="bannerDragEnd(event)"
-      class="banner-item flex items-center justify-between p-3.5 rounded-xl border border-slate-200/90 bg-white hover:shadow-sm transition-all gap-4 cursor-grab active:cursor-grabbing">
-      
-      <div class="flex items-center gap-3.5 flex-1 min-w-0">
-        <!-- 4 dots removed! -->
-        <img src="${b[2]}" alt="Banner slide" class="w-20 h-14 object-cover rounded-lg border border-slate-200 flex-shrink-0 shadow-2xs">
-        
+    <div class="banner-item flex items-center justify-between p-4 rounded-xl border border-slate-200/90 bg-white hover:shadow-sm transition-all gap-4">
+      <div class="flex items-center gap-4 flex-1 min-w-0">
+        <img src="${b[2]}" alt="${b[0]}" class="w-24 h-14 rounded-lg object-cover flex-shrink-0 border border-slate-200">
         <div class="min-w-0 flex-1">
-          <div class="flex items-center gap-2">
-            <h4 class="text-xs font-bold text-navy-900 leading-snug font-sans truncate">${b[0]}</h4>
-          </div>
-          <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">${b[1]}</p>
+          <h4 class="text-xs font-bold text-navy-900 truncate">${b[0]}</h4>
+          <p class="text-[11px] text-slate-400 truncate mt-0.5 font-medium">${b[1]}</p>
         </div>
       </div>
-
-      <div class="flex items-center gap-2 flex-shrink-0">
-        <button onclick="toggleBannerStatus(${i})" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${b[3] ? 'border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100' : 'border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}">
+      <div class="flex items-center gap-3">
+        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold ${b[3] ? 'bg-emerald/10 text-emerald border border-emerald/20' : 'bg-slate-100 text-slate-500'}">
+          ${b[3] ? 'Active' : 'Inactive'}
+        </span>
+        <button onclick="toggleBannerStatus(${i})" class="px-3 py-1.5 rounded-lg border text-xs font-bold transition-colors ${b[3] ? 'border-rose-200 text-rose-600 hover:bg-rose-50' : 'border-emerald/30 text-emerald hover:bg-emerald/5'}">
           ${b[3] ? 'Deactivate' : 'Activate'}
         </button>
-        <button onclick="deleteBanner(${i})" class="p-1.5 rounded-lg text-coral hover:bg-coral/10 transition-colors" title="Delete Slide">
+        <button onclick="deleteBanner(${i})" class="p-1.5 rounded-lg text-slate-400 hover:text-coral hover:bg-rose-50 transition-colors">
           <i data-lucide="trash-2" class="w-4 h-4"></i>
         </button>
       </div>
@@ -1967,925 +1073,266 @@ function renderBanners() {
 
   const activeCount = bannerData.filter(b => b[3]).length;
   const cap = document.getElementById('slideCapacity');
-  if (cap) cap.textContent = `${activeCount}/10`;
+  if (cap) cap.textContent = `${activeCount} / 10 Active`;
   lucide.createIcons();
 }
 
 function toggleBannerStatus(i) {
+  if (!bannerData[i][3] && bannerData.filter(b => b[3]).length >= 5) {
+    alert('Maximum 5 slides can be active concurrently.');
+    return;
+  }
   bannerData[i][3] = !bannerData[i][3];
   renderBanners();
-  logAction(`${bannerData[i][3] ? 'Activated' : 'Deactivated'} carousel banner "${bannerData[i][0]}"`, 'Banners');
+  showToast(`Banner status updated to ${bannerData[i][3] ? 'Active' : 'Inactive'}`);
 }
 
 function deleteBanner(i) {
-  const name = bannerData[i][0];
-  if (confirm(`Delete carousel banner "${name}"?`)) {
+  if (confirm(`Delete this banner slide?`)) {
     bannerData.splice(i, 1);
     renderBanners();
-    logAction(`Deleted carousel banner "${name}"`, 'Banners');
+    showToast('Banner slide deleted');
   }
 }
 
-function bannerDragStart(e, i) {
-  draggedBannerIndex = i;
-  e.dataTransfer.effectAllowed = 'move';
-  e.currentTarget.classList.add('opacity-40');
-}
-function bannerDragOver(e) {
-  e.preventDefault();
-  e.currentTarget.classList.add('border-royal', 'bg-royal/5');
-}
-function bannerDragLeave(e) {
-  e.currentTarget.classList.remove('border-royal', 'bg-royal/5');
-}
-function bannerDrop(e, targetIdx) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('border-royal', 'bg-royal/5');
-  if (draggedBannerIndex !== null && draggedBannerIndex !== targetIdx) {
-    const moved = bannerData.splice(draggedBannerIndex, 1)[0];
-    bannerData.splice(targetIdx, 0, moved);
-    renderBanners();
-    logAction(`Reordered banner slides`, 'Banners');
-  }
-}
-function bannerDragEnd(e) {
-  draggedBannerIndex = null;
-  document.querySelectorAll('.banner-item').forEach(el => el.classList.remove('opacity-40', 'border-royal', 'bg-royal/5'));
-}
-
-function submitNewBanner() {
-  const head = document.getElementById('modalBannerHead').value.trim();
-  const sub = document.getElementById('modalBannerSub').value.trim() || 'Luxury Chennai residences';
-  const imgUrl = document.getElementById('modalBannerFileName').dataset.uploadedUrl || img1;
+function addNewBanner() {
+  const head = document.getElementById('bannerHeadline').value.trim();
+  const sub = document.getElementById('bannerSubtext').value.trim();
+  const imgUrl = document.getElementById('bannerImgUrl').value.trim() || img1;
+  const status = document.getElementById('bannerStatus').value === 'Active';
 
   if (!head) {
-    alert('Please enter a banner headline.');
+    alert('Please enter banner headline');
     return;
   }
-  if (bannerData.length >= 10) {
-    alert('Maximum 10 carousel slides reached.');
-    return;
-  }
-
-  bannerData.unshift([head, sub, imgUrl, true]);
+  bannerData.unshift([head, sub, imgUrl, status]);
   renderBanners();
-  closeModal('addBannerModal');
-  logAction(`Created new carousel banner "${head}"`, 'Banners');
+  closeModal('bannerModal');
+  showToast('New banner added');
+}
+
+// BANNER DROPZONE
+const drop = document.getElementById('dropzone');
+const fileInput = document.getElementById('bannerFile');
+if (drop && fileInput) {
+  drop.onclick = () => fileInput.click();
+  fileInput.onchange = () => {
+    if (fileInput.files.length) {
+      showToast(`${fileInput.files.length} banner image(s) uploaded`);
+    }
+  };
 }
 
 // =============================================================
-// ENQUIRIES SECTION: NO ACTION COLUMN, AUTO-CLOSE ON NAV SWITCH
+// ENQUIRIES & CUSTOMER DOSSIER
 // =============================================================
-function getStatusBadge(status) {
-  switch (status) {
-    case 'New':
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">New</span>';
-    case 'Contacted':
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-ice-border">Contacted</span>';
-    case 'Site Visit':
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-700">Site Visit</span>';
-    case 'Closed':
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700 border border-rose-300">Closed</span>';
-    default:
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">None</span>';
-  }
-}
+let enquiries = [
+  { name: 'Suresh Kumar', phone: '+91 98765 43210', email: 'suresh@gmail.com', property: 'Lake View Residency', date: 'Today, 10:24 AM', status: 'New' },
+  { name: 'Meena Priya', phone: '+91 98765 12340', email: 'meena@gmail.com', property: 'Green Avenue Villas', date: '13 Nov, 3:15 PM', status: 'Contacted' },
+  { name: 'Rohit Sharma', phone: '+91 99887 66554', email: 'rohit@gmail.com', property: 'City Centre Plots', date: '12 Nov, 11:05 AM', status: 'Closed' },
+  { name: 'Ananya Deshmukh', phone: '+91 98401 22334', email: 'ananya@outlook.com', property: 'Blue Horizon Beachfront', date: '11 Nov, 4:40 PM', status: 'New' },
+  { name: 'Karthik Subramanian', phone: '+91 97910 88776', email: 'karthik@techcorp.in', property: 'Prime Commercial Hub', date: '10 Nov, 1:20 PM', status: 'Contacted' }
+];
+
+let activeEnquiryIndex = -1;
 
 function renderEnquiries() {
   const tbody = document.getElementById('enquiriesTableBody');
   if (!tbody) return;
+  tbody.innerHTML = enquiries.map((enq, i) => {
+    let pillColor = 'bg-emerald/10 text-emerald border-emerald/20';
+    if (enq.status === 'Contacted') pillColor = 'bg-royal/10 text-royal border-royal/20';
+    if (enq.status === 'Closed') pillColor = 'bg-rose-50 text-coral border-rose-200';
 
-  tbody.innerHTML = enquiries.map((enq, i) => `
-    <tr onclick="openEnquiry(${i})" class="hover:bg-royal/5 cursor-pointer transition-colors">
-      <td class="px-6 py-4">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-xs shadow-2xs font-sans">${enq.name.charAt(0)}</div>
-          <div>
-            <h4 class="font-bold text-navy-900">${enq.name}</h4>
-            <p class="text-[11px] text-slate-400 font-mono">${enq.phone}</p>
-          </div>
-        </div>
-      </td>
-      <td class="px-6 py-4 text-slate-600 font-mono text-[11px]">${enq.email}</td>
-      <td class="px-6 py-4">
-        <p class="font-bold text-navy-900">${enq.property}</p>
-        <p class="text-[11px] text-slate-400">${enq.location}</p>
-      </td>
-      <td class="px-6 py-4 text-slate-400 font-mono text-[11px]">${enq.date}</td>
-      <td class="px-6 py-4">
-        ${getStatusBadge(enq.status)}
-      </td>
-    </tr>
-  `).join('');
-
-  // Update Priority Leads on Dashboard: SHOW ONLY NEW LEADS, EXACTLY 4
-  const priorityContainer = document.getElementById('priorityLeadsList');
-  if (priorityContainer) {
-    const newLeads = enquiries.filter(l => l.status === 'New').slice(0, 3);
-    if (newLeads.length === 0) {
-      priorityContainer.innerHTML = '<p class="text-xs text-slate-400 py-4 text-center">No new leads pending review.</p>';
-    } else {
-      priorityContainer.innerHTML = newLeads.map(l => {
-        const realIdx = enquiries.indexOf(l);
-        return `
-          <div onclick="openEnquiry(${realIdx})" class="p-3 rounded-lg border border-slate-100 hover:border-royal/40 hover:bg-royal/5 transition-all cursor-pointer flex items-center justify-between">
-            <div>
-              <h4 class="text-xs font-bold text-navy-900">${l.name}</h4>
-              <p class="text-[11px] text-slate-500 truncate max-w-[140px] mt-0.5">${l.property}</p>
-            </div>
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">New</span>
-          </div>
-        `;
-      }).join('');
-    }
-  }
-
-  const newCount = enquiries.filter(e => e.status === 'New').length;
-  const badge = document.getElementById('unreadEnquiriesBadge');
-  if (badge) badge.textContent = newCount;
-  lucide.createIcons();
+    return `
+      <tr onclick="openEnquiry(${i})" class="hover:bg-slate-50 cursor-pointer transition-colors">
+        <td class="px-6 py-4 font-bold text-navy-900">${enq.name}</td>
+        <td class="px-6 py-4 text-slate-500 font-semibold">${enq.phone}</td>
+        <td class="px-6 py-4 text-navy-900 font-bold">${enq.property}</td>
+        <td class="px-6 py-4 text-slate-400 font-medium">${enq.date}</td>
+        <td class="px-6 py-4">
+          <span class="px-2.5 py-1 rounded-full text-[10px] font-bold border ${pillColor}">${enq.status}</span>
+        </td>
+      </tr>
+    `;
+  }).join('');
 }
 
-function openEnquiry(idx) {
-  const enq = enquiries[idx];
+function openEnquiry(i) {
+  activeEnquiryIndex = i;
+  const enq = enquiries[i];
   if (!enq) return;
-  activeEnquiryIndex = idx;
-
-  if (enq.status === 'New') {
-    enq.status = 'None';
-    logAction(`Reviewed new inquiry from ${enq.name} (Label moved to None)`, 'Enquiries');
-  }
-
-  // Header: Name on top, phone number below
   document.getElementById('eName').textContent = enq.name;
-  document.getElementById('ePhoneTop').textContent = enq.phone;
-  document.getElementById('eAvatar').textContent = enq.name.charAt(0);
-  
-  // Property of interest with location
-  document.getElementById('eProperty').innerHTML = `
-    <i data-lucide="building-2" class="w-3.5 h-3.5 text-royal"></i>
-    <span>${enq.property}, ${enq.location}</span>
-  `;
-  
-  // Label As status
-  document.getElementById('eStatus').value = enq.status;
+  document.getElementById('eAvatar').textContent = enq.name[0];
   document.getElementById('ePhone').textContent = enq.phone;
   document.getElementById('eEmail').textContent = enq.email;
-  document.getElementById('eDate').textContent = enq.date;
-
+  document.getElementById('eProperty').textContent = enq.property;
+  document.getElementById('eStatus').value = enq.status;
+  const digits = enq.phone.replace(/\D/g, '');
+  document.getElementById('whatsappLink').href = `https://wa.me/${digits}`;
   const drawer = document.getElementById('enquiryDrawer');
-  drawer.classList.remove('translate-x-full');
-  
-  renderEnquiries();
-  lucide.createIcons();
+  if (drawer) drawer.classList.remove('translate-x-full');
 }
 
 function closeEnquiry() {
   const drawer = document.getElementById('enquiryDrawer');
   if (drawer) drawer.classList.add('translate-x-full');
-  activeEnquiryIndex = -1;
 }
 
-function updateCurrentEnquiryStatus(val) {
+function copyContactPhone() {
+  const p = document.getElementById('ePhone').textContent;
+  navigator.clipboard?.writeText(p);
+  showToast('Phone number copied to clipboard');
+}
+
+function saveEnquiryStatus() {
   if (activeEnquiryIndex >= 0 && enquiries[activeEnquiryIndex]) {
-    enquiries[activeEnquiryIndex].status = val;
+    enquiries[activeEnquiryIndex].status = document.getElementById('eStatus').value;
     renderEnquiries();
-    logAction(`Updated label for ${enquiries[activeEnquiryIndex].name} to "${val}"`, 'Enquiries');
+    showToast('Lead status updated');
   }
-}
-
-function chatOnWhatsApp() {
-  if (activeEnquiryIndex >= 0 && enquiries[activeEnquiryIndex]) {
-    const enq = enquiries[activeEnquiryIndex];
-    let cleanPhone = (enq.phone || '').replace(/[^0-9]/g, '');
-    if (!cleanPhone) {
-      alert('No valid phone number found for this lead.');
-      return;
-    }
-    // Convert 10-digit Indian phone number to international 91 prefix
-    if (cleanPhone.length === 10) {
-      cleanPhone = '91' + cleanPhone;
-    }
-    const msg = encodeURIComponent(`Hello ${enq.name}, thank you for contacting V.V Properties regarding ${enq.property}. How may we assist you today with property details, brochure, or a site visit?`);
-    window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank');
-  }
-}
-
-function copyPhoneNumber() {
-  if (activeEnquiryIndex >= 0 && enquiries[activeEnquiryIndex]) {
-    const phone = enquiries[activeEnquiryIndex].phone;
-    navigator.clipboard.writeText(phone).then(() => {
-      const btn = document.getElementById('copyPhoneText');
-      if (btn) {
-        btn.textContent = 'Phone Copied!';
-        setTimeout(() => btn.textContent = 'Copy Phone Number', 1500);
-      }
-    });
-  }
-}
-
-function exportEnquiriesCSV() {
-  let csv = 'ID,Name,Phone,Email,Property,Location,Date,Status\n';
-  enquiries.forEach(e => {
-    csv += `"${e.id}","${e.name}","${e.phone}","${e.email}","${e.property}","${e.location}","${e.date}","${e.status}"\n`;
-  });
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.setAttribute('href', url);
-  a.setAttribute('download', 'vv_customer_enquiries.csv');
-  a.click();
+  closeEnquiry();
 }
 
 // =============================================================
-// TESTIMONIALS (5 CLICKABLE STARS, SUBTLE LABELS WITHOUT *)
+// TESTIMONIALS
 // =============================================================
 let testimonials = [
-  ['Meena R', '5', 'OMR, Chennai', 'Professional support throughout the buying process. Transparent documentation and prompt customer service.'],
-  ['Karthik S', '5', 'Anna Nagar, Chennai', 'Exceptional service and clear guidance on property verification. Highly recommend V.V Properties.'],
-  ['Anand C', '4', 'ECR, Chennai', 'Transparent pricing with no hidden charges. Site visit coordination was seamless and punctual.'],
-  ['Priya S', '5', 'Medavakkam, Chennai', 'Found our dream duplex villa within 3 weeks. The team handled registration smoothly.'],
-  ['Dr. Rajesh K', '5', 'Besant Nagar, Chennai', 'Trustworthy and ethical realtors. Very satisfied with the legal clearance documentation.'],
-  ['Divya B', '4', 'Guindy, Chennai', 'Great commercial property options for retail investment. Excellent post-sales assistance.']
+  ['Meena R', 'OMR, Chennai', 'Professional guidance throughout our property purchase. Transparent legal documentation and fast site visits.'],
+  ['Karthik S', 'Kelambakkam', 'Clear communication, prompt coordination, and trustworthy developers. We found our dream home with V.V Properties.'],
+  ['Priya Sharma', 'Chennai', 'Helped us acquire a verified gated community plot near Tambaram with 100% legal clearance. Highly recommended.']
 ];
-
-function setTestimonialStar(rating) {
-  document.getElementById('testStarInput').value = rating;
-  renderStarRatingPicker(rating);
-}
-
-function renderStarRatingPicker(rating) {
-  const container = document.getElementById('starRatingContainer');
-  const label = document.getElementById('starRatingLabel');
-  if (!container) return;
-
-  let starsHtml = '';
-  for (let s = 1; s <= 5; s++) {
-    const isFilled = s <= rating;
-    starsHtml += `
-      <button type="button" onclick="setTestimonialStar(${s})" class="star-btn hover:scale-110 transition-transform ${isFilled ? 'text-amber-400' : 'text-slate-300'}">
-        <i data-lucide="star" class="w-5 h-5 ${isFilled ? 'fill-amber-400' : ''}"></i>
-      </button>
-    `;
-  }
-  container.innerHTML = `
-    ${starsHtml}
-    <span id="starRatingLabel" class="text-xs font-bold text-slate-700 ml-1.5">${rating} Stars</span>
-  `;
-  lucide.createIcons();
-}
 
 function renderTestimonials() {
   const container = document.getElementById('testCards');
   if (!container) return;
-  container.innerHTML = testimonials.map((t, i) => {
-    const starCount = parseInt(t[1], 10) || 5;
-    const starsHtml = '★'.repeat(starCount) + '☆'.repeat(5 - starCount);
-    return `
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow relative group flex flex-col justify-between">
+  container.innerHTML = testimonials.map((t, i) => `
+    <div class="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm flex flex-col justify-between space-y-4">
+      <div>
+        <div class="flex text-amber-400 text-sm tracking-widest mb-3">★★★★★</div>
+        <p class="text-xs text-slate-600 leading-relaxed font-medium">“${t[2]}”</p>
+      </div>
+      <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
         <div>
-          <div class="flex items-start justify-between mb-3">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-xs font-sans">
-                ${t[0].charAt(0)}
-              </div>
-              <div>
-                <h4 class="font-sans font-bold text-navy-900 text-sm leading-tight">${t[0]}</h4>
-                <p class="text-[11px] text-slate-400 font-medium">${t[2]}</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button onclick="openEditTestimonialModal(${i})" class="p-1 rounded text-slate-400 hover:text-royal hover:bg-royal/10 transition-colors" title="Edit">
-                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-              </button>
-              <button onclick="deleteTestimonial(${i})" class="p-1 rounded text-slate-400 hover:text-coral hover:bg-coral/10 transition-colors" title="Delete">
-                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed italic">"${t[3]}"</p>
+          <h4 class="text-xs font-bold text-navy-900">${t[0]}</h4>
+          <span class="text-[10px] text-slate-400 font-semibold">${t[1]}</span>
         </div>
-        <div class="mt-4 pt-3 border-t border-slate-100 text-amber-500 font-bold text-xs tracking-wider">
-          ${starsHtml}
+        <div class="flex items-center gap-1">
+          <button onclick="openModal('testimonialModal')" class="p-1.5 rounded-lg text-slate-400 hover:text-royal hover:bg-slate-100 transition-colors">
+            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+          </button>
+          <button onclick="deleteTestimonial(${i})" class="p-1.5 rounded-lg text-slate-400 hover:text-coral hover:bg-rose-50 transition-colors">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          </button>
         </div>
       </div>
-    `;
-  }).join('');
-  lucide.createIcons();
-}
-
-function openAddTestimonialModal() {
-  document.getElementById('editTestimonialIndex').value = -1;
-  document.getElementById('testimonialModalTitle').textContent = 'Add Testimonial';
-  document.getElementById('testNameInput').value = '';
-  document.getElementById('testLocInput').value = '';
-  document.getElementById('testQuoteInput').value = '';
-  setTestimonialStar(5);
-  openModal('testimonialModal');
-}
-
-function openEditTestimonialModal(idx) {
-  const t = testimonials[idx];
-  if (!t) return;
-  document.getElementById('editTestimonialIndex').value = idx;
-  document.getElementById('testimonialModalTitle').textContent = 'Edit Testimonial';
-  document.getElementById('testNameInput').value = t[0];
-  document.getElementById('testLocInput').value = t[2];
-  document.getElementById('testQuoteInput').value = t[3];
-  setTestimonialStar(parseInt(t[1], 10) || 5);
-  openModal('testimonialModal');
-}
-
-function saveTestimonialModal() {
-  const idx = parseInt(document.getElementById('editTestimonialIndex').value, 10);
-  const name = document.getElementById('testNameInput').value.trim();
-  const star = document.getElementById('testStarInput').value;
-  const loc = document.getElementById('testLocInput').value.trim() || 'Chennai';
-  const quote = document.getElementById('testQuoteInput').value.trim();
-
-  if (!name || !quote) {
-    alert('Please enter client name and feedback quote.');
-    return;
-  }
-
-  if (idx >= 0 && testimonials[idx]) {
-    testimonials[idx] = [name, star, loc, quote];
-    logAction(`Updated testimonial from "${name}"`, 'Testimonials');
-  } else {
-    testimonials.unshift([name, star, loc, quote]);
-    logAction(`Added new testimonial from "${name}" (${star} Stars)`, 'Testimonials');
-  }
-
-  renderTestimonials();
-  closeModal('testimonialModal');
-}
-
-function deleteTestimonial(idx) {
-  const name = testimonials[idx][0];
-  if (confirm(`Delete testimonial from "${name}"?`)) {
-    testimonials.splice(idx, 1);
-    renderTestimonials();
-    logAction(`Deleted testimonial from "${name}"`, 'Testimonials');
-  }
-}
-
-// =============================================================
-// ADMIN PROFILE & TEAM ACCOUNTS (victor, saran, vibhkar, umeshwar, sharmika)
-// =============================================================
-function renderAccounts() {
-  const tbody = document.getElementById('accountsTableBody');
-  if (!tbody) return;
-  tbody.innerHTML = staffAccounts.map((a, i) => `
-    <tr class="hover:bg-slate-50 transition-colors">
-      <td class="px-5 py-3.5">
-        <div class="flex items-center gap-2.5">
-          <div class="w-7 h-7 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-xs font-sans">${a.name.charAt(0)}</div>
-          <span class="font-bold text-navy-900">${a.name}</span>
-        </div>
-      </td>
-      <td class="px-5 py-3.5 font-mono text-[11px] text-slate-600">${a.username}</td>
-      <td class="px-5 py-3.5 font-medium text-slate-700">${a.role}</td>
-      <td class="px-5 py-3.5 text-slate-400 font-mono text-[11px]">${a.created}</td>
-      <td class="px-5 py-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">${a.status}</span></td>
-      <td class="px-5 py-3.5 text-right">
-        ${i === 0 ? '<span class="text-slate-400 font-bold text-[11px]">Primary</span>' : `
-          <button onclick="deleteAccount(${i})" class="text-coral hover:underline font-semibold text-[11px]">Delete</button>
-        `}
-      </td>
-    </tr>
+    </div>
   `).join('');
-}
-
-function submitNewAccount() {
-  const name = document.getElementById('newAccDisplayName').value.trim();
-  const username = document.getElementById('newAccUsername').value.trim().toLowerCase();
-  const password = document.getElementById('newAccPassword').value.trim() || username;
-  const role = document.getElementById('newAccRole').value;
-
-  if (!name || !username) {
-    alert('Please enter display name and username.');
-    return;
-  }
-
-  staffAccounts.push({
-    name: name,
-    username: username,
-    password: password,
-    role: role,
-    created: 'Today',
-    status: 'Active'
-  });
-
-  renderAccounts();
-  closeModal('addAccountModal');
-  logAction(`Created new authorized team account "${username}" (${role})`, 'Admin');
-}
-
-function deleteAccount(i) {
-  if (i === 0) {
-    alert('Primary administrator account cannot be deleted.');
-    return;
-  }
-  const acc = staffAccounts[i];
-  if (confirm(`Revoke credentials and delete account for "${acc.name}"?`)) {
-    staffAccounts.splice(i, 1);
-    renderAccounts();
-    logAction(`Revoked account access for "${acc.username}"`, 'Admin');
-  }
-}
-
-function saveAdminProfile() {
-  const name = document.getElementById('profileDisplayName').value.trim();
-  const user = document.getElementById('profileUsername').value.trim();
-  if (!name || !user) {
-    alert('Please provide display name and username.');
-    return;
-  }
-  currentAdminProfile.name = name;
-  currentAdminProfile.username = user;
-
-  // Update in staffAccounts
-  const primary = staffAccounts.find(a => a.username === 'victorpaul' || a.username === 'victor') || staffAccounts[0];
-  if (primary) {
-    primary.name = name;
-    primary.username = user;
-    primary.password = user;
-  }
-
-  const session = JSON.parse(localStorage.getItem('vv_auth_session') || '{}');
-  session.name = name;
-  session.username = user;
-  session.avatar = currentAdminProfile.avatar;
-  localStorage.setItem('vv_auth_session', JSON.stringify(session));
-
-  applyUserSession(session);
-  renderAccounts();
-  logAction(`Updated administrator profile credentials for "${name}"`, 'Admin');
-  alert('Admin profile updated successfully.');
-}
-
-function togglePasswordVisibility(inputId, iconId) {
-  const input = document.getElementById(inputId);
-  const icon = document.getElementById(iconId);
-  if (!input) return;
-  if (input.type === 'password') {
-    input.type = 'text';
-    if (icon) icon.setAttribute('data-lucide', 'eye-off');
-  } else {
-    input.type = 'password';
-    if (icon) icon.setAttribute('data-lucide', 'eye');
-  }
   lucide.createIcons();
 }
 
-function submitEditPassword() {
-  const cur = document.getElementById('currentAdminPasswordInput').value.trim();
-  const nw = document.getElementById('newAdminPasswordInput').value.trim();
-  const conf = document.getElementById('confirmAdminPasswordInput').value.trim();
-  if (!nw) {
-    alert('Please enter a new password.');
-    return;
+function deleteTestimonial(i) {
+  if (confirm('Delete this client testimonial?')) {
+    testimonials.splice(i, 1);
+    renderTestimonials();
+    showToast('Testimonial removed');
   }
-  if (nw !== conf) {
-    alert('New password and confirm password do not match.');
-    return;
-  }
-  const acc = staffAccounts.find(a => a.username === currentAdminProfile.username) || staffAccounts[0];
-  if (acc) {
-    acc.password = nw;
-    document.getElementById('profilePassword').value = nw;
-    closeModal('editPasswordModal');
-    logAction(`Updated password credentials for "${acc.username}"`, 'Admin');
-    alert('Password updated successfully.');
-  }
-}
-
-// PROFILE PHOTO DRAG & DROP
-const photoDropzone = document.getElementById('adminPhotoDropzone');
-const photoFileInput = document.getElementById('adminPhotoFileInput');
-
-if (photoDropzone && photoFileInput) {
-  photoDropzone.onclick = () => photoFileInput.click();
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    photoDropzone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      photoDropzone.classList.add('drag-over');
-    }, false);
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    photoDropzone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      photoDropzone.classList.remove('drag-over');
-    }, false);
-  });
-
-  photoDropzone.addEventListener('drop', e => {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    if (files.length > 0) handleAdminPhotoUpload(files[0]);
-  }, false);
-
-  photoFileInput.onchange = e => {
-    if (e.target.files.length > 0) handleAdminPhotoUpload(e.target.files[0]);
-  };
-}
-
-function handleAdminPhotoUpload(file) {
-  if (!file.type.startsWith('image/')) {
-    alert('Please select an image file (JPG, PNG).');
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const dataUrl = e.target.result;
-    currentAdminProfile.avatar = dataUrl;
-    
-    const preview = document.getElementById('photoPreviewImg');
-    const ph = document.getElementById('photoPlaceholder');
-    if (preview && ph) {
-      preview.src = dataUrl;
-      preview.classList.remove('hidden');
-      ph.classList.add('hidden');
-    }
-
-    const topImg = document.getElementById('adminAvatarImg');
-    const topInit = document.getElementById('adminAvatarInitial');
-    if (topImg && topInit) {
-      topImg.src = dataUrl;
-      topImg.classList.remove('hidden');
-      topInit.classList.add('hidden');
-    }
-
-    const session = JSON.parse(localStorage.getItem('vv_auth_session') || '{}');
-    session.avatar = dataUrl;
-    localStorage.setItem('vv_auth_session', JSON.stringify(session));
-
-    logAction('Updated admin profile picture', 'Admin');
-  };
-  reader.readAsDataURL(file);
-}
-
-// FILE INPUTS FOR PROPERTY MODAL
-const propCoverFileInput = document.getElementById('propCoverFileInput');
-if (propCoverFileInput) {
-  propCoverFileInput.onchange = e => {
-    if (e.target.files.length > 0 && e.target.files[0].type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        document.getElementById('formPropImage').value = ev.target.result;
-        buildCoverImageSection(ev.target.result);
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
-}
-
-const propGalleryFileInput = document.getElementById('propGalleryFileInput');
-if (propGalleryFileInput) {
-  propGalleryFileInput.onchange = e => {
-    if (e.target.files.length > 0 && e.target.files[0].type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        if (activeGalleryUpdateSlot >= 0 && activeGalleryUpdateSlot < 5) {
-          currentFormGallery[activeGalleryUpdateSlot] = ev.target.result;
-        } else if (currentFormGallery.length < 5) {
-          currentFormGallery.push(ev.target.result);
-        }
-        buildGallerySection();
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
-}
-
-// BANNER MODAL DRAG & DROP
-const bannerDropzone = document.getElementById('modalDropzone');
-const bannerFileInput = document.getElementById('modalBannerFile');
-
-if (bannerDropzone && bannerFileInput) {
-  bannerDropzone.onclick = () => bannerFileInput.click();
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    bannerDropzone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      bannerDropzone.classList.add('drag-over');
-    }, false);
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    bannerDropzone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      bannerDropzone.classList.remove('drag-over');
-    }, false);
-  });
-
-  bannerDropzone.addEventListener('drop', e => {
-    const files = e.dataTransfer.files;
-    if (files.length > 0) handleBannerFileUpload(files[0]);
-  }, false);
-
-  bannerFileInput.onchange = e => {
-    if (e.target.files.length > 0) handleBannerFileUpload(e.target.files[0]);
-  };
-}
-
-function handleBannerFileUpload(file) {
-  if (!file.type.startsWith('image/')) {
-    alert('Please select an image file (JPG, PNG).');
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const label = document.getElementById('modalBannerFileName');
-    label.textContent = `✓ Loaded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
-    label.dataset.uploadedUrl = e.target.result;
-    label.classList.remove('hidden');
-  };
-  reader.readAsDataURL(file);
 }
 
 // =============================================================
-// GLOBAL NAVIGATION & MODALS
+// NAVIGATION & MODALS
 // =============================================================
+const pageTitles = {
+  dashboard: 'Dashboard',
+  properties: 'Properties',
+  banners: 'Banner Management',
+  enquiries: 'Customer Enquiries',
+  testimonials: 'Testimonials',
+  profile: 'Admin Settings'
+};
+
 function go(pageId) {
-  closeEnquiry(); // Always close enquiry drawer when switching pages!
+  closeEnquiry();
   document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
   const target = document.getElementById(pageId);
   if (target) target.classList.remove('hidden');
 
   document.querySelectorAll('.nav-btn').forEach(btn => {
-    if (btn.dataset.page === pageId) {
-      btn.className = 'nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold text-white bg-royal shadow-md shadow-royal/30 transition-all';
-      const icon = btn.querySelector('i');
-      if (icon) icon.className = 'w-4 h-4 text-white';
-    } else {
-      btn.className = 'nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all';
-      const icon = btn.querySelector('i');
-      if (icon) icon.className = 'w-4 h-4 text-slate-400';
-    }
+    const isCurrent = btn.dataset.page === pageId;
+    btn.classList.toggle('bg-royal', isCurrent);
+    btn.classList.toggle('text-white', isCurrent);
+    btn.classList.toggle('shadow-md', isCurrent);
+    btn.classList.toggle('shadow-royal/30', isCurrent);
+    btn.classList.toggle('font-semibold', isCurrent);
+    btn.classList.toggle('text-slate-300', !isCurrent);
   });
 
+  const crumb = document.getElementById('crumb');
+  if (crumb) crumb.textContent = pageTitles[pageId] || 'Workspace';
   window.scrollTo(0, 0);
   lucide.createIcons();
 }
 
 function openModal(id) {
   const el = document.getElementById(id);
-  if (el) {
-    el.classList.remove('hidden');
-    el.classList.add('flex');
-    lucide.createIcons();
-  }
+  if (el) el.classList.remove('hidden'), el.classList.add('flex');
+  lucide.createIcons();
 }
 
 function closeModal(id) {
   const el = document.getElementById(id);
-  if (el) {
-    el.classList.add('hidden');
-    el.classList.remove('flex');
+  if (el) el.classList.add('hidden'), el.classList.remove('flex');
+}
+
+function logout() {
+  if (confirm('Logout of V.V Properties Executive Suite?')) {
+    showToast('Session ended');
   }
 }
 
-document.querySelectorAll('.modal-overlay').forEach(o => {
-  o.addEventListener('click', e => {
-    if (e.target === o) o.classList.add('hidden');
-  });
-});
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  const txt = document.getElementById('toastMsg');
+  if (!t || !txt) return;
+  txt.textContent = msg;
+  t.classList.remove('hidden');
+  clearTimeout(t.timer);
+  t.timer = setTimeout(() => t.classList.add('hidden'), 2800);
+}
 
-document.addEventListener('click', e => {
-  if (!e.target.closest('.menu-wrapper')) {
-    closeAllMenus();
-  }
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay').forEach(o => o.classList.add('hidden'));
-    closeEnquiry();
-    closeAllMenus();
-  }
-});
-
-// =============================================================
-// PERFORMANCE CHART (24h, 1W, 3M, 6M, 1Y, CUSTOMIZE DATES)
-// =============================================================
-// DENSE, VIBRANT PERFORMANCE POINTS WITH REALISTIC FLUCTUATIONS
+// CHART RANGES
 const ranges = {
-  '24h': {
-    caption: 'Hourly customer inquiries recorded over the last 24 hours',
-    pts: [14, 22, 18, 35, 48, 42, 65, 58, 72, 68, 82, 75, 88],
-    labels: ['00h', '02h', '04h', '06h', '08h', '10h', '12h', '14h', '16h', '18h', '20h', '22h', '24h']
-  },
-  '1W': {
-    caption: 'Verified customer outreach recorded during the last 7 days',
-    pts: [22, 38, 32, 45, 58, 52, 68, 62, 75, 70, 85, 80, 92],
-    labels: ['Mon', 'Tue AM', 'Tue PM', 'Wed AM', 'Wed PM', 'Thu', 'Fri AM', 'Fri PM', 'Sat AM', 'Sat PM', 'Sun AM', 'Sun PM', 'Today']
-  },
-  '1M': {
-    caption: 'Monthly acquisition velocity and active property page visitors',
-    pts: [25, 34, 28, 44, 52, 46, 60, 55, 72, 68, 80, 88, 95],
-    labels: ['Day 1', 'Day 3', 'Day 6', 'Day 9', 'Day 12', 'Day 15', 'Day 18', 'Day 21', 'Day 24', 'Day 26', 'Day 28', 'Day 30', 'Now']
-  },
-  '3M': {
-    // Starting June, ending September as explicitly requested!
-    caption: 'Quarterly customer outreach recorded from June to September',
-    pts: [28, 42, 36, 54, 62, 58, 74, 69, 83, 78, 89, 94, 98],
-    labels: ['June', 'Jun 10', 'Jun 20', 'July', 'Jul 10', 'Jul 20', 'August', 'Aug 10', 'Aug 20', 'Sep 01', 'Sep 10', 'Sep 20', 'September']
-  },
-  '6M': {
-    caption: 'Bi-annual customer outreach trends across residential property segments',
-    pts: [20, 32, 40, 36, 52, 65, 58, 74, 82, 76, 92, 105, 118],
-    labels: ['Jun', 'Mid Jun', 'Jul', 'Mid Jul', 'Aug', 'Mid Aug', 'Sep', 'Mid Sep', 'Oct', 'Mid Oct', 'Nov', 'Mid Nov', 'Dec']
-  },
-  '1Y': {
-    caption: 'Annual executive performance and qualified lead acquisition totals',
-    pts: [18, 28, 35, 48, 56, 50, 68, 76, 84, 95, 108, 122, 138],
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Total']
-  }
+  '1W': { caption: 'Enquiries received during the last 7 days · Demo data', pts: [142,111,119,105,68,83,45], labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] },
+  '1M': { caption: 'Enquiries over the last 30 days · Demo data', pts: [140,125,115,128,83,70,42], labels: ['Week 1','Week 2','Week 3','Week 4','','',''] },
+  '3M': { caption: 'Enquiries over the last 3 months · Demo data', pts: [145,130,110,115,83,65,40], labels: ['Aug','Sep','Oct','','','',''] },
+  '6M': { caption: 'Enquiries over the last 6 months · Demo data', pts: [150,138,117,105,79,64,35], labels: ['Jun','Jul','Aug','Sep','Oct','Nov',''] },
+  '1Y': { caption: 'Enquiries over the last 12 months · Demo data', pts: [153,139,132,111,92,69,32], labels: ['Dec','Feb','Apr','Jun','Aug','Oct','Nov'] }
 };
 
-function updateChart(data) {
-  const n = data.pts.length;
-  const startX = 40;
-  const endX = 610;
-  const step = (endX - startX) / (n - 1);
-  const xs = data.pts.map((_, i) => Math.round(startX + i * step));
-
-  const maxVal = Math.max(...data.pts, 100);
-  const scaledY = data.pts.map(v => Math.round(155 - (v / maxVal) * 135));
-
-  let points = scaledY.map((y, i) => xs[i] + ',' + y).join(' ');
-  const lineEl = document.getElementById('chartLine');
-  const areaEl = document.getElementById('chartArea');
-  if (lineEl) lineEl.setAttribute('points', points);
-  if (areaEl) {
-    areaEl.setAttribute('d', 'M' + xs[0] + ' ' + scaledY[0] + ' ' + xs.slice(1).map((x, i) => 'L' + x + ' ' + scaledY[i + 1]).join(' ') + ' L' + endX + ' 155 L' + startX + ' 155 Z');
-  }
-
-  const dotsContainer = document.getElementById('chartDots');
-  if (dotsContainer) {
-    dotsContainer.innerHTML = scaledY.map((y, i) => `<circle cx="${xs[i]}" cy="${y}" r="3" fill="#4062BB"/>`).join('');
-  }
-
-  const xLabelsContainer = document.getElementById('chartXLabels');
-  if (xLabelsContainer && data.labels) {
-    // Show spaced labels to avoid visual crowding
-    const labelStep = Math.max(1, Math.floor(n / 6));
-    xLabelsContainer.innerHTML = data.labels.map((lbl, i) => {
-      if (i === 0 || i === n - 1 || i % labelStep === 0) {
-        return `<text x="${xs[i]}" y="172" text-anchor="middle">${lbl}</text>`;
-      }
-      return '';
-    }).join('');
-  }
-
-  const cap = document.getElementById('chartCaption');
-  if (cap) cap.textContent = data.caption;
-}
-
-function setTrafficRange(val) {
-  onRangeSelectChange(val);
-}
-
-function onRangeSelectChange(val) {
-  const box = document.getElementById('customDateRangeBox');
-  if (val === 'custom') {
-    if (box) box.classList.remove('hidden');
-    applyCustomDateRange();
-  } else {
-    if (box) box.classList.add('hidden');
-    if (ranges[val]) {
-      updateChart(ranges[val]);
-    }
-  }
-}
-
-document.querySelectorAll('#ranges button[data-range]').forEach(b => {
-  b.onclick = () => {
-    const rangeKey = b.dataset.range;
-    if (rangeKey === 'custom') return; // Handled by toggleCustomDatePicker
-
-    document.querySelectorAll('#ranges button').forEach(x => {
-      x.className = 'px-2.5 py-1 rounded-md hover:text-slate-900 transition-colors';
+document.getElementById('ranges')?.querySelectorAll('button').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('#ranges button').forEach(b => {
+      b.classList.remove('bg-white', 'text-royal', 'shadow-sm');
+      b.classList.add('text-slate-600');
     });
-    b.className = 'active px-2.5 py-1 rounded-md bg-white text-royal shadow-sm font-bold transition-all';
-    
-    document.getElementById('customDateRangeBox').classList.add('hidden');
-    
-    if (ranges[rangeKey]) {
-      updateChart(ranges[rangeKey]);
-    }
+    btn.classList.add('bg-white', 'text-royal', 'shadow-sm');
+    btn.classList.remove('text-slate-600');
+
+    const d = ranges[btn.dataset.range];
+    const xs = [40, 135, 230, 325, 420, 515, 610];
+    const points = d.pts.map((y, i) => `${xs[i]},${y}`).join(' ');
+    document.getElementById('chartLine').setAttribute('points', points);
+    document.getElementById('chartArea').setAttribute('d', `M${xs[0]} ${d.pts[0]} ` + xs.slice(1).map((x, i) => `L${x} ${d.pts[i+1]}`).join(' ') + ' L610 175 L40 175 Z');
+    document.getElementById('chartCaption').textContent = d.caption;
   };
 });
 
-function toggleCustomDatePicker() {
-  const box = document.getElementById('customDateRangeBox');
-  if (box) box.classList.toggle('hidden');
-}
-
-function applyCustomDateRange() {
-  const from = document.getElementById('chartDateFrom').value;
-  const to = document.getElementById('chartDateTo').value;
-  if (!from || !to) {
-    alert('Please select both start and end dates.');
-    return;
-  }
-  const fDate = new Date(from);
-  const tDate = new Date(to);
-  const fStr = `${String(fDate.getDate()).padStart(2, '0')}/${String(fDate.getMonth() + 1).padStart(2, '0')}`;
-  const tStr = `${String(tDate.getDate()).padStart(2, '0')}/${String(tDate.getMonth() + 1).padStart(2, '0')}`;
-
-  const customData = {
-    caption: `Custom Range: ${fStr} to ${tStr} · Verified customer inquiries recorded across selected date range`,
-    pts: [24, 38, 31, 49, 62, 55, 78, 71, 84, 79, 93, 88, 102],
-    labels: [fStr, 'Inter 1', 'Inter 2', 'Inter 3', 'Midpoint', 'Inter 5', 'Inter 6', 'Inter 7', 'Inter 8', 'Inter 9', 'Inter 10', 'Inter 11', tStr]
-  };
-
-  updateChart(customData);
-  logAction(`Filtered performance analytics from ${fStr} to ${tStr}`, 'Analytics');
-}
-
-// Initial System Startup
-checkAuthSession();
-
-// Assign IDs and statuses to default properties (first 7 published, last 3 draft)
-properties.forEach((p, idx) => {
-  if (!p[9]) p[9] = `prop_${String(idx + 1).padStart(3, '0')}`;
-  if (!p[10]) p[10] = idx >= 7 ? 'draft' : 'published';
-});
-
-async function syncBackendData() {
-  try {
-    // Fetch properties
-    const pRes = await fetch('/api/properties');
-    if (pRes.ok) {
-      const pData = await pRes.json();
-      if (pData.properties && pData.properties.length > 0) {
-        properties = pData.properties.map(p => [
-          p.name || p.title,
-          p.location || p.area,
-          p.price,
-          p.badge || 'None',
-          p.type,
-          p.amenities || [],
-          p.coverImage || '',
-          p.description || '',
-          p.gallery || defaultGallery,
-          p.id,
-          p.status || 'published'
-        ]);
-      }
-    }
-
-    // Fetch leads
-    const lRes = await fetch('/api/leads');
-    if (lRes.ok) {
-      const lData = await lRes.json();
-      if (lData.leads && lData.leads.length > 0) {
-        enquiries = lData.leads;
-      }
-    }
-
-    // Fetch banners
-    const bRes = await fetch('/api/banners');
-    if (bRes.ok) {
-      const bData = await bRes.json();
-      if (bData.banners && bData.banners.length > 0) {
-        bannerData = bData.banners.map(b => [b.title, b.subtitle, b.imageUrl, b.active]);
-      }
-    }
-
-    // Fetch logs
-    const aRes = await fetch('/api/activity-logs');
-    if (aRes.ok) {
-      const aData = await aRes.json();
-      if (aData.logs && aData.logs.length > 0) {
-        activityLogs = aData.logs;
-      }
-    }
-  } catch (err) {
-    console.warn('Initial backend sync offline, using persistent cache');
-  }
-
-  updatePropertyKpis();
-  renderProperties();
-  renderBanners();
-  renderEnquiries();
-  renderTestimonials();
-  renderAccounts();
-  renderLogs();
-  setTrafficRange('1W');
-  lucide.createIcons();
-}
-
-syncBackendData();
+// INITIAL RENDER
+renderProperties();
+renderBanners();
+renderEnquiries();
+renderTestimonials();
+lucide.createIcons();
 </script>
 </body>
 </html>
