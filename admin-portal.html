@@ -80,7 +80,7 @@
 <div class="flex min-h-screen bg-white">
 
   <!-- ========================================================= -->
-  <!-- SIDEBAR (Deep Navy #0D0221, HD Logo, Clean Typography)   -->
+  <!-- SIDEBAR (Deep Navy #0D0221, HD Logo, Activity Logs Nav)   -->
   <!-- ========================================================= -->
   <aside class="fixed inset-y-0 left-0 w-64 bg-navy-900 border-r border-navy-950 z-30 flex flex-col shadow-2xl transition-all duration-300">
     
@@ -115,7 +115,7 @@
           <button onclick="go('enquiries')" data-page="enquiries" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             <i data-lucide="message-square" class="w-4 h-4 text-slate-400"></i>
             <span class="flex-1 text-left">Enquiries</span>
-            <span class="bg-emerald/20 text-emerald text-[11px] px-2 py-0.5 rounded-full font-bold border border-emerald/30">12</span>
+            <span id="unreadEnquiriesBadge" class="bg-emerald/20 text-emerald text-[11px] px-2 py-0.5 rounded-full font-bold border border-emerald/30">10</span>
           </button>
           <button onclick="go('testimonials')" data-page="testimonials" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
             <i data-lucide="star" class="w-4 h-4 text-slate-400"></i>
@@ -131,6 +131,11 @@
             <i data-lucide="shield-check" class="w-4 h-4 text-slate-400"></i>
             <span>Admin Settings</span>
           </button>
+          <!-- NEW ACTIVITY LOGS SECTION (14 DAYS) -->
+          <button onclick="go('logs')" data-page="logs" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
+            <i data-lucide="scroll-text" class="w-4 h-4 text-slate-400"></i>
+            <span>Activity Logs</span>
+          </button>
           <button onclick="alert('Session saved safely.')" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-coral hover:bg-coral/10 transition-all">
             <i data-lucide="log-out" class="w-4 h-4 text-coral"></i>
             <span>Logout</span>
@@ -145,30 +150,30 @@
   <!-- ========================================================= -->
   <main class="ml-64 flex-1 min-h-screen flex flex-col bg-white">
     
-    <!-- TOP BAR (Breadcrumb removed -> Date placed on top left; No Bell icon; Dynamic Single Initial) -->
+    <!-- TOP BAR (Date on left; Administrator with Victor Paul (Super Administrator) on right) -->
     <header class="sticky top-0 z-20 h-16 bg-white/90 backdrop-blur-md border-b border-slate-100 px-8 flex items-center justify-between">
       
-      <!-- TOP LEFT: DYNAMIC DATE IN PLACE OF BREADCRUMB -->
+      <!-- TOP LEFT: DYNAMIC DATE -->
       <div class="flex items-center gap-2.5 text-xs font-medium text-slate-600">
         <i data-lucide="calendar" class="w-4 h-4 text-royal"></i>
-        <span id="liveHeaderDate" class="font-semibold text-slate-800">Friday, 14 November 2026</span>
+        <span id="liveHeaderDate" class="font-semibold text-slate-800">Saturday, 14 November 2026</span>
       </div>
 
-      <!-- TOP RIGHT: PROFILE BADGE ONLY (No Bell Icon, Single Dynamic Initial) -->
+      <!-- TOP RIGHT: DYNAMIC V ICON + ADMINISTRATOR / VICTOR PAUL -->
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-2.5 pl-3">
           <div id="adminAvatarInitial" class="w-8 h-8 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-xs shadow-sm font-sans border border-ice-border">
             V
           </div>
-          <div class="hidden sm:block text-left">
-            <p id="adminDisplayName" class="text-xs font-bold text-navy-900 leading-none">Admin Workspace</p>
-            <p class="text-[10px] text-slate-400 font-medium mt-0.5">Super Administrator</p>
+          <div class="text-left">
+            <p id="topAdminRole" class="text-xs font-bold text-navy-900 leading-none">Administrator</p>
+            <p id="topAdminSubtitle" class="text-[10px] text-slate-400 font-medium mt-0.5">Victor Paul (Super Administrator)</p>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- CONTENT WRAPPER: MINIMIZED GAPS, CRISP WHITE CANVAS -->
+    <!-- CONTENT WRAPPER -->
     <div class="px-8 py-6 max-w-7xl w-full mx-auto flex-1 space-y-6">
 
       <!-- ======================================================= -->
@@ -176,7 +181,6 @@
       <!-- ======================================================= -->
       <section id="dashboard" class="page-view block space-y-6">
         
-        <!-- DASHBOARD HEADER (No Add Property Icon) -->
         <div class="flex items-center justify-between">
           <div>
             <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-serif">Executive Dashboard</h1>
@@ -297,35 +301,13 @@
               <button onclick="go('enquiries')" class="text-xs font-bold text-royal hover:underline">View All →</button>
             </div>
 
-            <div class="space-y-2.5 flex-1 overflow-y-auto">
-              <div onclick="openEnquiry('Suresh Kumar','Lake View Residency','New','+91 98765 43210','suresh@gmail.com')" class="p-3.5 rounded-lg border border-slate-100 hover:border-royal/40 hover:bg-royal/5 transition-all cursor-pointer flex items-center justify-between">
-                <div>
-                  <h4 class="text-xs font-bold text-navy-900">Suresh Kumar</h4>
-                  <p class="text-[11px] text-slate-500 truncate max-w-[140px] mt-0.5">Lake View Residency</p>
-                </div>
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">New</span>
-              </div>
-
-              <div onclick="openEnquiry('Meena Priya','Green Avenue Villas','Contacted','+91 98765 12340','meena@gmail.com')" class="p-3.5 rounded-lg border border-slate-100 hover:border-royal/40 hover:bg-royal/5 transition-all cursor-pointer flex items-center justify-between">
-                <div>
-                  <h4 class="text-xs font-bold text-navy-900">Meena Priya</h4>
-                  <p class="text-[11px] text-slate-500 truncate max-w-[140px] mt-0.5">Green Avenue Villas</p>
-                </div>
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-ice-border">Contacted</span>
-              </div>
-
-              <div onclick="openEnquiry('Rohit Sharma','City Centre Plots','Closed','+91 99887 66554','rohit@gmail.com')" class="p-3.5 rounded-lg border border-slate-100 hover:border-royal/40 hover:bg-royal/5 transition-all cursor-pointer flex items-center justify-between">
-                <div>
-                  <h4 class="text-xs font-bold text-navy-900">Rohit Sharma</h4>
-                  <p class="text-[11px] text-slate-500 truncate max-w-[140px] mt-0.5">City Centre Plots</p>
-                </div>
-                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-coral/15 text-coral border border-coral/30">Closed</span>
-              </div>
+            <div class="space-y-2.5 flex-1 overflow-y-auto" id="priorityLeadsList">
+              <!-- Dynamically populated from enquiries data -->
             </div>
           </div>
         </div>
 
-        <!-- RECENTLY ADDED PROPERTY (5 PROPERTIES) -->
+        <!-- RECENTLY ADDED PROPERTIES (Clean card format matching property section) -->
         <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
           <div class="flex items-center justify-between mb-4">
             <div>
@@ -347,7 +329,7 @@
 
       <!-- ======================================================= -->
       <!-- PAGE: PROPERTIES                                        -->
-      <!-- Hover 3-dots only · No description line · Amenities     -->
+      <!-- No Amenity chips on hover · Clean overlay · Custom Add  -->
       <!-- ======================================================= -->
       <section id="properties" class="page-view hidden space-y-5">
         
@@ -357,7 +339,7 @@
             <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-serif">Properties</h1>
             <p class="text-xs text-slate-500 mt-0.5">Manage active residential and commercial property listings across Chennai.</p>
           </div>
-          <button onclick="openModal('propertyModal')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
+          <button onclick="openAddPropertyModal()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Add Property</span>
           </button>
@@ -409,20 +391,24 @@
 
             <select id="tagFilter" onchange="filterProperties()" class="flex-1 md:flex-initial px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-700 focus:outline-none focus:ring-2 focus:ring-royal/20">
               <option value="">All Badges</option>
+              <option value="None">None</option>
               <option value="Featured">Featured</option>
               <option value="Special Offer">Special Offer</option>
               <option value="New Launch">New Launch</option>
+              <option value="Hot Deal">Hot Deal</option>
+              <option value="Ready to Move">Ready to Move</option>
+              <option value="Exclusive">Exclusive</option>
             </select>
           </div>
         </div>
 
-        <!-- MEDIUM IMAGE SIZE PROPERTY CARDS (h-64, hover 3-dots only, NO subtitle line) -->
+        <!-- MEDIUM IMAGE SIZE PROPERTY CARDS (h-64, hover 3-dots only, NO subtitle line, NO amenity chips on card) -->
         <div id="propertyCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
       </section>
 
       <!-- ======================================================= -->
       <!-- PAGE: BANNER MANAGEMENT                                 -->
-      <!-- 5/10 Badge · Drag Reorder · Clean wording · In-flow upload -->
+      <!-- Modal overlay for upload · Drag reorder · Clean layout  -->
       <!-- ======================================================= -->
       <section id="banners" class="page-view hidden space-y-5">
         
@@ -431,49 +417,32 @@
             <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-serif">Banner Management</h1>
             <p class="text-xs text-slate-500 mt-0.5">Drag to reorder carousel slides. Manage display priority and upload banners.</p>
           </div>
-          <button onclick="toggleUploadBannerCard()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
+          <!-- Click opens modal overlay as requested -->
+          <button onclick="openModal('addBannerModal')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
             <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Add / Upload Banner</span>
+            <span>Add Banner</span>
           </button>
         </div>
 
-        <!-- COLLAPSIBLE / IN-FLOW DRAG & DROP UPLOAD BOX -->
-        <div id="uploadBannerCard" class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-4">
-          <div class="flex items-center justify-between">
-            <h4 class="font-serif font-bold text-navy-900 text-sm">Upload New Carousel Slide</h4>
-            <span class="text-[11px] text-slate-400 font-sans">Recommended: 1920 × 720 px</span>
-          </div>
-
-          <div id="dropzone" class="border-2 border-dashed border-slate-300 hover:border-royal bg-slate-50/70 hover:bg-royal/5 rounded-xl p-8 text-center cursor-pointer transition-all group">
-            <div class="w-10 h-10 rounded-lg bg-white shadow-sm border border-slate-200 text-royal flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform">
-              <i data-lucide="upload-cloud" class="w-5 h-5"></i>
-            </div>
-            <p class="text-xs font-bold text-navy-900">Drag & drop new banner image here, or <span class="text-royal underline">browse device</span></p>
-            <p class="text-[10px] text-slate-400 mt-1">High-fidelity JPG, PNG, WebP supported</p>
-            <input id="bannerFile" type="file" accept="image/*" class="hidden">
-          </div>
-        </div>
-
-        <!-- CONFIGURED CAROUSEL SLIDES (WITH DRAG REORDER) -->
+        <!-- CAROUSEL SLIDES (Clean header without extra lines) -->
         <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-4">
           <div class="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
-              <h3 class="font-serif font-bold text-navy-900 text-sm">Configured Carousel Slides</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Drag any card by its handle to change slide display order</p>
+              <h3 class="font-serif font-bold text-navy-900 text-sm">Carousel Slides</h3>
             </div>
-            <!-- Header capacity badge changed from 5/10 Active to simply 5/10 -->
+            <!-- Capacity badge: 5/10 -->
             <span id="slideCapacity" class="px-3.5 py-1 rounded-full text-xs font-bold bg-ice text-royal border border-ice-border">
               5/10
             </span>
           </div>
 
-          <!-- DRAGGABLE BANNER LIST (No Active badge, No Slide Position text) -->
-          <div id="bannerList" class="space-y-3"></div>
+          <!-- DRAGGABLE BANNER LIST (No Active badge, No Slide Position text, No up/down arrows) -->
+          <div id="bannerList" class="space-y-2.5"></div>
         </div>
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: ENQUIRIES                                         -->
+      <!-- PAGE: ENQUIRIES (10 LEADS)                              -->
       <!-- ======================================================= -->
       <section id="enquiries" class="page-view hidden space-y-5">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -496,35 +465,12 @@
                   <th class="px-6 py-4">Phone / Email</th>
                   <th class="px-6 py-4">Target Property</th>
                   <th class="px-6 py-4">Date Submitted</th>
-                  <th class="px-6 py-4">Status</th>
+                  <th class="px-6 py-4">Lead Status</th>
                   <th class="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium">
-                <tr onclick="openEnquiry('Suresh Kumar','Lake View Residency','New','+91 98765 43210','suresh@gmail.com')" class="hover:bg-slate-50/80 cursor-pointer transition-colors">
-                  <td class="px-6 py-4 font-bold text-navy-900">Suresh Kumar</td>
-                  <td class="px-6 py-4 text-slate-500">+91 98765 43210<br><span class="text-[11px] text-slate-400">suresh@gmail.com</span></td>
-                  <td class="px-6 py-4 text-royal font-semibold">Lake View Residency</td>
-                  <td class="px-6 py-4 text-slate-400">Today, 10:24 AM</td>
-                  <td class="px-6 py-4"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">New</span></td>
-                  <td class="px-6 py-4 text-right text-royal font-bold hover:underline">View Details</td>
-                </tr>
-                <tr onclick="openEnquiry('Meena Priya','Green Avenue Villas','Contacted','+91 98765 12340','meena@gmail.com')" class="hover:bg-slate-50/80 cursor-pointer transition-colors">
-                  <td class="px-6 py-4 font-bold text-navy-900">Meena Priya</td>
-                  <td class="px-6 py-4 text-slate-500">+91 98765 12340<br><span class="text-[11px] text-slate-400">meena@gmail.com</span></td>
-                  <td class="px-6 py-4 text-royal font-semibold">Green Avenue Villas</td>
-                  <td class="px-6 py-4 text-slate-400">Yesterday, 3:15 PM</td>
-                  <td class="px-6 py-4"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-ice-border">Contacted</span></td>
-                  <td class="px-6 py-4 text-right text-royal font-bold hover:underline">View Details</td>
-                </tr>
-                <tr onclick="openEnquiry('Rohit Sharma','City Centre Plots','Closed','+91 99887 66554','rohit@gmail.com')" class="hover:bg-slate-50/80 cursor-pointer transition-colors">
-                  <td class="px-6 py-4 font-bold text-navy-900">Rohit Sharma</td>
-                  <td class="px-6 py-4 text-slate-500">+91 99887 66554<br><span class="text-[11px] text-slate-400">rohit@gmail.com</span></td>
-                  <td class="px-6 py-4 text-royal font-semibold">City Centre Plots</td>
-                  <td class="px-6 py-4 text-slate-400">11 Nov, 11:05 AM</td>
-                  <td class="px-6 py-4"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-coral/15 text-coral border border-coral/30">Closed</span></td>
-                  <td class="px-6 py-4 text-right text-royal font-bold hover:underline">View Details</td>
-                </tr>
+              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="enquiriesTableBody">
+                <!-- 10 Enquiries populated dynamically -->
               </tbody>
             </table>
           </div>
@@ -532,7 +478,7 @@
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: TESTIMONIALS                                      -->
+      <!-- PAGE: TESTIMONIALS (Edit & Delete at Top-Right)          -->
       <!-- ======================================================= -->
       <section id="testimonials" class="page-view hidden space-y-5">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -540,7 +486,7 @@
             <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-serif">Client Testimonials</h1>
             <p class="text-xs text-slate-500 mt-0.5">Verified customer reviews displayed on public landing pages.</p>
           </div>
-          <button onclick="openModal('testimonialModal')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
+          <button onclick="openAddTestimonialModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
             <i data-lucide="plus" class="w-4 h-4"></i>
             <span>Add Testimonial</span>
           </button>
@@ -549,31 +495,115 @@
       </section>
 
       <!-- ======================================================= -->
-      <!-- PAGE: PROFILE & SETTINGS                                -->
+      <!-- PAGE: ADMIN SETTINGS & TEAM ACCOUNTS                     -->
       <!-- ======================================================= -->
-      <section id="profile" class="page-view hidden space-y-5">
-        <div class="max-w-xl">
+      <section id="profile" class="page-view hidden space-y-6">
+        <div>
           <h1 class="text-2xl font-bold text-navy-900 tracking-tight mb-1 font-serif">Admin Settings & Profile</h1>
-          <p class="text-xs text-slate-500 mb-5">Manage authentication credentials and system preferences.</p>
+          <p class="text-xs text-slate-500">Manage administrator credentials, security, and staff accounts.</p>
+        </div>
 
-          <form autocomplete="off" onsubmit="event.preventDefault();updateAdminProfile();" class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm space-y-4">
+        <!-- ADMIN PROFILE CARD -->
+        <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm max-w-2xl">
+          <form autocomplete="off" onsubmit="event.preventDefault();saveAdminProfile();" class="space-y-4">
             <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Admin Username / Name</label>
-              <input id="adminNameInput" type="text" value="V.V Properties Admin" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-royal/20">
-              <p class="text-[10px] text-slate-400 mt-1">The first letter is dynamically used for the top avatar icon.</p>
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Display Name</label>
+              <input id="profileDisplayName" type="text" value="Victor Paul" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-royal/20">
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">Current Password</label>
-              <input type="password" autocomplete="new-password" placeholder="••••••••••••" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-royal/20">
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Username</label>
+              <input id="profileUsername" type="text" value="victorpaul@vvproperties.com" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-royal/20">
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 uppercase mb-1.5">New Password</label>
-              <input type="password" autocomplete="new-password" placeholder="Enter secure new password" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-lg text-xs focus:outline-none focus:ring-2 focus:ring-royal/20">
+              <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
+              <div class="relative">
+                <input id="profilePassword" type="password" value="SuperSecretPassword2026!" readonly class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-500">
+                <div class="flex justify-end mt-2">
+                  <button type="button" onclick="openModal('editPasswordModal')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
+                    <i data-lucide="key" class="w-3.5 h-3.5"></i>
+                    <span>Edit Password</span>
+                  </button>
+                </div>
+              </div>
             </div>
-            <button type="submit" class="w-full py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white font-bold text-xs shadow-md shadow-royal/25 transition-all">
-              Update Admin Profile
-            </button>
+            <div class="pt-2">
+              <button type="submit" class="px-5 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white font-bold text-xs shadow-md shadow-royal/25 transition-all">
+                Save Profile Changes
+              </button>
+            </div>
           </form>
+        </div>
+
+        <!-- TEAM ACCOUNTS TABLE & ADD NEW ACCOUNT -->
+        <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-serif font-bold text-navy-900 text-base">Admin & Team Accounts</h3>
+              <p class="text-xs text-slate-400 mt-0.5">Authorized administrator and management user logins</p>
+            </div>
+            <button onclick="openModal('addAccountModal')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-sm transition-all">
+              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
+              <span>+ Add New Account</span>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
+                <tr>
+                  <th class="px-5 py-3">Display Name</th>
+                  <th class="px-5 py-3">Username / Email</th>
+                  <th class="px-5 py-3">Role</th>
+                  <th class="px-5 py-3">Created Date</th>
+                  <th class="px-5 py-3">Status</th>
+                  <th class="px-5 py-3 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="accountsTableBody">
+                <!-- Dynamically populated accounts -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- PAGE: ACTIVITY LOGS (LAST 14 DAYS)                      -->
+      <!-- ======================================================= -->
+      <section id="logs" class="page-view hidden space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-serif">System Activity Logs</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Immutable 14-day audit log tracking administrator actions, edits, and timestamps.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-ice text-royal border border-ice-border">
+              Last 14 Days Retained
+            </span>
+            <button onclick="exportLogsCSV()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Export Logs</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200/90 rounded-xl shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
+                <tr>
+                  <th class="px-6 py-4">Administrator</th>
+                  <th class="px-6 py-4">Action / Event</th>
+                  <th class="px-6 py-4">Module</th>
+                  <th class="px-6 py-4">Timestamp</th>
+                  <th class="px-6 py-4 text-right">Status</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="activityLogsBody">
+                <!-- 14-day log entries -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -582,7 +612,7 @@
 </div>
 
 <!-- =========================================================== -->
-<!-- MODAL: ADD / EDIT PROPERTY (WITH AMENITIES SECTION)         -->
+<!-- MODAL: ADD / EDIT PROPERTY (COVER IMAGE PICKER & DYNAMIC AMENITIES) -->
 <!-- =========================================================== -->
 <div id="propertyModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
   <div class="bg-white rounded-2xl max-w-xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
@@ -595,6 +625,7 @@
     
     <div class="p-6 space-y-4 overflow-y-auto flex-1">
       <input type="hidden" id="editPropIndex" value="-1">
+      
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
         <div>
           <label class="block text-xs font-bold text-slate-700 mb-1">Property Name *</label>
@@ -624,50 +655,57 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Badge Tag</label>
-          <select id="formPropTag" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-            <option value="Featured">Featured</option>
-            <option value="Special Offer">Special Offer</option>
-            <option value="New Launch">New Launch</option>
-            <option value="Hot Deal">Hot Deal</option>
-          </select>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Badge Tag</label>
+        <select id="formPropTag" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
+          <option value="None">None</option>
+          <option value="Featured">Featured</option>
+          <option value="Special Offer">Special Offer</option>
+          <option value="New Launch">New Launch</option>
+          <option value="Hot Deal">Hot Deal</option>
+          <option value="Ready to Move">Ready to Move</option>
+          <option value="Exclusive">Exclusive</option>
+        </select>
+      </div>
+
+      <!-- COVER IMAGE SELECTOR (Replaces Image URL text with 5 Curated Images + Switcher) -->
+      <div>
+        <label class="block text-xs font-bold text-navy-900 mb-1.5">Cover Image (Click to Select)</label>
+        <div class="grid grid-cols-5 gap-2 mb-2" id="coverImageGrid">
+          <!-- Populated with 5 clickable image thumbnails -->
         </div>
-        <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">Image URL</label>
-          <input id="formPropImage" placeholder="https://images.unsplash.com/..." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
+        <input type="hidden" id="formPropImage" value="">
+        <div class="flex items-center gap-2 mt-1">
+          <input id="customImageUrlInput" placeholder="Or paste custom image URL..." class="flex-1 px-3 py-1.5 border border-slate-200 rounded-lg text-[11px] focus:outline-none focus:ring-1 focus:ring-royal" onchange="document.getElementById('formPropImage').value=this.value;">
         </div>
       </div>
 
-      <!-- AMENITIES SELECTION SECTION -->
+      <!-- DYNAMIC AMENITIES BUILDER (No hardcoded checkboxes - Add as needed) -->
       <div class="border-t border-slate-100 pt-3">
-        <label class="block text-xs font-bold text-navy-900 mb-2">Amenities & Facilities</label>
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="amenitiesChecklist">
-          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 cursor-pointer">
-            <input type="checkbox" value="Bedrooms" class="rounded text-royal focus:ring-royal" checked>
-            <span>🛏️ Bedrooms</span>
-          </label>
-          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 cursor-pointer">
-            <input type="checkbox" value="Swimming Pool" class="rounded text-royal focus:ring-royal" checked>
-            <span>🏊 Swimming Pool</span>
-          </label>
-          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 cursor-pointer">
-            <input type="checkbox" value="Clubhouse & Gym" class="rounded text-royal focus:ring-royal" checked>
-            <span>🏋️ Clubhouse & Gym</span>
-          </label>
-          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 cursor-pointer">
-            <input type="checkbox" value="24/7 Security" class="rounded text-royal focus:ring-royal" checked>
-            <span>🛡️ 24/7 Security</span>
-          </label>
-          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 cursor-pointer">
-            <input type="checkbox" value="Private Garden" class="rounded text-royal focus:ring-royal">
-            <span>🌳 Private Garden</span>
-          </label>
-          <label class="flex items-center gap-2 p-2 rounded-lg border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 cursor-pointer">
-            <input type="checkbox" value="Covered Parking" class="rounded text-royal focus:ring-royal" checked>
-            <span>🚗 Covered Parking</span>
-          </label>
+        <label class="block text-xs font-bold text-navy-900 mb-1">Amenities & Facilities</label>
+        <p class="text-[11px] text-slate-400 mb-2">Add custom amenities or choose quick presets</p>
+
+        <!-- Dynamic amenity input -->
+        <div class="flex items-center gap-2 mb-2.5">
+          <input id="newAmenityInput" placeholder="Type amenity (e.g. Swimming Pool, Covered Parking)..." class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomAmenity();}">
+          <button type="button" onclick="addCustomAmenity()" class="px-3 py-2 rounded-lg bg-royal text-white text-xs font-bold hover:bg-royal-hover">
+            + Add
+          </button>
+        </div>
+
+        <!-- Quick preset buttons -->
+        <div class="flex flex-wrap gap-1.5 mb-2.5">
+          <button type="button" onclick="addAmenityTag('🛏️ Bedrooms')" class="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[10px] font-semibold text-slate-700">+ 🛏️ Bedrooms</button>
+          <button type="button" onclick="addAmenityTag('🏊 Swimming Pool')" class="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[10px] font-semibold text-slate-700">+ 🏊 Swimming Pool</button>
+          <button type="button" onclick="addAmenityTag('🏋️ Clubhouse & Gym')" class="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[10px] font-semibold text-slate-700">+ 🏋️ Clubhouse & Gym</button>
+          <button type="button" onclick="addAmenityTag('🛡️ 24/7 Security')" class="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[10px] font-semibold text-slate-700">+ 🛡️ 24/7 Security</button>
+          <button type="button" onclick="addAmenityTag('🌳 Private Garden')" class="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[10px] font-semibold text-slate-700">+ 🌳 Private Garden</button>
+          <button type="button" onclick="addAmenityTag('🚗 Covered Parking')" class="px-2 py-1 rounded-md bg-slate-100 hover:bg-slate-200 text-[10px] font-semibold text-slate-700">+ 🚗 Covered Parking</button>
+        </div>
+
+        <!-- Currently added tags list -->
+        <div id="selectedAmenitiesList" class="flex flex-wrap gap-1.5 min-h-[32px] p-2 rounded-lg bg-slate-50 border border-slate-200/80">
+          <!-- Dynamic tags with x icon -->
         </div>
       </div>
     </div>
@@ -675,6 +713,160 @@
     <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2.5">
       <button onclick="closeModal('propertyModal')" class="px-4 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
       <button onclick="savePropertyForm()" class="px-5 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Property</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- MODAL: ADD BANNER MODAL (OVERLAY WITH DRAG & DROP UPLOAD)   -->
+<!-- =========================================================== -->
+<div id="addBannerModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full border border-slate-200 shadow-2xl p-6">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+      <h3 class="text-base font-bold text-navy-900 font-serif">Add Banner Slide</h3>
+      <button onclick="closeModal('addBannerModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <div class="space-y-3.5">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Headline</label>
+        <input id="modalBannerHead" placeholder="e.g. Ultra Luxury Living in ECR" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Subtext</label>
+        <textarea id="modalBannerSub" rows="2" placeholder="Short description..." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs resize-none"></textarea>
+      </div>
+
+      <!-- Drag & Drop inside Modal Overlay as requested -->
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Banner Image (Drag & Drop)</label>
+        <div id="modalDropzone" class="border-2 border-dashed border-slate-300 hover:border-royal bg-slate-50/70 hover:bg-royal/5 rounded-xl p-6 text-center cursor-pointer transition-all group">
+          <div class="w-9 h-9 rounded-lg bg-white shadow-sm border border-slate-200 text-royal flex items-center justify-center mx-auto mb-2">
+            <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+          </div>
+          <p class="text-xs font-bold text-navy-900">Drag & drop new banner image here, or <span class="text-royal underline">browse device</span></p>
+          <p class="text-[10px] text-slate-400 mt-0.5">Recommended 1920 × 720 px</p>
+          <input id="modalBannerFile" type="file" accept="image/*" class="hidden">
+        </div>
+        <p id="modalBannerFileName" class="text-[11px] text-emerald font-semibold mt-1 hidden"></p>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end gap-2.5 mt-5 pt-3 border-t border-slate-100">
+      <button onclick="closeModal('addBannerModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
+      <button onclick="submitNewBanner()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Slide</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- MODAL: ADD / EDIT TESTIMONIAL (NAME, STAR, LOCATION, FEEDBACK) -->
+<!-- =========================================================== -->
+<div id="testimonialModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl p-6">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+      <h3 id="testimonialModalTitle" class="text-base font-bold text-navy-900 font-serif">Add Testimonial</h3>
+      <button onclick="closeModal('testimonialModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <!-- Exact requested order: Name, Star, Location, Feedback -->
+    <div class="space-y-3.5">
+      <input type="hidden" id="editTestimonialIndex" value="-1">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">1. Client Name *</label>
+        <input id="testNameInput" placeholder="e.g. Rajesh Kannan" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">2. Star Rating *</label>
+        <select id="testStarInput" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium">
+          <option value="5">⭐⭐⭐⭐⭐ 5 Stars (Exceptional)</option>
+          <option value="4">⭐⭐⭐⭐ 4 Stars (Very Good)</option>
+          <option value="3">⭐⭐⭐ 3 Stars (Good)</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">3. Location *</label>
+        <input id="testLocInput" placeholder="e.g. OMR, Chennai" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">4. Feedback *</label>
+        <textarea id="testQuoteInput" rows="3" placeholder="Write genuine client review..." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs resize-none"></textarea>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-end gap-2 mt-5 pt-3 border-t border-slate-100">
+      <button onclick="closeModal('testimonialModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
+      <button onclick="saveTestimonialModal()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- MODAL: ADD NEW ACCOUNT                                      -->
+<!-- =========================================================== -->
+<div id="addAccountModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl p-6">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+      <h3 class="text-base font-bold text-navy-900 font-serif">Create New Staff / Admin Account</h3>
+      <button onclick="closeModal('addAccountModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+
+    <form onsubmit="event.preventDefault();submitNewAccount();" class="space-y-3.5">
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Display Name *</label>
+        <input id="newAccName" placeholder="e.g. Ramesh Kumar" required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Username / Email *</label>
+        <input id="newAccUser" placeholder="e.g. ramesh@vvproperties.com" required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Role *</label>
+        <select id="newAccRole" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium">
+          <option value="Listing Manager">Listing Manager</option>
+          <option value="CRM Lead Agent">CRM Lead Agent</option>
+          <option value="Content Editor">Content Editor</option>
+          <option value="Administrator">Administrator</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-xs font-bold text-slate-700 mb-1">Password *</label>
+        <input id="newAccPass" type="password" placeholder="Create secure password" required class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
+      </div>
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+        <button type="button" onclick="closeModal('addAccountModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
+        <button type="submit" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Create Account</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- =========================================================== -->
+<!-- MODAL: EDIT PASSWORD                                        -->
+<!-- =========================================================== -->
+<div id="editPasswordModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl p-6">
+    <h3 class="text-base font-bold text-navy-900 mb-1 font-serif">Edit Password</h3>
+    <p class="text-xs text-slate-400 mb-4">Set a secure new password for Victor Paul.</p>
+    <div class="space-y-3 mb-4">
+      <div>
+        <label class="block text-[11px] font-bold text-slate-600 mb-1">Current Password</label>
+        <input type="password" placeholder="••••••••••••" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
+      </div>
+      <div>
+        <label class="block text-[11px] font-bold text-slate-600 mb-1">New Password</label>
+        <input id="newAdminPasswordInput" type="password" placeholder="Enter new password" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
+      </div>
+    </div>
+    <div class="flex items-center justify-end gap-2">
+      <button onclick="closeModal('editPasswordModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
+      <button onclick="submitEditPassword()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Update Password</button>
     </div>
   </div>
 </div>
@@ -696,35 +888,7 @@
 </div>
 
 <!-- =========================================================== -->
-<!-- MODAL: TESTIMONIAL MODAL                                    -->
-<!-- =========================================================== -->
-<div id="testimonialModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl p-6">
-    <h3 class="text-base font-bold text-navy-900 mb-1 font-serif">Add Testimonial</h3>
-    <p class="text-xs text-slate-400 mb-4">Add genuine client feedback for social proof.</p>
-    <div class="space-y-3.5">
-      <div>
-        <label class="block text-xs font-bold text-slate-700 mb-1">Client Name</label>
-        <input id="testNameInput" placeholder="e.g. Rajesh Kannan" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 mb-1">Location</label>
-        <input id="testLocInput" placeholder="e.g. OMR, Chennai" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-bold text-slate-700 mb-1">Feedback Quote</label>
-        <textarea id="testQuoteInput" rows="3" placeholder="Write feedback..." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs resize-none"></textarea>
-      </div>
-    </div>
-    <div class="flex items-center justify-end gap-2 mt-5">
-      <button onclick="closeModal('testimonialModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="saveTestimonialModal()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Review</button>
-    </div>
-  </div>
-</div>
-
-<!-- =========================================================== -->
-<!-- DRAWER: ENQUIRY DETAILS                                     -->
+<!-- DRAWER: ENQUIRY DETAILS (LEAD STATUS, COPY PHONE, WHATSAPP) -->
 <!-- =========================================================== -->
 <div id="enquiryDrawer" class="fixed inset-y-0 right-0 w-full max-w-md bg-white border-l border-slate-200 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col">
   <div class="flex items-center justify-between pb-4 border-b border-slate-100">
@@ -745,28 +909,44 @@
       <span class="text-slate-400 font-bold uppercase text-[10px]">Property of Interest</span>
       <p id="eProperty" class="text-sm font-bold text-navy-900 mt-0.5">Lake View Residency</p>
     </div>
+    
+    <!-- LEAD STATUS: Automatically updates from New -> None upon viewing -->
     <div>
       <span class="text-slate-400 font-bold uppercase text-[10px]">Lead Status</span>
-      <select id="eStatus" class="mt-1 w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-semibold">
+      <select id="eStatus" onchange="updateCurrentEnquiryStatus(this.value)" class="mt-1 w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-semibold">
+        <option value="None">None</option>
         <option value="New">New</option>
         <option value="Contacted">Contacted</option>
         <option value="Site Visit">Site Visit</option>
         <option value="Closed">Closed</option>
       </select>
     </div>
+
     <div>
       <span class="text-slate-400 font-bold uppercase text-[10px]">Direct Contact Phone</span>
-      <p id="ePhone" class="text-xs font-semibold text-navy-900 mt-0.5">+91 98765 43210</p>
+      <div class="flex items-center justify-between mt-1 p-2.5 rounded-lg bg-slate-50 border border-slate-200">
+        <p id="ePhone" class="text-xs font-semibold text-navy-900">+91 98765 43210</p>
+        <button onclick="copyPhoneNumber()" class="px-2.5 py-1 rounded bg-white hover:bg-slate-100 text-[11px] font-bold text-royal border border-slate-200 flex items-center gap-1">
+          <i data-lucide="copy" class="w-3 h-3"></i>
+          <span id="copyPhoneText">Copy</span>
+        </button>
+      </div>
     </div>
+
     <div>
       <span class="text-slate-400 font-bold uppercase text-[10px]">Email Address</span>
       <p id="eEmail" class="text-xs font-semibold text-navy-900 mt-0.5">suresh@gmail.com</p>
     </div>
-    <div class="pt-2">
-      <a id="whatsappLink" href="#" target="_blank" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-emerald hover:bg-emerald-dark text-white font-bold text-xs shadow-md">
+
+    <div class="pt-3 space-y-2">
+      <a id="whatsappLink" href="#" target="_blank" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-emerald hover:bg-emerald-dark text-white font-bold text-xs shadow-md transition-all">
         <i data-lucide="message-circle" class="w-4 h-4"></i>
         <span>Chat on WhatsApp</span>
       </a>
+      <button onclick="copyPhoneNumber()" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold text-xs transition-all">
+        <i data-lucide="phone-call" class="w-4 h-4 text-slate-500"></i>
+        <span>Copy Phone Number</span>
+      </button>
     </div>
   </div>
 </div>
@@ -783,19 +963,105 @@ const img4 = 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=100
 const img5 = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1000&auto=format&fit=crop&q=85';
 const img6 = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000&auto=format&fit=crop&q=85';
 
+// Curated 5 cover images for the Cover Image Selector
+const coverPresets = [
+  { url: img1, label: 'Modern Glass' },
+  { url: img2, label: 'Villa Interior' },
+  { url: img3, label: 'Estate Front' },
+  { url: img4, label: 'Garden Courtyard' },
+  { url: img5, label: 'City Skyline' }
+];
+
 // Properties Dataset: [Name, Location, Price, Tag, Type, AmenitiesArray, ImageURL]
 let properties = [
-  ['Lake View Residency', 'OMR, Chennai', '₹78 Lakhs', 'Featured', 'Apartment · 2 BHK', ['🛏️ 2 BHK', '🏊 Pool', '🛡️ Security'], img1],
-  ['Green Avenue Villas', 'Kelambakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 4 BHK', ['🛏️ 4 BHK', '🌳 Garden', '🚗 Parking'], img2],
-  ['City Centre Plots', 'Tambaram', '₹32 Lakhs', 'New Launch', 'Residential Plot', ['📐 CMDA', '⚡ Power', '🛣️ Road'], img3],
-  ['Skyline Apartments', 'Sholinganallur', '₹1.10 Cr', 'Featured', 'Apartment · 3 BHK', ['🛏️ 3 BHK', '🏊 Pool', '🏋️ Gym'], img5],
-  ['Garden View Villas', 'Medavakkam', '₹95 Lakhs', 'New Launch', 'Villa · 3 BHK', ['🛏️ 3 BHK', '🌳 Garden', '🛡️ Security'], img4],
-  ['Royal Meadows', 'Pallikaranai', '₹72 Lakhs', 'Special Offer', 'Apartment · 2 BHK', ['🛏️ 2 BHK', '🚗 Parking', '⚡ Power'], img3],
-  ['Blue Horizon Villas', 'ECR, Chennai', '₹1.40 Cr', 'Featured', 'Villa · 4 BHK', ['🛏️ 4 BHK', '🏊 Pool', '🌊 Sea View'], img6],
-  ['Vista Greens', 'Perumbakkam', '₹88 Lakhs', 'New Launch', 'Apartment · 3 BHK', ['🛏️ 3 BHK', '🌳 Garden', '🏋️ Gym'], img1],
-  ['Prime Residency', 'Porur, Chennai', '₹1.20 Cr', 'Featured', 'Apartment · 3 BHK', ['🛏️ 3 BHK', '🚗 Parking', '🛡️ Security'], img5],
-  ['Emerald Park', 'Thoraipakkam', '₹76 Lakhs', 'Special Offer', 'Apartment · 2 BHK', ['🛏️ 2 BHK', '🏊 Pool', '🛡️ Security'], img2]
+  ['Lake View Residency', 'OMR, Chennai', '₹78 Lakhs', 'Featured', 'Apartment · 2 BHK', ['Swimming Pool', 'Clubhouse & Gym'], img1],
+  ['Green Avenue Villas', 'Kelambakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 4 BHK', ['Private Garden', 'Covered Parking'], img2],
+  ['City Centre Plots', 'Tambaram', '₹32 Lakhs', 'New Launch', 'Residential Plot', ['24/7 Security'], img3],
+  ['Skyline Apartments', 'Sholinganallur', '₹1.10 Cr', 'Featured', 'Apartment · 3 BHK', ['Swimming Pool', 'Clubhouse & Gym'], img5],
+  ['Garden View Villas', 'Medavakkam', '₹95 Lakhs', 'New Launch', 'Villa · 3 BHK', ['Private Garden', '24/7 Security'], img4],
+  ['Royal Meadows', 'Pallikaranai', '₹72 Lakhs', 'Special Offer', 'Apartment · 2 BHK', ['Covered Parking'], img3],
+  ['Blue Horizon Villas', 'ECR, Chennai', '₹1.40 Cr', 'Featured', 'Villa · 4 BHK', ['Swimming Pool', 'Private Garden'], img6],
+  ['Vista Greens', 'Perumbakkam', '₹88 Lakhs', 'New Launch', 'Apartment · 3 BHK', ['Clubhouse & Gym'], img1],
+  ['Prime Residency', 'Porur, Chennai', '₹1.20 Cr', 'Featured', 'Apartment · 3 BHK', ['Covered Parking', '24/7 Security'], img5],
+  ['Emerald Park', 'Thoraipakkam', '₹76 Lakhs', 'Special Offer', 'Apartment · 2 BHK', ['Swimming Pool'], img2]
 ];
+
+// 10 RICH ENQUIRIES DATASET
+let enquiries = [
+  { id: 0, name: 'Suresh Kumar', phone: '+91 98765 43210', email: 'suresh@gmail.com', property: 'Lake View Residency', date: 'Today, 10:24 AM', status: 'New' },
+  { id: 1, name: 'Meena Priya', phone: '+91 98765 12340', email: 'meena@gmail.com', property: 'Green Avenue Villas', date: 'Yesterday, 3:15 PM', status: 'Contacted' },
+  { id: 2, name: 'Rohit Sharma', phone: '+91 99887 66554', email: 'rohit@gmail.com', property: 'City Centre Plots', date: '12 Nov, 11:05 AM', status: 'Closed' },
+  { id: 3, name: 'Ananya Iyer', phone: '+91 98401 23456', email: 'ananya.iyer@gmail.com', property: 'Skyline Apartments', date: '11 Nov, 04:45 PM', status: 'New' },
+  { id: 4, name: 'Vikramaditya', phone: '+91 97910 88776', email: 'vikram.aditya@outlook.com', property: 'Blue Horizon Villas', date: '10 Nov, 09:30 AM', status: 'Site Visit' },
+  { id: 5, name: 'Deepa Natarajan', phone: '+91 94441 55667', email: 'deepa.natarajan@yahoo.com', property: 'Garden View Villas', date: '09 Nov, 02:15 PM', status: 'New' },
+  { id: 6, name: 'Karthik S', phone: '+91 98840 99881', email: 'karthik.s@gmail.com', property: 'Royal Meadows', date: '08 Nov, 01:20 PM', status: 'Contacted' },
+  { id: 7, name: 'Priya Sundaram', phone: '+91 99620 44551', email: 'priya.sundaram@gmail.com', property: 'Vista Greens', date: '07 Nov, 05:10 PM', status: 'Site Visit' },
+  { id: 8, name: 'Rajesh Kannan', phone: '+91 98410 77889', email: 'rajesh.k@gmail.com', property: 'Prime Residency', date: '06 Nov, 11:50 AM', status: 'New' },
+  { id: 9, name: 'Lakshmi Narayanan', phone: '+91 97890 33221', email: 'lakshmi.n@gmail.com', property: 'Emerald Park', date: '05 Nov, 10:00 AM', status: 'Closed' }
+];
+
+let activeEnquiryIndex = -1;
+
+// TEAM ACCOUNTS
+let staffAccounts = [
+  { name: 'Victor Paul', username: 'victorpaul@vvproperties.com', role: 'Super Administrator', created: '01 Nov 2026', status: 'Active' },
+  { name: 'Ramesh Kumar', username: 'ramesh.k@vvproperties.com', role: 'Listing Manager', created: '04 Nov 2026', status: 'Active' },
+  { name: 'Divya Bharathi', username: 'divya.b@vvproperties.com', role: 'CRM Lead Agent', created: '08 Nov 2026', status: 'Active' }
+];
+
+// 14-DAY ACTIVITY AUDIT LOGS
+let activityLogs = [
+  { user: 'Victor Paul (Super Administrator)', action: 'Viewed lead dossier for Suresh Kumar', module: 'Enquiries', time: 'Today, 11:42 AM', status: 'Success' },
+  { user: 'Victor Paul (Super Administrator)', action: 'Updated listing price for Lake View Residency to ₹78 Lakhs', module: 'Properties', time: 'Today, 10:15 AM', status: 'Success' },
+  { user: 'Ramesh Kumar (Listing Manager)', action: 'Reordered carousel slide display priority', module: 'Banners', time: 'Yesterday, 04:30 PM', status: 'Success' },
+  { user: 'Victor Paul (Super Administrator)', action: 'Created new staff account: Divya Bharathi (CRM Lead Agent)', module: 'Security', time: '08 Nov, 02:15 PM', status: 'Success' },
+  { user: 'Divya Bharathi (CRM Lead Agent)', action: 'Scheduled site visit for Vikramaditya at Blue Horizon Villas', module: 'Enquiries', time: '10 Nov, 11:20 AM', status: 'Success' },
+  { user: 'Victor Paul (Super Administrator)', action: 'Updated hero banner caption for ECR Beachfront Residences', module: 'Banners', time: '09 Nov, 03:45 PM', status: 'Success' },
+  { user: 'Ramesh Kumar (Listing Manager)', action: 'Added new listing: Garden View Villas (Medavakkam)', module: 'Properties', time: '07 Nov, 01:10 PM', status: 'Success' },
+  { user: 'Victor Paul (Super Administrator)', action: 'Configured CMDA badge tags for City Centre Plots', module: 'Properties', time: '05 Nov, 10:00 AM', status: 'Success' },
+  { user: 'Victor Paul (Super Administrator)', action: 'Logged in from authenticated workstation IP 192.168.1.104', module: 'Auth', time: '03 Nov, 09:00 AM', status: 'Success' },
+  { user: 'Victor Paul (Super Administrator)', action: 'Exported monthly lead acquisition report to CSV', module: 'Enquiries', time: '01 Nov, 06:15 PM', status: 'Success' }
+];
+
+function logAction(action, module = 'General') {
+  const now = new Date();
+  const timeStr = `Today, ${now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  activityLogs.unshift({
+    user: 'Victor Paul (Super Administrator)',
+    action: action,
+    module: module,
+    time: timeStr,
+    status: 'Success'
+  });
+  renderLogs();
+}
+
+function renderLogs() {
+  const tbody = document.getElementById('activityLogsBody');
+  if (!tbody) return;
+  tbody.innerHTML = activityLogs.map(l => `
+    <tr class="hover:bg-slate-50/80 transition-colors">
+      <td class="px-6 py-3.5 font-bold text-navy-900">${l.user}</td>
+      <td class="px-6 py-3.5 text-slate-700">${l.action}</td>
+      <td class="px-6 py-3.5"><span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-ice-border">${l.module}</span></td>
+      <td class="px-6 py-3.5 text-slate-400">${l.time}</td>
+      <td class="px-6 py-3.5 text-right"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">${l.status}</span></td>
+    </tr>
+  `).join('');
+}
+
+function exportLogsCSV() {
+  let csv = 'Administrator,Action,Module,Timestamp,Status\n';
+  activityLogs.forEach(l => {
+    csv += `"${l.user}","${l.action}","${l.module}","${l.time}","${l.status}"\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.setAttribute('href', url);
+  a.setAttribute('download', 'vv_properties_audit_logs.csv');
+  a.click();
+}
 
 // LIVE DATE FORMATTING
 function updateLiveDate() {
@@ -807,30 +1073,96 @@ function updateLiveDate() {
 }
 updateLiveDate();
 
-// DYNAMIC ADMIN USERNAME & INITIAL
-function updateAdminProfile() {
-  const name = document.getElementById('adminNameInput').value.trim() || 'V.V Properties Admin';
+// DYNAMIC ADMIN USERNAME & INITIAL (Victor Paul)
+function saveAdminProfile() {
+  const name = document.getElementById('profileDisplayName').value.trim() || 'Victor Paul';
   const initial = name.charAt(0).toUpperCase();
   document.getElementById('adminAvatarInitial').textContent = initial;
-  document.getElementById('adminDisplayName').textContent = name;
-  alert('Admin profile updated successfully!');
+  document.getElementById('topAdminRole').textContent = 'Administrator';
+  document.getElementById('topAdminSubtitle').textContent = `${name} (Super Administrator)`;
+  logAction(`Updated administrator profile display name to "${name}"`, 'Security');
+  alert('Profile updated successfully!');
 }
 
-// RENDER PROPERTY CARDS (Hover 3-dots ONLY; No description subtitle line; Amenities chips)
+function submitEditPassword() {
+  const newPass = document.getElementById('newAdminPasswordInput').value;
+  if (!newPass) {
+    alert('Please enter a new password.');
+    return;
+  }
+  document.getElementById('profilePassword').value = newPass;
+  closeModal('editPasswordModal');
+  logAction('Administrator updated system security password', 'Security');
+  alert('Password updated successfully!');
+}
+
+// TEAM ACCOUNTS MANAGEMENT
+function renderAccounts() {
+  const tbody = document.getElementById('accountsTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = staffAccounts.map((a, i) => `
+    <tr class="hover:bg-slate-50/80 transition-colors">
+      <td class="px-5 py-3 font-bold text-navy-900 flex items-center gap-2">
+        <span class="w-6 h-6 rounded-full bg-ice text-royal font-bold text-[10px] flex items-center justify-center">${a.name.charAt(0)}</span>
+        <span>${a.name}</span>
+      </td>
+      <td class="px-5 py-3 text-slate-500">${a.username}</td>
+      <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700">${a.role}</span></td>
+      <td class="px-5 py-3 text-slate-400">${a.created}</td>
+      <td class="px-5 py-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">${a.status}</span></td>
+      <td class="px-5 py-3 text-right">
+        ${i === 0 ? '<span class="text-slate-400 text-[10px]">Owner</span>' : `<button onclick="deleteAccount(${i})" class="text-coral hover:underline font-bold text-xs">Delete</button>`}
+      </td>
+    </tr>
+  `).join('');
+}
+
+function submitNewAccount() {
+  const name = document.getElementById('newAccName').value.trim();
+  const user = document.getElementById('newAccUser').value.trim();
+  const role = document.getElementById('newAccRole').value;
+  if (!name || !user) return;
+  
+  const now = new Date();
+  const dateStr = `${now.getDate()} Nov 2026`;
+  staffAccounts.push({ name, username: user, role, created: dateStr, status: 'Active' });
+  renderAccounts();
+  closeModal('addAccountModal');
+  logAction(`Created new team account "${name}" with role "${role}"`, 'Security');
+  alert(`Account for ${name} created successfully!`);
+}
+
+function deleteAccount(i) {
+  if (confirm(`Delete account for ${staffAccounts[i].name}?`)) {
+    const deletedName = staffAccounts[i].name;
+    staffAccounts.splice(i, 1);
+    renderAccounts();
+    logAction(`Deleted staff account "${deletedName}"`, 'Security');
+  }
+}
+
+// =============================================================
+// PROPERTY MANAGEMENT (NO AMENITY CHIPS ON HOVER, COVER IMAGE PICKER)
+// =============================================================
+let currentFormAmenities = [];
+
 function renderPropertyCard(p, i) {
-  const amenitiesChips = (p[5] || []).map(a => `<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-white/20 text-white backdrop-blur-sm border border-white/10">${a}</span>`).join('');
+  // If tag is 'None', do not display a badge
+  const badgeHtml = (p[3] && p[3] !== 'None') ? `
+    <div class="absolute top-3 left-3 z-10">
+      <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy-900/85 backdrop-blur-md text-white border border-white/20 shadow-md">
+        ${p[3]}
+      </span>
+    </div>
+  ` : '';
 
   return `
     <article class="relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 cursor-pointer h-64">
       <!-- Full Image -->
       <img src="${p[6]}" alt="${p[0]}" onerror="this.src='${img2}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
 
-      <!-- Badge Tag (Top Left - Always visible) -->
-      <div class="absolute top-3 left-3 z-10">
-        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy-900/85 backdrop-blur-md text-white border border-white/20 shadow-md">
-          ${p[3]}
-        </span>
-      </div>
+      <!-- Badge Tag (Optional) -->
+      ${badgeHtml}
 
       <!-- Vertical 3-Dots Button: SHOWN ONLY ON HOVER (opacity-0 group-hover:opacity-100) -->
       <div class="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -855,20 +1187,17 @@ function renderPropertyCard(p, i) {
         </div>
       </div>
 
-      <!-- COMPLETE HOVER OVERLAY (NO DESCRIPTION SUBTITLE PARAGRAPH) -->
+      <!-- CLEAN HOVER OVERLAY (NO DESCRIPTION SUBTITLE PARAGRAPH, NO AMENITY CHIPS) -->
       <div class="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-900/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end text-white pointer-events-none">
         <div class="flex items-center justify-between mb-1">
           <span class="text-[10px] font-bold uppercase tracking-wider text-ice font-sans">${p[4]}</span>
           <span class="text-base font-bold text-white drop-shadow font-serif">${p[2]}</span>
         </div>
         <h3 class="text-sm font-bold text-white leading-snug drop-shadow-sm mb-1 font-serif">${p[0]}</h3>
-        <p class="text-[11px] text-slate-300 flex items-center gap-1 font-medium mb-2">
+        <p class="text-[11px] text-slate-300 flex items-center gap-1 font-medium">
           <i data-lucide="map-pin" class="w-3 h-3 text-ice"></i>
           <span>${p[1]}</span>
         </p>
-        <div class="flex flex-wrap gap-1">
-          ${amenitiesChips}
-        </div>
       </div>
     </article>
   `;
@@ -892,7 +1221,7 @@ function renderProperties(list = properties) {
   lucide.createIcons();
 }
 
-// RENDER RECENTLY ADDED PROPERTIES (5 properties on Dashboard)
+// RENDER RECENTLY ADDED PROPERTIES (Dashboard - Matching clean card format)
 function renderRecentProperties() {
   const container = document.getElementById('recentPropertiesGrid');
   if (!container) return;
@@ -901,9 +1230,11 @@ function renderRecentProperties() {
     <div onclick="go('properties')" class="bg-slate-50 border border-slate-200/80 rounded-xl p-2.5 hover:shadow-md hover:border-royal/40 transition-all cursor-pointer group">
       <div class="h-28 rounded-lg overflow-hidden relative mb-2">
         <img src="${p[6]}" alt="${p[0]}" onerror="this.src='${img1}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-        <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold bg-navy-900/80 text-white backdrop-blur-sm">
-          ${p[3]}
-        </span>
+        ${p[3] && p[3] !== 'None' ? `
+          <span class="absolute top-1.5 left-1.5 px-2 py-0.5 rounded-full text-[9px] font-bold bg-navy-900/80 text-white backdrop-blur-sm">
+            ${p[3]}
+          </span>
+        ` : ''}
       </div>
       <h4 class="text-xs font-bold text-navy-900 truncate font-serif">${p[0]}</h4>
       <p class="text-[10px] text-slate-400 truncate mt-0.5">${p[1]}</p>
@@ -915,16 +1246,134 @@ function renderRecentProperties() {
   `).join('');
 }
 
-// Clear any accidental browser autofill on search box
-window.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.getElementById('propSearch');
-  if (searchInput) {
-    if (searchInput.value.includes('@') || searchInput.value.includes('.com')) {
-      searchInput.value = '';
-    }
+// Cover image presets picker builder
+function buildCoverImageGrid(selectedUrl) {
+  const grid = document.getElementById('coverImageGrid');
+  if (!grid) return;
+  grid.innerHTML = coverPresets.map(preset => `
+    <div onclick="selectCoverImage('${preset.url}')" class="cover-thumb h-16 rounded-lg overflow-hidden border-2 cursor-pointer transition-all relative group ${preset.url === selectedUrl ? 'border-royal ring-2 ring-royal/30' : 'border-slate-200 hover:border-royal/60'}">
+      <img src="${preset.url}" alt="${preset.label}" class="w-full h-full object-cover">
+      <span class="absolute bottom-0 inset-x-0 bg-navy-900/80 text-[8px] font-bold text-white text-center py-0.5 truncate">${preset.label}</span>
+    </div>
+  `).join('');
+  document.getElementById('formPropImage').value = selectedUrl;
+}
+
+function selectCoverImage(url) {
+  document.getElementById('formPropImage').value = url;
+  document.querySelectorAll('.cover-thumb').forEach(el => {
+    el.classList.remove('border-royal', 'ring-2', 'ring-royal/30');
+    el.classList.add('border-slate-200');
+  });
+  event.currentTarget.classList.add('border-royal', 'ring-2', 'ring-royal/30');
+  event.currentTarget.classList.remove('border-slate-200');
+}
+
+// Dynamic Amenities Tags Builder
+function renderAmenityTags() {
+  const container = document.getElementById('selectedAmenitiesList');
+  if (!container) return;
+  if (currentFormAmenities.length === 0) {
+    container.innerHTML = '<span class="text-[10px] text-slate-400 italic">No amenities added yet. Click presets above or enter custom amenities.</span>';
+    return;
   }
+  container.innerHTML = currentFormAmenities.map((a, idx) => `
+    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-ice text-navy-900 border border-ice-border">
+      <span>${a}</span>
+      <button type="button" onclick="removeAmenityTag(${idx})" class="text-slate-500 hover:text-coral font-bold ml-1">×</button>
+    </span>
+  `).join('');
+}
+
+function addAmenityTag(name) {
+  if (!currentFormAmenities.includes(name)) {
+    currentFormAmenities.push(name);
+    renderAmenityTags();
+  }
+}
+
+function addCustomAmenity() {
+  const input = document.getElementById('newAmenityInput');
+  const val = input.value.trim();
+  if (val) {
+    addAmenityTag(val);
+    input.value = '';
+  }
+}
+
+function removeAmenityTag(idx) {
+  currentFormAmenities.splice(idx, 1);
+  renderAmenityTags();
+}
+
+function openAddPropertyModal() {
+  document.getElementById('editPropIndex').value = '-1';
+  document.getElementById('modalPropTitle').textContent = 'Add Property';
+  document.getElementById('formPropName').value = '';
+  document.getElementById('formPropLoc').value = '';
+  document.getElementById('formPropPrice').value = '';
+  document.getElementById('formPropTag').value = 'New Launch';
+  document.getElementById('formPropType').value = 'Apartment · 2 BHK';
+  currentFormAmenities = [];
+  renderAmenityTags();
+  buildCoverImageGrid(img1);
+  openModal('propertyModal');
+}
+
+function editProperty(e, i) {
+  if (e) e.stopPropagation();
+  closeAllMenus();
+  const p = properties[i];
+  if (!p) return;
+  document.getElementById('editPropIndex').value = i;
+  document.getElementById('modalPropTitle').textContent = 'Edit Property';
+  document.getElementById('formPropName').value = p[0];
+  document.getElementById('formPropLoc').value = p[1];
+  document.getElementById('formPropPrice').value = p[2];
+  document.getElementById('formPropTag').value = p[3] || 'None';
+  document.getElementById('formPropType').value = p[4];
+  currentFormAmenities = [...(p[5] || [])];
+  renderAmenityTags();
+  buildCoverImageGrid(p[6] || img1);
+  openModal('propertyModal');
+}
+
+function savePropertyForm() {
+  const i = parseInt(document.getElementById('editPropIndex').value, 10);
+  const name = document.getElementById('formPropName').value.trim();
+  const loc = document.getElementById('formPropLoc').value.trim() || 'OMR, Chennai';
+  const price = document.getElementById('formPropPrice').value.trim() || 'Price on Request';
+  const tag = document.getElementById('formPropTag').value;
+  const type = document.getElementById('formPropType').value;
+  const img = document.getElementById('formPropImage').value.trim() || img1;
+
+  if (!name) {
+    alert('Please enter a property name.');
+    return;
+  }
+
+  if (i >= 0 && properties[i]) {
+    properties[i] = [name, loc, price, tag, type, [...currentFormAmenities], img];
+    logAction(`Edited listing "${name}" (${loc}, ${price})`, 'Properties');
+  } else {
+    properties.unshift([name, loc, price, tag, type, [...currentFormAmenities], img]);
+    logAction(`Created new listing "${name}" (${loc}, ${price})`, 'Properties');
+  }
+
   renderProperties();
-});
+  closeModal('propertyModal');
+}
+
+function deleteProperty(e, i) {
+  if (e) e.stopPropagation();
+  closeAllMenus();
+  const propName = properties[i][0];
+  if (confirm(`Are you sure you want to delete "${propName}"?`)) {
+    properties.splice(i, 1);
+    renderProperties();
+    logAction(`Deleted property listing "${propName}"`, 'Properties');
+  }
+}
 
 // 3-Dots Menu Operations
 function toggleMenu(e, i) {
@@ -955,76 +1404,14 @@ function submitRename() {
   const i = parseInt(document.getElementById('renamePropIndex').value, 10);
   const newName = document.getElementById('renameInput').value.trim();
   if (newName && properties[i]) {
+    const oldName = properties[i][0];
     properties[i][0] = newName;
     renderProperties();
     closeModal('renameModal');
+    logAction(`Renamed listing from "${oldName}" to "${newName}"`, 'Properties');
   }
 }
 
-// Edit Property
-function editProperty(e, i) {
-  if (e) e.stopPropagation();
-  closeAllMenus();
-  const p = properties[i];
-  if (!p) return;
-  document.getElementById('editPropIndex').value = i;
-  document.getElementById('modalPropTitle').textContent = 'Edit Property';
-  document.getElementById('formPropName').value = p[0];
-  document.getElementById('formPropLoc').value = p[1];
-  document.getElementById('formPropPrice').value = p[2];
-  document.getElementById('formPropTag').value = p[3];
-  document.getElementById('formPropType').value = p[4];
-  document.getElementById('formPropImage').value = p[6];
-  openModal('propertyModal');
-}
-
-// Save Property Form (Add or Edit)
-function savePropertyForm() {
-  const i = parseInt(document.getElementById('editPropIndex').value, 10);
-  const name = document.getElementById('formPropName').value.trim();
-  const loc = document.getElementById('formPropLoc').value.trim() || 'OMR, Chennai';
-  const price = document.getElementById('formPropPrice').value.trim() || 'Price on Request';
-  const tag = document.getElementById('formPropTag').value;
-  const type = document.getElementById('formPropType').value;
-  const img = document.getElementById('formPropImage').value.trim() || img1;
-
-  // Selected Amenities
-  const selectedAmenities = [];
-  document.querySelectorAll('#amenitiesChecklist input[type="checkbox"]:checked').forEach(cb => {
-    selectedAmenities.push(cb.value);
-  });
-  if (selectedAmenities.length === 0) {
-    selectedAmenities.push('🛏️ Bedrooms', '🏊 Pool', '🛡️ Security');
-  }
-
-  if (!name) {
-    alert('Please enter a property name.');
-    return;
-  }
-
-  if (i >= 0 && properties[i]) {
-    properties[i] = [name, loc, price, tag, type, selectedAmenities, img];
-  } else {
-    properties.unshift([name, loc, price, tag, type, selectedAmenities, img]);
-  }
-
-  renderProperties();
-  closeModal('propertyModal');
-  document.getElementById('editPropIndex').value = '-1';
-  document.getElementById('modalPropTitle').textContent = 'Add / Edit Property';
-}
-
-// Delete Property
-function deleteProperty(e, i) {
-  if (e) e.stopPropagation();
-  closeAllMenus();
-  if (confirm(`Are you sure you want to delete "${properties[i][0]}"?`)) {
-    properties.splice(i, 1);
-    renderProperties();
-  }
-}
-
-// Filter Properties
 function filterProperties() {
   const searchInput = document.getElementById('propSearch');
   let query = (searchInput ? searchInput.value : '').toLowerCase().trim();
@@ -1045,16 +1432,353 @@ function filterProperties() {
   renderProperties(filtered);
 }
 
-document.addEventListener('click', () => closeAllMenus());
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay').forEach(o => o.classList.add('hidden'));
-    closeEnquiry();
-    closeAllMenus();
-  }
-});
+// =============================================================
+// BANNER MANAGEMENT (DRAG REORDER, DEACTIVATE/DELETE ONLY, NO POSITION #)
+// =============================================================
+let bannerData = [
+  ['Find Your Dream Luxury Home in Chennai', 'Explore hand-picked luxury apartments and gated villas across OMR & ECR.', img1, true],
+  ['A Better Address for Your Growing Family', 'Discover tranquil gated communities with private gardens and clubhouses.', img2, true],
+  ['Luxury Beachfront Residences on ECR', 'Wake up to panoramic Bay of Bengal ocean vistas with private rooftop decks.', img4, true],
+  ['Prime Commercial & IT Hubs in Guindy & OMR', 'Grade-A tech parks and retail storefronts with unmatched arterial road access.', img5, true],
+  ['Pre-Launch Privileges: Garden County Medavakkam', 'Avail special launch pricing and zero registry fees on the first 25 villas.', img6, true],
+  ['High-Growth Gated Community Plots in Tambaram', 'CMDA & RERA approved residential plots with underground utilities ready for build.', img3, false]
+];
 
-// Navigation Handling
+let draggedBannerIndex = null;
+
+function renderBanners() {
+  const container = document.getElementById('bannerList');
+  if (!container) return;
+  
+  container.innerHTML = bannerData.map((b, i) => `
+    <div 
+      draggable="true" 
+      ondragstart="bannerDragStart(event, ${i})" 
+      ondragover="bannerDragOver(event)" 
+      ondragleave="bannerDragLeave(event)" 
+      ondrop="bannerDrop(event, ${i})" 
+      ondragend="bannerDragEnd(event)"
+      class="banner-item flex items-center justify-between p-3 rounded-xl border border-slate-200/90 bg-white hover:shadow-sm transition-all gap-3 cursor-grab active:cursor-grabbing">
+      
+      <div class="flex items-center gap-3">
+        <!-- Grip Drag Handle -->
+        <div class="text-slate-300 hover:text-slate-600 transition-colors p-1" title="Drag to reorder slide">
+          <i data-lucide="grip-vertical" class="w-4 h-4"></i>
+        </div>
+        
+        <!-- Thumbnail -->
+        <img src="${b[2]}" alt="Banner slide" class="w-20 h-14 object-cover rounded-lg border border-slate-200 flex-shrink-0">
+        
+        <div>
+          <h4 class="text-xs font-bold text-navy-900 leading-snug font-serif">${b[0]}</h4>
+          <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">${b[1]}</p>
+        </div>
+      </div>
+
+      <!-- Actions: ONLY Deactivate/Activate and Delete buttons as requested -->
+      <div class="flex items-center gap-2">
+        <button onclick="toggleBannerStatus(${i})" class="px-3 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition-colors">
+          ${b[3] ? 'Deactivate' : 'Activate'}
+        </button>
+        <button onclick="deleteBanner(${i})" class="p-1.5 rounded-lg text-coral hover:bg-coral/10 transition-colors" title="Delete Slide">
+          <i data-lucide="trash-2" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  `).join('');
+
+  const activeCount = bannerData.filter(b => b[3]).length;
+  const cap = document.getElementById('slideCapacity');
+  if (cap) cap.textContent = `5/10`;
+  lucide.createIcons();
+}
+
+function bannerDragStart(e, index) {
+  draggedBannerIndex = index;
+  e.dataTransfer.effectAllowed = 'move';
+  e.currentTarget.classList.add('opacity-50');
+}
+
+function bannerDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-over');
+}
+
+function bannerDragLeave(e) {
+  e.currentTarget.classList.remove('drag-over');
+}
+
+function bannerDrop(e, targetIndex) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (draggedBannerIndex === null || draggedBannerIndex === targetIndex) return;
+  
+  const moved = bannerData.splice(draggedBannerIndex, 1)[0];
+  bannerData.splice(targetIndex, 0, moved);
+  renderBanners();
+  logAction(`Reordered carousel slides (moved slide to position #${targetIndex + 1})`, 'Banners');
+}
+
+function bannerDragEnd(e) {
+  e.currentTarget.classList.remove('opacity-50');
+  document.querySelectorAll('.banner-item').forEach(el => el.classList.remove('drag-over', 'opacity-50'));
+  draggedBannerIndex = null;
+}
+
+function toggleBannerStatus(i) {
+  bannerData[i][3] = !bannerData[i][3];
+  renderBanners();
+  logAction(`Toggled banner "${bannerData[i][0]}" status to ${bannerData[i][3] ? 'Active' : 'Inactive'}`, 'Banners');
+}
+
+function deleteBanner(i) {
+  const name = bannerData[i][0];
+  if (confirm(`Delete banner slide "${name}"?`)) {
+    bannerData.splice(i, 1);
+    renderBanners();
+    logAction(`Deleted banner slide "${name}"`, 'Banners');
+  }
+}
+
+// Modal Dropzone for Add Banner
+let modalSelectedFile = null;
+const modalDrop = document.getElementById('modalDropzone');
+const modalFileInput = document.getElementById('modalBannerFile');
+if (modalDrop && modalFileInput) {
+  modalDrop.onclick = () => modalFileInput.click();
+  modalDrop.ondragover = e => { e.preventDefault(); modalDrop.classList.add('border-royal', 'bg-royal/10'); };
+  modalDrop.ondragleave = () => modalDrop.classList.remove('border-royal', 'bg-royal/10');
+  modalDrop.ondrop = e => {
+    e.preventDefault();
+    modalDrop.classList.remove('border-royal', 'bg-royal/10');
+    if (e.dataTransfer.files.length > 0) {
+      modalSelectedFile = e.dataTransfer.files[0];
+      const fn = document.getElementById('modalBannerFileName');
+      fn.textContent = `✓ Selected: ${modalSelectedFile.name}`;
+      fn.classList.remove('hidden');
+    }
+  };
+  modalFileInput.onchange = () => {
+    if (modalFileInput.files.length > 0) {
+      modalSelectedFile = modalFileInput.files[0];
+      const fn = document.getElementById('modalBannerFileName');
+      fn.textContent = `✓ Selected: ${modalSelectedFile.name}`;
+      fn.classList.remove('hidden');
+    }
+  };
+}
+
+function submitNewBanner() {
+  const head = document.getElementById('modalBannerHead').value.trim() || 'New Luxury Project Showcase';
+  const sub = document.getElementById('modalBannerSub').value.trim() || 'Curated residential developments across prime corridors.';
+  bannerData.unshift([head, sub, img1, true]);
+  renderBanners();
+  closeModal('addBannerModal');
+  document.getElementById('modalBannerHead').value = '';
+  document.getElementById('modalBannerSub').value = '';
+  document.getElementById('modalBannerFileName').classList.add('hidden');
+  logAction(`Uploaded new hero carousel banner "${head}"`, 'Banners');
+  alert('Banner added to carousel successfully!');
+}
+
+// =============================================================
+// CUSTOMER ENQUIRIES (10 LEADS, STATUS TO NONE ON OPEN, COPY PHONE)
+// =============================================================
+function renderEnquiries() {
+  const tbody = document.getElementById('enquiriesTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = enquiries.map((enq, idx) => `
+    <tr onclick="openEnquiry(${idx})" class="hover:bg-slate-50/80 cursor-pointer transition-colors ${enq.status === 'New' ? 'bg-royal/5' : ''}">
+      <td class="px-6 py-4 font-bold text-navy-900">${enq.name}</td>
+      <td class="px-6 py-4 text-slate-500">${enq.phone}<br><span class="text-[11px] text-slate-400">${enq.email}</span></td>
+      <td class="px-6 py-4 text-royal font-semibold">${enq.property}</td>
+      <td class="px-6 py-4 text-slate-400">${enq.date}</td>
+      <td class="px-6 py-4">
+        ${enq.status === 'None' ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-semibold text-slate-400 bg-slate-100">None</span>' : 
+          enq.status === 'New' ? '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">New</span>' :
+          enq.status === 'Contacted' ? '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-ice-border">Contacted</span>' :
+          enq.status === 'Site Visit' ? '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-700">Site Visit</span>' :
+          '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-coral/15 text-coral border border-coral/30">Closed</span>'}
+      </td>
+      <td class="px-6 py-4 text-right text-royal font-bold hover:underline">View Dossier</td>
+    </tr>
+  `).join('');
+
+  // Update Priority Leads on Dashboard
+  const priorityContainer = document.getElementById('priorityLeadsList');
+  if (priorityContainer) {
+    const topLeads = enquiries.slice(0, 3);
+    priorityContainer.innerHTML = topLeads.map((l, i) => `
+      <div onclick="openEnquiry(${i})" class="p-3 rounded-lg border border-slate-100 hover:border-royal/40 hover:bg-royal/5 transition-all cursor-pointer flex items-center justify-between">
+        <div>
+          <h4 class="text-xs font-bold text-navy-900">${l.name}</h4>
+          <p class="text-[11px] text-slate-500 truncate max-w-[140px] mt-0.5">${l.property}</p>
+        </div>
+        <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${l.status === 'New' ? 'bg-emerald/15 text-emerald' : l.status === 'Contacted' ? 'bg-ice text-royal' : 'bg-slate-100 text-slate-600'}">${l.status}</span>
+      </div>
+    `).join('');
+  }
+
+  // Update unread count
+  const newCount = enquiries.filter(e => e.status === 'New').length;
+  const badge = document.getElementById('unreadEnquiriesBadge');
+  if (badge) badge.textContent = newCount;
+  lucide.createIcons();
+}
+
+function openEnquiry(idx) {
+  const enq = enquiries[idx];
+  if (!enq) return;
+  activeEnquiryIndex = idx;
+
+  // USER REQUIREMENT: If status was 'New', automatically change to 'None' once opened!
+  if (enq.status === 'New') {
+    enq.status = 'None';
+    logAction(`Reviewed new inquiry from ${enq.name} (Lead status moved to None)`, 'Enquiries');
+  }
+
+  document.getElementById('eName').textContent = enq.name;
+  document.getElementById('eAvatar').textContent = enq.name.charAt(0);
+  document.getElementById('eProperty').textContent = enq.property;
+  document.getElementById('eStatus').value = enq.status;
+  document.getElementById('ePhone').textContent = enq.phone;
+  document.getElementById('eEmail').textContent = enq.email;
+  
+  let digits = enq.phone.replace(/\D/g, '');
+  document.getElementById('whatsappLink').href = 'https://wa.me/' + digits;
+  
+  const drawer = document.getElementById('enquiryDrawer');
+  drawer.classList.remove('translate-x-full');
+  
+  renderEnquiries();
+  lucide.createIcons();
+}
+
+function updateCurrentEnquiryStatus(val) {
+  if (activeEnquiryIndex >= 0 && enquiries[activeEnquiryIndex]) {
+    enquiries[activeEnquiryIndex].status = val;
+    renderEnquiries();
+    logAction(`Updated lead status for ${enquiries[activeEnquiryIndex].name} to "${val}"`, 'Enquiries');
+  }
+}
+
+function closeEnquiry() {
+  document.getElementById('enquiryDrawer').classList.add('translate-x-full');
+}
+
+function copyPhoneNumber() {
+  const phone = document.getElementById('ePhone').textContent;
+  navigator.clipboard.writeText(phone).then(() => {
+    const btn = document.getElementById('copyPhoneText');
+    if (btn) {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 1500);
+    }
+  });
+}
+
+// =============================================================
+// TESTIMONIALS (EDIT & DELETE AT TOP-RIGHT; ORDER: NAME, STAR, LOC, QUOTE)
+// =============================================================
+let testimonials = [
+  ['Meena R', '5', 'OMR, Chennai', 'Professional support throughout the buying process. Transparent documentation and prompt customer service.'],
+  ['Karthik S', '5', 'Kelambakkam', 'Clear communication and helpful guidance. The team arranged multiple site visits seamlessly.'],
+  ['Priya Sharma', '4', 'Chennai', 'They helped us find the right gated villa for our family. Truly exceptional service!']
+];
+
+function renderTestimonials() {
+  const container = document.getElementById('testCards');
+  if (!container) return;
+  container.innerHTML = testimonials.map((t, idx) => {
+    const starCount = parseInt(t[1], 10) || 5;
+    let starsHtml = '';
+    for (let s = 0; s < starCount; s++) {
+      starsHtml += '<i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400 text-amber-400"></i>';
+    }
+
+    return `
+      <article class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow relative">
+        <!-- TOP ROW: Stars on left, Edit & Delete action buttons on TOP RIGHT as requested -->
+        <div class="flex items-center justify-between mb-3">
+          <div class="flex items-center gap-1">
+            ${starsHtml}
+          </div>
+          <div class="flex items-center gap-1.5">
+            <!-- First Edit Icon (Pencil) -->
+            <button onclick="openEditTestimonialModal(${idx})" class="p-1 rounded text-slate-400 hover:text-royal hover:bg-slate-50 transition-colors" title="Edit Testimonial">
+              <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+            </button>
+            <!-- Second Delete Icon (Trash) -->
+            <button onclick="deleteTestimonial(${idx})" class="p-1 rounded text-slate-400 hover:text-coral hover:bg-slate-50 transition-colors" title="Delete Testimonial">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <p class="text-xs text-slate-600 leading-relaxed mb-4 italic">“${t[3]}”</p>
+        
+        <div class="border-t border-slate-100 pt-3">
+          <h4 class="text-xs font-bold text-navy-900 font-serif">${t[0]}</h4>
+          <p class="text-[10px] text-slate-400 mt-0.5">${t[2]}</p>
+        </div>
+      </article>
+    `;
+  }).join('');
+  lucide.createIcons();
+}
+
+function openAddTestimonialModal() {
+  document.getElementById('editTestimonialIndex').value = '-1';
+  document.getElementById('testimonialModalTitle').textContent = 'Add Testimonial';
+  document.getElementById('testNameInput').value = '';
+  document.getElementById('testStarInput').value = '5';
+  document.getElementById('testLocInput').value = '';
+  document.getElementById('testQuoteInput').value = '';
+  openModal('testimonialModal');
+}
+
+function openEditTestimonialModal(idx) {
+  const t = testimonials[idx];
+  if (!t) return;
+  document.getElementById('editTestimonialIndex').value = idx;
+  document.getElementById('testimonialModalTitle').textContent = 'Edit Testimonial';
+  document.getElementById('testNameInput').value = t[0];
+  document.getElementById('testStarInput').value = t[1] || '5';
+  document.getElementById('testLocInput').value = t[2];
+  document.getElementById('testQuoteInput').value = t[3];
+  openModal('testimonialModal');
+}
+
+function saveTestimonialModal() {
+  const idx = parseInt(document.getElementById('editTestimonialIndex').value, 10);
+  const name = document.getElementById('testNameInput').value.trim() || 'Verified Client';
+  const star = document.getElementById('testStarInput').value;
+  const loc = document.getElementById('testLocInput').value.trim() || 'Chennai';
+  const quote = document.getElementById('testQuoteInput').value.trim() || 'Exceptional experience with V.V Properties!';
+
+  if (idx >= 0 && testimonials[idx]) {
+    testimonials[idx] = [name, star, loc, quote];
+    logAction(`Updated testimonial from "${name}"`, 'Testimonials');
+  } else {
+    testimonials.unshift([name, star, loc, quote]);
+    logAction(`Added new testimonial from "${name}" (${star} Stars)`, 'Testimonials');
+  }
+
+  renderTestimonials();
+  closeModal('testimonialModal');
+}
+
+function deleteTestimonial(idx) {
+  const name = testimonials[idx][0];
+  if (confirm(`Delete testimonial from "${name}"?`)) {
+    testimonials.splice(idx, 1);
+    renderTestimonials();
+    logAction(`Deleted testimonial from "${name}"`, 'Testimonials');
+  }
+}
+
+// Global Nav & Modal Helpers
 function go(pageId) {
   document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
   const target = document.getElementById(pageId);
@@ -1076,7 +1800,6 @@ function go(pageId) {
   lucide.createIcons();
 }
 
-// Modals
 function openModal(id) {
   const el = document.getElementById(id);
   if (el) {
@@ -1085,6 +1808,7 @@ function openModal(id) {
     lucide.createIcons();
   }
 }
+
 function closeModal(id) {
   const el = document.getElementById(id);
   if (el) {
@@ -1092,31 +1816,21 @@ function closeModal(id) {
     el.classList.remove('flex');
   }
 }
+
 document.querySelectorAll('.modal-overlay').forEach(o => {
   o.addEventListener('click', e => {
     if (e.target === o) o.classList.add('hidden');
   });
 });
 
-// Enquiry Drawer
-function openEnquiry(name, property, status, phone, email) {
-  document.getElementById('eName').textContent = name;
-  document.getElementById('eAvatar').textContent = name[0];
-  document.getElementById('eProperty').textContent = property;
-  document.getElementById('eStatus').value = status;
-  document.getElementById('ePhone').textContent = phone;
-  document.getElementById('eEmail').textContent = email;
-  let digits = phone.replace(/\D/g, '');
-  document.getElementById('whatsappLink').href = 'https://wa.me/' + digits;
-  
-  const drawer = document.getElementById('enquiryDrawer');
-  drawer.classList.remove('translate-x-full');
-  lucide.createIcons();
-}
-
-function closeEnquiry() {
-  document.getElementById('enquiryDrawer').classList.add('translate-x-full');
-}
+document.addEventListener('click', () => closeAllMenus());
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay').forEach(o => o.classList.add('hidden'));
+    closeEnquiry();
+    closeAllMenus();
+  }
+});
 
 // Chart Ranges
 const ranges = {
@@ -1142,199 +1856,13 @@ document.getElementById('ranges').querySelectorAll('button').forEach(b => {
   };
 });
 
-// =============================================================
-// BANNER MANAGEMENT (DRAG REORDER, NO ACTIVE CHIP, NO POSITION #)
-// =============================================================
-let bannerData = [
-  ['Find Your Dream Luxury Home in Chennai', 'Explore hand-picked luxury apartments and gated villas across OMR & ECR.', img1],
-  ['A Better Address for Your Growing Family', 'Discover tranquil gated communities with private gardens and clubhouses.', img2],
-  ['Luxury Beachfront Residences on ECR', 'Wake up to panoramic Bay of Bengal ocean vistas with private rooftop decks.', img4],
-  ['Prime Commercial & IT Hubs in Guindy & OMR', 'Grade-A tech parks and retail storefronts with unmatched arterial road access.', img5],
-  ['Pre-Launch Privileges: Garden County Medavakkam', 'Avail special launch pricing and zero registry fees on the first 25 villas.', img6],
-  ['High-Growth Gated Community Plots in Tambaram', 'CMDA & RERA approved residential plots with underground utilities ready for build.', img3]
-];
-
-let draggedBannerIndex = null;
-
-function renderBanners() {
-  const container = document.getElementById('bannerList');
-  if (!container) return;
-  
-  container.innerHTML = bannerData.map((b, i) => `
-    <div 
-      draggable="true" 
-      ondragstart="bannerDragStart(event, ${i})" 
-      ondragover="bannerDragOver(event)" 
-      ondragleave="bannerDragLeave(event)" 
-      ondrop="bannerDrop(event, ${i})" 
-      ondragend="bannerDragEnd(event)"
-      class="banner-item flex items-center justify-between p-3.5 rounded-xl border border-slate-200/90 bg-white hover:shadow-sm transition-all gap-3 cursor-grab active:cursor-grabbing">
-      
-      <div class="flex items-center gap-3">
-        <!-- Grip Drag Handle -->
-        <div class="text-slate-300 hover:text-slate-600 transition-colors p-1" title="Drag to reorder">
-          <i data-lucide="grip-vertical" class="w-4 h-4"></i>
-        </div>
-        
-        <!-- Thumbnail -->
-        <img src="${b[2]}" alt="Banner slide" class="w-24 h-16 object-cover rounded-lg border border-slate-200 shadow-xs flex-shrink-0">
-        
-        <div>
-          <h4 class="text-xs font-bold text-navy-900 leading-snug font-serif">${b[0]}</h4>
-          <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">${b[1]}</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <button onclick="moveBanner(${i}, -1)" ${i === 0 ? 'disabled' : ''} class="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-500 disabled:opacity-30 disabled:pointer-events-none" title="Move Up">
-          <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
-        </button>
-        <button onclick="moveBanner(${i}, 1)" ${i === bannerData.length - 1 ? 'disabled' : ''} class="p-1.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-500 disabled:opacity-30 disabled:pointer-events-none" title="Move Down">
-          <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
-        </button>
-        <button onclick="deleteBanner(${i})" class="p-1.5 rounded-lg text-coral hover:bg-coral/10 transition-colors ml-1" title="Delete Slide">
-          <i data-lucide="trash-2" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
-  `).join('');
-
-  const cap = document.getElementById('slideCapacity');
-  if (cap) cap.textContent = `5/10`; // Changed as requested to 5/10
-  lucide.createIcons();
-}
-
-// Drag & Drop Reordering handlers
-function bannerDragStart(e, index) {
-  draggedBannerIndex = index;
-  e.dataTransfer.effectAllowed = 'move';
-  e.currentTarget.classList.add('opacity-50');
-}
-
-function bannerDragOver(e) {
-  e.preventDefault();
-  e.dataTransfer.dropEffect = 'move';
-  e.currentTarget.classList.add('drag-over');
-}
-
-function bannerDragLeave(e) {
-  e.currentTarget.classList.remove('drag-over');
-}
-
-function bannerDrop(e, targetIndex) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('drag-over');
-  if (draggedBannerIndex === null || draggedBannerIndex === targetIndex) return;
-  
-  const moved = bannerData.splice(draggedBannerIndex, 1)[0];
-  bannerData.splice(targetIndex, 0, moved);
-  renderBanners();
-}
-
-function bannerDragEnd(e) {
-  e.currentTarget.classList.remove('opacity-50');
-  document.querySelectorAll('.banner-item').forEach(el => el.classList.remove('drag-over', 'opacity-50'));
-  draggedBannerIndex = null;
-}
-
-function moveBanner(index, direction) {
-  const target = index + direction;
-  if (target < 0 || target >= bannerData.length) return;
-  const temp = bannerData[index];
-  bannerData[index] = bannerData[target];
-  bannerData[target] = temp;
-  renderBanners();
-}
-
-function deleteBanner(i) {
-  if (confirm('Delete this banner slide?')) {
-    bannerData.splice(i, 1);
-    renderBanners();
-  }
-}
-
-function toggleUploadBannerCard() {
-  const card = document.getElementById('uploadBannerCard');
-  if (card) {
-    card.scrollIntoView({ behavior: 'smooth' });
-    const dropzone = document.getElementById('dropzone');
-    dropzone.classList.add('border-royal', 'bg-royal/10');
-    setTimeout(() => dropzone.classList.remove('border-royal', 'bg-royal/10'), 800);
-  }
-}
-
-// Dropzone file handling
-const drop = document.getElementById('dropzone');
-const fileInput = document.getElementById('bannerFile');
-if (drop && fileInput) {
-  drop.onclick = () => fileInput.click();
-  drop.ondragover = e => { e.preventDefault(); drop.classList.add('border-royal', 'bg-royal/10'); };
-  drop.ondragleave = () => drop.classList.remove('border-royal', 'bg-royal/10');
-  drop.ondrop = e => {
-    e.preventDefault();
-    drop.classList.remove('border-royal', 'bg-royal/10');
-    if (e.dataTransfer.files.length > 0) {
-      alert(`${e.dataTransfer.files.length} banner slide(s) uploaded successfully!`);
-      bannerData.unshift(['New Luxury Hero Banner', 'High-impact promotional slide for public landing page', img1]);
-      renderBanners();
-    }
-  };
-  fileInput.onchange = () => {
-    if (fileInput.files.length > 0) {
-      alert(`${fileInput.files.length} banner slide(s) selected!`);
-      bannerData.unshift(['New Luxury Hero Banner', 'High-impact promotional slide for public landing page', img1]);
-      renderBanners();
-    }
-  };
-}
-
-// TESTIMONIALS
-const testimonials = [
-  ['Meena R', 'OMR, Chennai', 'Professional support throughout the buying process. Transparent documentation and prompt customer service.'],
-  ['Karthik S', 'Kelambakkam', 'Clear communication and helpful guidance. The team arranged multiple site visits seamlessly.'],
-  ['Priya Sharma', 'Chennai', 'They helped us find the right gated villa for our family. Truly exceptional service!']
-];
-
-function renderTestimonials() {
-  const container = document.getElementById('testCards');
-  if (!container) return;
-  container.innerHTML = testimonials.map(t => `
-    <article class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-      <div class="flex items-center gap-1 text-amber-400 mb-2.5">
-        <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-        <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-        <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-        <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-        <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
-      </div>
-      <p class="text-xs text-slate-600 leading-relaxed mb-4 italic">“${t[2]}”</p>
-      <div class="border-t border-slate-100 pt-3 flex items-center justify-between">
-        <div>
-          <h4 class="text-xs font-bold text-navy-900 font-serif">${t[0]}</h4>
-          <p class="text-[10px] text-slate-400 mt-0.5">${t[1]}</p>
-        </div>
-        <button onclick="this.closest('article').remove()" class="text-slate-400 hover:text-coral">
-          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-        </button>
-      </div>
-    </article>
-  `).join('');
-  lucide.createIcons();
-}
-
-function saveTestimonialModal() {
-  const name = document.getElementById('testNameInput').value.trim() || 'Verified Client';
-  const loc = document.getElementById('testLocInput').value.trim() || 'Chennai';
-  const quote = document.getElementById('testQuoteInput').value.trim() || 'Exemplary experience with V.V Properties!';
-  testimonials.unshift([name, loc, quote]);
-  renderTestimonials();
-  closeModal('testimonialModal');
-}
-
-// Initial render
+// Initial Renders
 renderProperties();
 renderBanners();
+renderEnquiries();
 renderTestimonials();
+renderAccounts();
+renderLogs();
 lucide.createIcons();
 </script>
 </body>
