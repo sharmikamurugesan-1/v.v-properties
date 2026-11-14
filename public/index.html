@@ -327,19 +327,20 @@
               <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
                 <div>
                   <h3 class="font-sans font-bold text-navy-900 text-sm">Performance</h3>
-                  <p class="text-xs text-slate-400 font-medium">Customer outreach trends and lead velocity across channels</p>
+                  <p class="text-xs text-slate-400 font-medium">Website Trafficking</p>
                 </div>
 
                 <!-- DROPDOWN MENU FOR TIME RANGES (AS REQUESTED) -->
                 <div class="flex items-center gap-2 relative">
                   <select id="chartRangeSelect" onchange="handleChartRangeSelect(this.value)" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-white text-xs font-bold text-slate-700 outline-none focus:ring-2 focus:ring-royal/20 shadow-sm cursor-pointer">
+                    <option value="MAX">MAX</option>
                     <option value="24h">24 Hours</option>
                     <option value="1W">1 Week</option>
                     <option value="1M">1 Month</option>
-                    <option value="3M" selected>3 Months (Jun - Sep)</option>
+                    <option value="3M" selected>3 Months</option>
                     <option value="6M">6 Months</option>
                     <option value="1Y">1 Year</option>
-                    <option value="custom">Customize Date Range...</option>
+                    <option value="custom">Customize Date Range</option>
                   </select>
 
                   <!-- Custom Date Picker Popover Modal -->
@@ -394,10 +395,7 @@
               </div>
             </div>
 
-            <div class="mt-3 text-[11px] font-medium text-slate-400 flex items-center justify-between">
-              <span>Verified traffic from Google Search and direct website visitors</span>
-              <span id="chartRangeIndicator" class="font-bold text-royal">Active Range: June - September</span>
-            </div>
+
           </div>
 
           <!-- Priority Leads (FILTERED TO ONLY 'NEW' STATUS, EXACTLY 4 LEADS) -->
@@ -406,7 +404,7 @@
               <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-2">
                 <div>
                   <h3 class="font-sans font-bold text-navy-900 text-sm">Priority Leads</h3>
-                  <p class="text-xs text-slate-400 font-medium">Fresh incoming inquiries (New Only)</p>
+                  <p class="text-xs text-slate-400 font-medium">Fresh incoming inquiries (3 Priority Leads)</p>
                 </div>
                 <button onclick="go('enquiries')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
                   <span>View All</span>
@@ -447,14 +445,36 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-1">
           <div>
             <h1 class="text-2xl lg:text-3xl font-extrabold text-navy-900 tracking-tight font-sans">Properties</h1>
-            <p class="text-xs lg:text-sm text-slate-500 mt-0.5 font-medium">Manage active residential and commercial property listings across Chennai.</p>
+            <p class="text-xs lg:text-sm text-slate-500 mt-0.5 font-medium">Active residential and commercial real estate portfolio.</p>
           </div>
-          <button onclick="openAddPropertyModal()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Add Property</span>
-          </button>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="exportPortfolioJson()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-navy-900 text-xs font-bold shadow-sm transition-all" title="Backup full portfolio data and images to JSON file">
+              <i data-lucide="download" class="w-3.5 h-3.5 text-royal"></i>
+              <span>Backup Catalog (JSON)</span>
+            </button>
+            <button type="button" onclick="document.getElementById('catalogImportFileInput').click()" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-slate-200 hover:bg-slate-50 text-navy-900 text-xs font-bold shadow-sm transition-all" title="Sync portfolio catalog from computer">
+              <i data-lucide="upload" class="w-3.5 h-3.5 text-emerald"></i>
+              <span>Import Catalog</span>
+            </button>
+            <input type="file" id="catalogImportFileInput" accept=".json" class="hidden" onchange="importPortfolioJson(event)">
+            <button onclick="openAddPropertyModal()" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/25 transition-all">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+              <span>Add Property</span>
+            </button>
+          </div>
         </div>
 
+        <!-- Cross-Computer Portfolio Sync Banner -->
+        <div id="deviceSyncBanner" class="hidden p-3.5 rounded-2xl bg-white border border-blue-200 shadow-sm flex items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5 text-navy-900 font-semibold">
+            <i data-lucide="folder-sync" class="w-4 h-4 text-royal flex-shrink-0"></i>
+            <span>Working across different computers? You can import your saved <code>vv_properties_catalog.json</code> or continue with active storage.</span>
+          </div>
+          <div class="flex items-center gap-2 flex-shrink-0">
+            <button type="button" onclick="document.getElementById('catalogImportFileInput').click()" class="px-3 py-1 rounded-xl bg-royal text-white font-bold text-xs hover:bg-royal-hover">Import Catalog</button>
+            <button type="button" onclick="document.getElementById('deviceSyncBanner').classList.add('hidden')" class="px-2.5 py-1 rounded-xl border border-slate-200 text-slate-500 hover:bg-slate-50">Dismiss</button>
+          </div>
+        </div>
         <!-- Filter & Search Toolbar -->
         <div class="bg-white border border-slate-200/90 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-stretch md:items-center gap-3 text-xs">
           <div class="relative flex-1">
@@ -616,12 +636,17 @@
               <input id="adminUsernameInput" value="victor" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-royal/20">
             </div>
             
-            <!-- PASSWORD WITH DOWN-RIGHT EDIT PASSWORD BUTTON -->
+            <!-- PASSWORD WITH EYE ICON TOGGLE ON THE RIGHT -->
             <div class="pt-2">
               <div class="flex items-center justify-between mb-1.5">
                 <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Password</label>
               </div>
-              <input type="password" value="••••••••••••" readonly class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-xs font-medium text-slate-600 outline-none">
+              <div class="relative">
+                <input id="adminPasswordField" type="password" value="victoradmin2026" class="w-full pl-3.5 pr-11 py-2.5 rounded-xl border border-slate-200 bg-white text-xs font-medium text-slate-800 outline-none focus:ring-2 focus:ring-royal/20">
+                <button type="button" onclick="toggleAdminPasswordVisibility()" class="absolute right-3 top-2.5 text-slate-400 hover:text-navy-900 transition-colors p-0.5 focus:outline-none" title="Toggle password visibility">
+                  <i data-lucide="eye" id="adminPwEyeIcon" class="w-4 h-4"></i>
+                </button>
+              </div>
               <div class="flex justify-end mt-1.5">
                 <button type="button" onclick="togglePasswordSection()" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
                   <i data-lucide="key" class="w-3.5 h-3.5"></i>
@@ -825,11 +850,11 @@
                 + Add
               </button>
             </div>
-            <div class="flex flex-wrap gap-1.5 min-h-[32px] p-2 rounded-xl border border-dashed border-slate-200 bg-slate-50 mt-2" id="amenitiesChipContainer"></div>
+            <div class="flex flex-wrap gap-1.5 min-h-[32px] p-2 rounded-xl border border-dashed border-slate-200 bg-white mt-2" id="amenitiesChipContainer"></div>
           </div>
         </div>
       </div>
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+      <div class="px-6 py-4 bg-white border-t border-slate-200 flex items-center justify-end gap-3">
         <button onclick="closeModal('propertyModal')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
         <button onclick="saveProperty()" class="px-5 py-2 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/25">Save Property</button>
       </div>
@@ -852,7 +877,7 @@
         <label class="block font-medium text-slate-500 mb-1.5">New Property Title</label>
         <input id="renamePropInput" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none text-xs font-semibold">
       </div>
-      <div class="px-5 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2">
+      <div class="px-5 py-3.5 bg-white border-t border-slate-200 flex items-center justify-end gap-2">
         <button onclick="closeModal('renameModal')" class="px-3.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
         <button onclick="saveRename()" class="px-4 py-1.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold">Save</button>
       </div>
@@ -891,7 +916,7 @@
           <input id="bannerUrlInput" placeholder="Or enter banner image URL..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none mt-2 text-[11px]">
         </div>
       </div>
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+      <div class="px-6 py-4 bg-white border-t border-slate-200 flex items-center justify-end gap-3">
         <button onclick="closeModal('bannerModal')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
         <button onclick="saveBanner()" class="px-5 py-2 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/25">Add Banner</button>
       </div>
@@ -935,7 +960,7 @@
           <textarea id="testFeedbackInput" rows="3" placeholder="Enter client feedback review..." class="w-full px-3.5 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-royal/20 outline-none"></textarea>
         </div>
       </div>
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+      <div class="px-6 py-4 bg-white border-t border-slate-200 flex items-center justify-end gap-3">
         <button onclick="closeModal('testimonialModal')" class="px-4 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
         <button onclick="saveTestimonial()" class="px-5 py-1.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/25">Save Testimonial</button>
       </div>
@@ -977,7 +1002,7 @@
           </select>
         </div>
       </div>
-      <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2">
+      <div class="px-6 py-4 bg-white border-t border-slate-200 flex items-center justify-end gap-2">
         <button onclick="closeModal('accountModal')" class="px-4 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
         <button onclick="saveNewAccount()" class="px-5 py-1.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold">Create Account</button>
       </div>
@@ -1065,18 +1090,71 @@
     const img6 = 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80';
 
     // 10 UNIQUE PROPERTIES: 4 HAVE COVER IMAGES, 6 HAVE NO COVER IMAGE (AS REQUESTED)
-    let properties = [
-      ['Prestige Bella Vista', 'Porur, Chennai', '₹78 L', 'Featured', 'Apartment · 2 BHK', ['Swimming Pool', 'Covered Parking'], img1, 'Premium gated community with 30+ lifestyle amenities.'],
-      ['Casagrand Zenith', 'Medavakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 3 BHK', ['Private Garden', 'Swimming Pool'], img2, 'Contemporary Mediterranean style villa with private lawn.'],
-      ['TVS Emerald Greenacres', 'Tambaram', '₹32 L', 'New Launch', 'Residential Plot', ['40ft Road'], img3, 'CMDA & RERA approved gated villa plots near outer ring road.'],
-      ['Appaswamy Trellis', 'Vadapalani', '₹1.10 Cr', 'Hot Deal', 'Apartment · 3 BHK', ['Gym', 'Swimming Pool'], img4, 'Heart of the city high-rise apartments with metro connectivity.'],
-      ['Akshaya Today', 'OMR, Chennai', '₹95 L', 'None', 'Villa · 3 BHK', ['Private Garden'], '', 'Thai-style luxury homes overlooking lush greenery and IT corridor.'],
-      ['Radiance Empire', 'Perambur', '₹1.65 Cr', 'None', 'Apartment · 3 BHK', ['Clubhouse'], '', 'Signature high-rise towers with panoramic central Chennai skyline views.'],
-      ['Oceanique Beachfront', 'ECR, Chennai', '₹2.40 Cr', 'None', 'Villa · 4 BHK', ['Sea View', 'Private Pool'], '', 'Direct private beach access with infinity sea-facing deck.'],
-      ['Brigade Xanadu', 'Mogappair', '₹88 L', 'None', 'Apartment · 2 BHK', ['Private Garden'], '', 'Spanish architecture homes with wide landscaped courtyards.'],
-      ['Olympia Technology Park', 'Guindy', '₹3.10 Cr', 'None', 'Commercial', ['Power Backup'], '', 'Prime Grade-A commercial office floors next to metro transit.'],
-      ['Ceebros Boulevard', 'Thiruvanmiyur', '₹1.45 Cr', 'None', 'Apartment · 3 BHK', ['Sea View'], '', 'Boutique sea-breeze apartments steps from the coastal boulevard.']
+    const defaultProperties = [
+      ['Prestige Bella Vista', 'Porur, Chennai', '₹78 L', 'Featured', 'Apartment · 2 BHK', ['Swimming Pool', 'Covered Parking', '24/7 Security'], img1, 'Premium gated community with 30+ lifestyle amenities.'],
+      ['Casagrand Zenith', 'Medavakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 3 BHK', ['Private Garden', 'Swimming Pool', 'Clubhouse & Gym'], img2, 'Contemporary Mediterranean style villa with private lawn.'],
+      ['TVS Emerald Greenacres', 'Tambaram', '₹32 L', 'New Launch', 'Residential Plot', ['24/7 Security', 'Water Supply'], img3, 'CMDA & RERA approved gated villa plots near outer ring road.'],
+      ['Appaswamy Trellis', 'Vadapalani', '₹1.10 Cr', 'Hot Deal', 'Apartment · 3 BHK', ['Clubhouse & Gym', 'Swimming Pool', 'Elevator / Lift'], img4, 'Heart of the city high-rise apartments with metro connectivity.'],
+      ['Akshaya Today', 'OMR, Chennai', '₹95 L', 'None', 'Villa · 3 BHK', ['Private Garden', 'Power Backup'], '', 'Thai-style luxury homes overlooking lush greenery and IT corridor.'],
+      ['Radiance Empire', 'Perambur', '₹1.65 Cr', 'None', 'Apartment · 3 BHK', ['Clubhouse & Gym', 'Covered Parking'], '', 'Signature high-rise towers with panoramic central Chennai skyline views.'],
+      ['Oceanique Beachfront', 'ECR, Chennai', '₹2.40 Cr', 'None', 'Villa · 4 BHK', ['Swimming Pool', 'Private Garden', '24/7 Security'], '', 'Direct private beach access with infinity sea-facing deck.'],
+      ['Brigade Xanadu', 'Mogappair', '₹88 L', 'None', 'Apartment · 2 BHK', ['Private Garden', 'Children Play Area'], '', 'Spanish architecture homes with wide landscaped courtyards.'],
+      ['Olympia Technology Park', 'Guindy', '₹3.10 Cr', 'None', 'Commercial', ['Power Backup', 'Elevator / Lift', 'CCTV Surveillance'], '', 'Prime Grade-A commercial office floors next to metro transit.'],
+      ['Ceebros Boulevard', 'Thiruvanmiyur', '₹1.45 Cr', 'None', 'Apartment · 3 BHK', ['Swimming Pool', 'Covered Parking'], '', 'Boutique sea-breeze apartments steps from the coastal boulevard.']
     ];
+
+    // Centralized Persistent Catalog Store (in localStorage & exportable JSON)
+    let properties = JSON.parse(localStorage.getItem('vv_properties_catalog')) || defaultProperties;
+
+    function savePropertiesToStorage() {
+      localStorage.setItem('vv_properties_catalog', JSON.stringify(properties));
+    }
+
+    function exportPortfolioJson() {
+      const exportPayload = {
+        exportDate: new Date().toISOString(),
+        system: 'V.V Properties Executive Suite',
+        properties: properties,
+        totalProperties: properties.length
+      };
+      const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'vv_properties_catalog.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      logActivity('Exported full properties catalog JSON bundle', 'Properties');
+      showToast('Downloaded vv_properties_catalog.json');
+    }
+
+    function importPortfolioJson(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+          if (Array.isArray(data.properties)) {
+            properties = data.properties;
+          } else if (Array.isArray(data)) {
+            properties = data;
+          } else {
+            alert('Invalid catalog format. File must contain property listings.');
+            return;
+          }
+          savePropertiesToStorage();
+          renderProperties();
+          const syncBanner = document.getElementById('deviceSyncBanner');
+          if (syncBanner) syncBanner.classList.add('hidden');
+          logActivity(`Imported portfolio catalog (${properties.length} properties) from file`, 'Properties');
+          showToast(`Loaded ${properties.length} properties successfully`);
+        } catch (err) {
+          alert('Error parsing catalog JSON: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
 
     let currentGalleryImages = [img1, img2, img3, img4, img5];
     let currentCoverImage = '';
@@ -1131,9 +1209,15 @@
       document.getElementById('topRoleName').textContent = u.role || 'Super Administrator';
       document.getElementById('sideDisplayName').textContent = u.displayName || 'Victor Paul';
       document.getElementById('sideRoleName').textContent = u.role || 'Super Administrator';
-      const initial = (u.displayName || 'V').charAt(0).toUpperCase();
-      document.getElementById('topAvatarInitial').textContent = initial;
-      document.getElementById('sideAvatarInitial').textContent = initial;
+      
+      const savedAvatar = localStorage.getItem('vv_admin_avatar');
+      if (savedAvatar) {
+        updateAdminAvatarDisplay(savedAvatar);
+      } else {
+        const initial = (u.displayName || 'V').charAt(0).toUpperCase();
+        document.getElementById('topAvatarInitial').textContent = initial;
+        document.getElementById('sideAvatarInitial').textContent = initial;
+      }
       
       const adminNameInput = document.getElementById('adminDisplayNameInput');
       if (adminNameInput) adminNameInput.value = u.displayName || 'Victor Paul';
@@ -1156,7 +1240,7 @@
           displayName: displayName,
           role: role,
           loginTime: Date.now(),
-          expiry: Date.now() + (24 * 60 * 60 * 1000) // 24 Hours validity
+          expiry: Date.now() + (24 * 60 * 60 * 1000)
         };
 
         localStorage.setItem('vv_auth', JSON.stringify(authData));
@@ -1185,17 +1269,31 @@
     }
 
     // =========================================================
-    // 2. ACTIVITY LOGS (JSON STORAGE & 14-DAY AUTO PRUNING)
+    // 2. ACTIVITY LOGS (EXACT DATE & TIME, PERSISTENT FOR ALL)
     // =========================================================
+    function formatExactDateTime(d = new Date()) {
+      const day = String(d.getDate()).padStart(2, '0');
+      const month = d.toLocaleDateString('en-GB', { month: 'short' });
+      const year = d.getFullYear();
+      let hours = d.getHours();
+      const minutes = String(d.getMinutes()).padStart(2, '0');
+      const seconds = String(d.getSeconds()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      hours = hours % 12;
+      hours = hours ? hours : 12;
+      const hourStr = String(hours).padStart(2, '0');
+      return `${day} ${month} ${year}, ${hourStr}:${minutes}:${seconds} ${ampm}`;
+    }
+
     let activityLogs = JSON.parse(localStorage.getItem('vv_activity_logs_json')) || [
-      { id: 1, timestamp: Date.now() - 10 * 60 * 1000, username: 'Victor Paul', action: 'Updated testimonial from "Meena R"', module: 'Testimonials', dateStr: 'Just now', status: 'Success' },
-      { id: 2, timestamp: Date.now() - 25 * 60 * 1000, username: 'Victor Paul', action: 'Reviewed new inquiry from Suresh Kumar (Label moved to None)', module: 'Enquiries', dateStr: 'Just now', status: 'Success' },
-      { id: 3, timestamp: Date.now() - 40 * 60 * 1000, username: 'Victor Paul', action: 'Deactivated carousel banner "A Better Address for Your Growing Family"', module: 'Banners', dateStr: 'Just now', status: 'Success' },
-      { id: 4, timestamp: Date.now() - 55 * 60 * 1000, username: 'Victor Paul', action: 'Deactivated carousel banner "Find Your Dream Luxury Home in Chennai"', module: 'Banners', dateStr: 'Just now', status: 'Success' },
-      { id: 5, timestamp: Date.now() - 70 * 60 * 1000, username: 'Victor Paul', action: 'User "Victor Paul" signed in', module: 'Authentication', dateStr: 'Just now', status: 'Success' },
-      { id: 6, timestamp: Date.now() - 2 * 3600 * 1000, username: 'Victor Paul', action: 'Reviewed lead dossier for Suresh Kumar', module: 'Enquiries', dateStr: 'Today, 11:42 AM', status: 'Success' },
-      { id: 7, timestamp: Date.now() - 4 * 3600 * 1000, username: 'Victor Paul', action: 'Updated listing price for Emerald Bay Villas to ₹1.85 Cr', module: 'Properties', dateStr: 'Today, 10:15 AM', status: 'Success' },
-      { id: 8, timestamp: Date.now() - 24 * 3600 * 1000, username: 'Sharmika Murugesan', action: 'Reordered carousel slide display priority', module: 'Banners', dateStr: 'Yesterday, 04:30 PM', status: 'Success' }
+      { id: 1, timestamp: Date.now() - 10 * 60 * 1000, username: 'Victor Paul', action: 'Updated testimonial from "Meena R"', module: 'Testimonials', dateStr: '14 Nov 2026, 10:45:12 PM', status: 'Success' },
+      { id: 2, timestamp: Date.now() - 25 * 60 * 1000, username: 'Victor Paul', action: 'Reviewed new inquiry from Suresh Kumar (Label moved to None)', module: 'Enquiries', dateStr: '14 Nov 2026, 10:20:45 PM', status: 'Success' },
+      { id: 3, timestamp: Date.now() - 40 * 60 * 1000, username: 'Victor Paul', action: 'Deactivated carousel banner "A Better Address for Your Growing Family"', module: 'Banners', dateStr: '14 Nov 2026, 09:55:00 PM', status: 'Success' },
+      { id: 4, timestamp: Date.now() - 55 * 60 * 1000, username: 'Victor Paul', action: 'Deactivated carousel banner "Find Your Dream Luxury Home in Chennai"', module: 'Banners', dateStr: '14 Nov 2026, 09:12:30 PM', status: 'Success' },
+      { id: 5, timestamp: Date.now() - 70 * 60 * 1000, username: 'Victor Paul', action: 'User "Victor Paul" signed in to portal', module: 'Authentication', dateStr: '14 Nov 2026, 08:34:10 PM', status: 'Success' },
+      { id: 6, timestamp: Date.now() - 2 * 3600 * 1000, username: 'Victor Paul', action: 'Reviewed lead dossier for Suresh Kumar', module: 'Enquiries', dateStr: '14 Nov 2026, 07:15:22 PM', status: 'Success' },
+      { id: 7, timestamp: Date.now() - 4 * 3600 * 1000, username: 'Victor Paul', action: 'Updated listing price for Emerald Bay Villas to ₹1.85 Cr', module: 'Properties', dateStr: '14 Nov 2026, 06:40:18 PM', status: 'Success' },
+      { id: 8, timestamp: Date.now() - 24 * 3600 * 1000, username: 'Sharmika Murugesan', action: 'Reordered carousel slide display priority', module: 'Banners', dateStr: '13 Nov 2026, 04:30:00 PM', status: 'Success' }
     ];
 
     function pruneActivityLogs() {
@@ -1206,8 +1304,7 @@
 
     function logActivity(action, module = 'General') {
       pruneActivityLogs();
-      const d = new Date();
-      const dateStr = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) + ', ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const dateStr = formatExactDateTime(new Date());
       const newEntry = {
         id: Date.now(),
         timestamp: Date.now(),
@@ -1264,7 +1361,6 @@
         </div>
       ` : '';
 
-      // Image or Blueprint Placeholder if cover image is empty
       const imageMarkup = p[6] ? `
         <img src="${p[6]}" alt="${p[0]}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
       ` : `
@@ -1277,21 +1373,17 @@
 
       return `
         <article class="relative group rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 h-56" data-index="${i}">
-          <!-- Architectural Image (70% top visible) -->
           <div class="absolute inset-0 rounded-2xl overflow-hidden pointer-events-none">
             ${imageMarkup}
           </div>
 
-          <!-- Badge Tag (Only shown if badge is set) -->
           ${badgeHtml}
 
-          <!-- Vertical 3-Dots Button (Top Right) - VISIBLE WHEN HOVERING / POINTING -->
           <div id="${menuId}_wrap" class="menu-wrapper absolute top-3 right-3 z-30 opacity-0 group-hover:opacity-100 transition-all duration-200">
             <button type="button" onclick="toggleMenu(event, '${menuId}')" class="w-8 h-8 rounded-full bg-white/95 hover:bg-white text-navy-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none cursor-pointer" aria-label="Options" title="Listing Options">
               <i data-lucide="more-vertical" class="w-4 h-4"></i>
             </button>
 
-            <!-- Dropdown Menu: Edit, Rename, Delete -->
             <div id="${menuId}" onclick="event.stopPropagation()" class="menu-box hidden absolute right-0 top-9 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 p-1 z-50 menu-anim">
               <button type="button" onclick="editProperty(event, ${i})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors cursor-pointer text-left">
                 <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
@@ -1308,7 +1400,7 @@
             </div>
           </div>
 
-          <!-- HOVER OVERLAY: PROPERTY NAME REMOVED ON HOVER (SHOWS ONLY PRICE, TYPE & LOCATION) -->
+          <!-- HOVER OVERLAY: ONLY PRICE, TYPE & LOCATION (NO PROPERTY NAME ON HOVER) -->
           <div class="absolute inset-0 rounded-2xl bg-gradient-to-t from-navy-950/90 via-navy-950/20 via-35% to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-5 flex flex-col justify-end text-white pointer-events-none">
             <div class="flex items-center justify-between mb-1.5">
               <span class="text-base font-extrabold text-white drop-shadow font-sans">${p[2]}</span>
@@ -1381,16 +1473,41 @@
     });
 
     // =========================================================
-    // 4. ADD / EDIT PROPERTY MODAL (CLEAN INPUTS, NO LINK TEXT)
+    // 4. ADD / EDIT PROPERTY MODAL (APT LINE ICONS FOR AMENITIES)
     // =========================================================
     const availableAmenities = [
-      { name: 'Swimming Pool', icon: 'waves' },
-      { name: 'Gymnasium', icon: 'dumbbell' },
       { name: 'Bedrooms', icon: 'bed-double' },
+      { name: 'Swimming Pool', icon: 'waves' },
+      { name: 'Clubhouse & Gym', icon: 'dumbbell' },
       { name: '24/7 Security', icon: 'shield-check' },
       { name: 'Covered Parking', icon: 'car' },
-      { name: 'Private Garden', icon: 'trees' }
+      { name: 'Private Garden', icon: 'trees' },
+      { name: 'Power Backup', icon: 'zap' },
+      { name: 'Elevator / Lift', icon: 'arrow-up-down' },
+      { name: 'Water Supply', icon: 'droplets' },
+      { name: 'CCTV Surveillance', icon: 'video' },
+      { name: 'Children Play Area', icon: 'smile' },
+      { name: 'EV Charging Station', icon: 'battery-charging' }
     ];
+
+    function getAmenityIcon(name) {
+      const found = availableAmenities.find(a => a.name.toLowerCase() === name.toLowerCase());
+      if (found) return found.icon;
+      const lower = name.toLowerCase();
+      if (lower.includes('bed')) return 'bed-double';
+      if (lower.includes('pool')) return 'waves';
+      if (lower.includes('gym')) return 'dumbbell';
+      if (lower.includes('security')) return 'shield-check';
+      if (lower.includes('park') || lower.includes('car')) return 'car';
+      if (lower.includes('garden') || lower.includes('green')) return 'trees';
+      if (lower.includes('power') || lower.includes('backup')) return 'zap';
+      if (lower.includes('lift')) return 'arrow-up-down';
+      if (lower.includes('water')) return 'droplets';
+      if (lower.includes('cctv') || lower.includes('camera')) return 'video';
+      if (lower.includes('play')) return 'smile';
+      if (lower.includes('ev') || lower.includes('charge')) return 'battery-charging';
+      return 'check-circle';
+    }
 
     function renderPresetAmenities() {
       const container = document.getElementById('presetAmenitiesGrid');
@@ -1398,7 +1515,7 @@
       container.innerHTML = availableAmenities.map(a => {
         const selected = currentAmenitiesList.includes(a.name);
         return `
-          <button type="button" onclick="toggleAmenity('${a.name}')" class="p-2 rounded-xl border text-left flex items-center gap-2 transition-all ${selected ? 'border-royal bg-royal/10 text-royal font-bold' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 font-medium'}">
+          <button type="button" onclick="toggleAmenity('${a.name}')" class="p-2 rounded-xl border text-left flex items-center gap-2 transition-all ${selected ? 'border-royal bg-royal/10 text-royal font-bold shadow-sm' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300 font-medium'}">
             <i data-lucide="${a.icon}" class="w-4 h-4 flex-shrink-0"></i>
             <span class="text-xs truncate">${a.name}</span>
           </button>
@@ -1431,18 +1548,19 @@
       const container = document.getElementById('amenitiesChipContainer');
       if (!container) return;
       if (currentAmenitiesList.length === 0) {
-        container.innerHTML = `<span class="text-[11px] text-slate-400 font-medium">No amenities selected. Click above or add custom amenities.</span>`;
+        container.innerHTML = `<span class="text-[11px] text-slate-400 font-medium">No amenities selected. Click buttons above or add custom items.</span>`;
         return;
       }
       container.innerHTML = currentAmenitiesList.map(a => `
         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-royal/10 text-royal text-xs font-bold border border-royal/20">
+          <i data-lucide="${getAmenityIcon(a)}" class="w-3.5 h-3.5 flex-shrink-0"></i>
           <span>${a}</span>
-          <button type="button" onclick="toggleAmenity('${a}')" class="hover:text-red-500 font-bold">&times;</button>
+          <button type="button" onclick="toggleAmenity('${a}')" class="hover:text-red-500 font-bold ml-1">&times;</button>
         </span>
       `).join('');
+      lucide.createIcons();
     }
 
-    // COVER IMAGE (NO URL LINK TEXT AT ALL)
     function renderCoverImageSection(url) {
       currentCoverImage = url || '';
       document.getElementById('propCoverImageVal').value = currentCoverImage;
@@ -1488,7 +1606,6 @@
       renderCoverImageSection('');
     }
 
-    // GALLERY IMAGES (5 IMAGES WITH UPDATE & DELETE OPTIONS)
     function renderGallerySection() {
       const container = document.getElementById('galleryContainer');
       if (!container) return;
@@ -1526,7 +1643,6 @@
       renderGallerySection();
     }
 
-    // Setup File Upload Listeners
     document.addEventListener('DOMContentLoaded', () => {
       const coverInput = document.getElementById('propCoverFileInput');
       if (coverInput) {
@@ -1617,6 +1733,7 @@
         logActivity(`Added new property listing "${name}" (${price})`, 'Properties');
         showToast(`Added "${name}"`);
       }
+      savePropertiesToStorage();
       closeModal('propertyModal');
       renderProperties();
     }
@@ -1639,6 +1756,7 @@
       if (properties[i]) {
         const old = properties[i][0];
         properties[i][0] = next;
+        savePropertiesToStorage();
         logActivity(`Renamed listing "${old}" to "${next}"`, 'Properties');
         renderProperties();
         closeModal('renameModal');
@@ -1652,6 +1770,7 @@
       const name = properties[i]?.[0] || 'listing';
       if (confirm(`Are you sure you want to delete "${name}"?`)) {
         properties.splice(i, 1);
+        savePropertiesToStorage();
         logActivity(`Deleted property "${name}"`, 'Properties');
         renderProperties();
         showToast(`Deleted "${name}"`);
@@ -1674,7 +1793,7 @@
     }
 
     // =========================================================
-    // 5. BANNER MANAGEMENT
+    // 5. BANNER MANAGEMENT (NO ACTIVE / INACTIVE TEXT BADGES)
     // =========================================================
     let banners = [
       { id: 1, title: 'Find Your Dream Luxury Home in Chennai', sub: 'Explore hand-picked luxury apartments and gated villas across OMR & ECR.', img: img1, active: true },
@@ -1752,19 +1871,19 @@
     }
 
     // =========================================================
-    // 6. ENQUIRIES
+    // 6. ENQUIRIES (WHATSAPP WITH COUNTRY CODE + 3 PRIORITY LEADS)
     // =========================================================
     let enquiries = [
-      { name: 'Suresh Kumar', phone: '+91 98765 43210', email: 'suresh@gmail.com', property: 'Prestige Bella Vista', location: 'Porur, Chennai', date: 'Today, 10:24 AM', status: 'New' },
-      { name: 'Meena Priya', phone: '+91 98765 12340', email: 'meena@gmail.com', property: 'Casagrand Zenith', location: 'Medavakkam', date: '14 Nov, 3:15 PM', status: 'New' },
-      { name: 'Rohit Sharma', phone: '+91 99887 66554', email: 'rohit@gmail.com', property: 'TVS Emerald Greenacres', location: 'Tambaram', date: '14 Nov, 11:05 AM', status: 'New' },
-      { name: 'Ananya Deshmukh', phone: '+91 98401 22334', email: 'ananya@outlook.com', property: 'Oceanique Beachfront', location: 'ECR, Chennai', date: '13 Nov, 4:40 PM', status: 'New' },
-      { name: 'Karthik Subramanian', phone: '+91 97910 88776', email: 'karthik@techcorp.in', property: 'Olympia Technology Park', location: 'Guindy, Chennai', date: '13 Nov, 1:20 PM', status: 'Closed' },
-      { name: 'Deepak Raj', phone: '+91 98412 34567', email: 'deepak.raj@gmail.com', property: 'Appaswamy Trellis', location: 'Vadapalani', date: '12 Nov, 09:15 AM', status: 'Contacted' },
-      { name: 'Lakshmi Narayanan', phone: '+91 99620 44332', email: 'lakshmi@zoho.com', property: 'Akshaya Today', location: 'OMR, Chennai', date: '12 Nov, 04:50 PM', status: 'Contacted' },
-      { name: 'Vikram Seth', phone: '+91 98840 77889', email: 'vikram.seth@gmail.com', property: 'Radiance Empire', location: 'Perambur', date: '11 Nov, 11:30 AM', status: 'Closed' },
-      { name: 'Divya Bharathi', phone: '+91 97100 55667', email: 'divya.b@yahoo.com', property: 'Brigade Xanadu', location: 'Mogappair', date: '10 Nov, 02:45 PM', status: 'Contacted' },
-      { name: 'Arjun Venkatesh', phone: '+91 99401 11223', email: 'arjun.v@gmail.com', property: 'Ceebros Boulevard', location: 'Thiruvanmiyur', date: '09 Nov, 06:10 PM', status: 'Closed' }
+      { name: 'Suresh Kumar', phone: '+91 98765 43210', email: 'suresh@gmail.com', property: 'Prestige Bella Vista', location: 'Porur, Chennai', date: '14 Nov 2026, 10:24 AM', status: 'New' },
+      { name: 'Meena Priya', phone: '+91 98765 12340', email: 'meena@gmail.com', property: 'Casagrand Zenith', location: 'Medavakkam', date: '14 Nov 2026, 03:15 PM', status: 'New' },
+      { name: 'Rohit Sharma', phone: '+91 99887 66554', email: 'rohit@gmail.com', property: 'TVS Emerald Greenacres', location: 'Tambaram', date: '14 Nov 2026, 11:05 AM', status: 'New' },
+      { name: 'Ananya Deshmukh', phone: '+91 98401 22334', email: 'ananya@outlook.com', property: 'Oceanique Beachfront', location: 'ECR, Chennai', date: '13 Nov 2026, 04:40 PM', status: 'New' },
+      { name: 'Karthik Subramanian', phone: '+91 97910 88776', email: 'karthik@techcorp.in', property: 'Olympia Technology Park', location: 'Guindy, Chennai', date: '13 Nov 2026, 01:20 PM', status: 'Closed' },
+      { name: 'Deepak Raj', phone: '+91 98412 34567', email: 'deepak.raj@gmail.com', property: 'Appaswamy Trellis', location: 'Vadapalani', date: '12 Nov 2026, 09:15 AM', status: 'Contacted' },
+      { name: 'Lakshmi Narayanan', phone: '+91 99620 44332', email: 'lakshmi@zoho.com', property: 'Akshaya Today', location: 'OMR, Chennai', date: '12 Nov 2026, 04:50 PM', status: 'Contacted' },
+      { name: 'Vikram Seth', phone: '+91 98840 77889', email: 'vikram.seth@gmail.com', property: 'Radiance Empire', location: 'Perambur', date: '11 Nov 2026, 11:30 AM', status: 'Closed' },
+      { name: 'Divya Bharathi', phone: '+91 97100 55667', email: 'divya.b@yahoo.com', property: 'Brigade Xanadu', location: 'Mogappair', date: '10 Nov 2026, 02:45 PM', status: 'Contacted' },
+      { name: 'Arjun Venkatesh', phone: '+91 99401 11223', email: 'arjun.v@gmail.com', property: 'Ceebros Boulevard', location: 'Thiruvanmiyur', date: '09 Nov 2026, 06:10 PM', status: 'Closed' }
     ];
 
     function renderEnquiries() {
@@ -1805,11 +1924,11 @@
       if (dashBadge) dashBadge.textContent = newCount;
     }
 
-    // PRIORITY LEADS: ONLY SHOW LEADS WITH 'NEW' STATUS (EXACTLY 4 LEADS)
+    // PRIORITY LEADS: EXACTLY 3 LEADS WITH 'NEW' STATUS
     function renderPriorityLeads() {
       const list = document.getElementById('priorityLeadsList');
       if (!list) return;
-      const newOnly = enquiries.filter(e => e.status === 'New').slice(0, 4);
+      const newOnly = enquiries.filter(e => e.status === 'New').slice(0, 3);
       list.innerHTML = newOnly.map(enq => {
         const originalIndex = enquiries.indexOf(enq);
         return `
@@ -1840,7 +1959,11 @@
       document.getElementById('eStatus').textContent = enq.status;
       document.getElementById('eEmail').textContent = enq.email;
       document.getElementById('eAvatar').textContent = enq.name.charAt(0);
-      document.getElementById('whatsappLink').href = `https://wa.me/${enq.phone.replace(/[^0-9]/g, '')}`;
+      
+      // WhatsApp link with country code prefix (e.g. 919876543210)
+      const rawDigits = enq.phone.replace(/[^0-9]/g, '');
+      const formattedPhone = rawDigits.startsWith('91') ? rawDigits : ('91' + rawDigits);
+      document.getElementById('whatsappLink').href = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(`Hello ${enq.name}, thank you for contacting V.V Properties regarding ${enq.property}.`)}`;
 
       const drawer = document.getElementById('enquiryDrawer');
       drawer.classList.remove('translate-x-full');
@@ -2055,6 +2178,20 @@
       fields.classList.toggle('hidden');
     }
 
+    function toggleAdminPasswordVisibility() {
+      const f = document.getElementById('adminPasswordField');
+      const icon = document.getElementById('adminPwEyeIcon');
+      if (!f) return;
+      if (f.type === 'password') {
+        f.type = 'text';
+        if (icon) icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        f.type = 'password';
+        if (icon) icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
     function saveAdminProfile() {
       const dName = document.getElementById('adminDisplayNameInput').value.trim();
       const uName = document.getElementById('adminUsernameInput').value.trim().toLowerCase();
@@ -2072,11 +2209,35 @@
       document.getElementById('topDisplayName').textContent = val || 'Victor Paul';
       document.getElementById('sideDisplayName').textContent = val || 'Victor Paul';
       const initial = (val || 'V').charAt(0).toUpperCase();
-      document.getElementById('topAvatarInitial').textContent = initial;
-      document.getElementById('sideAvatarInitial').textContent = initial;
+      const savedAvatar = localStorage.getItem('vv_admin_avatar');
+      if (!savedAvatar) {
+        document.getElementById('topAvatarInitial').textContent = initial;
+        document.getElementById('sideAvatarInitial').textContent = initial;
+      }
     }
 
-    // Avatar Upload Listener
+    // Admin Avatar Upload & Persistent Sync to Header
+    function updateAdminAvatarDisplay(dataUrl) {
+      if (!dataUrl) return;
+      localStorage.setItem('vv_admin_avatar', dataUrl);
+      const img = document.getElementById('adminAvatarImg');
+      if (img) {
+        img.src = dataUrl;
+        img.classList.remove('hidden');
+      }
+      const plusIcon = document.getElementById('avatarPlusIcon');
+      if (plusIcon) plusIcon.classList.add('hidden');
+
+      const topAvatar = document.getElementById('topAvatarInitial');
+      if (topAvatar) {
+        topAvatar.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover rounded-full" alt="Avatar">`;
+      }
+      const sideAvatar = document.getElementById('sideAvatarInitial');
+      if (sideAvatar) {
+        sideAvatar.innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover rounded-full" alt="Avatar">`;
+      }
+    }
+
     const avatarInput = document.getElementById('adminAvatarFileInput');
     if (avatarInput) {
       avatarInput.onchange = () => {
@@ -2084,13 +2245,8 @@
           const reader = new FileReader();
           reader.onload = ev => {
             const dataUrl = ev.target.result;
-            const img = document.getElementById('adminAvatarImg');
-            img.src = dataUrl;
-            img.classList.remove('hidden');
-            document.getElementById('avatarPlusIcon').classList.add('hidden');
-            document.getElementById('topAvatarInitial').innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover rounded-full">`;
-            document.getElementById('sideAvatarInitial').innerHTML = `<img src="${dataUrl}" class="w-full h-full object-cover rounded-full">`;
-            showToast('Profile photo updated');
+            updateAdminAvatarDisplay(dataUrl);
+            showToast('Profile photo saved & updated');
             logActivity('Updated administrator profile photo', 'Security');
           };
           reader.readAsDataURL(avatarInput.files[0]);
@@ -2099,40 +2255,63 @@
     }
 
     // =========================================================
-    // 9. DYNAMIC DENSE GRAPH ('kosa kosa nu') & DROPDOWN RANGES
+    // 9. DYNAMIC DENSE GRAPH: EXACT 5 DATE TICKS & DENSE CURVE
     // =========================================================
-    const chartDataPresets = {
-      '24h': {
-        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00', '24:00'],
-        points: [[0, 115], [35, 110], [70, 95], [105, 80], [140, 60], [175, 45], [210, 55], [245, 40], [280, 50], [315, 30], [350, 45], [385, 35], [420, 25], [460, 40], [500, 20]],
-        indicator: 'Active Range: Last 24 Hours'
-      },
-      '1W': {
-        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        points: [[0, 110], [35, 95], [70, 75], [105, 85], [140, 70], [175, 65], [210, 50], [245, 55], [280, 35], [315, 45], [350, 50], [385, 30], [420, 35], [460, 25], [500, 18]],
-        indicator: 'Active Range: Last 7 Days'
-      },
-      '1M': {
-        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
-        points: [[0, 105], [35, 85], [70, 90], [105, 75], [140, 60], [175, 70], [210, 55], [245, 40], [280, 50], [315, 35], [350, 45], [385, 30], [420, 20], [460, 30], [500, 15]],
-        indicator: 'Active Range: Current Month'
-      },
-      '3M': {
-        // Starting June, Ending September (Standard Clean Month Names, June to September)
-        labels: ['June', 'July', 'August', 'September'],
-        points: [[0, 110], [35, 95], [70, 80], [105, 90], [140, 65], [175, 70], [210, 50], [245, 60], [280, 40], [315, 55], [350, 30], [385, 45], [420, 25], [460, 35], [500, 18]],
-        indicator: 'Active Range: June - September'
-      },
-      '6M': {
-        labels: ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-        points: [[0, 125], [35, 110], [70, 95], [105, 100], [140, 80], [175, 75], [210, 60], [245, 65], [280, 45], [315, 50], [350, 35], [385, 40], [420, 25], [460, 30], [500, 15]],
-        indicator: 'Active Range: Last 6 Months'
-      },
-      '1Y': {
-        labels: ['Jan', 'Mar', 'May', 'Jul', 'Sep', 'Nov', 'Dec'],
-        points: [[0, 135], [35, 120], [70, 105], [105, 90], [140, 85], [175, 70], [210, 65], [245, 50], [280, 45], [315, 35], [350, 40], [385, 25], [420, 30], [460, 20], [500, 12]],
-        indicator: 'Active Range: Full Year 2026'
+    // Calculates 5 milestone dates dynamically from today (14/11/2026 or real Date)
+    function generate5DatePoints(rangeKey, customFrom = null, customTo = null) {
+      const now = new Date(2026, 10, 14); // 14 November 2026
+      let startDate;
+      let endDate = new Date(now.getTime());
+
+      if (rangeKey === '24h') {
+        startDate = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      } else if (rangeKey === '1W') {
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      } else if (rangeKey === '1M') {
+        // Starting 14/10, Ending 14/11
+        startDate = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+      } else if (rangeKey === '3M') {
+        startDate = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
+      } else if (rangeKey === '6M') {
+        startDate = new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
+      } else if (rangeKey === '1Y') {
+        startDate = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+      } else if (rangeKey === 'MAX') {
+        startDate = new Date(2025, 0, 1);
+      } else if (rangeKey === 'custom' && customFrom && customTo) {
+        startDate = new Date(customFrom);
+        endDate = new Date(customTo);
+      } else {
+        startDate = new Date(now.getFullYear(), now.getMonth() - 3, now.getDate());
       }
+
+      const startMs = startDate.getTime();
+      const endMs = endDate.getTime();
+      const step = (endMs - startMs) / 4; // Exactly 5 points
+
+      const labels = [];
+      for (let i = 0; i < 5; i++) {
+        const ptDate = new Date(startMs + step * i);
+        const day = String(ptDate.getDate()).padStart(2, '0');
+        const month = String(ptDate.getMonth() + 1).padStart(2, '0');
+        if (rangeKey === '1Y' || rangeKey === 'MAX') {
+          const year = String(ptDate.getFullYear()).slice(-2);
+          labels.push(`${day}/${month}/${year}`);
+        } else {
+          labels.push(`${day}/${month}`);
+        }
+      }
+      return labels;
+    }
+
+    const denseCurvePoints = {
+      'MAX': [[0, 140], [35, 125], [70, 130], [105, 110], [140, 95], [175, 100], [210, 75], [245, 80], [280, 55], [315, 60], [350, 40], [385, 45], [420, 25], [460, 30], [500, 12]],
+      '24h': [[0, 115], [35, 110], [70, 95], [105, 80], [140, 60], [175, 45], [210, 55], [245, 40], [280, 50], [315, 30], [350, 45], [385, 35], [420, 25], [460, 40], [500, 20]],
+      '1W':  [[0, 110], [35, 95], [70, 75], [105, 85], [140, 70], [175, 65], [210, 50], [245, 55], [280, 35], [315, 45], [350, 50], [385, 30], [420, 35], [460, 25], [500, 18]],
+      '1M':  [[0, 105], [35, 85], [70, 90], [105, 75], [140, 60], [175, 70], [210, 55], [245, 40], [280, 50], [315, 35], [350, 45], [385, 30], [420, 20], [460, 30], [500, 15]],
+      '3M':  [[0, 110], [35, 95], [70, 80], [105, 90], [140, 65], [175, 70], [210, 50], [245, 60], [280, 40], [315, 55], [350, 30], [385, 45], [420, 25], [460, 35], [500, 18]],
+      '6M':  [[0, 125], [35, 110], [70, 95], [105, 100], [140, 80], [175, 75], [210, 60], [245, 65], [280, 45], [315, 50], [350, 35], [385, 40], [420, 25], [460, 30], [500, 15]],
+      '1Y':  [[0, 135], [35, 120], [70, 105], [105, 90], [140, 85], [175, 70], [210, 65], [245, 50], [280, 45], [315, 35], [350, 40], [385, 25], [420, 30], [460, 20], [500, 12]]
     };
 
     function handleChartRangeSelect(val) {
@@ -2140,8 +2319,9 @@
         toggleCustomDatePicker();
       } else {
         document.getElementById('customDatePopover').classList.add('hidden');
-        const preset = chartDataPresets[val] || chartDataPresets['3M'];
-        updateChartSVG(preset);
+        const points = denseCurvePoints[val] || denseCurvePoints['3M'];
+        const labels = generate5DatePoints(val);
+        updateChartSVG(points, labels);
       }
     }
 
@@ -2155,35 +2335,26 @@
       const to = document.getElementById('customToDate').value;
       if (!from || !to) return;
       
-      const fParts = from.split('-');
-      const tParts = to.split('-');
-      const fStr = `${fParts[2]}/${fParts[1]}`;
-      const tStr = `${tParts[2]}/${tParts[1]}`;
-
-      const customPreset = {
-        labels: [fStr, 'Mid-1', 'Mid-2', 'Mid-3', 'Mid-4', 'Mid-5', tStr],
-        points: [[0, 110], [35, 95], [70, 75], [105, 85], [140, 60], [175, 70], [210, 50], [245, 60], [280, 40], [315, 55], [350, 30], [385, 40], [420, 25], [460, 30], [500, 15]],
-        indicator: `Custom Range: ${fStr} to ${tStr}`
-      };
-
-      updateChartSVG(customPreset);
+      const labels = generate5DatePoints('custom', from, to);
+      const points = denseCurvePoints['3M'];
+      updateChartSVG(points, labels);
       document.getElementById('customDatePopover').classList.add('hidden');
-      showToast(`Chart filtered from ${fStr} to ${tStr}`);
+      showToast(`Filtered traffic from ${labels[0]} to ${labels[4]}`);
     }
 
-    function updateChartSVG(data) {
-      const pointsStr = data.points.map(pt => `${pt[0]},${pt[1]}`).join(' ');
+    function updateChartSVG(points, labels) {
+      const pointsStr = points.map(pt => `${pt[0]},${pt[1]}`).join(' ');
       document.getElementById('chartPolyline').setAttribute('points', pointsStr);
       document.getElementById('chartArea').setAttribute('points', `0,150 ${pointsStr} 500,150`);
       
       const circlesGroup = document.getElementById('chartPoints');
-      circlesGroup.innerHTML = data.points.map(pt => `
+      circlesGroup.innerHTML = points.map(pt => `
         <circle cx="${pt[0]}" cy="${pt[1]}" r="3.5" fill="#0F52BA" stroke="#fff" stroke-width="1.5"/>
       `).join('');
 
       const xAxis = document.getElementById('chartXAxis');
-      xAxis.innerHTML = data.labels.map(l => `<span>${l}</span>`).join('');
-      document.getElementById('chartRangeIndicator').textContent = data.indicator;
+      // Exactly 5 dates evenly spaced
+      xAxis.innerHTML = labels.map(l => `<span>${l}</span>`).join('');
     }
 
     // =========================================================
@@ -2231,7 +2402,6 @@
       }, 3000);
     }
 
-    // Live Date
     function updateDate() {
       const el = document.getElementById('headerLiveDate');
       if (el) {
@@ -2255,7 +2425,15 @@
       renderTestimonials();
       renderAccountsTable();
       renderActivityLogs();
-      updateChartSVG(chartDataPresets['3M']);
+      
+      const initialLabels = generate5DatePoints('3M');
+      updateChartSVG(denseCurvePoints['3M'], initialLabels);
+      
+      const savedAvatar = localStorage.getItem('vv_admin_avatar');
+      if (savedAvatar) {
+        updateAdminAvatarDisplay(savedAvatar);
+      }
+      
       lucide.createIcons();
     });
   </script>
