@@ -67,6 +67,7 @@
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
   .menu-anim { animation: menuPop 0.15s cubic-bezier(0.16, 1, 0.3, 1); }
+  .menu-wrapper.is-open { opacity: 1 !important; }
 
   .drag-over {
     border-color: #4062BB !important;
@@ -207,15 +208,15 @@
 
           <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
             <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Published Active</span>
-              <div class="w-8 h-8 rounded-lg bg-emerald/10 text-emerald flex items-center justify-center">
-                <i data-lucide="check-circle" class="w-4 h-4"></i>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Draft Properties</span>
+              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
+                <i data-lucide="file-edit" class="w-4 h-4"></i>
               </div>
             </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-serif" id="statPubProps">10</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-emerald">
-              <i data-lucide="check" class="w-3.5 h-3.5"></i>
-              <span>100% active visibility</span>
+            <div class="text-2xl font-bold text-navy-900 mt-3 font-serif" id="statDraftProps">3</div>
+            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-amber-600">
+              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
+              <span>Awaiting publication</span>
             </div>
           </div>
 
@@ -1206,8 +1207,12 @@ function deleteAccount(i) {
 let currentFormAmenities = [];
 
 function renderPropertyCard(p, i, isRecent = false) {
+  const realIndex = properties.indexOf(p) !== -1 ? properties.indexOf(p) : i;
+  const prefix = isRecent ? 'recent' : 'prop';
+  const menuId = `${prefix}Menu_${realIndex}`;
+
   const badgeHtml = (p[3] && p[3] !== 'None') ? `
-    <div class="absolute top-3 left-3 z-10">
+    <div class="absolute top-3 left-3 z-10 pointer-events-none">
       <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy-900/85 backdrop-blur-md text-white border border-white/20 shadow-md">
         ${p[3]}
       </span>
@@ -1217,30 +1222,30 @@ function renderPropertyCard(p, i, isRecent = false) {
   const heightClass = isRecent ? 'h-48' : 'h-64';
 
   return `
-    <article class="relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 cursor-pointer ${heightClass}">
+    <article class="relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 ${heightClass}">
       <!-- Full Image -->
       <img src="${p[6]}" alt="${p[0]}" onerror="this.src='${img2}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
 
       <!-- Badge Tag (Optional) -->
       ${badgeHtml}
 
-      <!-- Vertical 3-Dots Button: SHOWN ONLY ON HOVER -->
-      <div class="absolute top-3 right-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <button onclick="toggleMenu(event, ${i})" class="w-7 h-7 rounded-full bg-white/95 backdrop-blur-md hover:bg-white text-navy-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none">
+      <!-- Vertical 3-Dots Button: SHOWN ON HOVER & STAYS VISIBLE WHEN OPEN -->
+      <div class="menu-wrapper absolute top-3 right-3 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <button type="button" onclick="toggleMenu(event, '${menuId}')" class="w-7 h-7 rounded-full bg-white/95 backdrop-blur-md hover:bg-white text-navy-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none">
           <i data-lucide="more-vertical" class="w-3.5 h-3.5"></i>
         </button>
 
         <!-- Dropdown Menu -->
-        <div id="menu${i}" class="menu-box hidden absolute right-0 mt-1.5 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 p-1 z-30 menu-anim">
-          <button onclick="editProperty(event, ${i})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
+        <div id="${menuId}" class="menu-box hidden absolute right-0 mt-1.5 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 p-1 z-40 menu-anim">
+          <button type="button" onclick="editProperty(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
             <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
             <span>Edit</span>
           </button>
-          <button onclick="openRenameModal(event, ${i})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
+          <button type="button" onclick="openRenameModal(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
             <i data-lucide="type" class="w-3.5 h-3.5"></i>
             <span>Rename</span>
           </button>
-          <button onclick="deleteProperty(event, ${i})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-coral hover:bg-coral/5 transition-colors">
+          <button type="button" onclick="deleteProperty(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-coral hover:bg-coral/5 transition-colors">
             <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
             <span>Delete</span>
           </button>
@@ -1273,9 +1278,7 @@ function renderProperties(list = properties) {
   container.innerHTML = list.map((p, i) => renderPropertyCard(p, i, false)).join('');
   
   const totalEl = document.getElementById('statTotalProps');
-  const pubEl = document.getElementById('statPubProps');
   if (totalEl) totalEl.textContent = properties.length;
-  if (pubEl) pubEl.textContent = properties.length;
   
   renderRecentProperties();
   lucide.createIcons();
@@ -1410,7 +1413,10 @@ function openAddPropertyModal() {
 }
 
 function editProperty(e, i) {
-  if (e) e.stopPropagation();
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   closeAllMenus();
   const p = properties[i];
   if (!p) return;
@@ -1454,7 +1460,10 @@ function savePropertyForm() {
 }
 
 function deleteProperty(e, i) {
-  if (e) e.stopPropagation();
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   closeAllMenus();
   const propName = properties[i][0];
   if (confirm(`Are you sure you want to delete "${propName}"?`)) {
@@ -1465,23 +1474,35 @@ function deleteProperty(e, i) {
 }
 
 // 3-Dots Menu Operations
-function toggleMenu(e, i) {
-  e.stopPropagation();
-  const allMenus = document.querySelectorAll('.menu-box');
-  allMenus.forEach(m => {
-    if (m.id !== 'menu' + i) m.classList.add('hidden');
-  });
-  const menu = document.getElementById('menu' + i);
-  if (menu) menu.classList.toggle('hidden');
+function toggleMenu(e, menuId) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+  const targetMenu = document.getElementById(menuId);
+  if (!targetMenu) return;
+  const isCurrentlyOpen = !targetMenu.classList.contains('hidden');
+
+  closeAllMenus();
+
+  if (!isCurrentlyOpen) {
+    targetMenu.classList.remove('hidden');
+    const wrapper = targetMenu.closest('.menu-wrapper');
+    if (wrapper) wrapper.classList.add('is-open');
+  }
 }
 
 function closeAllMenus() {
   document.querySelectorAll('.menu-box').forEach(m => m.classList.add('hidden'));
+  document.querySelectorAll('.menu-wrapper').forEach(w => w.classList.remove('is-open'));
 }
 
 // Rename Property
 function openRenameModal(e, i) {
-  if (e) e.stopPropagation();
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
   closeAllMenus();
   document.getElementById('renamePropIndex').value = i;
   document.getElementById('renameInput').value = properties[i] ? properties[i][0] : '';
@@ -1934,7 +1955,11 @@ document.querySelectorAll('.modal-overlay').forEach(o => {
   });
 });
 
-document.addEventListener('click', () => closeAllMenus());
+document.addEventListener('click', e => {
+  if (!e.target.closest('.menu-wrapper')) {
+    closeAllMenus();
+  }
+});
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.querySelectorAll('.modal-overlay').forEach(o => o.classList.add('hidden'));
