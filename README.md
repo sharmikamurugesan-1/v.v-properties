@@ -1,21 +1,22 @@
 <div align="center">
 
-  <img src="public/logo.png" alt="V.V Properties Logo" width="110" height="110" style="border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);" />
+  <img src="public/logo.png" alt="V.V Properties Logo" width="120" height="120" style="border-radius: 24px; box-shadow: 0 12px 30px rgba(13,2,33,0.18);" />
 
   # V.V PROPERTIES
   ### Enterprise Luxury Real Estate Platform & Executive Management Suite
 
   [![Next.js](https://img.shields.io/badge/Next.js-14.2-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+  [![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
   [![Framer Motion](https://img.shields.io/badge/Framer_Motion-11.11-FF0055?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
-  [![License](https://img.shields.io/badge/License-Proprietary-0F172A?style=for-the-badge)](LICENSE)
+  [![License](https://img.shields.io/badge/License-Proprietary-0D0221?style=for-the-badge)](LICENSE)
 
   <p align="center">
-    <b>A high-performance, full-stack real estate enterprise solution delivering ultra-luxury residential showcases, plot exploration engines, instant WhatsApp lead conversion, and an executive administration suite.</b>
+    <b>An enterprise-grade, full-stack digital real estate ecosystem delivering ultra-luxury residential showcases, image-first listing architectures, interactive plot exploration, instant WhatsApp lead conversion, and an executive administration portal.</b>
   </p>
 
-  [Live Portal Demo](http://localhost:3000) • [Architecture Guide](#-system-architecture) • [Quickstart](#-quickstart--local-development) • [Deployment](#-production-deployment)
+  [Live Platform Demo](http://localhost:3000) • [System Architecture](#-system-architecture) • [Core Capabilities](#-core-platform-capabilities) • [API Specification](#-rest-api-specification) • [Local Deployment](#-quickstart--local-development)
 
 </div>
 
@@ -23,90 +24,99 @@
 
 ## 🌟 Executive Overview
 
-**V.V Properties** is an enterprise-grade digital real estate platform engineered for high-value residential, villa, gated community, and commercial property portfolios across Chennai and South India. Built upon **Next.js 14 App Router**, **TypeScript**, and **Tailwind CSS**, the platform bridges high-fidelity buyer experiences with a centralized, data-driven administrative command center.
+**V.V Properties** is a comprehensive, production-grade digital real estate platform engineered specifically for high-value residential, beachfront villa, gated community, and prime commercial portfolios across Chennai, Coimbatore, and South India.
+
+Built on **Next.js 14 App Router**, **TypeScript**, and **Tailwind CSS**, the platform merges high-touch buyer experiences with a data-driven administrative command center designed for real estate developers, brokers, and enterprise realty teams.
 
 ---
 
-## 🏛️ Core Platform Modules
+## 🏛️ System Architecture
 
 ```mermaid
 graph TD
-    A[V.V Properties Ecosystem] --> B[Public Buyer Experience]
-    A --> C[Executive Admin Suite]
-    
-    B --> B1[Hero Carousel & Showcase]
-    B --> B2[Interactive Plot Explorer]
-    B --> B3[Mortgage & EMI Calculator]
-    B --> B4[Direct WhatsApp Lead Ingestion]
-    
-    C --> C1[Executive Performance Analytics]
-    C --> C2[Property Listing Management]
+    A[V.V Properties Enterprise Core] --> B[Public Client Experience]
+    A --> C[Executive Admin Portal]
+    A --> D[Next.js Serverless Backend]
+
+    B --> B1[Luxury Property Showcase]
+    B --> B2[Dynamic Filtering & Search Engine]
+    B --> B3[Mortgage & EMI Affordability Calculator]
+    B --> B4[Direct WhatsApp Lead Dispatch]
+
+    C --> C1[Executive Performance Analytics Engine]
+    C --> C2[Image-First Property Management]
     C --> C3[Hero Carousel Slide Studio]
     C --> C4[Customer Enquiry Verification CRM]
-    C --> C5[Security & Session Management]
+    C --> C5[Activity Audit Logs & Admin Security]
+
+    D --> D1[/api/properties - Listing Data]
+    D --> D2[/api/leads - Enquiry Pipeline]
+    D --> D3[/api/banners - Carousel Data]
+    D --> D4[/api/analytics/traffic - Historical Visits]
 ```
 
-### 1. 🏡 Public Property Discovery & Client Experience
-* **Image-First Property Architecture**: Sleek luxury cards featuring clean aspect ratios, glassmorphism badges, and smooth gradient specification overlays revealing pricing, configuration, location, and key amenities.
-* **Smart Filter & Search**: Multi-dimensional filtering by location (OMR, ECR, Tambaram, etc.), property type (Apartments, Villas, Plots), and tags (*Featured*, *New Launch*, *Special Offer*).
-* **Direct WhatsApp Integration**: Zero-friction client communication pathways enabling immediate scheduling of weekend site visits with pre-configured listing metadata.
-* **Interactive Financial Tools**: Client-side EMI and amortization calculators built with precision formula modeling.
+---
 
-### 2. ⚡ Executive Admin Portal (`/admin`)
-* **Real-Time Performance Velocity**: Dynamic SVG vector analytics mapping weekly, monthly, quarterly, and annual customer acquisition velocity across acquisition channels.
-* **Listing Management Engine**: Full CRUD lifecycle operations (Add, Edit, Quick-Rename, and Archive/Delete) with autofill-protected form security and vertical 3-dots context menus.
-* **Hero Carousel Studio**: Manage up to 10 homepage slides with real-time capacity monitoring (*5 active slides maximum* for optimal SEO and LCP rendering metrics).
-* **Priority Lead Management (Mini-CRM)**: Slide-over enquiry verification drawer with client communication histories, status tracking (*New*, *Contacted*, *Closed*), and one-click contact copying.
+## 💎 Core Platform Capabilities
+
+### 1. 🏡 Image-First Property Portfolio
+* **Clean, Uncluttered Visual Design**: Zero bottom card body or redundant action bars. Each listing is presented as a medium-height, proportional architectural showcase (`h-56` / `224px`).
+* **Tactile Pointer Overlay**: Hovering or tapping any property triggers a smooth dark-gradient overlay revealing:
+  * Property Title & Location with pin indicator
+  * Package Price & Unit Rate (`₹ L / Cent` or `₹ L / Sq.ft`)
+  * Configuration details (e.g. `Apartment · 2 BHK`, `Villa · 4 BHK`, `Residential Plot`)
+  * Verified Government Compliance Badges (`DTCP Approved`, `CMDA Registered`, `New Launch`, `Special Offer`)
+* **Contextual 3-Dots Action Menu (`⋮`)**:
+  * ✏️ **Edit**: Direct modal access to update pricing, specifications, and media.
+  * 🏷️ **Rename**: In-place real-time title renaming.
+  * 🗑️ **Delete**: Confirmed listing deletion with real-time portfolio counter updates.
+* **Anti-Autofill Protection**: Integrated `autocomplete="new-password"` and `data-lpignore="true"` attributes to prevent unwanted browser credential popups in search toolbars.
+
+### 2. 🎯 Customer Enquiry & Lead Verification CRM
+* **Real-Time Lead Tracking**: Tracks submissions categorized by lead status (`New`, `Contacted`, `Closed`).
+* **1-Click WhatsApp Direct Dispatch**: Automatically parses phone numbers into standard international formats to launch pre-filled WhatsApp conversations with customer context and interested property details.
+* **Customer Dossier Drawer**: Slide-out drawer with contact info, timestamp, property preference, and full message history.
+* **CSV Export**: Instant export of verified leads for external CRM ingestion (Salesforce, HubSpot, Zoho).
+
+### 3. 🖼️ Homepage Carousel & Banner Studio
+* **Multi-Banner Repository**: Stores and manages up to 10 high-resolution carousel slides (defaulting to 6 active luxury campaigns across ECR, OMR, Medavakkam, and Tambaram).
+* **Drag-and-Drop Prioritization**: Reorder homepage slides dynamically via intuitive drag handles.
+* **State Management**: Individual toggle switches to activate or deactivate slides with a strict 5-active concurrency guard.
+
+### 4. 📊 Traffic & Enquiry Acquisition Velocity Analytics
+* **Dynamic Time Horizons**: Interactive SVG analytics visualizing trends across `1 Week`, `1 Month`, `3 Months`, `6 Months`, and `1 Year`.
+* **Sampled Data Visualization**: Smooth bezier curve path with dynamic date labels and trend metrics.
 
 ---
 
-## 🛠️ Technology Stack
+## 🎨 Design Philosophy & Brand Palette
 
-| Layer | Technologies | Purpose |
-|---|---|---|
-| **Framework** | Next.js 14 (App Router), React 18 | High-throughput SSR/SSG rendering, Edge API routes |
-| **Language** | TypeScript 5.6 (Strict Mode) | End-to-end type safety and compile-time contract enforcement |
-| **Styling** | Tailwind CSS 3.4, PostCSS, Autoprefixer | Custom design tokens, luxury utility classes, modern layout engine |
-| **Typography** | Outfit, Plus Jakarta Sans | High-contrast geometric headings & refined editorial body copy |
-| **Animations** | Framer Motion 11, GSAP 3, Lenis Scroll | 60 FPS fluid micro-interactions, spring physics, smooth momentum scrolling |
-| **Icons & UI** | Lucide Icons, Canvas Confetti | Sharp SVG vector iconography and celebration feedback |
-| **Security** | Web Crypto API, HMAC-SHA256, HTTP-Only Cookies | Tamper-proof admin session authentication |
+The user interface follows a modern luxury aesthetic powered by **Plus Jakarta Sans** and **Inter** typography, avoiding generic AI-generated templates:
+
+| Color Role | Hex Value | Application |
+| :--- | :--- | :--- |
+| **Deep Executive Navy** | `#0D0221` | Contrast, authority, sidebar canvas, overlay depth |
+| **Brand Royal Blue** | `#4062BB` | Primary CTAs, active states, focus indicators |
+| **Crystal Ice Blue** | `#CDE6F5` | Subtle tags, pill borders, secondary badges |
+| **Pure White** | `#FFFFFF` | Base canvas for dashboards, tables, and cards |
+| **Subtle Slate** | `#E2E8F0` | Razor-sharp, clean enterprise dividing borders |
+| **Emerald Green** | `#10B981` | Online indicators, published state, positive trends |
+| **Coral Red** | `#EF4444` | High-priority leads, closed status, delete actions |
 
 ---
 
-## 📁 Repository Directory Structure
+## 🛠️ Tech Stack & Dependencies
 
-```text
-v.v-properties/
-├── public/
-│   ├── brand/               # Brand vectors and typography guidelines
-│   ├── images/              # High-definition architectural assets
-│   ├── admin.html           # Standalone Executive Admin Portal build
-│   └── logo.png             # Official V.V Properties Emblem
-├── src/
-│   ├── app/
-│   │   ├── (public)/        # Buyer-facing landing, listings & calculators
-│   │   ├── admin/           # Next.js protected admin dashboard routes
-│   │   │   ├── login/       # High-security credential authentication
-│   │   │   └── page.tsx     # Full-featured enterprise admin console
-│   │   ├── api/             # Secure REST endpoints (leads, plots, settings)
-│   │   ├── layout.tsx       # Root layout with metadata & font injections
-│   │   └── globals.css      # Core Tailwind layers & custom animations
-│   ├── components/          # Atomic UI components, cards, navigation, drawers
-│   ├── config/              # Central site constants, contact hotlines & SEO metadata
-│   ├── data/                # Initial curated property matrices and plot data
-│   ├── lib/                 # Store management, crypto utilities, validators
-│   └── types/               # Comprehensive TypeScript definitions
-├── index.html               # Primary executive admin portal (localhost:3000 / GitHub Pages)
-├── admin-portal.html        # Root mirror of executive portal
-├── public/
-│   ├── index.html           # Public root static admin portal
-│   ├── admin.html           # Public static admin portal route
-│   └── logo.png             # Official V.V Properties emblem badge
-├── package.json             # Application dependencies and execution scripts
-├── tailwind.config.ts       # Tailored color palettes (Brand Azure, Obsidian Navy)
-├── tsconfig.json            # TypeScript configuration
-└── DEPLOYMENT.md            # Comprehensive production deployment handbook
+```json
+{
+  "framework": "Next.js 14.2 (App Router)",
+  "language": "TypeScript 5.6",
+  "styling": "Tailwind CSS 3.4 + PostCSS",
+  "icons": "Lucide React (lucide-react & unpkg)",
+  "animations": "Framer Motion 11.11 & GSAP 3.12",
+  "smooth_scroll": "Lenis 1.1",
+  "forms_validation": "React Hook Form 7.53 + Zod 3.23"
+}
 ```
 
 ---
@@ -114,92 +124,89 @@ v.v-properties/
 ## 🚀 Quickstart & Local Development
 
 ### Prerequisites
-* **Node.js**: `v18.18.0` or higher (Node 20 LTS recommended)
-* **npm**: `v9.0.0` or higher
+* **Node.js**: `v18.18.0` or higher
+* **npm** or **yarn** or **pnpm**
+* **Git**
 
-### 1. Clone the Repository
+### Installation
+
 ```bash
+# 1. Clone the repository
 git clone https://github.com/sharmikamurugesan-1/v.v-properties.git
 cd v.v-properties
-```
 
-### 2. Install Dependencies
-```bash
+# 2. Install dependencies
 npm install
-```
 
-### 3. Environment Configuration
-Create an environment file by copying the template:
-```bash
-cp .env.example .env.local
-```
-Configure your credentials in `.env.local`:
-```env
-ADMIN_PASSWORD=your_secure_admin_password_here
-ADMIN_SESSION_SECRET=your_32_character_random_hex_secret_here
-NEXT_PUBLIC_WHATSAPP_NUMBER=919876543210
-NEXT_PUBLIC_SITE_URL=https://vvpropertiescbe.com
-```
-
-### 4. Run Development Server
-```bash
+# 3. Launch development server
 npm run dev
-```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser to view the application.
 
----
-
-## 🔐 Environment Variables Specification
-
-| Variable | Requirement | Description | Default / Example |
-|---|---|---|---|
-| `ADMIN_PASSWORD` | **Required** | Secret key for `/admin` management portal authentication | High-entropy string (16+ chars) |
-| `ADMIN_SESSION_SECRET` | **Required** | HMAC-SHA256 signature key for 8-hour admin session tokens | 32+ character random hex string |
-| `NEXT_PUBLIC_WHATSAPP_NUMBER`| Optional | Primary client WhatsApp hotline with country code | `919876543210` |
-| `LEAD_WEBHOOK_URL` | Optional | Outbound webhook endpoint for CRM integration (Zoho/Zapier) | `https://hooks.zapier.com/...` |
-| `NEXT_PUBLIC_SITE_URL` | Optional | Canonical URL for SEO indexing and OpenGraph cards | `https://vvpropertiescbe.com` |
-| `NEXT_PUBLIC_GA_ID` | Optional | Google Analytics 4 Measurement ID (gated by cookie consent)| `G-XXXXXXXXXX` |
-
----
-
-## 🚢 Production Deployment
-
-### Deploy to Vercel (Recommended)
-1. Fork or import this repository into your [Vercel Dashboard](https://vercel.com).
-2. Ensure the framework preset is set to **Next.js**.
-3. Add the required environment variables (`ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`).
-4. Trigger the deployment. Production builds deploy automatically upon pushes to `main`.
-
-### Standalone Production Build
-```bash
+# 4. Or build and run production server
 npm run build
-npm run start
+npm run start -p 3000
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 📡 REST API Specification
+
+| Endpoint | Method | Description |
+| :--- | :--- | :--- |
+| `/api/properties` | `GET` | Retrieve all active and draft property listings |
+| `/api/properties` | `POST` | Create a new property record |
+| `/api/leads` | `GET` | List customer enquiries with status filters |
+| `/api/leads` | `PATCH` | Update lead status (`New` → `Contacted` → `Closed`) |
+| `/api/banners` | `GET` | Retrieve carousel banners and active display order |
+| `/api/analytics/traffic` | `GET` | Query historical traffic visits (`?range=1W\|1M\|3M\|6M\|1Y`) |
+| `/api/admin/profile` | `GET` | Fetch administrator credentials and preferences |
+
+---
+
+## 📁 Repository Structure
+
+```
+vv-properties/
+├── public/
+│   ├── brand/               # Brand imagery and logo assets
+│   ├── uploads/             # User-uploaded property galleries
+│   ├── logo.png             # Official circular high-rise emblem
+│   ├── index.html           # Standalone Executive Admin Suite
+│   └── admin.html           # Synchronized admin portal
+├── src/
+│   ├── app/
+│   │   ├── admin/           # Admin route handler & security wrapper
+│   │   ├── api/             # Next.js Serverless API routes
+│   │   ├── properties/      # Public property portfolio catalog
+│   │   ├── layout.tsx       # Root layout with metadata and fonts
+│   │   ├── page.tsx         # Portal entrypoint
+│   │   └── globals.css      # Core Tailwind styling & tokens
+│   ├── components/
+│   │   ├── layout/          # Navbar, Footer, Drawers
+│   │   ├── properties/      # PropertyCard (Image-first with overlay)
+│   │   └── ui/              # Buttons, Badges, Modals
+│   ├── data/                # Data stores (mockData, translations)
+│   ├── types/               # TypeScript interfaces & schemas
+│   └── lib/                 # Utility functions & WhatsApp formatters
+├── data/                    # JSON persistent stores (banners, leads, props)
+├── tailwind.config.ts       # Design system tokens and palette
+├── tsconfig.json            # TypeScript configuration
+└── package.json             # Dependencies and build scripts
 ```
 
 ---
 
-## 🛡️ Quality & Verification Scripts
+## 🔒 Security & Best Practices
 
-```bash
-# Type check without emitting files
-npx tsc --noEmit
-
-# Run ESLint validation
-npm run lint
-
-# Content integrity check
-npm run check:content
-```
+- **Zero Inline Passwords**: Credentials are encrypted with secure session storage.
+- **Strict Input Sanitization**: Form inputs are validated with Zod schemas to mitigate XSS vulnerabilities.
+- **Autofill Mitigation**: Search components are protected against aggressive browser password managers.
+- **Responsive Architecture**: Tested across mobile (390px), tablet (768px), and wide monitors (1600px+).
 
 ---
 
-## 📄 License & Intellectual Property
+## 📄 License & Attribution
 
 Copyright © 2026 **V.V Properties**. All rights reserved.  
-All architectural designs, photography, portal software, and brand trademarks are proprietary assets.
-
----
-
-<div align="center">
-  <sub>Crafted for modern enterprise real estate excellence · Powered by Next.js & Tailwind CSS</sub>
-</div>
+Designed and engineered for enterprise real estate asset management.

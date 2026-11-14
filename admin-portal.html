@@ -3,680 +3,1152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>V.V Properties — Executive Admin Portal</title>
-<!-- Tailwind CSS via CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: {
-          navy: {
-            900: '#0D0221', // Contrast & Authority (Deep Navy)
-            950: '#070114',
-          },
-          royal: {
-            DEFAULT: '#4062BB', // Brand Identity & Primary Actions (Royal Blue)
-            hover: '#314fa5',
-            light: '#eef3fc',
-          },
-          ice: {
-            DEFAULT: '#CDE6F5', // Subtle Backgrounds (Ice Blue)
-            border: '#a9d2ee',
-          },
-          emerald: {
-            DEFAULT: '#49A078', // Success States (Green)
-            dark: '#3b8663',
-          },
-          coral: {
-            DEFAULT: '#F06543', // Errors & Warnings (Coral Red)
-            dark: '#d94f2f',
-          }
-        },
-        fontFamily: {
-          serif: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
-          sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
-        }
-      }
-    }
-  }
-</script>
-<!-- Google Fonts: DaVinci Editorial Serif (Playfair Display) + Inter (INTEL style) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Lucide Icons -->
-<script src="https://unpkg.com/lucide@latest"></script>
-
+<title>V.V Properties — Admin Portal</title>
 <style>
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    color: #0D0221;
-    letter-spacing: -0.01em;
-  }
-  
-  /* Smooth Custom Scrollbar */
-  ::-webkit-scrollbar { width: 5px; height: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
-  ::-webkit-scrollbar-thumb:hover { background: #94A3B8; }
+:root {
+  --navy: #0D0221;
+  --blue: #4062BB;
+  --blue-hover: #314fa5;
+  --ice: #CDE6F5;
+  --pale: #EAF4FA;
+  --bg: #FFFFFF;
+  --panel-bg: #FFFFFF;
+  --ink: #17142B;
+  --muted: #64748B;
+  --line: #E2E8F0;
+  --green: #10B981;
+  --red: #EF4444;
+  --amber: #F59E0B;
+}
 
-  @keyframes menuPop {
-    from { opacity: 0; transform: translateY(-4px) scale(0.97); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-  }
-  .menu-anim { animation: menuPop 0.15s cubic-bezier(0.16, 1, 0.3, 1); }
-  .menu-wrapper.is-open { opacity: 1 !important; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  font: 14px/1.5 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
 
-  .drag-over {
-    border-color: #4062BB !important;
-    background-color: #EEF3FC !important;
-    transform: scale(1.02);
-  }
+h1, h2, h3 { letter-spacing: -0.3px; color: #0f172a; margin: 0; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+
+/* Layout */
+.layout { min-height: 100vh; display: flex; }
+.side {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 240px;
+  background: var(--navy);
+  border-right: 1px solid #1e1438;
+  padding: 22px 16px;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 4px 22px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.logo {
+  height: 42px;
+  width: 42px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #CDE6F5 0%, #4062BB 100%);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(64,98,187,0.3);
+}
+.brand b { font-size: 14px; letter-spacing: 0.6px; color: #fff; display: block; }
+.brand small { display: block; font-size: 10px; letter-spacing: 1.2px; color: #94a3b8; margin-top: 2px; }
+
+.nav-label {
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: #64748b;
+  font-weight: 700;
+  padding: 22px 10px 8px;
+}
+.nav { display: grid; gap: 4px; }
+.nav button {
+  border: 0;
+  background: transparent;
+  color: #cbd5e1;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+.nav button:hover {
+  background: rgba(255,255,255,0.08);
+  color: #fff;
+}
+.nav button.active {
+  background: var(--blue);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(64,98,187,0.35);
+}
+.nav i { font-style: normal; width: 18px; text-align: center; font-size: 15px; }
+
+.sidebottom { margin-top: auto; }
+.admin {
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding: 16px 8px 4px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.avatar {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #E0E7FF;
+  color: #3730A3;
+  font-weight: 700;
+  font-size: 13px;
+}
+.admin b { font-size: 12px; color: #fff; display: block; }
+.admin small { display: block; color: #94a3b8; font-size: 10px; }
+
+/* Main Content Area */
+.main {
+  margin-left: 240px;
+  flex: 1;
+  min-height: 100vh;
+  background: #FFFFFF;
+}
+
+.top {
+  height: 64px;
+  background: #FFFFFF;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+.crumb { font-size: 12px; color: var(--muted); }
+.crumb b { color: var(--ink); font-weight: 600; }
+.topright {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 12px;
+  color: #475569;
+}
+.live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ECFDF5;
+  color: #065F46;
+  border: 1px solid #A7F3D0;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 6px #10B981;
+}
+
+.content {
+  padding: 28px 32px 60px;
+  max-width: 1440px;
+  margin: auto;
+  background: #FFFFFF;
+}
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.15s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 16px;
+}
+.head h1 { font-size: 24px; font-weight: 700; color: #0f172a; }
+.head p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+
+/* Buttons */
+.btn {
+  border: 1px solid var(--line);
+  background: #FFFFFF;
+  color: #334155;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+.btn:hover { background: #F8FAFC; border-color: #CBD5E1; }
+.btn.primary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #FFFFFF;
+  box-shadow: 0 2px 6px rgba(64,98,187,0.25);
+}
+.btn.primary:hover {
+  background: var(--blue-hover);
+  border-color: var(--blue-hover);
+}
+.btn.danger { color: var(--red); }
+.btn.danger:hover { background: #FEF2F2; border-color: #FCA5A5; }
+.btn.sm { padding: 5px 10px; font-size: 11px; border-radius: 6px; }
+
+/* Panels & Stats - Clean White Base */
+.panel, .stat {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+}
+.panel { padding: 20px; margin-bottom: 20px; }
+.panelhead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.panelhead h3 { font-size: 15px; font-weight: 700; color: #0f172a; }
+.muted { color: var(--muted); font-size: 12px; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.stat { padding: 18px 20px; }
+.stat label { font-size: 12px; font-weight: 500; color: var(--muted); }
+.stat strong {
+  display: block;
+  font-size: 26px;
+  font-weight: 700;
+  margin: 6px 0 4px;
+  color: #0f172a;
+}
+.trend { font-size: 11px; font-weight: 600; color: var(--green); }
+
+/* Dashboard Grid */
+.dashgrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 20px;
+}
+.chartbox { height: 210px; position: relative; }
+.chartbox svg { width: 100%; height: 180px; overflow: visible; }
+.range {
+  display: flex;
+  gap: 4px;
+  background: #F1F5F9;
+  padding: 3px;
+  border-radius: 8px;
+}
+.range button {
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748B;
+}
+.range button.active {
+  background: #FFFFFF;
+  color: var(--blue);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* Tables */
+table { border-collapse: collapse; width: 100%; white-space: nowrap; }
+th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #64748B;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  background: #F8FAFC;
+}
+td {
+  padding: 12px;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 12px;
+  color: #334155;
+}
+tr:last-child td { border: 0; }
+.clickrow { cursor: pointer; transition: background 0.15s ease; }
+.clickrow:hover { background: #F8FAFC; }
+
+.pill {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.new { background: #ECFDF5; color: #065F46; }
+.contacted { background: #EFF6FF; color: #1E40AF; }
+.closed { background: #FEF2F2; color: #991B1B; }
+.published { background: #ECFDF5; color: #065F46; }
+.draft { background: #F1F5F9; color: #475569; }
+
+/* Toolbars */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.field {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #FFFFFF;
+  color: #334155;
+  font-size: 12px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.field:focus { border-color: var(--blue); }
+.search { min-width: 260px; }
+
+/* ========================================================
+   PROPERTY SECTION: COMPLETE OVERLAY ON HOVER, NO BOTTOM TEXT
+   ======================================================== */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.property.image-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #0D0221;
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 8px rgba(13, 2, 33, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  cursor: pointer;
+  height: 260px;
+}
+
+.property.image-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 28px rgba(13, 2, 33, 0.14);
+}
+
+.property.image-card .photo {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  background: #EAF4FA;
+}
+
+.property.image-card .photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.property.image-card:hover .photo img {
+  transform: scale(1.05);
+}
+
+/* Badge in Top-Left */
+.tag {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  background: var(--blue);
+  color: #FFFFFF;
+  border-radius: 6px;
+  padding: 4px 9px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  z-index: 5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  pointer-events: none;
+}
+
+/* Vertical 3-Dots Button */
+.dots {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--navy);
+  font-size: 19px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  cursor: pointer;
+  z-index: 15;
+  line-height: 1;
+  padding: 0;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.dots:hover {
+  background: #FFFFFF;
+  transform: scale(1.08);
+}
+
+/* Dropdown Menu (Edit, Rename, Delete) */
+.menu {
+  display: none;
+  position: absolute;
+  right: 12px;
+  top: 50px;
+  z-index: 25;
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  box-shadow: 0 10px 25px rgba(13, 2, 33, 0.18);
+  border-radius: 8px;
+  width: 135px;
+  padding: 5px;
+}
+
+.menu.open {
+  display: block;
+  animation: fadeInMenu 0.15s ease-out;
+}
+
+@keyframes fadeInMenu {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.menu button:hover {
+  background: var(--pale);
+  color: var(--blue);
+}
+
+.menu .delete {
+  color: var(--red);
+}
+
+.menu .delete:hover {
+  background: #FEF2F2;
+  color: var(--red);
+}
+
+/* Full Overlay over image on pointer/hover */
+.hoverinfo {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(13,2,33,0.96) 0%, rgba(13,2,33,0.72) 48%, rgba(13,2,33,0.08) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 18px;
+  color: #FFFFFF;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.property.image-card:hover .hoverinfo,
+.property.image-card.overlay-active .hoverinfo {
+  opacity: 1;
+}
+
+.hoverinfo b {
+  font-size: 16px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+  line-height: 1.25;
+}
+
+.hoverinfo .hover-meta {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ice);
+  margin-bottom: 4px;
+}
+
+.hoverinfo .hover-type {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #94A3B8;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.hoverinfo .hover-desc {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #E2E8F0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ========================================================
+   BANNER MANAGEMENT (No Template Section, White Elevated Card)
+   ======================================================== */
+.bannerlist { display: grid; gap: 12px; }
+.banneritem {
+  display: grid;
+  grid-template-columns: 130px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  transition: border-color 0.15s ease;
+}
+.banneritem:hover { border-color: #CBD5E1; }
+.banneritem img {
+  width: 130px;
+  height: 68px;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #EAF4FA;
+}
+.banneritem b { font-size: 13px; font-weight: 600; color: #0f172a; }
+.banneritem small { display: block; color: var(--muted); font-size: 11px; margin-top: 3px; }
+.banneritem-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+.banner-dots {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: #FFFFFF;
+  color: #334155;
+  font-size: 16px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+.drag-handle {
+  color: #94A3B8;
+  cursor: grab;
+  padding: 0 4px;
+  font-size: 16px;
+}
+
+#slideCapacity {
+  background: #FFFFFF;
+  color: #0f172a;
+  border: 1px solid var(--line);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.drop {
+  border: 1.5px dashed #93C5FD;
+  background: #F8FAFC;
+  border-radius: 10px;
+  padding: 26px;
+  text-align: center;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.drop:hover, .drop.drag {
+  background: #EFF6FF;
+  border-color: var(--blue);
+}
+.drop b { display: block; color: var(--blue); margin-bottom: 5px; font-size: 13px; }
+
+/* Testimonials */
+.testgrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.testimonial {
+  background: #FFFFFF;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.testimonial .stars { color: var(--amber); letter-spacing: 2px; font-size: 13px; }
+.testimonial p { font-size: 12px; color: #475569; line-height: 1.6; margin: 10px 0; }
+.testimonial b { font-size: 12px; color: #0f172a; }
+
+/* Modals & Drawers */
+.overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(2px);
+  z-index: 50;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+.overlay.show { display: flex; animation: fadeIn 0.15s ease-out; }
+.modal {
+  background: #FFFFFF;
+  border-radius: 14px;
+  width: min(720px, 100%);
+  max-height: 92vh;
+  overflow: auto;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.25);
+  border: 1px solid var(--line);
+}
+.modalhead {
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modalhead h2 { font-size: 17px; font-weight: 700; }
+.x {
+  border: 0;
+  background: #F1F5F9;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 18px;
+  color: #64748B;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+.x:hover { background: #E2E8F0; color: #0f172a; }
+.modalbody { padding: 22px; }
+
+.formgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.formfield { display: flex; flex-direction: column; gap: 6px; }
+.formfield.full { grid-column: 1 / -1; }
+.formfield label { font-size: 11px; font-weight: 700; color: #475569; }
+.formfield input, .formfield textarea, .formfield select {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 12px;
+  color: #0f172a;
+  background: #FFFFFF;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+.formfield input:focus, .formfield textarea:focus, .formfield select:focus {
+  border-color: var(--blue);
+}
+.formfield textarea { min-height: 75px; resize: vertical; }
+
+.modalfoot {
+  padding: 14px 22px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background: #F8FAFC;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #0F172A;
+  color: #FFFFFF;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  z-index: 999;
+  display: none;
+  animation: slideUpToast 0.2s ease-out;
+}
+@keyframes slideUpToast {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Enquiry Drawer */
+.drawer {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: min(390px, 95vw);
+  background: #FFFFFF;
+  z-index: 60;
+  box-shadow: -10px 0 30px rgba(15, 23, 42, 0.15);
+  transform: translateX(105%);
+  transition: transform 0.25s ease;
+  padding: 0 20px 24px;
+  overflow: auto;
+  border-left: 1px solid var(--line);
+}
+.drawer.show { transform: translateX(0); }
+.drawerhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+}
+.customer {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 18px 0;
+}
+.customer .avatar { width: 44px; height: 44px; font-size: 16px; }
+.customer b { font-size: 14px; color: #0f172a; display: block; }
+.customer small { display: block; color: var(--muted); margin-top: 2px; }
+.detailbox {
+  background: #F8FAFC;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  margin: 12px 0;
+}
+.detailbox label { font-size: 10px; color: #64748B; display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
+.detailbox b, .detailbox p { font-size: 12px; margin: 0; line-height: 1.5; color: #1e293b; }
+.whatsapp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: #10B981;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  padding: 11px;
+  font-weight: 600;
+  margin-top: 16px;
+  text-decoration: none;
+  font-size: 12px;
+}
+.whatsapp:hover { background: #059669; }
+.copy { width: 100%; margin-top: 8px; justify-content: center; }
+
+/* Responsive */
+@media(max-width: 1050px) {
+  .cards, .testgrid { grid-template-columns: repeat(2, 1fr); }
+  .dashgrid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 700px) {
+  .side { width: 64px; padding: 16px 8px; }
+  .brand { justify-content: center; padding: 0 0 16px; }
+  .brand > div:last-child, .nav-label, .nav button span { display: none; }
+  .nav button { justify-content: center; padding: 12px 6px; }
+  .admin { justify-content: center; padding: 14px 0; }
+  .admin > div:last-child { display: none; }
+  .main { margin-left: 64px; }
+  .top { padding: 0 16px; }
+  .content { padding: 20px 16px; }
+  .cards, .testgrid { grid-template-columns: 1fr; }
+  .property.image-card { height: 280px; }
+  .stats { gap: 10px; }
+  .stat { padding: 14px; }
+  .formgrid { grid-template-columns: 1fr; }
+  .formfield.full { grid-column: auto; }
+  .banneritem { grid-template-columns: 90px 1fr; }
+  .banneritem img { width: 90px; }
+  .banneritem-actions { grid-column: 1 / -1; justify-content: flex-end; }
+  .head { flex-direction: column; align-items: stretch; }
+}
 </style>
 </head>
-<body class="bg-white min-h-screen text-slate-800 antialiased selection:bg-royal selection:text-white font-sans">
+<body>
 
-<!-- =========================================================== -->
-<!-- FULLSCREEN LOGIN GATE (24-HOUR AUTHENTICATION EXPIRY)       -->
-<!-- =========================================================== -->
-<div id="loginGate" class="fixed inset-0 z-50 bg-navy-950 flex items-center justify-center p-4">
-  <div class="w-full max-w-md bg-navy-900 border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-    <!-- Subtle Ambient Glow -->
-    <div class="absolute -top-24 -right-24 w-48 h-48 bg-royal/30 rounded-full blur-3xl pointer-events-none"></div>
-    <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald/20 rounded-full blur-3xl pointer-events-none"></div>
-
-    <div class="text-center mb-6">
-      <div class="w-16 h-16 rounded-2xl bg-navy-900 border border-white/10 p-2 mx-auto flex items-center justify-center shadow-lg mb-3">
-        <img src="logo.png" alt="V.V Properties Logo" class="w-12 h-12 object-contain" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=100&q=80'">
-      </div>
-      <h2 class="font-sans font-bold text-white text-2xl tracking-tight">V.V PROPERTIES</h2>
-      <p class="text-xs text-slate-400 mt-1">Executive Administration Portal</p>
-    </div>
-
-    <!-- Login Form -->
-    <form onsubmit="handleLoginSubmit(event)" autocomplete="off" class="space-y-4">
-      <div id="loginErrorMsg" class="p-3 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-medium hidden"></div>
-
+<div class="layout">
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="side">
+    <div class="brand">
+      <div class="logo">⌂</div>
       <div>
-        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Username</label>
-        <div class="relative">
-          <i data-lucide="user" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3 z-10"></i>
-          <input id="loginUsername" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-royal focus:border-royal transition-all shadow-sm">
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Password</label>
-        <div class="relative">
-          <i data-lucide="lock" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3 z-10"></i>
-          <input id="loginPassword" type="password" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="" class="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-royal focus:border-royal transition-all shadow-sm">
-        </div>
-      </div>
-
-      <button type="submit" class="w-full py-2.5 rounded-xl bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-lg shadow-royal/30 transition-all flex items-center justify-center gap-2 mt-2">
-        <i data-lucide="log-in" class="w-4 h-4"></i>
-        <span>Sign In to Portal</span>
-      </button>
-    </form>
-  </div>
-</div>
-
-<div class="flex min-h-screen bg-white">
-
-  <!-- ========================================================= -->
-  <!-- SIDEBAR (Deep Navy #0D0221, Merged Logo, Clean Brand)     -->
-  <!-- ========================================================= -->
-  <aside class="fixed inset-y-0 left-0 w-64 bg-navy-900 border-r border-navy-950 z-30 flex flex-col shadow-2xl transition-all duration-300">
-    
-    <!-- BRAND / LOGO AREA (Logo background merged with nav bar, Property Management removed) -->
-    <div class="px-6 pt-6 pb-5 border-b border-white/10 flex items-center gap-3">
-      <div class="w-12 h-12 rounded-xl bg-navy-900 p-1 border border-white/5 shadow-lg flex-shrink-0 flex items-center justify-center">
-        <img src="logo.png" alt="V.V Properties Logo" class="w-10 h-10 object-contain drop-shadow" onerror="this.src='https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=100&q=80'">
-      </div>
-      <div>
-        <h2 class="font-sans font-bold text-white text-lg tracking-tight leading-none">V.V PROPERTIES</h2>
+        <b>V.V PROPERTIES</b>
+        <small>ADMIN PORTAL</small>
       </div>
     </div>
 
-    <!-- NAVIGATION MENU -->
-    <div class="px-3.5 py-5 flex-1 overflow-y-auto space-y-6">
-      <div>
-        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-2.5">Overview</div>
-        <nav class="space-y-1.5" id="sidebarNav">
-          <button onclick="go('dashboard')" data-page="dashboard" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold text-white bg-royal shadow-md shadow-royal/30 transition-all">
-            <i data-lucide="layout-dashboard" class="w-4 h-4 text-white"></i>
-            <span>Dashboard</span>
-          </button>
-          <button onclick="go('properties')" data-page="properties" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-            <i data-lucide="building-2" class="w-4 h-4 text-slate-400"></i>
-            <span>Properties</span>
-          </button>
-          <button onclick="go('banners')" data-page="banners" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-            <i data-lucide="image" class="w-4 h-4 text-slate-400"></i>
-            <span>Banner Management</span>
-          </button>
-          <button onclick="go('enquiries')" data-page="enquiries" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-            <i data-lucide="message-square" class="w-4 h-4 text-slate-400"></i>
-            <span class="flex-1 text-left">Enquiries</span>
-            <span id="unreadEnquiriesBadge" class="bg-emerald/20 text-emerald text-[11px] px-2 py-0.5 rounded-full font-bold border border-emerald/30">4</span>
-          </button>
-          <button onclick="go('testimonials')" data-page="testimonials" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-            <i data-lucide="star" class="w-4 h-4 text-slate-400"></i>
-            <span>Testimonials</span>
-          </button>
-        </nav>
-      </div>
+    <div class="nav-label">WORKSPACE</div>
+    <nav class="nav">
+      <button class="active" data-page="dashboard"><i>▦</i><span>Dashboard</span></button>
+      <button data-page="properties"><i>⌂</i><span>Properties</span></button>
+      <button data-page="banners"><i>▧</i><span>Banner Management</span></button>
+      <button data-page="enquiries"><i>✉</i><span>Enquiries</span></button>
+      <button data-page="testimonials"><i>☆</i><span>Testimonials</span></button>
+    </nav>
 
-      <div>
-        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-3 mb-2.5">Preferences</div>
-        <nav class="space-y-1.5">
-          <button onclick="go('profile')" data-page="profile" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-            <i data-lucide="shield-check" class="w-4 h-4 text-slate-400"></i>
-            <span>Admin</span>
-          </button>
-          <button onclick="go('logs')" data-page="logs" class="nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all">
-            <i data-lucide="scroll-text" class="w-4 h-4 text-slate-400"></i>
-            <span>Activity Logs</span>
-          </button>
-          <button onclick="logout()" class="w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-coral hover:bg-coral/10 transition-all">
-            <i data-lucide="log-out" class="w-4 h-4 text-coral"></i>
-            <span>Logout</span>
-          </button>
-        </nav>
+    <div class="sidebottom">
+      <div class="nav-label">ACCOUNT</div>
+      <nav class="nav">
+        <button data-page="profile"><i>◉</i><span>Admin Profile</span></button>
+        <button onclick="showToast('Logged out successfully')"><i>↪</i><span>Logout</span></button>
+      </nav>
+      <div class="admin">
+        <div class="avatar">A</div>
+        <div>
+          <b>Administrator</b>
+          <small>V.V Properties</small>
+        </div>
       </div>
     </div>
   </aside>
 
-  <!-- ========================================================= -->
-  <!-- MAIN WORKSPACE                                            -->
-  <!-- ========================================================= -->
-  <main class="ml-64 flex-1 min-h-screen flex flex-col bg-white">
-    
-    <!-- TOP BAR (Date on left; Victor Paul bold + Super Administrator below on right) -->
-    <header class="sticky top-0 z-20 h-16 bg-white/90 backdrop-blur-md border-b border-slate-100 px-8 flex items-center justify-between">
-      
-      <!-- TOP LEFT: DYNAMIC DATE -->
-      <div class="flex items-center gap-2.5 text-xs font-medium text-slate-600">
-        <i data-lucide="calendar" class="w-4 h-4 text-royal"></i>
-        <span id="liveHeaderDate" class="font-semibold text-slate-800">Saturday, 14 November 2026</span>
-      </div>
-
-      <!-- TOP RIGHT: DYNAMIC AVATAR + VICTOR PAUL (BOLD) / SUPER ADMINISTRATOR -->
-      <div class="flex items-center gap-3">
-        <div class="flex items-center gap-2.5 pl-3">
-          <div id="adminAvatarContainer" class="w-8 h-8 rounded-full overflow-hidden bg-ice text-royal font-bold flex items-center justify-center text-xs shadow-sm font-sans border border-ice-border flex-shrink-0">
-            <span id="adminAvatarInitial">V</span>
-            <img id="adminAvatarImg" src="" alt="Admin" class="w-full h-full object-cover hidden">
-          </div>
-          <div class="text-left">
-            <p id="topAdminName" class="text-xs font-bold text-navy-900 leading-none">Victor Paul</p>
-            <p id="topAdminSubtitle" class="text-[10px] text-slate-400 font-medium mt-0.5">Super Administrator</p>
-          </div>
-        </div>
+  <!-- MAIN VIEWPORT -->
+  <main class="main">
+    <header class="top">
+      <div class="crumb">V.V Properties / <b id="crumb">Dashboard</b></div>
+      <div class="topright">
+        <span class="live-pill"><span class="live-dot"></span>Live Server Active</span>
+        <div class="avatar">A</div>
+        <b>Admin ▾</b>
       </div>
     </header>
 
-    <!-- CONTENT WRAPPER -->
-    <div class="px-8 py-6 max-w-7xl w-full mx-auto flex-1 space-y-6">
+    <div class="content">
 
-      <!-- ======================================================= -->
-      <!-- PAGE: DASHBOARD                                         -->
-      <!-- ======================================================= -->
-      <section id="dashboard" class="page-view block space-y-6">
-        
-        <div class="flex items-center justify-between">
+      <!-- ==================================================== -->
+      <!-- PAGE: DASHBOARD                                      -->
+      <!-- ==================================================== -->
+      <section class="page active" id="dashboard">
+        <div class="head">
           <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Executive Dashboard</h1>
-            <p class="text-xs text-slate-500 mt-1">Real-time overview of listing portfolios, lead generation, and performance.</p>
+            <h1>Dashboard</h1>
+            <p>Overview of your property listings and customer enquiries.</p>
           </div>
-          
+          <button class="btn primary" onclick="openAddPropertyModal()">＋ Add Property</button>
         </div>
 
-        <!-- 4 STAT METRICS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Properties</span>
-              <div class="w-8 h-8 rounded-lg bg-royal/10 text-royal flex items-center justify-center">
-                <i data-lucide="building" class="w-4 h-4"></i>
-              </div>
-            </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-sans" id="statTotalProps">10</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-emerald">
-              <i data-lucide="trending-up" class="w-3.5 h-3.5"></i>
-              <span>+14% this month</span>
-            </div>
+        <div class="stats">
+          <div class="stat">
+            <label>Total Properties</label>
+            <strong id="dashTotalProps">10</strong>
+            <span class="trend">↑ 12% this period</span>
           </div>
-
-          <!-- DRAFT PROPERTIES (Value 3, Awaiting publication) -->
-          <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Draft Properties</span>
-              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
-                <i data-lucide="file-edit" class="w-4 h-4"></i>
-              </div>
-            </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-sans" id="statDraftProps">3</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-amber-600">
-              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-              <span>Awaiting publication</span>
-            </div>
+          <div class="stat">
+            <label>Published</label>
+            <strong>8</strong>
+            <span class="trend">↑ 8% this period</span>
           </div>
-
-          <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Enquiries</span>
-              <div class="w-8 h-8 rounded-lg bg-ice text-royal flex items-center justify-center">
-                <i data-lucide="inbox" class="w-4 h-4"></i>
-              </div>
-            </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-sans">86</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-royal">
-              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-              <span>+22% inquiries</span>
-            </div>
+          <div class="stat">
+            <label>Total Enquiries</label>
+            <strong>86</strong>
+            <span class="trend">↑ 15% this period</span>
           </div>
-
-          <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
-            <div class="flex items-center justify-between">
-              <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">New Leads</span>
-              <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-600 flex items-center justify-center">
-                <i data-lucide="sparkles" class="w-4 h-4"></i>
-              </div>
-            </div>
-            <div class="text-2xl font-bold text-navy-900 mt-3 font-sans">12</div>
-            <div class="flex items-center gap-1.5 mt-2 text-xs font-semibold text-amber-600">
-              <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-              <span>Needs follow-up</span>
-            </div>
+          <div class="stat">
+            <label>New Enquiries</label>
+            <strong>12</strong>
+            <span class="trend" style="color:var(--amber)">Needs follow-up</span>
           </div>
         </div>
 
-        <!-- WEBSITE TRAFFIC GRAPH & PROPERTY LEADS -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          <div class="lg:col-span-2 bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
-            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
-              <div>
-                <h3 class="font-sans font-bold text-navy-900 text-base">Performance</h3>
-                <p id="chartCaption" class="text-xs text-slate-400 mt-0.5">Customer outreach trends and lead velocity across channels</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="relative">
-                  <select id="chartRangeSelect" onchange="onRangeSelectChange(this.value)" class="appearance-none pl-3 pr-8 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-700 hover:border-royal/50 focus:outline-none focus:ring-2 focus:ring-royal/20 transition-all cursor-pointer shadow-2xs">
-                    <option value="24h">24 Hours</option>
-                    <option value="1W" selected>1 Week</option>
-                    <option value="1M">1 Month</option>
-                    <option value="3M">3 Months</option>
-                    <option value="6M">6 Months</option>
-                    <option value="1Y">1 Year</option>
-                    <option value="custom">📅 Customize Range</option>
-                  </select>
-                  <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-slate-400 absolute right-2.5 top-2.5 pointer-events-none"></i>
-                </div>
+        <div class="dashgrid">
+          <div class="panel">
+            <div class="panelhead">
+              <h3>Performance</h3>
+              <div class="range" id="ranges">
+                <button class="active" data-range="1W">1 Week</button>
+                <button data-range="1M">1 Month</button>
+                <button data-range="3M">3 Months</button>
+                <button data-range="6M">6 Months</button>
+                <button data-range="1Y">1 Year</button>
               </div>
             </div>
-
-            <!-- CUSTOM DATE PICKER BOX (OPENS WHEN CUSTOMIZE IS SELECTED) -->
-            <div id="customDateRangeBox" class="hidden mb-4 p-3 bg-slate-50 border border-slate-200 rounded-lg flex flex-wrap items-center justify-between gap-3 transition-all">
-              <div class="flex flex-wrap items-center gap-3">
-                <div class="flex items-center gap-1.5 text-xs text-slate-700 font-medium">
-                  <span class="text-slate-400 font-bold uppercase text-[10px]">From:</span>
-                  <input type="date" id="chartDateFrom" value="2026-06-01" onchange="applyCustomDateRange()" class="px-2.5 py-1 bg-white border border-slate-200 rounded text-xs font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-royal/20 cursor-pointer shadow-2xs">
-                </div>
-                <div class="flex items-center gap-1.5 text-xs text-slate-700 font-medium">
-                  <span class="text-slate-400 font-bold uppercase text-[10px]">To:</span>
-                  <input type="date" id="chartDateTo" value="2026-09-30" onchange="applyCustomDateRange()" class="px-2.5 py-1 bg-white border border-slate-200 rounded text-xs font-sans text-slate-800 focus:outline-none focus:ring-2 focus:ring-royal/20 cursor-pointer shadow-2xs">
-                </div>
-              </div>
-              <button type="button" onclick="applyCustomDateRange()" class="px-3 py-1 bg-royal text-white text-xs font-semibold rounded hover:bg-royal-hover transition-colors shadow-sm">
-                Apply Date Filter
-              </button>
-            </div>
-
-            <div class="h-56 relative w-full pt-1">
-              <svg viewBox="0 0 620 180" preserveAspectRatio="none" class="w-full h-full">
+            <div class="chartbox">
+              <svg viewBox="0 0 620 190" preserveAspectRatio="none">
                 <g stroke="#F1F5F9" stroke-width="1">
-                  <path d="M40 15H610M40 50H610M40 85H610M40 120H610M40 155H610"/>
+                  <path d="M40 15H610M40 55H610M40 95H610M40 135H610M40 175H610"/>
                 </g>
-                <g fill="#94A3B8" font-size="10" font-weight="600">
-                  <text x="6" y="18">100</text>
-                  <text x="12" y="53">75</text>
-                  <text x="12" y="88">50</text>
-                  <text x="12" y="123">25</text>
-                  <text x="18" y="158">0</text>
+                <g fill="#94A3B8" font-size="10">
+                  <text x="4" y="18">100</text>
+                  <text x="12" y="58">75</text>
+                  <text x="12" y="98">50</text>
+                  <text x="12" y="138">25</text>
+                  <text x="20" y="178">0</text>
                 </g>
-                <path id="chartArea" d="M40 125 L135 98 L230 105 L325 90 L420 55 L515 70 L610 35 L610 155 L40 155Z" fill="#CDE6F5" fill-opacity="0.55"/>
-                <polyline id="chartLine" points="40,125 135,98 230,105 325,90 420,55 515,70 610,35" fill="none" stroke="#4062BB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path id="chartArea" d="M40 142 L135 111 L230 119 L325 105 L420 68 L515 83 L610 45 L610 175 L40 175Z" fill="#EFF6FF"/>
+                <polyline id="chartLine" points="40,142 135,111 230,119 325,105 420,68 515,83 610,45" fill="none" stroke="#4062BB" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 <g id="chartDots" fill="#4062BB">
+                  <circle cx="40" cy="142" r="4"/><circle cx="135" cy="111" r="4"/><circle cx="230" cy="119" r="4"/>
+                  <circle cx="325" cy="105" r="4"/><circle cx="420" cy="68" r="4"/><circle cx="515" cy="83" r="4"/><circle cx="610" cy="45" r="4"/>
                 </g>
-                <!-- EXACTLY FIVE CALENDAR DATE LABELS DISTRIBUTED EVENLY ON X-AXIS -->
-                <g id="chartXLabels" fill="#94A3B8" font-size="10" font-weight="500">
-                  <text x="25" y="172">07/11/2026</text>
-                  <text x="160" y="172">08/11/2026</text>
-                  <text x="305" y="172">10/11/2026</text>
-                  <text x="445" y="172">12/11/2026</text>
-                  <text x="550" y="172">14/11/2026</text>
+                <g id="chartXLabels" fill="#94A3B8" font-size="10">
+                  <text x="35" y="188">Mon</text><text x="130" y="188">Tue</text><text x="225" y="188">Wed</text>
+                  <text x="320" y="188">Thu</text><text x="415" y="188">Fri</text><text x="510" y="188">Sat</text><text x="600" y="188">Sun</text>
                 </g>
               </svg>
             </div>
+            <div class="muted" id="chartCaption">Enquiries received during the last 7 days · Demo data</div>
           </div>
 
-          <!-- PROPERTY LEADS PANEL (EXACTLY 3 PRIORITY LEADS) -->
-          <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm flex flex-col">
-            <div class="flex items-center justify-between mb-4">
-              <div>
-                <h3 class="font-sans font-bold text-navy-900 text-base">Property Leads</h3>
-                <p class="text-xs text-slate-400 mt-0.5">Fresh incoming inquiries</p>
-              </div>
-              <button onclick="go('enquiries')" class="text-xs font-bold text-royal hover:underline">View All →</button>
+          <div class="panel">
+            <div class="panelhead">
+              <h3>Recent Enquiries</h3>
+              <button class="btn sm" onclick="go('enquiries')">View all →</button>
             </div>
-
-            <div class="space-y-2.5 flex-1 overflow-y-auto" id="priorityLeadsList">
-              <!-- Dynamically populated with 4 NEW leads -->
-            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Customer</th>
+                  <th>Property</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="clickrow" onclick="openEnquiry('Suresh Kumar','Lake View Residency','New','+91 98765 43210','suresh@gmail.com')">
+                  <td><b>Suresh Kumar</b><div class="muted">Today</div></td>
+                  <td>Lake View Residency</td>
+                  <td><span class="pill new">New</span></td>
+                </tr>
+                <tr class="clickrow" onclick="openEnquiry('Meena Priya','Green Avenue Villas','Contacted','+91 98765 12340','meena@gmail.com')">
+                  <td><b>Meena Priya</b><div class="muted">Yesterday</div></td>
+                  <td>Green Avenue Villas</td>
+                  <td><span class="pill contacted">Contacted</span></td>
+                </tr>
+                <tr class="clickrow" onclick="openEnquiry('Rohit Sharma','City Centre Plots','Closed','+91 99887 66554','rohit@gmail.com')">
+                  <td><b>Rohit Sharma</b><div class="muted">12 Nov</div></td>
+                  <td>City Centre Plots</td>
+                  <td><span class="pill closed">Closed</span></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-
-        <!-- RECENTLY ADDED PROPERTIES -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-sans font-bold text-navy-900 text-base">Recently Added Properties</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Latest curated listings added to the active portfolio</p>
-            </div>
-            <button onclick="go('properties')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
-              <span>View All Properties</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4" id="recentPropertiesGrid">
-            <!-- Dynamically populated with pure image-card hover overlay style -->
-          </div>
-        </div>
-
       </section>
 
-      <!-- ======================================================= -->
-      <!-- PAGE: PROPERTIES                                        -->
-      <!-- ======================================================= -->
-      <section id="properties" class="page-view hidden space-y-5">
-        
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <!-- ==================================================== -->
+      <!-- PAGE: PROPERTIES                                     -->
+      <!-- ==================================================== -->
+      <section class="page" id="properties">
+        <div class="head">
           <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Properties</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Manage active residential and commercial property listings across Chennai.</p>
+            <h1>Properties</h1>
+            <p>Hover over any property image to view full details. Use the vertical 3 dots (⋮) to edit, rename, or delete.</p>
           </div>
-          <button onclick="openAddPropertyModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Add Property</span>
-          </button>
+          <button class="btn primary" onclick="openAddPropertyModal()">＋ Add Property</button>
         </div>
 
-        <!-- FILTERS BAR -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-3.5 shadow-sm flex flex-col md:flex-row gap-3 items-center justify-between">
-          <div class="relative flex-1 w-full">
-            <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-3"></i>
-            <input id="propSearchInput" oninput="filterProperties()" type="text" placeholder="Search by property name..." class="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-royal/20">
+        <div class="toolbar">
+          <input class="field search" id="propSearch" placeholder="Search property name or location..." oninput="filterProperties()">
+          <select class="field" id="propTypeFilter" onchange="filterProperties()">
+            <option value="">All property types</option>
+            <option value="Apartment">Apartment</option>
+            <option value="Villa">Villa</option>
+            <option value="Plot">Plot</option>
+          </select>
+          <select class="field" id="propTagFilter" onchange="filterProperties()">
+            <option value="">All tags</option>
+            <option value="Featured">Featured</option>
+            <option value="Special Offer">Special Offer</option>
+            <option value="New Launch">New Launch</option>
+          </select>
+        </div>
+
+        <!-- IMAGE-FIRST PROPERTY CARDS (NO BOTTOM CARD, COMPLETE HOVER OVERLAY) -->
+        <div class="cards" id="propertyCards"></div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- PAGE: BANNER MANAGEMENT (NO TEMPLATE SECTION)        -->
+      <!-- ==================================================== -->
+      <section class="page" id="banners">
+        <div class="head">
+          <div>
+            <h1>Banner Management</h1>
+            <p>Upload, edit and arrange the slides shown in the homepage carousel.</p>
           </div>
-          <div class="flex items-center gap-2.5 w-full md:w-auto">
-            <div class="relative">
-              <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5"></i>
-              <select id="propFilterLoc" onchange="filterProperties()" class="pl-8 pr-7 py-2 border border-slate-200 rounded-lg text-xs font-medium bg-white focus:outline-none focus:ring-2 focus:ring-royal/20">
-                <option value="All">Search by Location (All)</option>
-                <option value="OMR, Chennai">OMR, Chennai</option>
-                <option value="ECR, Chennai">ECR, Chennai</option>
-                <option value="Anna Nagar">Anna Nagar</option>
-                <option value="Medavakkam">Medavakkam</option>
-                <option value="Sholinganallur">Sholinganallur</option>
-                <option value="Thiruvanmiyur">Thiruvanmiyur</option>
-                <option value="Tambaram">Tambaram</option>
-                <option value="Guindy">Guindy</option>
-                <option value="Besant Nagar">Besant Nagar</option>
-                <option value="Porur">Porur</option>
-              </select>
-            </div>
-            <select id="propFilterType" onchange="filterProperties()" class="px-3 py-2 border border-slate-200 rounded-lg text-xs font-medium bg-white focus:outline-none focus:ring-2 focus:ring-royal/20">
-              <option value="All">All Types</option>
-              <option value="Apartment">Apartment</option>
-              <option value="Villa">Villa</option>
-              <option value="Plot">Plot</option>
+          <button class="btn primary" onclick="openModal('bannerModal')">＋ Add Banner</button>
+        </div>
+
+        <div class="panel">
+          <div class="panelhead">
+            <h3>Homepage Carousel</h3>
+            <span id="slideCapacity">3 / 10 Active</span>
+          </div>
+          <div class="muted" style="margin-bottom:14px">
+            Up to 10 slides can be stored. Keep up to 5 slides active on the homepage. Use the 3 dots (⋮) to toggle active state or delete.
+          </div>
+
+          <!-- BANNER LIST -->
+          <div class="bannerlist" id="bannerList"></div>
+
+          <!-- DRAG & DROP UPLOAD ZONE -->
+          <div class="drop" id="dropzone" style="margin-top:16px">
+            <b>＋ Drag & drop banner image here</b>
+            or click to browse from device · JPG, PNG, WebP · recommended 1920 × 720 px
+            <input id="bannerFile" type="file" accept="image/*" hidden>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================== -->
+      <!-- PAGE: ENQUIRIES                                      -->
+      <!-- ==================================================== -->
+      <section class="page" id="enquiries">
+        <div class="head">
+          <div>
+            <h1>Customer Enquiries</h1>
+            <p>Customer messages submitted through the website contact form.</p>
+          </div>
+          <button class="btn" onclick="showToast('Exporting enquiries CSV...')">Export CSV ↓</button>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><label>Total Enquiries</label><strong>86</strong></div>
+          <div class="stat"><label>New</label><strong style="color:var(--green)">12</strong></div>
+          <div class="stat"><label>Contacted</label><strong>49</strong></div>
+          <div class="stat"><label>Closed</label><strong style="color:var(--red)">25</strong></div>
+        </div>
+
+        <div class="panel">
+          <div class="toolbar">
+            <input class="field search" placeholder="Search customer name, phone or email...">
+            <select class="field">
+              <option>All statuses</option>
+              <option>New</option>
+              <option>Contacted</option>
+              <option>Closed</option>
             </select>
-            <select id="propFilterBadge" onchange="filterProperties()" class="px-3 py-2 border border-slate-200 rounded-lg text-xs font-medium bg-white focus:outline-none focus:ring-2 focus:ring-royal/20">
-              <option value="All">All Badges</option>
-              <option value="Featured">Featured</option>
-              <option value="New Launch">New Launch</option>
-              <option value="Special Offer">Special Offer</option>
-              <option value="Prime">Prime</option>
-              <option value="None">No Badge</option>
-            </select>
           </div>
+          <div class="muted" style="margin-bottom:12px">Click any customer row to view full details and launch direct WhatsApp chat.</div>
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Interested Property</th>
+                <th>Submitted</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="clickrow" onclick="openEnquiry('Suresh Kumar','Lake View Residency','New','+91 98765 43210','suresh@gmail.com')">
+                <td><b>Suresh Kumar</b><div class="muted">+91 98765 43210</div></td>
+                <td>Lake View Residency</td>
+                <td>Today, 10:24 AM</td>
+                <td><span class="pill new">New</span></td>
+              </tr>
+              <tr class="clickrow" onclick="openEnquiry('Meena Priya','Green Avenue Villas','Contacted','+91 98765 12340','meena@gmail.com')">
+                <td><b>Meena Priya</b><div class="muted">+91 98765 12340</div></td>
+                <td>Green Avenue Villas</td>
+                <td>12 Nov, 3:15 PM</td>
+                <td><span class="pill contacted">Contacted</span></td>
+              </tr>
+              <tr class="clickrow" onclick="openEnquiry('Rohit Sharma','City Centre Plots','Closed','+91 99887 66554','rohit@gmail.com')">
+                <td><b>Rohit Sharma</b><div class="muted">+91 99887 66554</div></td>
+                <td>City Centre Plots</td>
+                <td>11 Nov, 11:05 AM</td>
+                <td><span class="pill closed">Closed</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
-        <!-- 3-COLUMNS PROPERTIES GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5" id="propertyCards">
-          <!-- Populated dynamically -->
-        </div>
-
       </section>
 
-      <!-- ======================================================= -->
-      <!-- PAGE: BANNER MANAGEMENT                                 -->
-      <!-- ======================================================= -->
-      <section id="banners" class="page-view hidden space-y-5">
-        
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <!-- ==================================================== -->
+      <!-- PAGE: TESTIMONIALS                                   -->
+      <!-- ==================================================== -->
+      <section class="page" id="testimonials">
+        <div class="head">
           <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Banner Management</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Drag to reorder carousel slides. Manage display priority and upload banners.</p>
+            <h1>Testimonials</h1>
+            <p>Manage customer reviews shown on the public website.</p>
           </div>
-          <button onclick="openModal('addBannerModal')" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Add Banner</span>
-          </button>
+          <button class="btn primary" onclick="openModal('testimonialModal')">＋ Add Testimonial</button>
         </div>
-
-        <!-- CAROUSEL SLIDES (Clean white elevated 5/10 pill) -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-5 shadow-sm space-y-4">
-          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-            <div>
-              <h3 class="font-sans font-bold text-navy-900 text-sm">Carousel Slides</h3>
-            </div>
-            <!-- Elevated white pill without blue background -->
-            <span id="slideCapacity" class="px-3.5 py-1 rounded-full text-xs font-bold bg-white text-navy-900 border border-slate-200/90 shadow-sm">
-              5/10
-            </span>
-          </div>
-
-          <!-- DRAGGABLE BANNER LIST (Without left 4-dots grip) -->
-          <div id="bannerList" class="space-y-2.5"></div>
-        </div>
+        <div class="testgrid" id="testCards"></div>
       </section>
 
-      <!-- ======================================================= -->
-      <!-- PAGE: ENQUIRIES (WITHOUT ACTION COLUMN, ROW CLICK OPENS) -->
-      <!-- ======================================================= -->
-      <section id="enquiries" class="page-view hidden space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <!-- ==================================================== -->
+      <!-- PAGE: ADMIN PROFILE                                  -->
+      <!-- ==================================================== -->
+      <section class="page" id="profile">
+        <div class="head">
           <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Customer Enquiries</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Incoming leads and site visit reservations received from property pages.</p>
-          </div>
-          <button onclick="exportEnquiriesCSV()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all shadow-sm">
-            <i data-lucide="download" class="w-4 h-4 text-slate-500"></i>
-            <span>Export CSV</span>
-          </button>
-        </div>
-
-        <div class="bg-white border border-slate-200/90 rounded-xl shadow-sm overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
-                <tr>
-                  <th class="px-6 py-4">Client Name</th>
-                  <th class="px-6 py-4">Phone / Email</th>
-                  <th class="px-6 py-4">Property & Location</th>
-                  <th class="px-6 py-4">Date Submitted</th>
-                  <th class="px-6 py-4">Lead Status</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="enquiriesTableBody">
-                <!-- Populated dynamically without action column -->
-              </tbody>
-            </table>
+            <h1>Admin Profile</h1>
+            <p>Manage administrator account security and credentials.</p>
           </div>
         </div>
-      </section>
-
-      <!-- ======================================================= -->
-      <!-- PAGE: TESTIMONIALS (TOP-RIGHT PENCIL EDIT & TRASH)       -->
-      <!-- ======================================================= -->
-      <section id="testimonials" class="page-view hidden space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Client Testimonials</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Verified customer reviews displayed on public landing pages.</p>
+        <div class="panel" style="max-width:640px">
+          <div class="formgrid">
+            <div class="formfield"><label>Username</label><input value="admin" readonly style="background:#F8FAFC"></div>
+            <div class="formfield"><label>Role</label><input value="Administrator" readonly style="background:#F8FAFC"></div>
+            <div class="formfield full"><label>Current password</label><input type="password" placeholder="••••••••"></div>
+            <div class="formfield"><label>New password</label><input type="password" placeholder="New password"></div>
+            <div class="formfield"><label>Confirm password</label><input type="password" placeholder="Confirm new password"></div>
           </div>
-          <button onclick="openAddTestimonialModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-md shadow-royal/25 transition-all">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span>Add Testimonial</span>
-          </button>
-        </div>
-        <div id="testCards" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
-      </section>
-
-      <!-- ======================================================= -->
-      <!-- PAGE: ADMIN PROFILE & TEAM ACCOUNTS                     -->
-      <!-- ======================================================= -->
-      <section id="profile" class="page-view hidden space-y-6">
-        <div>
-          <h1 class="text-2xl font-bold text-navy-900 tracking-tight mb-1 font-sans">Admin Profile & Settings</h1>
-          <p class="text-xs text-slate-500">Manage administrator credentials, profile details, and authorized staff accounts.</p>
-        </div>
-
-        <!-- ADMIN PROFILE CARD (Left photo, right name/username/password/edit password) -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm max-w-3xl">
-          <form autocomplete="off" onsubmit="event.preventDefault();saveAdminProfile();">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
-              
-              <!-- LEFT: PROFILE PHOTO UPLOAD BOX -->
-              <div>
-                <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Profile Photo</label>
-                <div id="adminPhotoDropzone" class="w-full aspect-square max-w-[200px] rounded-2xl border-2 border-dashed border-slate-300 hover:border-royal bg-slate-50 hover:bg-royal/5 flex flex-col items-center justify-center cursor-pointer transition-all relative overflow-hidden group">
-                  <div id="photoPlaceholder" class="flex flex-col items-center justify-center text-slate-400 group-hover:text-royal p-4 text-center">
-                    <i data-lucide="plus" class="w-8 h-8 stroke-[2.5]"></i>
-                    <span class="text-xs font-bold mt-1.5">Upload Photo</span>
-                    <span class="text-[10px] text-slate-400 mt-1">Drag & drop or click</span>
-                  </div>
-                  <img id="photoPreviewImg" src="" alt="Profile Photo" class="w-full h-full object-cover hidden absolute inset-0">
-                  <input id="adminPhotoFileInput" type="file" accept="image/*" class="hidden">
-                </div>
-              </div>
-
-              <!-- RIGHT: DISPLAY NAME, USERNAME, PASSWORD & EDIT PASSWORD -->
-              <div class="md:col-span-2 space-y-4">
-                <div>
-                  <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Display Name</label>
-                  <input id="profileDisplayName" type="text" value="Victor Paul" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-royal/20">
-                </div>
-
-                <div>
-                  <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Username</label>
-                  <input id="profileUsername" type="text" value="victor" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-royal/20">
-                </div>
-
-                <div>
-                  <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Password</label>
-                  <input id="profilePassword" type="password" value="admin" readonly class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs text-slate-500 tracking-widest">
-                  <div class="flex justify-end mt-1.5">
-                    <button type="button" onclick="openModal('editPasswordModal')" class="text-xs font-bold text-royal hover:underline flex items-center gap-1">
-                      <i data-lucide="key" class="w-3.5 h-3.5"></i>
-                      <span>Edit Password</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div class="pt-2">
-                  <button type="submit" class="px-5 py-2.5 rounded-lg bg-royal hover:bg-royal-hover text-white font-bold text-xs shadow-md shadow-royal/25 transition-all">
-                    Save Profile Changes
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </form>
-        </div>
-
-        <!-- TEAM ACCOUNTS TABLE (saran, vibhkar, umeshwar, sharmika, victor) -->
-        <div class="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-sans font-bold text-navy-900 text-base">Admin & Team Accounts</h3>
-              <p class="text-xs text-slate-400 mt-0.5">Authorized accounts with identical username and password</p>
-            </div>
-            <button onclick="openModal('addAccountModal')" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-semibold shadow-sm transition-all">
-              <i data-lucide="user-plus" class="w-3.5 h-3.5"></i>
-              <span>+ Add New Account</span>
-            </button>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
-                <tr>
-                  <th class="px-5 py-3">Display Name</th>
-                  <th class="px-5 py-3">Username</th>
-                  <th class="px-5 py-3">Role</th>
-                  <th class="px-5 py-3">Created Date</th>
-                  <th class="px-5 py-3">Status</th>
-                  <th class="px-5 py-3 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="accountsTableBody">
-                <!-- Dynamically populated accounts -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <!-- ======================================================= -->
-      <!-- PAGE: ACTIVITY LOGS (14-DAY PERSISTENCE & JSON EXPORT)  -->
-      <!-- ======================================================= -->
-      <section id="logs" class="page-view hidden space-y-5">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 class="text-2xl font-bold text-navy-900 tracking-tight font-sans">Activity Audit Logs</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Chronological system audit trail with automatic 14-day pruning & JSON export.</p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="downloadLogsJSON()" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold shadow-sm transition-all">
-              <i data-lucide="download" class="w-3.5 h-3.5 text-royal"></i>
-              <span>Download activity_logs.json</span>
-            </button>
-            
-          </div>
-        </div>
-
-        <div class="bg-white border border-slate-200/90 rounded-xl shadow-sm overflow-hidden">
-          <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs">
-              <thead class="bg-slate-50 border-b border-slate-200 text-slate-400 font-bold uppercase tracking-wider">
-                <tr>
-                  <th class="px-6 py-4">Admin User</th>
-                  <th class="px-6 py-4">Action Summary</th>
-                  <th class="px-6 py-4">Module</th>
-                  <th class="px-6 py-4">Timestamp</th>
-                  <th class="px-6 py-4 text-right">Status</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-100 text-slate-700 font-medium" id="logsTableBody">
-                <!-- Dynamically populated from JSON store -->
-              </tbody>
-            </table>
-          </div>
+          <button class="btn primary" style="margin-top:16px" onclick="showToast('Password updated successfully')">Update Password</button>
         </div>
       </section>
 
@@ -684,827 +1156,254 @@
   </main>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: ADD / EDIT PROPERTY (SUBTLE LABELS, COVER & GALLERY) -->
-<!-- =========================================================== -->
-<div id="propertyModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-2xl w-full border border-slate-200 shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
-    <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-      <h3 id="modalPropTitle" class="text-base font-bold text-navy-900 font-sans">Add Property</h3>
-      <button onclick="closeModal('propertyModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
+<!-- ======================================================== -->
+<!-- MODAL: ADD / EDIT PROPERTY                               -->
+<!-- ======================================================== -->
+<div class="overlay" id="propertyModal">
+  <div class="modal">
+    <div class="modalhead">
+      <h2 id="propModalTitle">Add / Edit Property</h2>
+      <button class="x" onclick="closeModal('propertyModal')">×</button>
     </div>
-    
-    <div class="p-6 space-y-4 overflow-y-auto flex-1 text-xs">
+    <div class="modalbody">
       <input type="hidden" id="editPropIndex" value="-1">
-      
-      <!-- Property Name & Type -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Property Name</label>
-          <input id="formPropName" placeholder="e.g. Emerald Bay Villas" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
+      <div class="formgrid">
+        <div class="formfield">
+          <label>Property Name *</label>
+          <input id="propNameInput" placeholder="e.g. Lake View Residency">
         </div>
-        <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Property Type</label>
-          <input id="formPropType" type="text" placeholder="e.g. Villa · 4 BHK, Apartment · 3 BHK" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-        </div>
-      </div>
-
-      <!-- Location & Price in L -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-        <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Location / Area</label>
-          <input id="formPropLoc" placeholder="e.g. OMR, Chennai" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Price</label>
-          <input id="formPropPrice" placeholder="e.g. ₹78 L" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-        </div>
-      </div>
-
-      <!-- Badge Tag & Description -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-        <div>
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Badge Tag</label>
-          <select id="formPropTag" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none">
-            <option value="None">None (No Badge)</option>
-            <option value="Featured">Featured</option>
-            <option value="New Launch">New Launch</option>
-            <option value="Special Offer">Special Offer</option>
-            <option value="Prime">Prime</option>
-            <option value="Exclusive">Exclusive</option>
+        <div class="formfield">
+          <label>Property Type *</label>
+          <select id="propTypeInput">
+            <option value="Apartment · 2 BHK">Apartment · 2 BHK</option>
+            <option value="Apartment · 3 BHK">Apartment · 3 BHK</option>
+            <option value="Villa · 3 BHK">Villa · 3 BHK</option>
+            <option value="Villa · 4 BHK">Villa · 4 BHK</option>
+            <option value="Residential Plot">Residential Plot</option>
+            <option value="Commercial">Commercial</option>
           </select>
         </div>
-        <div class="sm:col-span-2">
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Description</label>
-          <textarea id="formPropDesc" rows="2" placeholder="Brief architectural overview, highlights, and specifications..." class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none resize-none"></textarea>
+        <div class="formfield">
+          <label>Area / Location *</label>
+          <input id="propLocInput" placeholder="e.g. OMR, Chennai">
         </div>
-      </div>
-
-      <!-- COVER IMAGE: SINGLE PREVIEW WITH UPDATE & DELETE (OR SQUARE DRAG & DROP BOX) -->
-      <div class="border-t border-slate-100 pt-3">
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-2">Cover Image</label>
-        
-        <div id="coverImageContainer">
-          <!-- Populated by JS: either a preview box with Update/Delete or drag-drop square -->
+        <div class="formfield">
+          <label>Price *</label>
+          <input id="propPriceInput" placeholder="e.g. ₹78 Lakhs">
         </div>
-        <input type="hidden" id="formPropImage" value="">
-        <input id="propCoverFileInput" type="file" accept="image/*" class="hidden">
-      </div>
-
-      <!-- GALLERY IMAGES: 5 PHOTOS (ROOM, POOL, KITCHEN, BALCONY, EXTERIOR) -->
-      <div class="border-t border-slate-100 pt-3">
-        <div class="flex items-center justify-between mb-2">
-          <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider">Gallery Images (5 Photos)</label>
-          <span class="text-[11px] text-slate-400">Room, Swimming Pool, Kitchen, Balcony, Exterior</span>
+        <div class="formfield">
+          <label>Property Tag</label>
+          <select id="propTagInput">
+            <option value="Featured">Featured</option>
+            <option value="Special Offer">Special Offer</option>
+            <option value="New Launch">New Launch</option>
+            <option value="None">None</option>
+          </select>
         </div>
-        
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5" id="galleryGridContainer">
-          <!-- Populated dynamically with 5 slots having Change / Delete / Add -->
+        <div class="formfield">
+          <label>Cover Image URL</label>
+          <input id="propImageInput" placeholder="https://images.unsplash.com/...">
         </div>
-        <input id="propGalleryFileInput" type="file" accept="image/*" class="hidden">
-      </div>
-
-      <!-- AMENITIES & FACILITIES (Lucide SVG line icons, start unselected) -->
-      <div class="border-t border-slate-100 pt-3">
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Amenities & Facilities</label>
-        <p class="text-[11px] text-slate-400 mb-2.5">Click any amenity icon below to toggle or add custom tags</p>
-
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3" id="amenitiesIconPicker">
-          <!-- Populated with clean Lucide SVG icons -->
-        </div>
-
-        <div class="flex items-center gap-2 mb-2">
-          <input id="newAmenityInput" placeholder="Add custom amenity (e.g. EV Charging Point)..." class="flex-1 px-3 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomAmenity();}">
-          <button type="button" onclick="addCustomAmenity()" class="px-3.5 py-2 rounded-lg bg-royal text-white text-xs font-bold hover:bg-royal-hover">
-            + Add
-          </button>
-        </div>
-
-        <div id="selectedAmenitiesList" class="flex flex-wrap gap-1.5 min-h-[34px] p-2 rounded-lg bg-slate-50 border border-slate-200/80">
-          <!-- Selected tags with remove x -->
+        <div class="formfield full">
+          <label>Short Description (Shown on Image Hover Overlay) *</label>
+          <textarea id="propDescInput" placeholder="Description visible when hovering over the property image"></textarea>
         </div>
       </div>
     </div>
-
-    <div class="px-6 py-3.5 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2.5">
-      <button onclick="closeModal('propertyModal')" class="px-4 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
-      <button onclick="savePropertyForm()" class="px-5 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Property</button>
+    <div class="modalfoot">
+      <button class="btn" onclick="closeModal('propertyModal')">Cancel</button>
+      <button class="btn primary" onclick="saveProperty()">Save Property</button>
     </div>
   </div>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: ADD BANNER MODAL (OVERLAY WITH DRAG & DROP UPLOAD)   -->
-<!-- =========================================================== -->
-<div id="addBannerModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-lg w-full border border-slate-200 shadow-2xl p-6">
-    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-      <h3 class="text-base font-bold text-navy-900 font-sans">Add Banner Slide</h3>
-      <button onclick="closeModal('addBannerModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
+<!-- ======================================================== -->
+<!-- MODAL: RENAME PROPERTY                                   -->
+<!-- ======================================================== -->
+<div class="overlay" id="renameModal">
+  <div class="modal" style="max-width: 440px;">
+    <div class="modalhead">
+      <h2>Rename Property</h2>
+      <button class="x" onclick="closeModal('renameModal')">×</button>
     </div>
-
-    <div class="space-y-3.5">
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Headline</label>
-        <input id="modalBannerHead" placeholder="e.g. Ultra Luxury Living in ECR" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Subtext</label>
-        <textarea id="modalBannerSub" rows="2" placeholder="Short description..." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs resize-none"></textarea>
-      </div>
-
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Banner Image (Drag & Drop)</label>
-        <div id="modalDropzone" class="border-2 border-dashed border-slate-300 hover:border-royal bg-slate-50/70 hover:bg-royal/5 rounded-xl p-6 text-center cursor-pointer transition-all group">
-          <div class="w-9 h-9 rounded-lg bg-white shadow-sm border border-slate-200 text-royal flex items-center justify-center mx-auto mb-2">
-            <i data-lucide="upload-cloud" class="w-5 h-5"></i>
-          </div>
-          <p class="text-xs font-bold text-navy-900">Drag & drop new banner image here, or <span class="text-royal underline">browse device</span></p>
-          <p class="text-[10px] text-slate-400 mt-0.5">Recommended 1920 × 720 px</p>
-          <input id="modalBannerFile" type="file" accept="image/*" class="hidden">
-        </div>
-        <p id="modalBannerFileName" class="text-[11px] text-emerald font-semibold mt-1 hidden"></p>
+    <div class="modalbody">
+      <input type="hidden" id="renamePropIndex" value="-1">
+      <div class="formfield">
+        <label>New Property Name *</label>
+        <input id="renamePropInput" placeholder="Enter new title">
       </div>
     </div>
-
-    <div class="flex items-center justify-end gap-2.5 mt-5 pt-3 border-t border-slate-100">
-      <button onclick="closeModal('addBannerModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="submitNewBanner()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Slide</button>
+    <div class="modalfoot">
+      <button class="btn" onclick="closeModal('renameModal')">Cancel</button>
+      <button class="btn primary" onclick="saveRename()">Rename</button>
     </div>
   </div>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: ADD / EDIT TESTIMONIAL (5 CLICKABLE STARS, NO ASTERISK) -->
-<!-- =========================================================== -->
-<div id="testimonialModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-md w-full border border-slate-200 shadow-2xl p-6">
-    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
-      <h3 id="testimonialModalTitle" class="text-base font-bold text-navy-900 font-sans">Add Testimonial</h3>
-      <button onclick="closeModal('testimonialModal')" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
+<!-- ======================================================== -->
+<!-- MODAL: ADD / EDIT BANNER                                 -->
+<!-- ======================================================== -->
+<div class="overlay" id="bannerModal">
+  <div class="modal">
+    <div class="modalhead">
+      <h2>Add / Edit Banner</h2>
+      <button class="x" onclick="closeModal('bannerModal')">×</button>
     </div>
-
-    <div class="space-y-3.5">
-      <input type="hidden" id="editTestimonialIndex" value="-1">
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Client Name</label>
-        <input id="testNameInput" placeholder="Enter client name" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
-      </div>
-      
-      <!-- 5 Interactive Clickable Stars (No dropdown) -->
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1.5">Rating (Click to Select)</label>
-        <input type="hidden" id="testStarInput" value="5">
-        <div class="flex items-center gap-2 p-2.5 bg-slate-50 border border-slate-200 rounded-lg w-fit" id="starRatingContainer">
-          <button type="button" onclick="setTestimonialStar(1)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <button type="button" onclick="setTestimonialStar(2)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <button type="button" onclick="setTestimonialStar(3)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <button type="button" onclick="setTestimonialStar(4)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <button type="button" onclick="setTestimonialStar(5)" class="star-btn text-amber-400 hover:scale-110 transition-transform"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
-          <span id="starRatingLabel" class="text-xs font-bold text-slate-700 ml-1">5 Stars</span>
+    <div class="modalbody">
+      <div class="formgrid">
+        <div class="formfield full">
+          <label>Banner Image URL</label>
+          <input id="bannerImgUrl" placeholder="https://images.unsplash.com/..." value="https://images.unsplash.com/photo-1600596000844-4f6f3b6b8b2b?w=800&q=85">
+        </div>
+        <div class="formfield full">
+          <label>Headline *</label>
+          <input id="bannerHeadline" placeholder="Your banner headline" value="Exclusive Luxury Residences">
+        </div>
+        <div class="formfield full">
+          <label>Supporting Text</label>
+          <textarea id="bannerSubtext" placeholder="Short subheading">Discover serene living surrounded by nature.</textarea>
+        </div>
+        <div class="formfield">
+          <label>Status</label>
+          <select id="bannerStatus">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
         </div>
       </div>
-
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Location</label>
-        <input id="testLocInput" placeholder="e.g. Anna Nagar, Chennai" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Feedback Quote</label>
-        <textarea id="testQuoteInput" rows="3" placeholder="Client review or feedback..." class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs resize-none"></textarea>
-      </div>
     </div>
-
-    <div class="flex items-center justify-end gap-2 mt-5 pt-3 border-t border-slate-100">
-      <button onclick="closeModal('testimonialModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="saveTestimonialModal()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Save Review</button>
+    <div class="modalfoot">
+      <button class="btn" onclick="closeModal('bannerModal')">Cancel</button>
+      <button class="btn primary" onclick="addNewBanner()">Save Banner</button>
     </div>
   </div>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: ADD NEW ACCOUNT                                      -->
-<!-- =========================================================== -->
-<div id="addAccountModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl p-6">
-    <h3 class="text-base font-bold text-navy-900 mb-1 font-sans">Create Team Account</h3>
-    <p class="text-xs text-slate-400 mb-4">Authorized team accounts use matching username and password.</p>
-    <div class="space-y-3 mb-5">
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Display Name</label>
-        <input id="newAccDisplayName" placeholder="e.g. Sharmika Murugesan" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Username</label>
-        <input id="newAccUsername" placeholder="e.g. sharmika" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Password</label>
-        <input id="newAccPassword" placeholder="e.g. sharmika" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Role</label>
-        <select id="newAccRole" class="w-full px-3.5 py-2 border border-slate-200 rounded-lg text-xs">
-          <option value="Administrator">Administrator</option>
-          <option value="Property Manager">Property Manager</option>
-          <option value="Marketing Lead">Marketing Lead</option>
-          <option value="Executive Administrator">Executive Administrator</option>
-        </select>
+<!-- ======================================================== -->
+<!-- MODAL: TESTIMONIAL                                       -->
+<!-- ======================================================== -->
+<div class="overlay" id="testimonialModal">
+  <div class="modal" style="max-width: 520px;">
+    <div class="modalhead">
+      <h2>Add Testimonial</h2>
+      <button class="x" onclick="closeModal('testimonialModal')">×</button>
+    </div>
+    <div class="modalbody">
+      <div class="formgrid">
+        <div class="formfield full"><label>Customer Name *</label><input placeholder="e.g. Ramesh Kumar"></div>
+        <div class="formfield full"><label>Location / Property</label><input placeholder="e.g. OMR, Chennai"></div>
+        <div class="formfield full"><label>Review *</label><textarea placeholder="Customer feedback"></textarea></div>
       </div>
     </div>
-    <div class="flex items-center justify-end gap-2">
-      <button onclick="closeModal('addAccountModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="submitNewAccount()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Create Account</button>
+    <div class="modalfoot">
+      <button class="btn" onclick="closeModal('testimonialModal')">Cancel</button>
+      <button class="btn primary" onclick="closeModal('testimonialModal'); showToast('Testimonial saved');">Save</button>
     </div>
   </div>
 </div>
 
-<!-- =========================================================== -->
-<!-- MODAL: EDIT PASSWORD                                        -->
-<!-- =========================================================== -->
-<div id="editPasswordModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl p-6">
-    <h3 class="text-base font-bold text-navy-900 mb-1 font-sans">Change Password</h3>
-    <p class="text-xs text-slate-400 mb-4">Set a new secure access credential for this account.</p>
-    <div class="space-y-3 mb-5">
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Current Password</label>
-        <div class="relative">
-          <input id="currentAdminPasswordInput" type="password" placeholder="Enter current password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
-          <button type="button" onclick="togglePasswordVisibility('currentAdminPasswordInput', 'eyeIconCurrent')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
-            <i id="eyeIconCurrent" data-lucide="eye" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">New Password</label>
-        <div class="relative">
-          <input id="newAdminPasswordInput" type="password" placeholder="Enter new password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
-          <button type="button" onclick="togglePasswordVisibility('newAdminPasswordInput', 'eyeIconNew')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
-            <i id="eyeIconNew" data-lucide="eye" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-      <div>
-        <label class="block text-xs font-medium text-slate-500 uppercase tracking-wider mb-1">Confirm Password</label>
-        <div class="relative">
-          <input id="confirmAdminPasswordInput" type="password" placeholder="Confirm new password" class="w-full pl-3.5 pr-10 py-2 border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-royal/20 focus:outline-none">
-          <button type="button" onclick="togglePasswordVisibility('confirmAdminPasswordInput', 'eyeIconConfirm')" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">
-            <i id="eyeIconConfirm" data-lucide="eye" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="flex items-center justify-end gap-2">
-      <button onclick="closeModal('editPasswordModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="submitEditPassword()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Update Password</button>
-    </div>
+<!-- ======================================================== -->
+<!-- ENQUIRY CUSTOMER DRAWER                                  -->
+<!-- ======================================================== -->
+<div class="drawer" id="enquiryDrawer">
+  <div class="drawerhead">
+    <h3>Customer Details</h3>
+    <button class="x" onclick="closeEnquiry()">×</button>
   </div>
-</div>
-
-<!-- =========================================================== -->
-<!-- MODAL: RENAME PROPERTY                                      -->
-<!-- =========================================================== -->
-<div id="renameModal" class="modal-overlay fixed inset-0 bg-navy-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-  <div class="bg-white rounded-2xl max-w-sm w-full border border-slate-200 shadow-2xl p-6">
-    <h3 class="text-base font-bold text-navy-900 mb-1 font-sans">Rename Property</h3>
-    <p class="text-xs text-slate-400 mb-4">Enter the new marketing title for this listing.</p>
-    <input type="hidden" id="renamePropIndex" value="-1">
-    <input id="renameInput" type="text" autocomplete="off" class="w-full px-3.5 py-2.5 border border-slate-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-royal/20 focus:outline-none mb-4">
-    <div class="flex items-center justify-end gap-2">
-      <button onclick="closeModal('renameModal')" class="px-3.5 py-2 rounded-lg border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-50">Cancel</button>
-      <button onclick="submitRename()" class="px-4 py-2 rounded-lg bg-royal hover:bg-royal-hover text-white text-xs font-bold shadow-md shadow-royal/20">Update Name</button>
-    </div>
-  </div>
-</div>
-
-<!-- =========================================================== -->
-<!-- DRAWER: ENQUIRY DETAILS (NAME & PHONE AT TOP, LABEL AS, DOWN BUTTONS) -->
-<!-- =========================================================== -->
-<div id="enquiryDrawer" class="fixed inset-y-0 right-0 w-full max-w-md bg-white border-l border-slate-200 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out p-6 flex flex-col">
-  
-  <!-- HEADER: NAME ON TOP, PHONE NUMBER BELOW -->
-  <div class="flex items-start justify-between pb-4 border-b border-slate-100">
-    <div class="flex items-center gap-3">
-      <div id="eAvatar" class="w-10 h-10 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-sm shadow-sm font-sans">S</div>
-      <div>
-        <h3 id="eName" class="font-sans font-bold text-navy-900 text-base leading-tight">Suresh Kumar</h3>
-        <p id="ePhoneTop" class="text-xs text-slate-500 font-medium mt-0.5">+91 98765 43210</p>
-      </div>
-    </div>
-    <button onclick="closeEnquiry()" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100">
-      <i data-lucide="x" class="w-5 h-5"></i>
-    </button>
-  </div>
-
-  <div class="py-5 space-y-4 flex-1 overflow-y-auto text-xs">
-    <!-- PROPERTY OF INTEREST WITH LOCATION -->
+  <div class="customer">
+    <div class="avatar" id="eAvatar">S</div>
     <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Property of Interest & Location</span>
-      <p id="eProperty" class="text-sm font-bold text-navy-900 mt-1 flex items-center gap-1.5">
-        <i data-lucide="building-2" class="w-3.5 h-3.5 text-royal"></i>
-        <span>Emerald Bay Villas, ECR, Chennai</span>
-      </p>
-    </div>
-    
-    <!-- LABEL AS -->
-    <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Label As</span>
-      <select id="eStatus" onchange="updateCurrentEnquiryStatus(this.value)" class="mt-1 w-full px-3 py-2 border border-slate-200 rounded-lg text-xs font-semibold focus:ring-2 focus:ring-royal/20">
-        <option value="None">None</option>
-        <option value="New">New</option>
-        <option value="Contacted">Contacted</option>
-        <option value="Site Visit">Site Visit</option>
-        <option value="Closed">Closed</option>
-      </select>
-    </div>
-
-    <!-- CLIENT PHONE -->
-    <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Phone Number</span>
-      <p id="ePhone" class="text-xs font-semibold text-navy-900 mt-0.5">+91 98765 43210</p>
-    </div>
-
-    <!-- CLIENT EMAIL -->
-    <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Email Address</span>
-      <p id="eEmail" class="text-xs font-semibold text-navy-900 mt-0.5">suresh@gmail.com</p>
-    </div>
-
-    <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Date Submitted</span>
-      <p id="eDate" class="text-xs font-semibold text-navy-900 mt-0.5">Today, 10:24 AM</p>
-    </div>
-
-    <div>
-      <span class="text-slate-400 font-bold uppercase text-[10px]">Inquiry Notes</span>
-      <p class="text-xs text-slate-600 mt-1 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-100">
-        Client requested brochure, payment milestone schedule, and weekend site visit confirmation. Interested in east-facing layout.
-      </p>
+      <b id="eName">Suresh Kumar</b>
+      <small id="ePhone">+91 98765 43210</small>
+      <small id="eEmail">suresh@gmail.com</small>
     </div>
   </div>
-
-  <!-- ACTION BUTTONS AT VERY BOTTOM -->
-  <div class="pt-4 border-t border-slate-100 space-y-2 mt-auto">
-    <button onclick="chatOnWhatsApp()" class="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white text-xs font-bold shadow-md shadow-emerald-500/20 transition-all">
-      <i data-lucide="message-circle" class="w-4 h-4"></i>
-      <span>Chat on WhatsApp</span>
-    </button>
-    
-    <button onclick="copyPhoneNumber()" class="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-semibold transition-all">
-      <i data-lucide="copy" class="w-3.5 h-3.5 text-slate-500"></i>
-      <span id="copyPhoneText">Copy Phone Number</span>
-    </button>
+  <div class="detailbox">
+    <label>Enquiry Status</label>
+    <select class="field" id="eStatus" style="width:100%">
+      <option>New</option>
+      <option>Contacted</option>
+      <option>Closed</option>
+    </select>
   </div>
+  <div class="detailbox">
+    <label>Interested Property</label>
+    <b id="eProperty">Lake View Residency</b>
+  </div>
+  <div class="detailbox">
+    <label>Customer Message</label>
+    <p>I would like to know more about this property and arrange a site visit. Please share more details.</p>
+  </div>
+  <div class="detailbox">
+    <label>Submitted On</label>
+    <b>14 Nov 2026 · 10:24 AM</b>
+  </div>
+  <a class="whatsapp" id="whatsappLink" href="https://wa.me/919876543210" target="_blank">
+    <span>WhatsApp Chat →</span>
+  </a>
+  <button class="btn copy" onclick="navigator.clipboard?.writeText(document.getElementById('ePhone').textContent); showToast('Phone copied');">
+    Copy Contact Details
+  </button>
+  <button class="btn primary copy" onclick="closeEnquiry(); showToast('Status updated');">
+    Save Status & Close
+  </button>
 </div>
 
-<!-- =========================================================== -->
-<!-- JAVASCRIPT APPLICATION LOGIC                                -->
-<!-- =========================================================== -->
+<!-- TOAST ALERT -->
+<div class="toast" id="toast">Changes saved</div>
+
+<!-- JAVASCRIPT APPLICATION LOGIC -->
 <script>
-// Sample HD Real Estate Photography
-const img1 = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&auto=format&fit=crop&q=85';
-const img2 = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&auto=format&fit=crop&q=85';
-const img3 = 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=1000&auto=format&fit=crop&q=85';
-const img4 = 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=1000&auto=format&fit=crop&q=85';
-const img5 = 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1000&auto=format&fit=crop&q=85';
-const img6 = 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1000&auto=format&fit=crop&q=85';
+const img1 = 'https://images.unsplash.com/photo-1600596000844-4f6f3b6b8b2b?w=800&q=85';
+const img2 = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85';
+const img3 = 'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&q=85';
 
-// Gallery presets for 5 photos (Room, Pool, Kitchen, Balcony, Exterior)
-const defaultGallery = [
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
-  'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800&q=80',
-  'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800&q=80',
-  'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800&q=80',
-  'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80'
-];
-
-// Available standard amenities with Lucide icons
-const standardAmenities = [
-  { name: 'Parking', icon: 'car' },
-  { name: 'Swimming Pool', icon: 'waves' },
-  { name: 'Security', icon: 'shield-check' },
-  { name: 'Gym', icon: 'dumbbell' },
-  { name: 'Garden', icon: 'trees' },
-  { name: 'Lift', icon: 'arrow-up-down' },
-  { name: 'CCTV', icon: 'video' },
-  { name: "Children's Play Area", icon: 'smile' },
-  { name: 'Power Backup', icon: 'zap' },
-  { name: 'Water Supply', icon: 'droplet' }
-];
-
-// 10 REAL CHENNAI LUXURY PROPERTIES DATASET:
-// [Name, Location, Price(L/Cr), Tag(Only 4 tagged, rest None), Type, Amenities, CoverImage, Description, GalleryArray]
-// Exactly 4 curated properties have cover images, remaining 6 have empty cover images as requested
+// [Title, Location, Price, Tag, Type/BHK, Description, ImageURL]
 let properties = [
-  [
-    'Emerald Bay Villas', 'ECR, Chennai', '₹1.85 Cr', 'Featured', 'Villa · 4 BHK',
-    ['Swimming Pool', 'Private Garden', 'Covered Parking'],
-    img6,
-    'Panoramic sea-facing luxury villas on East Coast Road with private beach access, landscaped lawns, and private infinity plunge pool.',
-    [...defaultGallery]
-  ],
-  [
-    'Azure Sky Towers', 'OMR, Chennai', '₹92 L', 'New Launch', 'Apartment · 3 BHK',
-    ['Clubhouse & Gym', 'Swimming Pool', '24/7 Security'],
-    img1,
-    'High-rise lifestyle residences along the OMR IT Corridor featuring double-height clubhouse, squash courts, and rooftop infinity pool.',
-    [...defaultGallery]
-  ],
-  [
-    'Greenwood Enclave', 'Medavakkam, Chennai', '₹68 L', 'Special Offer', 'Villa · 3 BHK',
-    ['Private Garden', '24/7 Security', 'Covered Parking'],
-    img2,
-    'Gated community of contemporary duplex villas surrounded by lush green parks with private backyards and solar streetlights.',
-    [...defaultGallery]
-  ],
-  [
-    'Prestige Grandeur', 'Anna Nagar, Chennai', '₹2.4 Cr', 'None', 'Apartment · 4 BHK',
-    ['Covered Parking', 'Clubhouse & Gym', 'Power Backup'],
-    img5,
-    'Palatial residences in prime Anna Nagar offering Italian marble flooring, smart home automation, and 3 dedicated car parking bays.',
-    [...defaultGallery]
-  ],
-  [
-    'Silicon Heights', 'Sholinganallur, Chennai', '₹84 L', 'None', 'Apartment · 2 BHK',
-    ['Clubhouse & Gym', '24/7 Security', 'High-Speed WiFi'],
-    '', // No cover image
-    'Contemporary urban flats near Sholinganallur ELCOT SEZ with modular German kitchen, gym, and electric vehicle charging bays.',
-    [...defaultGallery]
-  ],
-  [
-    'The Palm Springs', 'Thiruvanmiyur, Chennai', '₹1.6 Cr', 'None', 'Villa · 4 BHK',
-    ['Swimming Pool', 'Private Garden', 'Power Backup'],
-    '', // No cover image
-    'Boutique tropical villas with double-height living spaces, plunge pool, and walking proximity to Thiruvanmiyur beach.',
-    [...defaultGallery]
-  ],
-  [
-    'Golden Habitat', 'Tambaram, Chennai', '₹48 L', 'None', 'Residential Plot',
-    ['24/7 Security', 'Covered Parking'],
-    '', // No cover image
-    'CMDA & RERA approved premium villa plots with paved 40ft blacktop roads, underground cabling, and avenue plantations.',
-    [...defaultGallery]
-  ],
-  [
-    'Signature Crest', 'Guindy, Chennai', '₹1.35 Cr', 'None', 'Apartment · 3 BHK',
-    ['Clubhouse & Gym', 'Power Backup', '24/7 Security'],
-    '', // No cover image
-    'Executive apartments overlooking Guindy National Park featuring infinity edge pool, business conference lounge, and central air conditioning.',
-    [...defaultGallery]
-  ],
-  [
-    'Marina Breeze', 'Besant Nagar, Chennai', '₹3.1 Cr', 'None', 'Villa · 4 BHK',
-    ['Swimming Pool', 'Private Garden', '24/7 Security'],
-    '', // No cover image
-    'Bespoke coastal living nestled in quiet Besant Nagar residential avenues with designer landscaping and private glass elevator.',
-    [...defaultGallery]
-  ],
-  [
-    'Urban Oasis', 'Porur, Chennai', '₹72 L', 'None', 'Apartment · 2 BHK',
-    ['24/7 Security', 'Covered Parking', 'Power Backup'],
-    '', // No cover image
-    'Spacious family apartments near Porur Junction with community clubhouse, children play park, and piped gas connection.',
-    [...defaultGallery]
-  ]
+  ['Lake View Residency', 'OMR, Chennai', '₹78 Lakhs', 'Featured', 'Apartment · 2 BHK', 'Premium apartments with a calm lake-facing view.', img1],
+  ['Green Avenue Villas', 'Kelambakkam', '₹1.25 Cr', 'Special Offer', 'Villa · 4 BHK', 'Spacious family villas with landscaped surroundings.', img2],
+  ['City Centre Plots', 'Tambaram', '₹32 Lakhs', 'New Launch', 'Residential Plot', 'Well-connected residential plots near key facilities.', img3],
+  ['Skyline Apartments', 'Sholinganallur', '₹1.10 Cr', 'Featured', 'Apartment · 3 BHK', 'Contemporary homes with open views and thoughtful layouts.', img2],
+  ['Garden View Villas', 'Medavakkam', '₹95 Lakhs', 'New Launch', 'Villa · 3 BHK', 'Private garden spaces in a peaceful residential community.', img1],
+  ['Royal Meadows', 'Pallikaranai', '₹72 Lakhs', 'Special Offer', 'Apartment · 2 BHK', 'Comfortable homes close to everyday conveniences.', img3],
+  ['Blue Horizon Villas', 'ECR, Chennai', '₹1.40 Cr', 'Featured', 'Villa · 4 BHK', 'Modern coastal-inspired villas with generous living spaces.', img2],
+  ['Vista Greens', 'Perumbakkam', '₹88 Lakhs', 'New Launch', 'Apartment · 3 BHK', 'Bright family apartments with landscaped surroundings.', img1],
+  ['Prime Residency', 'Porur, Chennai', '₹1.20 Cr', 'Featured', 'Apartment · 3 BHK', 'Well-planned residences with excellent city connectivity.', img3],
+  ['Emerald Park', 'Thoraipakkam', '₹76 Lakhs', 'Special Offer', 'Apartment · 2 BHK', 'A calm community designed for everyday family living.', img2]
 ];
 
-// 10 ENQUIRIES (WITH AT LEAST 4 NEW LEADS)
-let enquiries = [
-  { id: 0, name: 'Suresh Kumar', phone: '+91 98765 43210', email: 'suresh@gmail.com', property: 'Emerald Bay Villas', location: 'ECR, Chennai', date: 'Today, 10:24 AM', status: 'New' },
-  { id: 1, name: 'Meena Priya', phone: '+91 98401 23456', email: 'meena.priya@outlook.com', property: 'Azure Sky Towers', location: 'OMR, Chennai', date: 'Today, 09:15 AM', status: 'New' },
-  { id: 2, name: 'Anand Chandran', phone: '+91 98844 11223', email: 'anand.c@gmail.com', property: 'Prestige Grandeur', location: 'Anna Nagar', date: 'Yesterday, 06:45 PM', status: 'New' },
-  { id: 3, name: 'Bhavani Shankar', phone: '+91 97910 88776', email: 'bhavani.s@yahoo.com', property: 'Greenwood Enclave', location: 'Medavakkam', date: 'Yesterday, 04:30 PM', status: 'New' },
-  { id: 4, name: 'Rohit Sharma', phone: '+91 97109 87654', email: 'rohit.sharma@yahoo.com', property: 'Golden Habitat', location: 'Tambaram', date: '11 Nov, 03:40 PM', status: 'Closed' },
-  { id: 5, name: 'Deepa Natarajan', phone: '+91 94441 55667', email: 'deepa.natarajan@yahoo.com', property: 'The Palm Springs', location: 'Thiruvanmiyur', date: '09 Nov, 02:15 PM', status: 'Contacted' },
-  { id: 6, name: 'Karthik S', phone: '+91 98840 99881', email: 'karthik.s@gmail.com', property: 'Silicon Heights', location: 'Sholinganallur', date: '08 Nov, 01:20 PM', status: 'Site Visit' },
-  { id: 7, name: 'Priya Sundaram', phone: '+91 99620 44551', email: 'priya.sundaram@gmail.com', property: 'Signature Crest', location: 'Guindy', date: '07 Nov, 05:10 PM', status: 'Contacted' },
-  { id: 8, name: 'Rajesh Kannan', phone: '+91 98410 77889', email: 'rajesh.k@gmail.com', property: 'Urban Oasis', location: 'Porur', date: '06 Nov, 11:50 AM', status: 'Site Visit' },
-  { id: 9, name: 'Lakshmi Narayanan', phone: '+91 97890 33221', email: 'lakshmi.n@gmail.com', property: 'Marina Breeze', location: 'Besant Nagar', date: '05 Nov, 10:00 AM', status: 'Closed' }
-];
-
-let activeEnquiryIndex = -1;
-
-// TEAM ACCOUNTS: EXACT MATCHING NAME & PASSWORD (victor, saran, vibhkar, umeshwar, sharmika)
-let staffAccounts = [
-  { name: 'Victor Paul', username: 'victorpaul', password: 'admin', role: 'Super Administrator', created: '01 Nov 2026', status: 'Active' },
-  { name: 'Victor Paul (Alias)', username: 'victor', password: 'admin', role: 'Super Administrator', created: '01 Nov 2026', status: 'Active' },
-  { name: 'Saran', username: 'saran', password: 'saran', role: 'Administrator', created: '02 Nov 2026', status: 'Active' },
-  { name: 'Vibhkar', username: 'vibhkar', password: 'vibhkar', role: 'Property Manager', created: '04 Nov 2026', status: 'Active' },
-  { name: 'Umeshwar', username: 'umeshwar', password: 'umeshwar', role: 'Marketing Lead', created: '06 Nov 2026', status: 'Active' },
-  { name: 'Sharmika Murugesan', username: 'sharmika', password: 'sharmika', role: 'Executive Administrator', created: '08 Nov 2026', status: 'Active' }
-];
-
-// Current logged in user profile
-let currentAdminProfile = {
-  name: 'Victor Paul',
-  username: 'victorpaul',
-  role: 'Super Administrator',
-  avatar: ''
-};
-
-// 14-DAY ACTIVITY AUDIT LOGS (Stored in localStorage as JSON, auto-pruned)
-const FOURTEEN_DAYS_MS = 14 * 24 * 60 * 60 * 1000;
-
-function loadActivityLogs() {
-  const saved = localStorage.getItem('vv_activity_logs_json');
-  if (saved) {
-    try {
-      let parsed = JSON.parse(saved);
-      const now = Date.now();
-      parsed = parsed.filter(item => (now - (item.timestamp || now)) <= FOURTEEN_DAYS_MS);
-      return parsed;
-    } catch (e) {
-      console.error(e);
-    }
-  }
-  return [
-    { user: 'Victor Paul', action: 'Reviewed lead dossier for Suresh Kumar', module: 'Enquiries', time: 'Today, 11:42 AM', timestamp: Date.now() - 3600000, status: 'Success' },
-    { user: 'Victor Paul', action: 'Updated listing price for Emerald Bay Villas to ₹1.85 Cr', module: 'Properties', time: 'Today, 10:15 AM', timestamp: Date.now() - 7200000, status: 'Success' },
-    { user: 'Sharmika Murugesan', action: 'Reordered carousel slide display priority', module: 'Banners', time: 'Yesterday, 04:30 PM', timestamp: Date.now() - 86400000, status: 'Success' },
-    { user: 'Saran', action: 'Created new team account permissions for staff member Vibhkar', module: 'Admin', time: '11 Nov 2026, 03:15 PM', timestamp: Date.now() - 3 * 86400000, status: 'Success' }
-  ];
-}
-
-let activityLogs = loadActivityLogs();
-
-function saveActivityLogs() {
-  localStorage.setItem('vv_activity_logs_json', JSON.stringify(activityLogs));
-}
-
-async function logAction(action, module = 'System', recordId = '') {
-  const now = new Date();
-  const formattedDate = new Intl.DateTimeFormat('en-IN', {
-    timeZone: 'Asia/Kolkata',
-    day: '2-digit',
-    month: 'short',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true
-  }).format(now);
-
-  const logItem = {
-    id: `log_${Date.now()}`,
-    adminId: currentAdminProfile.username,
-    adminUsername: currentAdminProfile.username,
-    adminName: currentAdminProfile.name,
-    action: action,
-    module: module,
-    recordId: String(recordId || ''),
-    date: formattedDate,
-    time: formattedDate,
-    timestamp: now.getTime(),
-    status: 'Success'
-  };
-
-  activityLogs.unshift(logItem);
-  activityLogs = activityLogs.slice(0, 200);
-  saveActivityLogs();
-  renderLogs();
-
-  try {
-    await fetch('/api/activity-logs', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ log: logItem })
-    });
-  } catch (e) {
-    // Graceful offline fallback
-  }
-}
-
-function clearOldLogs() {
-  const now = Date.now();
-  const initialCount = activityLogs.length;
-  activityLogs = activityLogs.filter(item => (now - (item.timestamp || now)) <= FOURTEEN_DAYS_MS);
-  saveActivityLogs();
-  renderLogs();
-  alert(`Audit check complete. Pruned ${initialCount - activityLogs.length} logs exceeding 14 days.`);
-}
-
-function downloadLogsJSON() {
-  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activityLogs, null, 2));
-  const dlAnchorElem = document.createElement('a');
-  dlAnchorElem.setAttribute("href", dataStr);
-  dlAnchorElem.setAttribute("download", "vv_activity_logs_14days.json");
-  dlAnchorElem.click();
-}
-
-function renderLogs() {
-  const tbody = document.getElementById('logsTableBody');
-  if (!tbody) return;
-  tbody.innerHTML = activityLogs.map(l => `
-    <tr class="hover:bg-slate-50 transition-colors">
-      <td class="px-6 py-4 font-bold text-navy-900">${l.adminName || l.user || 'Victor Paul'}</td>
-      <td class="px-6 py-4 text-slate-700">${l.action}</td>
-      <td class="px-6 py-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200">${l.module}</span></td>
-      <td class="px-6 py-4 text-slate-500 font-mono text-[11px]">${l.date || l.time}</td>
-      <td class="px-6 py-4 text-right"><span class="text-emerald font-bold">● ${l.status || 'Success'}</span></td>
-    </tr>
-  `).join('');
-}
-
-// =============================================================
-// AUTHENTICATION & 24-HOUR SESSION MANAGEMENT
-// =============================================================
-function checkAuthSession() {
-  try {
-    const raw = localStorage.getItem('vv_auth_session');
-    if (!raw) {
-      showLoginGate();
-      return;
-    }
-    const session = JSON.parse(raw);
-    const now = Date.now();
-    // Non-admin accounts (anyone other than victor) strictly expire after 24 hrs
-    const isPrimaryAdmin = (session.username === 'victorpaul' || session.username === 'victor');
-    const isExpired = isPrimaryAdmin 
-      ? (now > session.expiresAt) 
-      : ((now - (session.loginTime || session.expiresAt - 86400000)) > 86400000 || now > session.expiresAt);
-
-    if (!session || !session.expiresAt || isExpired) {
-      localStorage.removeItem('vv_auth_session');
-      document.cookie = "vv_auth=; max-age=0; path=/;";
-      showLoginGate();
-      return;
-    }
-    applyUserSession(session);
-    hideLoginGate();
-  } catch (e) {
-    showLoginGate();
-  }
-}
-
-function showLoginGate() {
-  const gate = document.getElementById('loginGate');
-  if (gate) gate.classList.remove('hidden');
-}
-
-function hideLoginGate() {
-  const gate = document.getElementById('loginGate');
-  if (gate) gate.classList.add('hidden');
-}
-
-function quickFillLogin(username) {
-  document.getElementById('loginUsername').value = username;
-  document.getElementById('loginPassword').value = username;
-}
-
-function handleLoginSubmit(e) {
-  e.preventDefault();
-  const u = document.getElementById('loginUsername').value.trim().toLowerCase();
-  const p = document.getElementById('loginPassword').value.trim();
-  const errorEl = document.getElementById('loginErrorMsg');
-
-  const match = staffAccounts.find(acc => acc.username.toLowerCase() === u && acc.password === p);
-
-  if (match) {
-    errorEl.classList.add('hidden');
-    // Store 24-hr session in cookie & localStorage
-    document.cookie = `vv_auth=${encodeURIComponent(match.username)}; max-age=86400; path=/;`;
-    const sessionData = {
-      username: match.username,
-      name: match.name,
-      role: match.role,
-      avatar: match.avatar || '',
-      loginTime: Date.now(),
-      expiresAt: Date.now() + 24 * 60 * 60 * 1000
-    };
-    localStorage.setItem('vv_auth_session', JSON.stringify(sessionData));
-    applyUserSession(sessionData);
-    logAction(`User "${match.name}" signed in`, 'Authentication');
-    hideLoginGate();
-  } else {
-    errorEl.textContent = 'Invalid username or password. Please use authorized credentials.';
-    errorEl.classList.remove('hidden');
-  }
-}
-
-function applyUserSession(session) {
-  currentAdminProfile.name = session.name || 'Victor Paul';
-  currentAdminProfile.username = session.username || 'victor';
-  currentAdminProfile.role = session.role || 'Super Administrator';
-  currentAdminProfile.avatar = session.avatar || '';
-
-  // Update top right header
-  const nameEl = document.getElementById('topAdminName');
-  const roleEl = document.getElementById('topAdminSubtitle');
-  const avatarInit = document.getElementById('adminAvatarInitial');
-  const avatarImg = document.getElementById('adminAvatarImg');
-
-  if (nameEl) nameEl.textContent = currentAdminProfile.name;
-  if (roleEl) roleEl.textContent = currentAdminProfile.role;
-  if (avatarInit) avatarInit.textContent = currentAdminProfile.name.charAt(0).toUpperCase();
-
-  if (currentAdminProfile.avatar && avatarImg && avatarInit) {
-    avatarImg.src = currentAdminProfile.avatar;
-    avatarImg.classList.remove('hidden');
-    avatarInit.classList.add('hidden');
-  } else if (avatarImg && avatarInit) {
-    avatarImg.classList.add('hidden');
-    avatarInit.classList.remove('hidden');
-  }
-
-  // Update profile inputs
-  const pName = document.getElementById('profileDisplayName');
-  const pUser = document.getElementById('profileUsername');
-  const pPass = document.getElementById('profilePassword');
-  if (pName) pName.value = currentAdminProfile.name;
-  if (pUser) pUser.value = currentAdminProfile.username;
-  if (pPass) pPass.value = currentAdminProfile.username; // Same password as name
-}
-
-function logout() {
-  document.cookie = "vv_auth=; max-age=0; path=/;";
-  localStorage.removeItem('vv_auth_session');
-  logAction(`User "${currentAdminProfile.name}" logged out`, 'Authentication');
-  document.getElementById('loginUsername').value = '';
-  document.getElementById('loginPassword').value = '';
-  document.getElementById('loginErrorMsg').classList.add('hidden');
-  showLoginGate();
-  lucide.createIcons();
-}
-
-// =============================================================
-// PROPERTY SECTION: CARD RENDERING (70% TOP VISIBLE, NO LAKE VIEW FOR ALL, L PRICING)
-// =============================================================
-let currentFormAmenities = [];
-let currentFormGallery = [];
-
-function renderPropertyCard(p, i, isRecent = false) {
-  const realIndex = properties.indexOf(p) !== -1 ? properties.indexOf(p) : i;
-  const prefix = isRecent ? 'recent' : 'prop';
-  const menuId = `${prefix}Menu_${realIndex}`;
-
-  const badgeHtml = (p[3] && p[3] !== 'None' && p[3] !== 'Prime' && p[3] !== 'Prime Exclusive') ? `
-    <div class="absolute top-3 left-3 z-10 pointer-events-none">
-      <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-navy-900/85 backdrop-blur-md text-white border border-white/20 shadow-md">
-        ${p[3]}
-      </span>
-    </div>
-  ` : '';
-
-  const heightClass = isRecent ? 'h-48' : 'h-64';
-
+// RENDER PROPERTY CARD: COMPLETELY IMAGE-FIRST, NO BOTTOM CARD, OVERLAY ON HOVER/POINTER
+function card(p, i) {
+  const badgeHtml = (p[3] && p[3] !== 'None') ? `<span class="tag">${p[3]}</span>` : '';
   return `
-    <article class="relative group rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200/90 bg-navy-900 ${heightClass}">
-      <!-- Full Image or Architectural Placeholder if no cover image -->
-      ${p[6] ? `
-        <img src="${p[6]}" alt="${p[0]}" onerror="this.src='${img2}'" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-      ` : `
-        <div class="w-full h-full bg-gradient-to-br from-navy-950 via-navy-900 to-royal/40 flex flex-col items-center justify-center p-4 text-center group-hover:scale-105 transition-transform duration-500">
-          <div class="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-ice mb-2">
-            <i data-lucide="building" class="w-6 h-6"></i>
-          </div>
-          <h4 class="font-sans font-bold text-white text-sm tracking-tight drop-shadow">${p[0]}</h4>
-          <span class="text-[10px] text-ice/80 font-medium mt-0.5">${p[1]}</span>
-          <span class="mt-2 text-[9px] uppercase tracking-widest text-slate-400 border border-white/10 px-2 py-0.5 rounded-full">+ Add Cover Image</span>
-        </div>
-      `}
-
-      <!-- Badge Tag (Optional) -->
-      ${badgeHtml}
-
-      <!-- Vertical 3-Dots Button: SHOWN ON HOVER & STAYS VISIBLE WHEN OPEN -->
-      <div class="menu-wrapper absolute top-3 right-3 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <button type="button" onclick="toggleMenu(event, '${menuId}')" class="w-7 h-7 rounded-full bg-white/95 backdrop-blur-md hover:bg-white text-navy-900 flex items-center justify-center shadow-lg transition-transform hover:scale-110 focus:outline-none">
-          <i data-lucide="more-vertical" class="w-3.5 h-3.5"></i>
-        </button>
-
-        <!-- Dropdown Menu -->
-        <div id="${menuId}" class="menu-box hidden absolute right-0 mt-1.5 w-32 bg-white rounded-xl shadow-2xl border border-slate-200 p-1 z-40 menu-anim">
-          <button type="button" onclick="editProperty(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
-            <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
-            <span>Edit</span>
+    <article class="property image-card" data-index="${i}" onclick="handleCardClick(event, ${i})">
+      <div class="photo">
+        <img src="${p[6] || img1}" alt="${p[0]}" loading="lazy">
+        ${badgeHtml}
+        
+        <!-- VERTICAL 3 DOTS (⋮) BUTTON -->
+        <button class="dots" aria-label="Property options" title="Property options" onclick="toggleMenu(event, ${i})">&#8942;</button>
+        
+        <!-- 3-DOTS DROPDOWN: EDIT, RENAME, DELETE -->
+        <div class="menu" id="menu${i}">
+          <button type="button" onclick="editProperty(event, ${i})">
+            <span>✏️</span> <span>Edit</span>
           </button>
-          <button type="button" onclick="openRenameModal(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 hover:text-royal hover:bg-royal/5 transition-colors">
-            <i data-lucide="type" class="w-3.5 h-3.5"></i>
-            <span>Rename</span>
+          <button type="button" onclick="openRenameModal(event, ${i})">
+            <span>🏷️</span> <span>Rename</span>
           </button>
-          <button type="button" onclick="deleteProperty(event, ${realIndex})" class="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-coral hover:bg-coral/5 transition-colors">
-            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-            <span>Delete</span>
+          <button type="button" class="delete" onclick="deleteProperty(event, ${i})">
+            <span>🗑️</span> <span>Delete</span>
           </button>
         </div>
-      </div>
 
-      <!-- HOVER OVERLAY: TOP 70% CLEAR VISIBILITY, BOTTOM CONTRAST FOR TEXT (PROPERTY NAME REMOVED AS REQUESTED) -->
-      <div class="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-950/40 via-30% to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 p-4 flex flex-col justify-end text-white pointer-events-none">
-        <div class="flex items-center justify-between mb-1.5">
-          <span class="text-[10px] font-bold uppercase tracking-wider text-ice font-sans">${p[4]}</span>
-          <span class="text-base font-bold text-white drop-shadow font-sans">${p[2]}</span>
+        <!-- FULL OVERLAY OVER IMAGE ON HOVER / POINTER -->
+        <div class="hoverinfo">
+          <b>${p[0]}</b>
+          <div class="hover-meta">${p[1]} · ${p[2]}</div>
+          <div class="hover-type">${p[4]}</div>
+          <div class="hover-desc">${p[5]}</div>
         </div>
-        <p class="text-[11px] text-slate-300 flex items-center gap-1 font-medium">
-          <i data-lucide="map-pin" class="w-3 h-3 text-ice"></i>
-          <span>${p[1]}</span>
-        </p>
       </div>
     </article>
   `;
@@ -1514,1346 +1413,350 @@ function renderProperties(list = properties) {
   const container = document.getElementById('propertyCards');
   if (!container) return;
   if (list.length === 0) {
-    container.innerHTML = `<div class="col-span-full py-16 text-center text-slate-400 bg-white rounded-2xl border border-dashed border-slate-200 font-medium text-xs">No properties found matching your filter criteria.</div>`;
+    container.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 48px; color: #94A3B8; background: #FFFFFF; border: 1px dashed #E2E8F0; border-radius: 12px;">No properties found.</div>`;
     return;
   }
-  container.innerHTML = list.map((p, i) => renderPropertyCard(p, i, false)).join('');
-  
-  const totalEl = document.getElementById('statTotalProps');
-  if (totalEl) totalEl.textContent = properties.length;
-  
-  renderRecentProperties();
-  lucide.createIcons();
+  container.innerHTML = list.map((p, i) => card(p, properties.indexOf(p) !== -1 ? properties.indexOf(p) : i)).join('');
+  const dashCount = document.getElementById('dashTotalProps');
+  if (dashCount) dashCount.textContent = properties.length;
 }
 
-function renderRecentProperties() {
-  const container = document.getElementById('recentPropertiesGrid');
-  if (!container) return;
-  const recent5 = properties.slice(0, 5);
-  container.innerHTML = recent5.map((p, i) => renderPropertyCard(p, i, true)).join('');
-  lucide.createIcons();
+// TAP ON CARD TOGGLES OVERLAY FOR TOUCH DEVICES
+function handleCardClick(e, i) {
+  if (e.target.closest('.dots') || e.target.closest('.menu')) return;
+  const cardEl = e.currentTarget;
+  cardEl.classList.toggle('overlay-active');
 }
 
-// COVER IMAGE BUILDER: SINGLE THUMBNAIL WITH UPDATE & DELETE (OR SQUARE DRAG & DROP BOX)
-function buildCoverImageSection(url) {
-  const container = document.getElementById('coverImageContainer');
-  if (!container) return;
-
-  if (url) {
-    container.innerHTML = `
-      <div class="flex items-center gap-4 p-3 rounded-xl border border-slate-200 bg-slate-50">
-        <div class="w-24 h-16 rounded-lg overflow-hidden border border-slate-300 shadow-sm flex-shrink-0">
-          <img src="${url}" alt="Cover photo" class="w-full h-full object-cover">
-        </div>
-        <div class="flex-1">
-          <p class="text-xs font-bold text-navy-900">Current Cover Image</p>
-        </div>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="triggerCoverUpload()" class="px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 text-xs font-semibold text-slate-700 shadow-sm transition-all flex items-center gap-1">
-            <i data-lucide="refresh-cw" class="w-3 h-3 text-royal"></i>
-            <span>Update</span>
-          </button>
-          <button type="button" onclick="removeCoverImage()" class="px-3 py-1.5 rounded-lg border border-rose-200 bg-rose-50 hover:bg-rose-100 text-xs font-semibold text-rose-600 transition-all flex items-center gap-1">
-            <i data-lucide="trash-2" class="w-3 h-3 text-rose-600"></i>
-            <span>Delete</span>
-          </button>
-        </div>
-      </div>
-    `;
-  } else {
-    container.innerHTML = `
-      <div id="coverDropzone" onclick="triggerCoverUpload()" class="border-2 border-dashed border-slate-300 hover:border-royal bg-slate-50/70 hover:bg-royal/5 rounded-xl p-5 text-center cursor-pointer transition-all group">
-        <div class="w-10 h-10 rounded-xl bg-white shadow-sm border border-slate-200 text-royal flex items-center justify-center mx-auto mb-1.5 group-hover:scale-105 transition-transform">
-          <i data-lucide="plus" class="w-5 h-5"></i>
-        </div>
-        <p class="text-xs font-bold text-navy-900">Drag & drop cover photo here, or <span class="text-royal underline">browse file</span></p>
-        <p class="text-[10px] text-slate-400 mt-0.5">Recommended 1600 × 1000 px</p>
-      </div>
-    `;
-    setupCoverDropzone();
-  }
-  lucide.createIcons();
-}
-
-function triggerCoverUpload() {
-  const input = document.getElementById('propCoverFileInput');
-  if (input) input.click();
-}
-
-function removeCoverImage() {
-  document.getElementById('formPropImage').value = '';
-  buildCoverImageSection('');
-}
-
-function setupCoverDropzone() {
-  const dz = document.getElementById('coverDropzone');
-  if (!dz) return;
-  ['dragenter', 'dragover'].forEach(eventName => {
-    dz.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); dz.classList.add('drag-over'); }, false);
-  });
-  ['dragleave', 'drop'].forEach(eventName => {
-    dz.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); dz.classList.remove('drag-over'); }, false);
-  });
-  dz.addEventListener('drop', e => {
-    const files = e.dataTransfer.files;
-    if (files.length > 0 && files[0].type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        document.getElementById('formPropImage').value = ev.target.result;
-        buildCoverImageSection(ev.target.result);
-      };
-      reader.readAsDataURL(files[0]);
-    }
-  });
-}
-
-// GALLERY IMAGES SECTION: 5 PHOTOS (ROOM, POOL, KITCHEN, BALCONY, EXTERIOR)
-function buildGallerySection() {
-  const container = document.getElementById('galleryGridContainer');
-  if (!container) return;
-
-  let html = '';
-  for (let idx = 0; idx < 5; idx++) {
-    const photo = currentFormGallery[idx];
-    if (photo) {
-      html += `
-        <div class="relative group rounded-xl overflow-hidden border border-slate-200 h-20 shadow-sm bg-navy-900">
-          <img src="${photo}" alt="Gallery ${idx + 1}" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-navy-950/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
-            <button type="button" onclick="triggerGalleryUpdate(${idx})" class="p-1 rounded bg-white text-navy-900 hover:text-royal transition-colors shadow-sm" title="Change Image">
-              <i data-lucide="refresh-cw" class="w-3 h-3"></i>
-            </button>
-            <button type="button" onclick="deleteGalleryImage(${idx})" class="p-1 rounded bg-white text-coral hover:bg-coral/10 transition-colors shadow-sm" title="Delete">
-              <i data-lucide="trash-2" class="w-3 h-3"></i>
-            </button>
-          </div>
-        </div>
-      `;
-    } else {
-      html += `
-        <div onclick="triggerGalleryAdd()" class="rounded-xl border-2 border-dashed border-slate-200 hover:border-royal bg-slate-50 hover:bg-royal/5 h-20 flex flex-col items-center justify-center cursor-pointer transition-all text-slate-400 hover:text-royal group">
-          <i data-lucide="plus" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-          <span class="text-[10px] font-bold mt-1">+ Photo</span>
-        </div>
-      `;
-    }
-  }
-  container.innerHTML = html;
-  lucide.createIcons();
-}
-
-let activeGalleryUpdateSlot = -1;
-
-function triggerGalleryUpdate(idx) {
-  activeGalleryUpdateSlot = idx;
-  const input = document.getElementById('propGalleryFileInput');
-  if (input) input.click();
-}
-
-function triggerGalleryAdd() {
-  activeGalleryUpdateSlot = currentFormGallery.length < 5 ? currentFormGallery.length : 0;
-  const input = document.getElementById('propGalleryFileInput');
-  if (input) input.click();
-}
-
-function deleteGalleryImage(idx) {
-  currentFormGallery.splice(idx, 1);
-  buildGallerySection();
-}
-
-// AMENITIES: CLEAN LUCIDE LINE ICONS (START UNSELECTED)
-function renderAmenitiesPicker() {
-  const container = document.getElementById('amenitiesIconPicker');
-  if (!container) return;
-  container.innerHTML = standardAmenities.map(am => {
-    const isSelected = currentFormAmenities.includes(am.name);
-    return `
-      <button type="button" onclick="toggleAmenityTag('${am.name}')" class="flex items-center justify-between p-2.5 rounded-lg border text-xs font-medium transition-all ${isSelected ? 'border-royal bg-royal/10 text-royal font-bold ring-1 ring-royal shadow-2xs' : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'}">
-        <div class="flex items-center gap-2">
-          <i data-lucide="${am.icon}" class="w-4 h-4 ${isSelected ? 'text-royal' : 'text-slate-500'}"></i>
-          <span>${am.name}</span>
-        </div>
-        ${isSelected ? '<i data-lucide="check" class="w-3.5 h-3.5 text-royal"></i>' : ''}
-      </button>
-    `;
-  }).join('');
-  lucide.createIcons();
-}
-
-function toggleAmenityTag(tag) {
-  if (currentFormAmenities.includes(tag)) {
-    currentFormAmenities = currentFormAmenities.filter(t => t !== tag);
-  } else {
-    currentFormAmenities.push(tag);
-  }
-  renderAmenitiesPicker();
-  renderSelectedAmenitiesTags();
-}
-
-function addCustomAmenity() {
-  const input = document.getElementById('newAmenityInput');
-  const val = input.value.trim();
-  if (val && !currentFormAmenities.includes(val)) {
-    currentFormAmenities.push(val);
-    input.value = '';
-    renderAmenitiesPicker();
-    renderSelectedAmenitiesTags();
-  }
-}
-
-function renderSelectedAmenitiesTags() {
-  const container = document.getElementById('selectedAmenitiesList');
-  if (!container) return;
-  if (currentFormAmenities.length === 0) {
-    container.innerHTML = '<span class="text-[11px] text-slate-400 italic">No amenities selected. Click the icons above to add.</span>';
-    return;
-  }
-  container.innerHTML = currentFormAmenities.map(tag => `
-    <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold bg-white border border-slate-200 text-navy-900 shadow-2xs">
-      <span>${tag}</span>
-      <button type="button" onclick="removeAmenityTag('${tag}')" class="text-slate-400 hover:text-coral">
-        <i data-lucide="x" class="w-3 h-3"></i>
-      </button>
-    </span>
-  `).join('');
-  lucide.createIcons();
-}
-
-function removeAmenityTag(tag) {
-  currentFormAmenities = currentFormAmenities.filter(t => t !== tag);
-  renderAmenitiesPicker();
-  renderSelectedAmenitiesTags();
-}
-
-// MODAL OPEN / EDIT PROPERTY
-function openAddPropertyModal() {
-  document.getElementById('editPropIndex').value = -1;
-  document.getElementById('modalPropTitle').textContent = 'Add Property';
-  document.getElementById('formPropName').value = '';
-  document.getElementById('formPropLoc').value = '';
-  document.getElementById('formPropPrice').value = '';
-  document.getElementById('formPropTag').value = 'None';
-  document.getElementById('formPropType').value = 'Apartment · 2 BHK';
-  document.getElementById('formPropDesc').value = '';
-  document.getElementById('formPropImage').value = img1;
-  
-  currentFormAmenities = []; // Start completely unselected!
-  currentFormGallery = [...defaultGallery];
-  
-  buildCoverImageSection(img1);
-  buildGallerySection();
-  renderAmenitiesPicker();
-  renderSelectedAmenitiesTags();
-  openModal('propertyModal');
-}
-
-function editProperty(e, i) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
+// 3-DOTS VERTICAL MENU TOGGLE
+function toggleMenu(e, i) {
+  e.stopPropagation();
+  const menu = document.getElementById('menu' + i);
+  const isOpen = menu && menu.classList.contains('open');
   closeAllMenus();
-  const p = properties[i];
-  if (!p) return;
-  document.getElementById('editPropIndex').value = i;
-  document.getElementById('modalPropTitle').textContent = 'Edit Property';
-  document.getElementById('formPropName').value = p[0];
-  document.getElementById('formPropLoc').value = p[1];
-  document.getElementById('formPropPrice').value = p[2];
-  document.getElementById('formPropTag').value = p[3] || 'None';
-  document.getElementById('formPropType').value = p[4];
-  document.getElementById('formPropDesc').value = p[7] || '';
-  document.getElementById('formPropImage').value = p[6] || img1;
-
-  currentFormAmenities = [...(p[5] || [])];
-  currentFormGallery = p[8] ? [...p[8]] : [...defaultGallery];
-
-  buildCoverImageSection(p[6] || img1);
-  buildGallerySection();
-  renderAmenitiesPicker();
-  renderSelectedAmenitiesTags();
-  openModal('propertyModal');
-}
-
-function savePropertyForm() {
-  const i = parseInt(document.getElementById('editPropIndex').value, 10);
-  const name = document.getElementById('formPropName').value.trim();
-  const loc = document.getElementById('formPropLoc').value.trim() || 'OMR, Chennai';
-  const price = document.getElementById('formPropPrice').value.trim() || 'Price on Request';
-  const tag = document.getElementById('formPropTag').value;
-  const type = document.getElementById('formPropType').value;
-  const desc = document.getElementById('formPropDesc').value.trim();
-  const img = document.getElementById('formPropImage').value.trim() || img1;
-
-  if (!name) {
-    alert('Please enter a property name.');
-    return;
-  }
-
-  if (i >= 0 && properties[i]) {
-    properties[i] = [name, loc, price, tag, type, [...currentFormAmenities], img, desc, [...currentFormGallery]];
-    logAction(`Edited listing "${name}" (${loc}, ${price})`, 'Properties');
-  } else {
-    properties.unshift([name, loc, price, tag, type, [...currentFormAmenities], img, desc, [...currentFormGallery]]);
-    logAction(`Created new listing "${name}" (${loc}, ${price})`, 'Properties');
-  }
-
-  renderProperties();
-  closeModal('propertyModal');
-}
-
-function deleteProperty(e, i) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  closeAllMenus();
-  const propName = properties[i] ? properties[i][0] : 'this property';
-  if (confirm(`Are you sure you want to delete "${propName}"?`)) {
-    properties.splice(i, 1);
-    renderProperties();
-    logAction(`Deleted property listing "${propName}"`, 'Properties');
-  }
-}
-
-// 3-Dots Menu Operations
-function toggleMenu(e, menuId) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
-  const targetMenu = document.getElementById(menuId);
-  if (!targetMenu) return;
-  const isCurrentlyOpen = !targetMenu.classList.contains('hidden');
-
-  closeAllMenus();
-
-  if (!isCurrentlyOpen) {
-    targetMenu.classList.remove('hidden');
-    const wrapper = targetMenu.closest('.menu-wrapper');
-    if (wrapper) wrapper.classList.add('is-open');
+  if (!isOpen && menu) {
+    menu.classList.add('open');
   }
 }
 
 function closeAllMenus() {
-  document.querySelectorAll('.menu-box').forEach(m => m.classList.add('hidden'));
-  document.querySelectorAll('.menu-wrapper').forEach(w => w.classList.remove('is-open'));
+  document.querySelectorAll('.menu').forEach(m => m.classList.remove('open'));
 }
 
-// Rename Property
-function openRenameModal(e, i) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
+// EDIT PROPERTY
+function editProperty(e, i) {
+  e.stopPropagation();
   closeAllMenus();
-  document.getElementById('renamePropIndex').value = i;
-  document.getElementById('renameInput').value = properties[i] ? properties[i][0] : '';
-  openModal('renameModal');
-  setTimeout(() => document.getElementById('renameInput').focus(), 100);
+  const p = properties[i];
+  if (!p) return;
+  document.getElementById('editPropIndex').value = i;
+  document.getElementById('propModalTitle').textContent = 'Edit Property';
+  document.getElementById('propNameInput').value = p[0];
+  document.getElementById('propLocInput').value = p[1];
+  document.getElementById('propPriceInput').value = p[2];
+  document.getElementById('propTagInput').value = p[3] || 'None';
+  document.getElementById('propTypeInput').value = p[4] || 'Apartment · 2 BHK';
+  document.getElementById('propDescInput').value = p[5];
+  document.getElementById('propImageInput').value = p[6];
+  openModal('propertyModal');
 }
 
-function submitRename() {
+function openAddPropertyModal() {
+  document.getElementById('editPropIndex').value = -1;
+  document.getElementById('propModalTitle').textContent = 'Add Property';
+  document.getElementById('propNameInput').value = '';
+  document.getElementById('propLocInput').value = '';
+  document.getElementById('propPriceInput').value = '';
+  document.getElementById('propTagInput').value = 'Featured';
+  document.getElementById('propTypeInput').value = 'Apartment · 2 BHK';
+  document.getElementById('propDescInput').value = '';
+  document.getElementById('propImageInput').value = img1;
+  openModal('propertyModal');
+}
+
+function saveProperty() {
+  const index = parseInt(document.getElementById('editPropIndex').value, 10);
+  const name = document.getElementById('propNameInput').value.trim();
+  const loc = document.getElementById('propLocInput').value.trim();
+  const price = document.getElementById('propPriceInput').value.trim();
+  const tag = document.getElementById('propTagInput').value;
+  const type = document.getElementById('propTypeInput').value;
+  const desc = document.getElementById('propDescInput').value.trim();
+  const img = document.getElementById('propImageInput').value.trim() || img1;
+
+  if (!name || !loc || !price) {
+    alert('Please enter property name, location and price.');
+    return;
+  }
+
+  if (index >= 0 && properties[index]) {
+    properties[index] = [name, loc, price, tag, type, desc, img];
+    showToast(`Updated "${name}"`);
+  } else {
+    properties.unshift([name, loc, price, tag, type, desc, img]);
+    showToast(`Added "${name}"`);
+  }
+  closeModal('propertyModal');
+  renderProperties();
+}
+
+// RENAME PROPERTY MODAL
+function openRenameModal(e, i) {
+  e.stopPropagation();
+  closeAllMenus();
+  const p = properties[i];
+  if (!p) return;
+  document.getElementById('renamePropIndex').value = i;
+  document.getElementById('renamePropInput').value = p[0];
+  openModal('renameModal');
+  setTimeout(() => document.getElementById('renamePropInput').focus(), 100);
+}
+
+function saveRename() {
   const i = parseInt(document.getElementById('renamePropIndex').value, 10);
-  const newName = document.getElementById('renameInput').value.trim();
-  if (newName && properties[i]) {
+  const newName = document.getElementById('renamePropInput').value.trim();
+  if (!newName) {
+    alert('Property name cannot be empty');
+    return;
+  }
+  if (properties[i]) {
     const oldName = properties[i][0];
     properties[i][0] = newName;
     renderProperties();
     closeModal('renameModal');
-    logAction(`Renamed listing from "${oldName}" to "${newName}"`, 'Properties');
+    showToast(`Renamed "${oldName}" to "${newName}"`);
   }
 }
 
+// DELETE PROPERTY
+function deleteProperty(e, i) {
+  e.stopPropagation();
+  closeAllMenus();
+  const name = properties[i]?.[0] || 'this property';
+  if (confirm(`Are you sure you want to delete "${name}"?`)) {
+    properties.splice(i, 1);
+    renderProperties();
+    showToast(`Deleted "${name}"`);
+  }
+}
+
+// FILTER PROPERTIES
 function filterProperties() {
-  const search = document.getElementById('propSearchInput').value.toLowerCase();
-  const loc = document.getElementById('propFilterLoc').value;
-  const type = document.getElementById('propFilterType').value;
-  const badge = document.getElementById('propFilterBadge').value;
+  const q = (document.getElementById('propSearch')?.value || '').toLowerCase();
+  const typeFilter = document.getElementById('propTypeFilter')?.value || '';
+  const tagFilter = document.getElementById('propTagFilter')?.value || '';
 
   const filtered = properties.filter(p => {
-    const matchSearch = p[0].toLowerCase().includes(search) || p[1].toLowerCase().includes(search);
-    const matchLoc = (loc === 'All') || p[1].toLowerCase().includes(loc.toLowerCase().split(',')[0]);
-    const matchType = (type === 'All') || p[4].toLowerCase().includes(type.toLowerCase());
-    const matchBadge = (badge === 'All') || (badge === 'None' && (!p[3] || p[3] === 'None')) || (p[3] === badge);
-    return matchSearch && matchLoc && matchType && matchBadge;
+    const matchQuery = !q || p[0].toLowerCase().includes(q) || p[1].toLowerCase().includes(q);
+    const matchType = !typeFilter || p[4].includes(typeFilter);
+    const matchTag = !tagFilter || p[3] === tagFilter;
+    return matchQuery && matchType && matchTag;
   });
-
   renderProperties(filtered);
 }
 
-// =============================================================
-// BANNER MANAGEMENT (NO GRIP DOTS, WHITE ELEVATED 5/10, RED/GREEN BUTTONS)
-// =============================================================
-let bannerData = [
-  ['Find Your Dream Luxury Home in Chennai', 'Explore hand-picked luxury apartments and gated villas across OMR & ECR.', img1, true],
-  ['A Better Address for Your Growing Family', 'Discover tranquil gated communities with private gardens and clubhouses.', img2, true],
-  ['Luxury Beachfront Residences on ECR', 'Wake up to panoramic Bay of Bengal ocean vistas with private rooftop decks.', img4, true],
-  ['Prime Commercial & IT Hubs in Guindy & OMR', 'Grade-A tech parks and retail storefronts with unmatched arterial road access.', img5, true],
-  ['Pre-Launch Privileges: Garden County Medavakkam', 'Avail special launch pricing and zero registry fees on the first 25 villas.', img6, true],
-  ['High-Growth Gated Community Plots in Tambaram', 'CMDA & RERA approved residential plots with underground utilities ready for build.', img3, false]
-];
-
-let draggedBannerIndex = null;
-
-function renderBanners() {
-  const container = document.getElementById('bannerList');
-  if (!container) return;
-  
-  container.innerHTML = bannerData.map((b, i) => `
-    <div 
-      draggable="true" 
-      ondragstart="bannerDragStart(event, ${i})" 
-      ondragover="bannerDragOver(event)" 
-      ondragleave="bannerDragLeave(event)" 
-      ondrop="bannerDrop(event, ${i})" 
-      ondragend="bannerDragEnd(event)"
-      class="banner-item flex items-center justify-between p-3.5 rounded-xl border border-slate-200/90 bg-white hover:shadow-sm transition-all gap-4 cursor-grab active:cursor-grabbing">
-      
-      <div class="flex items-center gap-3.5 flex-1 min-w-0">
-        <!-- 4 dots removed! -->
-        <img src="${b[2]}" alt="Banner slide" class="w-20 h-14 object-cover rounded-lg border border-slate-200 flex-shrink-0 shadow-2xs">
-        
-        <div class="min-w-0 flex-1">
-          <div class="flex items-center gap-2">
-            <h4 class="text-xs font-bold text-navy-900 leading-snug font-sans truncate">${b[0]}</h4>
-          </div>
-          <p class="text-[11px] text-slate-500 mt-0.5 line-clamp-1">${b[1]}</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 flex-shrink-0">
-        <button onclick="toggleBannerStatus(${i})" class="px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${b[3] ? 'border border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-100' : 'border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100'}">
-          ${b[3] ? 'Deactivate' : 'Activate'}
-        </button>
-        <button onclick="deleteBanner(${i})" class="p-1.5 rounded-lg text-coral hover:bg-coral/10 transition-colors" title="Delete Slide">
-          <i data-lucide="trash-2" class="w-4 h-4"></i>
-        </button>
-      </div>
-    </div>
-  `).join('');
-
-  const activeCount = bannerData.filter(b => b[3]).length;
-  const cap = document.getElementById('slideCapacity');
-  if (cap) cap.textContent = `${activeCount}/10`;
-  lucide.createIcons();
-}
-
-function toggleBannerStatus(i) {
-  bannerData[i][3] = !bannerData[i][3];
-  renderBanners();
-  logAction(`${bannerData[i][3] ? 'Activated' : 'Deactivated'} carousel banner "${bannerData[i][0]}"`, 'Banners');
-}
-
-function deleteBanner(i) {
-  const name = bannerData[i][0];
-  if (confirm(`Delete carousel banner "${name}"?`)) {
-    bannerData.splice(i, 1);
-    renderBanners();
-    logAction(`Deleted carousel banner "${name}"`, 'Banners');
-  }
-}
-
-function bannerDragStart(e, i) {
-  draggedBannerIndex = i;
-  e.dataTransfer.effectAllowed = 'move';
-  e.currentTarget.classList.add('opacity-40');
-}
-function bannerDragOver(e) {
-  e.preventDefault();
-  e.currentTarget.classList.add('border-royal', 'bg-royal/5');
-}
-function bannerDragLeave(e) {
-  e.currentTarget.classList.remove('border-royal', 'bg-royal/5');
-}
-function bannerDrop(e, targetIdx) {
-  e.preventDefault();
-  e.currentTarget.classList.remove('border-royal', 'bg-royal/5');
-  if (draggedBannerIndex !== null && draggedBannerIndex !== targetIdx) {
-    const moved = bannerData.splice(draggedBannerIndex, 1)[0];
-    bannerData.splice(targetIdx, 0, moved);
-    renderBanners();
-    logAction(`Reordered banner slides`, 'Banners');
-  }
-}
-function bannerDragEnd(e) {
-  draggedBannerIndex = null;
-  document.querySelectorAll('.banner-item').forEach(el => el.classList.remove('opacity-40', 'border-royal', 'bg-royal/5'));
-}
-
-function submitNewBanner() {
-  const head = document.getElementById('modalBannerHead').value.trim();
-  const sub = document.getElementById('modalBannerSub').value.trim() || 'Luxury Chennai residences';
-  const imgUrl = document.getElementById('modalBannerFileName').dataset.uploadedUrl || img1;
-
-  if (!head) {
-    alert('Please enter a banner headline.');
-    return;
-  }
-  if (bannerData.length >= 10) {
-    alert('Maximum 10 carousel slides reached.');
-    return;
-  }
-
-  bannerData.unshift([head, sub, imgUrl, true]);
-  renderBanners();
-  closeModal('addBannerModal');
-  logAction(`Created new carousel banner "${head}"`, 'Banners');
-}
-
-// =============================================================
-// ENQUIRIES SECTION: NO ACTION COLUMN, AUTO-CLOSE ON NAV SWITCH
-// =============================================================
-function getStatusBadge(status) {
-  switch (status) {
-    case 'New':
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">New</span>';
-    case 'Contacted':
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-ice text-royal border border-ice-border">Contacted</span>';
-    case 'Site Visit':
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-700">Site Visit</span>';
-    case 'Closed':
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700 border border-rose-300">Closed</span>';
-    default:
-      return '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">None</span>';
-  }
-}
-
-function renderEnquiries() {
-  const tbody = document.getElementById('enquiriesTableBody');
-  if (!tbody) return;
-
-  tbody.innerHTML = enquiries.map((enq, i) => `
-    <tr onclick="openEnquiry(${i})" class="hover:bg-royal/5 cursor-pointer transition-colors">
-      <td class="px-6 py-4">
-        <div class="flex items-center gap-3">
-          <div class="w-8 h-8 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-xs shadow-2xs font-sans">${enq.name.charAt(0)}</div>
-          <div>
-            <h4 class="font-bold text-navy-900">${enq.name}</h4>
-            <p class="text-[11px] text-slate-400 font-mono">${enq.phone}</p>
-          </div>
-        </div>
-      </td>
-      <td class="px-6 py-4 text-slate-600 font-mono text-[11px]">${enq.email}</td>
-      <td class="px-6 py-4">
-        <p class="font-bold text-navy-900">${enq.property}</p>
-        <p class="text-[11px] text-slate-400">${enq.location}</p>
-      </td>
-      <td class="px-6 py-4 text-slate-400 font-mono text-[11px]">${enq.date}</td>
-      <td class="px-6 py-4">
-        ${getStatusBadge(enq.status)}
-      </td>
-    </tr>
-  `).join('');
-
-  // Update Priority Leads on Dashboard: SHOW ONLY NEW LEADS, EXACTLY 4
-  const priorityContainer = document.getElementById('priorityLeadsList');
-  if (priorityContainer) {
-    const newLeads = enquiries.filter(l => l.status === 'New').slice(0, 3);
-    if (newLeads.length === 0) {
-      priorityContainer.innerHTML = '<p class="text-xs text-slate-400 py-4 text-center">No new leads pending review.</p>';
-    } else {
-      priorityContainer.innerHTML = newLeads.map(l => {
-        const realIdx = enquiries.indexOf(l);
-        return `
-          <div onclick="openEnquiry(${realIdx})" class="p-3 rounded-lg border border-slate-100 hover:border-royal/40 hover:bg-royal/5 transition-all cursor-pointer flex items-center justify-between">
-            <div>
-              <h4 class="text-xs font-bold text-navy-900">${l.name}</h4>
-              <p class="text-[11px] text-slate-500 truncate max-w-[140px] mt-0.5">${l.property}</p>
-            </div>
-            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">New</span>
-          </div>
-        `;
-      }).join('');
-    }
-  }
-
-  const newCount = enquiries.filter(e => e.status === 'New').length;
-  const badge = document.getElementById('unreadEnquiriesBadge');
-  if (badge) badge.textContent = newCount;
-  lucide.createIcons();
-}
-
-function openEnquiry(idx) {
-  const enq = enquiries[idx];
-  if (!enq) return;
-  activeEnquiryIndex = idx;
-
-  if (enq.status === 'New') {
-    enq.status = 'None';
-    logAction(`Reviewed new inquiry from ${enq.name} (Label moved to None)`, 'Enquiries');
-  }
-
-  // Header: Name on top, phone number below
-  document.getElementById('eName').textContent = enq.name;
-  document.getElementById('ePhoneTop').textContent = enq.phone;
-  document.getElementById('eAvatar').textContent = enq.name.charAt(0);
-  
-  // Property of interest with location
-  document.getElementById('eProperty').innerHTML = `
-    <i data-lucide="building-2" class="w-3.5 h-3.5 text-royal"></i>
-    <span>${enq.property}, ${enq.location}</span>
-  `;
-  
-  // Label As status
-  document.getElementById('eStatus').value = enq.status;
-  document.getElementById('ePhone').textContent = enq.phone;
-  document.getElementById('eEmail').textContent = enq.email;
-  document.getElementById('eDate').textContent = enq.date;
-
-  const drawer = document.getElementById('enquiryDrawer');
-  drawer.classList.remove('translate-x-full');
-  
-  renderEnquiries();
-  lucide.createIcons();
-}
-
-function closeEnquiry() {
-  const drawer = document.getElementById('enquiryDrawer');
-  if (drawer) drawer.classList.add('translate-x-full');
-  activeEnquiryIndex = -1;
-}
-
-function updateCurrentEnquiryStatus(val) {
-  if (activeEnquiryIndex >= 0 && enquiries[activeEnquiryIndex]) {
-    enquiries[activeEnquiryIndex].status = val;
-    renderEnquiries();
-    logAction(`Updated label for ${enquiries[activeEnquiryIndex].name} to "${val}"`, 'Enquiries');
-  }
-}
-
-function chatOnWhatsApp() {
-  if (activeEnquiryIndex >= 0 && enquiries[activeEnquiryIndex]) {
-    const enq = enquiries[activeEnquiryIndex];
-    let cleanPhone = (enq.phone || '').replace(/[^0-9]/g, '');
-    if (!cleanPhone) {
-      alert('No valid phone number found for this lead.');
-      return;
-    }
-    // Convert 10-digit Indian phone number to international 91 prefix
-    if (cleanPhone.length === 10) {
-      cleanPhone = '91' + cleanPhone;
-    }
-    const msg = encodeURIComponent(`Hello ${enq.name}, thank you for contacting V.V Properties regarding ${enq.property}. How may we assist you today with property details, brochure, or a site visit?`);
-    window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank');
-  }
-}
-
-function copyPhoneNumber() {
-  if (activeEnquiryIndex >= 0 && enquiries[activeEnquiryIndex]) {
-    const phone = enquiries[activeEnquiryIndex].phone;
-    navigator.clipboard.writeText(phone).then(() => {
-      const btn = document.getElementById('copyPhoneText');
-      if (btn) {
-        btn.textContent = 'Phone Copied!';
-        setTimeout(() => btn.textContent = 'Copy Phone Number', 1500);
-      }
-    });
-  }
-}
-
-function exportEnquiriesCSV() {
-  let csv = 'ID,Name,Phone,Email,Property,Location,Date,Status\n';
-  enquiries.forEach(e => {
-    csv += `"${e.id}","${e.name}","${e.phone}","${e.email}","${e.property}","${e.location}","${e.date}","${e.status}"\n`;
-  });
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.setAttribute('href', url);
-  a.setAttribute('download', 'vv_customer_enquiries.csv');
-  a.click();
-}
-
-// =============================================================
-// TESTIMONIALS (5 CLICKABLE STARS, SUBTLE LABELS WITHOUT *)
-// =============================================================
-let testimonials = [
-  ['Meena R', '5', 'OMR, Chennai', 'Professional support throughout the buying process. Transparent documentation and prompt customer service.'],
-  ['Karthik S', '5', 'Anna Nagar, Chennai', 'Exceptional service and clear guidance on property verification. Highly recommend V.V Properties.'],
-  ['Anand C', '4', 'ECR, Chennai', 'Transparent pricing with no hidden charges. Site visit coordination was seamless and punctual.'],
-  ['Priya S', '5', 'Medavakkam, Chennai', 'Found our dream duplex villa within 3 weeks. The team handled registration smoothly.'],
-  ['Dr. Rajesh K', '5', 'Besant Nagar, Chennai', 'Trustworthy and ethical realtors. Very satisfied with the legal clearance documentation.'],
-  ['Divya B', '4', 'Guindy, Chennai', 'Great commercial property options for retail investment. Excellent post-sales assistance.']
-];
-
-function setTestimonialStar(rating) {
-  document.getElementById('testStarInput').value = rating;
-  renderStarRatingPicker(rating);
-}
-
-function renderStarRatingPicker(rating) {
-  const container = document.getElementById('starRatingContainer');
-  const label = document.getElementById('starRatingLabel');
-  if (!container) return;
-
-  let starsHtml = '';
-  for (let s = 1; s <= 5; s++) {
-    const isFilled = s <= rating;
-    starsHtml += `
-      <button type="button" onclick="setTestimonialStar(${s})" class="star-btn hover:scale-110 transition-transform ${isFilled ? 'text-amber-400' : 'text-slate-300'}">
-        <i data-lucide="star" class="w-5 h-5 ${isFilled ? 'fill-amber-400' : ''}"></i>
-      </button>
-    `;
-  }
-  container.innerHTML = `
-    ${starsHtml}
-    <span id="starRatingLabel" class="text-xs font-bold text-slate-700 ml-1.5">${rating} Stars</span>
-  `;
-  lucide.createIcons();
-}
-
-function renderTestimonials() {
-  const container = document.getElementById('testCards');
-  if (!container) return;
-  container.innerHTML = testimonials.map((t, i) => {
-    const starCount = parseInt(t[1], 10) || 5;
-    const starsHtml = '★'.repeat(starCount) + '☆'.repeat(5 - starCount);
-    return `
-      <div class="bg-white border border-slate-200/90 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow relative group flex flex-col justify-between">
-        <div>
-          <div class="flex items-start justify-between mb-3">
-            <div class="flex items-center gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-xs font-sans">
-                ${t[0].charAt(0)}
-              </div>
-              <div>
-                <h4 class="font-sans font-bold text-navy-900 text-sm leading-tight">${t[0]}</h4>
-                <p class="text-[11px] text-slate-400 font-medium">${t[2]}</p>
-              </div>
-            </div>
-            
-            <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-              <button onclick="openEditTestimonialModal(${i})" class="p-1 rounded text-slate-400 hover:text-royal hover:bg-royal/10 transition-colors" title="Edit">
-                <i data-lucide="pencil" class="w-3.5 h-3.5"></i>
-              </button>
-              <button onclick="deleteTestimonial(${i})" class="p-1 rounded text-slate-400 hover:text-coral hover:bg-coral/10 transition-colors" title="Delete">
-                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-              </button>
-            </div>
-          </div>
-          <p class="text-xs text-slate-600 leading-relaxed italic">"${t[3]}"</p>
-        </div>
-        <div class="mt-4 pt-3 border-t border-slate-100 text-amber-500 font-bold text-xs tracking-wider">
-          ${starsHtml}
-        </div>
-      </div>
-    `;
-  }).join('');
-  lucide.createIcons();
-}
-
-function openAddTestimonialModal() {
-  document.getElementById('editTestimonialIndex').value = -1;
-  document.getElementById('testimonialModalTitle').textContent = 'Add Testimonial';
-  document.getElementById('testNameInput').value = '';
-  document.getElementById('testLocInput').value = '';
-  document.getElementById('testQuoteInput').value = '';
-  setTestimonialStar(5);
-  openModal('testimonialModal');
-}
-
-function openEditTestimonialModal(idx) {
-  const t = testimonials[idx];
-  if (!t) return;
-  document.getElementById('editTestimonialIndex').value = idx;
-  document.getElementById('testimonialModalTitle').textContent = 'Edit Testimonial';
-  document.getElementById('testNameInput').value = t[0];
-  document.getElementById('testLocInput').value = t[2];
-  document.getElementById('testQuoteInput').value = t[3];
-  setTestimonialStar(parseInt(t[1], 10) || 5);
-  openModal('testimonialModal');
-}
-
-function saveTestimonialModal() {
-  const idx = parseInt(document.getElementById('editTestimonialIndex').value, 10);
-  const name = document.getElementById('testNameInput').value.trim();
-  const star = document.getElementById('testStarInput').value;
-  const loc = document.getElementById('testLocInput').value.trim() || 'Chennai';
-  const quote = document.getElementById('testQuoteInput').value.trim();
-
-  if (!name || !quote) {
-    alert('Please enter client name and feedback quote.');
-    return;
-  }
-
-  if (idx >= 0 && testimonials[idx]) {
-    testimonials[idx] = [name, star, loc, quote];
-    logAction(`Updated testimonial from "${name}"`, 'Testimonials');
-  } else {
-    testimonials.unshift([name, star, loc, quote]);
-    logAction(`Added new testimonial from "${name}" (${star} Stars)`, 'Testimonials');
-  }
-
-  renderTestimonials();
-  closeModal('testimonialModal');
-}
-
-function deleteTestimonial(idx) {
-  const name = testimonials[idx][0];
-  if (confirm(`Delete testimonial from "${name}"?`)) {
-    testimonials.splice(idx, 1);
-    renderTestimonials();
-    logAction(`Deleted testimonial from "${name}"`, 'Testimonials');
-  }
-}
-
-// =============================================================
-// ADMIN PROFILE & TEAM ACCOUNTS (victor, saran, vibhkar, umeshwar, sharmika)
-// =============================================================
-function renderAccounts() {
-  const tbody = document.getElementById('accountsTableBody');
-  if (!tbody) return;
-  tbody.innerHTML = staffAccounts.map((a, i) => `
-    <tr class="hover:bg-slate-50 transition-colors">
-      <td class="px-5 py-3.5">
-        <div class="flex items-center gap-2.5">
-          <div class="w-7 h-7 rounded-full bg-ice text-royal font-bold flex items-center justify-center text-xs font-sans">${a.name.charAt(0)}</div>
-          <span class="font-bold text-navy-900">${a.name}</span>
-        </div>
-      </td>
-      <td class="px-5 py-3.5 font-mono text-[11px] text-slate-600">${a.username}</td>
-      <td class="px-5 py-3.5 font-medium text-slate-700">${a.role}</td>
-      <td class="px-5 py-3.5 text-slate-400 font-mono text-[11px]">${a.created}</td>
-      <td class="px-5 py-3.5"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald/15 text-emerald border border-emerald/30">${a.status}</span></td>
-      <td class="px-5 py-3.5 text-right">
-        ${i === 0 ? '<span class="text-slate-400 font-bold text-[11px]">Primary</span>' : `
-          <button onclick="deleteAccount(${i})" class="text-coral hover:underline font-semibold text-[11px]">Delete</button>
-        `}
-      </td>
-    </tr>
-  `).join('');
-}
-
-function submitNewAccount() {
-  const name = document.getElementById('newAccDisplayName').value.trim();
-  const username = document.getElementById('newAccUsername').value.trim().toLowerCase();
-  const password = document.getElementById('newAccPassword').value.trim() || username;
-  const role = document.getElementById('newAccRole').value;
-
-  if (!name || !username) {
-    alert('Please enter display name and username.');
-    return;
-  }
-
-  staffAccounts.push({
-    name: name,
-    username: username,
-    password: password,
-    role: role,
-    created: 'Today',
-    status: 'Active'
-  });
-
-  renderAccounts();
-  closeModal('addAccountModal');
-  logAction(`Created new authorized team account "${username}" (${role})`, 'Admin');
-}
-
-function deleteAccount(i) {
-  if (i === 0) {
-    alert('Primary administrator account cannot be deleted.');
-    return;
-  }
-  const acc = staffAccounts[i];
-  if (confirm(`Revoke credentials and delete account for "${acc.name}"?`)) {
-    staffAccounts.splice(i, 1);
-    renderAccounts();
-    logAction(`Revoked account access for "${acc.username}"`, 'Admin');
-  }
-}
-
-function saveAdminProfile() {
-  const name = document.getElementById('profileDisplayName').value.trim();
-  const user = document.getElementById('profileUsername').value.trim();
-  if (!name || !user) {
-    alert('Please provide display name and username.');
-    return;
-  }
-  currentAdminProfile.name = name;
-  currentAdminProfile.username = user;
-
-  // Update in staffAccounts
-  const primary = staffAccounts.find(a => a.username === 'victorpaul' || a.username === 'victor') || staffAccounts[0];
-  if (primary) {
-    primary.name = name;
-    primary.username = user;
-    primary.password = user;
-  }
-
-  const session = JSON.parse(localStorage.getItem('vv_auth_session') || '{}');
-  session.name = name;
-  session.username = user;
-  session.avatar = currentAdminProfile.avatar;
-  localStorage.setItem('vv_auth_session', JSON.stringify(session));
-
-  applyUserSession(session);
-  renderAccounts();
-  logAction(`Updated administrator profile credentials for "${name}"`, 'Admin');
-  alert('Admin profile updated successfully.');
-}
-
-function togglePasswordVisibility(inputId, iconId) {
-  const input = document.getElementById(inputId);
-  const icon = document.getElementById(iconId);
-  if (!input) return;
-  if (input.type === 'password') {
-    input.type = 'text';
-    if (icon) icon.setAttribute('data-lucide', 'eye-off');
-  } else {
-    input.type = 'password';
-    if (icon) icon.setAttribute('data-lucide', 'eye');
-  }
-  lucide.createIcons();
-}
-
-function submitEditPassword() {
-  const cur = document.getElementById('currentAdminPasswordInput').value.trim();
-  const nw = document.getElementById('newAdminPasswordInput').value.trim();
-  const conf = document.getElementById('confirmAdminPasswordInput').value.trim();
-  if (!nw) {
-    alert('Please enter a new password.');
-    return;
-  }
-  if (nw !== conf) {
-    alert('New password and confirm password do not match.');
-    return;
-  }
-  const acc = staffAccounts.find(a => a.username === currentAdminProfile.username) || staffAccounts[0];
-  if (acc) {
-    acc.password = nw;
-    document.getElementById('profilePassword').value = nw;
-    closeModal('editPasswordModal');
-    logAction(`Updated password credentials for "${acc.username}"`, 'Admin');
-    alert('Password updated successfully.');
-  }
-}
-
-// PROFILE PHOTO DRAG & DROP
-const photoDropzone = document.getElementById('adminPhotoDropzone');
-const photoFileInput = document.getElementById('adminPhotoFileInput');
-
-if (photoDropzone && photoFileInput) {
-  photoDropzone.onclick = () => photoFileInput.click();
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    photoDropzone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      photoDropzone.classList.add('drag-over');
-    }, false);
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    photoDropzone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      photoDropzone.classList.remove('drag-over');
-    }, false);
-  });
-
-  photoDropzone.addEventListener('drop', e => {
-    const dt = e.dataTransfer;
-    const files = dt.files;
-    if (files.length > 0) handleAdminPhotoUpload(files[0]);
-  }, false);
-
-  photoFileInput.onchange = e => {
-    if (e.target.files.length > 0) handleAdminPhotoUpload(e.target.files[0]);
-  };
-}
-
-function handleAdminPhotoUpload(file) {
-  if (!file.type.startsWith('image/')) {
-    alert('Please select an image file (JPG, PNG).');
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const dataUrl = e.target.result;
-    currentAdminProfile.avatar = dataUrl;
-    
-    const preview = document.getElementById('photoPreviewImg');
-    const ph = document.getElementById('photoPlaceholder');
-    if (preview && ph) {
-      preview.src = dataUrl;
-      preview.classList.remove('hidden');
-      ph.classList.add('hidden');
-    }
-
-    const topImg = document.getElementById('adminAvatarImg');
-    const topInit = document.getElementById('adminAvatarInitial');
-    if (topImg && topInit) {
-      topImg.src = dataUrl;
-      topImg.classList.remove('hidden');
-      topInit.classList.add('hidden');
-    }
-
-    const session = JSON.parse(localStorage.getItem('vv_auth_session') || '{}');
-    session.avatar = dataUrl;
-    localStorage.setItem('vv_auth_session', JSON.stringify(session));
-
-    logAction('Updated admin profile picture', 'Admin');
-  };
-  reader.readAsDataURL(file);
-}
-
-// FILE INPUTS FOR PROPERTY MODAL
-const propCoverFileInput = document.getElementById('propCoverFileInput');
-if (propCoverFileInput) {
-  propCoverFileInput.onchange = e => {
-    if (e.target.files.length > 0 && e.target.files[0].type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        document.getElementById('formPropImage').value = ev.target.result;
-        buildCoverImageSection(ev.target.result);
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
-}
-
-const propGalleryFileInput = document.getElementById('propGalleryFileInput');
-if (propGalleryFileInput) {
-  propGalleryFileInput.onchange = e => {
-    if (e.target.files.length > 0 && e.target.files[0].type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = ev => {
-        if (activeGalleryUpdateSlot >= 0 && activeGalleryUpdateSlot < 5) {
-          currentFormGallery[activeGalleryUpdateSlot] = ev.target.result;
-        } else if (currentFormGallery.length < 5) {
-          currentFormGallery.push(ev.target.result);
-        }
-        buildGallerySection();
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    }
-  };
-}
-
-// BANNER MODAL DRAG & DROP
-const bannerDropzone = document.getElementById('modalDropzone');
-const bannerFileInput = document.getElementById('modalBannerFile');
-
-if (bannerDropzone && bannerFileInput) {
-  bannerDropzone.onclick = () => bannerFileInput.click();
-
-  ['dragenter', 'dragover'].forEach(eventName => {
-    bannerDropzone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      bannerDropzone.classList.add('drag-over');
-    }, false);
-  });
-
-  ['dragleave', 'drop'].forEach(eventName => {
-    bannerDropzone.addEventListener(eventName, e => {
-      e.preventDefault();
-      e.stopPropagation();
-      bannerDropzone.classList.remove('drag-over');
-    }, false);
-  });
-
-  bannerDropzone.addEventListener('drop', e => {
-    const files = e.dataTransfer.files;
-    if (files.length > 0) handleBannerFileUpload(files[0]);
-  }, false);
-
-  bannerFileInput.onchange = e => {
-    if (e.target.files.length > 0) handleBannerFileUpload(e.target.files[0]);
-  };
-}
-
-function handleBannerFileUpload(file) {
-  if (!file.type.startsWith('image/')) {
-    alert('Please select an image file (JPG, PNG).');
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = e => {
-    const label = document.getElementById('modalBannerFileName');
-    label.textContent = `✓ Loaded: ${file.name} (${Math.round(file.size / 1024)} KB)`;
-    label.dataset.uploadedUrl = e.target.result;
-    label.classList.remove('hidden');
-  };
-  reader.readAsDataURL(file);
-}
-
-// =============================================================
-// GLOBAL NAVIGATION & MODALS
-// =============================================================
-function go(pageId) {
-  closeEnquiry(); // Always close enquiry drawer when switching pages!
-  document.querySelectorAll('.page-view').forEach(p => p.classList.add('hidden'));
-  const target = document.getElementById(pageId);
-  if (target) target.classList.remove('hidden');
-
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    if (btn.dataset.page === pageId) {
-      btn.className = 'nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-semibold text-white bg-royal shadow-md shadow-royal/30 transition-all';
-      const icon = btn.querySelector('i');
-      if (icon) icon.className = 'w-4 h-4 text-white';
-    } else {
-      btn.className = 'nav-btn w-full flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-white/5 transition-all';
-      const icon = btn.querySelector('i');
-      if (icon) icon.className = 'w-4 h-4 text-slate-400';
-    }
-  });
-
-  window.scrollTo(0, 0);
-  lucide.createIcons();
-}
-
-function openModal(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.remove('hidden');
-    el.classList.add('flex');
-    lucide.createIcons();
-  }
-}
-
-function closeModal(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.add('hidden');
-    el.classList.remove('flex');
-  }
-}
-
-document.querySelectorAll('.modal-overlay').forEach(o => {
-  o.addEventListener('click', e => {
-    if (e.target === o) o.classList.add('hidden');
-  });
-});
-
-document.addEventListener('click', e => {
-  if (!e.target.closest('.menu-wrapper')) {
-    closeAllMenus();
-  }
-});
-
+// GLOBAL EVENT LISTENERS
+document.addEventListener('click', () => closeAllMenus());
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay').forEach(o => o.classList.add('hidden'));
+    document.querySelectorAll('.overlay').forEach(o => o.classList.remove('show'));
     closeEnquiry();
     closeAllMenus();
   }
 });
 
-// =============================================================
-// PERFORMANCE CHART (24h, 1W, 3M, 6M, 1Y, CUSTOMIZE DATES)
-// =============================================================
-// DENSE, VIBRANT PERFORMANCE POINTS WITH REALISTIC FLUCTUATIONS
-const ranges = {
-  '24h': {
-    caption: 'Hourly customer inquiries recorded over the last 24 hours',
-    pts: [14, 22, 18, 35, 48, 42, 65, 58, 72, 68, 82, 75, 88],
-    labels: ['00h', '02h', '04h', '06h', '08h', '10h', '12h', '14h', '16h', '18h', '20h', '22h', '24h']
-  },
-  '1W': {
-    caption: 'Verified customer outreach recorded during the last 7 days',
-    pts: [22, 38, 32, 45, 58, 52, 68, 62, 75, 70, 85, 80, 92],
-    labels: ['Mon', 'Tue AM', 'Tue PM', 'Wed AM', 'Wed PM', 'Thu', 'Fri AM', 'Fri PM', 'Sat AM', 'Sat PM', 'Sun AM', 'Sun PM', 'Today']
-  },
-  '1M': {
-    caption: 'Monthly acquisition velocity and active property page visitors',
-    pts: [25, 34, 28, 44, 52, 46, 60, 55, 72, 68, 80, 88, 95],
-    labels: ['Day 1', 'Day 3', 'Day 6', 'Day 9', 'Day 12', 'Day 15', 'Day 18', 'Day 21', 'Day 24', 'Day 26', 'Day 28', 'Day 30', 'Now']
-  },
-  '3M': {
-    // Starting June, ending September as explicitly requested!
-    caption: 'Quarterly customer outreach recorded from June to September',
-    pts: [28, 42, 36, 54, 62, 58, 74, 69, 83, 78, 89, 94, 98],
-    labels: ['June', 'Jun 10', 'Jun 20', 'July', 'Jul 10', 'Jul 20', 'August', 'Aug 10', 'Aug 20', 'Sep 01', 'Sep 10', 'Sep 20', 'September']
-  },
-  '6M': {
-    caption: 'Bi-annual customer outreach trends across residential property segments',
-    pts: [20, 32, 40, 36, 52, 65, 58, 74, 82, 76, 92, 105, 118],
-    labels: ['Jun', 'Mid Jun', 'Jul', 'Mid Jul', 'Aug', 'Mid Aug', 'Sep', 'Mid Sep', 'Oct', 'Mid Oct', 'Nov', 'Mid Nov', 'Dec']
-  },
-  '1Y': {
-    caption: 'Annual executive performance and qualified lead acquisition totals',
-    pts: [18, 28, 35, 48, 56, 50, 68, 76, 84, 95, 108, 122, 138],
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Total']
-  }
+// NAVIGATION
+const pageNames = {
+  dashboard: 'Dashboard',
+  properties: 'Properties',
+  banners: 'Banner Management',
+  enquiries: 'Customer Enquiries',
+  testimonials: 'Testimonials',
+  profile: 'Admin Profile'
 };
 
-function updateChart(data) {
-  const n = data.pts.length;
-  const startX = 40;
-  const endX = 610;
-  const step = (endX - startX) / (n - 1);
-  const xs = data.pts.map((_, i) => Math.round(startX + i * step));
+function go(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) target.classList.add('active');
+  document.querySelectorAll('[data-page]').forEach(b => b.classList.toggle('active', b.dataset.page === id));
+  const crumb = document.getElementById('crumb');
+  if (crumb) crumb.textContent = pageNames[id] || 'Workspace';
+  window.scrollTo(0, 0);
+}
+document.querySelectorAll('[data-page]').forEach(b => b.onclick = () => go(b.dataset.page));
 
-  const maxVal = Math.max(...data.pts, 100);
-  const scaledY = data.pts.map(v => Math.round(155 - (v / maxVal) * 135));
+// MODALS
+function openModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.add('show');
+}
+function closeModal(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.remove('show');
+}
+document.querySelectorAll('.overlay').forEach(o => o.addEventListener('click', e => {
+  if (e.target === o) o.classList.remove('show');
+}));
 
-  let points = scaledY.map((y, i) => xs[i] + ',' + y).join(' ');
-  const lineEl = document.getElementById('chartLine');
-  const areaEl = document.getElementById('chartArea');
-  if (lineEl) lineEl.setAttribute('points', points);
-  if (areaEl) {
-    areaEl.setAttribute('d', 'M' + xs[0] + ' ' + scaledY[0] + ' ' + xs.slice(1).map((x, i) => 'L' + x + ' ' + scaledY[i + 1]).join(' ') + ' L' + endX + ' 155 L' + startX + ' 155 Z');
-  }
-
-  const dotsContainer = document.getElementById('chartDots');
-  if (dotsContainer) {
-    dotsContainer.innerHTML = scaledY.map((y, i) => `<circle cx="${xs[i]}" cy="${y}" r="3" fill="#4062BB"/>`).join('');
-  }
-
-  const xLabelsContainer = document.getElementById('chartXLabels');
-  if (xLabelsContainer && data.labels) {
-    // Show spaced labels to avoid visual crowding
-    const labelStep = Math.max(1, Math.floor(n / 6));
-    xLabelsContainer.innerHTML = data.labels.map((lbl, i) => {
-      if (i === 0 || i === n - 1 || i % labelStep === 0) {
-        return `<text x="${xs[i]}" y="172" text-anchor="middle">${lbl}</text>`;
-      }
-      return '';
-    }).join('');
-  }
-
-  const cap = document.getElementById('chartCaption');
-  if (cap) cap.textContent = data.caption;
+// TOAST
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(t.timer);
+  t.timer = setTimeout(() => { t.style.display = 'none'; }, 2600);
 }
 
-function setTrafficRange(val) {
-  onRangeSelectChange(val);
+// ENQUIRY DRAWER
+function openEnquiry(name, property, status, phone, email) {
+  document.getElementById('eName').textContent = name;
+  document.getElementById('eAvatar').textContent = name[0];
+  document.getElementById('eProperty').textContent = property;
+  document.getElementById('eStatus').value = status;
+  document.getElementById('ePhone').textContent = phone;
+  document.getElementById('eEmail').textContent = email;
+  const digits = phone.replace(/\D/g, '');
+  document.getElementById('whatsappLink').href = 'https://wa.me/' + digits;
+  document.getElementById('enquiryDrawer').classList.add('show');
+}
+function closeEnquiry() {
+  document.getElementById('enquiryDrawer').classList.remove('show');
 }
 
-function onRangeSelectChange(val) {
-  const box = document.getElementById('customDateRangeBox');
-  if (val === 'custom') {
-    if (box) box.classList.remove('hidden');
-    applyCustomDateRange();
-  } else {
-    if (box) box.classList.add('hidden');
-    if (ranges[val]) {
-      updateChart(ranges[val]);
-    }
-  }
-}
+// PERFORMANCE CHART RANGES
+const ranges = {
+  '1W': { caption: 'Enquiries received during the last 7 days · Demo data', pts: [142,111,119,105,68,83,45], labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] },
+  '1M': { caption: 'Enquiries during the last 30 days · Demo data', pts: [140,125,115,128,83,70,42], labels: ['Week 1','Week 2','Week 3','Week 4','','',''] },
+  '3M': { caption: 'Enquiries over the last 3 months · Demo data', pts: [145,130,110,115,83,65,40], labels: ['Aug','Sep','Oct','','','',''] },
+  '6M': { caption: 'Enquiries over the last 6 months · Demo data', pts: [150,138,117,105,79,64,35], labels: ['Jun','Jul','Aug','Sep','Oct','Nov',''] },
+  '1Y': { caption: 'Enquiries over the last 12 months · Demo data', pts: [153,139,132,111,92,69,32], labels: ['Dec','Feb','Apr','Jun','Aug','Oct','Nov'] }
+};
 
-document.querySelectorAll('#ranges button[data-range]').forEach(b => {
+document.getElementById('ranges')?.querySelectorAll('button').forEach(b => {
   b.onclick = () => {
-    const rangeKey = b.dataset.range;
-    if (rangeKey === 'custom') return; // Handled by toggleCustomDatePicker
-
-    document.querySelectorAll('#ranges button').forEach(x => {
-      x.className = 'px-2.5 py-1 rounded-md hover:text-slate-900 transition-colors';
-    });
-    b.className = 'active px-2.5 py-1 rounded-md bg-white text-royal shadow-sm font-bold transition-all';
-    
-    document.getElementById('customDateRangeBox').classList.add('hidden');
-    
-    if (ranges[rangeKey]) {
-      updateChart(ranges[rangeKey]);
-    }
+    document.querySelectorAll('#ranges button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    const d = ranges[b.dataset.range];
+    const xs = [40, 135, 230, 325, 420, 515, 610];
+    const points = d.pts.map((y, i) => xs[i] + ',' + y).join(' ');
+    document.getElementById('chartLine').setAttribute('points', points);
+    document.getElementById('chartArea').setAttribute('d', 'M' + xs[0] + ' ' + d.pts[0] + ' ' + xs.slice(1).map((x, i) => 'L' + x + ' ' + d.pts[i+1]).join(' ') + ' L610 175 L40 175 Z');
+    document.getElementById('chartCaption').textContent = d.caption;
   };
 });
 
-function toggleCustomDatePicker() {
-  const box = document.getElementById('customDateRangeBox');
-  if (box) box.classList.toggle('hidden');
+// ========================================================
+// BANNER MANAGEMENT (NO TEMPLATES)
+// ========================================================
+const bannerData = [
+  ['Find your dream home', 'Explore selected homes and prime properties.', 'Active', img1],
+  ['A better address for your future', 'Discover spaces designed around you.', 'Active', img2],
+  ['Make your next move', 'Find the right property with V.V Properties.', 'Inactive', img3]
+];
+
+function renderBanners() {
+  const container = document.getElementById('bannerList');
+  if (!container) return;
+  container.innerHTML = bannerData.map((b, i) => `
+    <div class="banneritem" data-index="${i}">
+      <img src="${b[3]}" alt="Banner ${i+1}">
+      <div>
+        <b>${b[0]}</b>
+        <small>${b[1]} · Slide ${i+1}</small>
+      </div>
+      <div class="banneritem-actions">
+        <span class="pill ${b[2] === 'Active' ? 'published' : 'draft'}">${b[2]}</span>
+        <button class="btn sm" onclick="toggleBannerStatus(${i})">${b[2] === 'Active' ? 'Deactivate' : 'Activate'}</button>
+        <button class="btn sm danger" onclick="deleteBanner(${i})">Delete</button>
+        <span class="drag-handle" title="Drag handle">⠿</span>
+      </div>
+    </div>
+  `).join('');
+
+  const activeCount = bannerData.filter(b => b[2] === 'Active').length;
+  const capEl = document.getElementById('slideCapacity');
+  if (capEl) capEl.textContent = `${activeCount} / 10 Active`;
 }
 
-function applyCustomDateRange() {
-  const from = document.getElementById('chartDateFrom').value;
-  const to = document.getElementById('chartDateTo').value;
-  if (!from || !to) {
-    alert('Please select both start and end dates.');
+function toggleBannerStatus(i) {
+  if (bannerData[i][2] !== 'Active' && bannerData.filter(b => b[2] === 'Active').length >= 5) {
+    alert('A maximum of 5 slides can be active at the same time.');
     return;
   }
-  const fDate = new Date(from);
-  const tDate = new Date(to);
-  const fStr = `${String(fDate.getDate()).padStart(2, '0')}/${String(fDate.getMonth() + 1).padStart(2, '0')}`;
-  const tStr = `${String(tDate.getDate()).padStart(2, '0')}/${String(tDate.getMonth() + 1).padStart(2, '0')}`;
-
-  const customData = {
-    caption: `Custom Range: ${fStr} to ${tStr} · Verified customer inquiries recorded across selected date range`,
-    pts: [24, 38, 31, 49, 62, 55, 78, 71, 84, 79, 93, 88, 102],
-    labels: [fStr, 'Inter 1', 'Inter 2', 'Inter 3', 'Midpoint', 'Inter 5', 'Inter 6', 'Inter 7', 'Inter 8', 'Inter 9', 'Inter 10', 'Inter 11', tStr]
-  };
-
-  updateChart(customData);
-  logAction(`Filtered performance analytics from ${fStr} to ${tStr}`, 'Analytics');
+  bannerData[i][2] = bannerData[i][2] === 'Active' ? 'Inactive' : 'Active';
+  renderBanners();
+  showToast(`Banner set to ${bannerData[i][2]}`);
 }
 
-// Initial System Startup
-checkAuthSession();
+function deleteBanner(i) {
+  if (confirm('Delete this banner slide?')) {
+    bannerData.splice(i, 1);
+    renderBanners();
+    showToast('Banner slide deleted');
+  }
+}
 
-// Assign IDs and statuses to default properties (first 7 published, last 3 draft)
-properties.forEach((p, idx) => {
-  if (!p[9]) p[9] = `prop_${String(idx + 1).padStart(3, '0')}`;
-  if (!p[10]) p[10] = idx >= 7 ? 'draft' : 'published';
-});
+function addNewBanner() {
+  const headline = document.getElementById('bannerHeadline').value.trim();
+  const subtext = document.getElementById('bannerSubtext').value.trim();
+  const status = document.getElementById('bannerStatus').value;
+  const imgUrl = document.getElementById('bannerImgUrl').value.trim() || img1;
 
-async function syncBackendData() {
-  try {
-    // Fetch properties
-    const pRes = await fetch('/api/properties');
-    if (pRes.ok) {
-      const pData = await pRes.json();
-      if (pData.properties && pData.properties.length > 0) {
-        properties = pData.properties.map(p => [
-          p.name || p.title,
-          p.location || p.area,
-          p.price,
-          p.badge || 'None',
-          p.type,
-          p.amenities || [],
-          p.coverImage || '',
-          p.description || '',
-          p.gallery || defaultGallery,
-          p.id,
-          p.status || 'published'
-        ]);
-      }
-    }
-
-    // Fetch leads
-    const lRes = await fetch('/api/leads');
-    if (lRes.ok) {
-      const lData = await lRes.json();
-      if (lData.leads && lData.leads.length > 0) {
-        enquiries = lData.leads;
-      }
-    }
-
-    // Fetch banners
-    const bRes = await fetch('/api/banners');
-    if (bRes.ok) {
-      const bData = await bRes.json();
-      if (bData.banners && bData.banners.length > 0) {
-        bannerData = bData.banners.map(b => [b.title, b.subtitle, b.imageUrl, b.active]);
-      }
-    }
-
-    // Fetch logs
-    const aRes = await fetch('/api/activity-logs');
-    if (aRes.ok) {
-      const aData = await aRes.json();
-      if (aData.logs && aData.logs.length > 0) {
-        activityLogs = aData.logs;
-      }
-    }
-  } catch (err) {
-    console.warn('Initial backend sync offline, using persistent cache');
+  if (!headline) {
+    alert('Please enter a banner headline');
+    return;
   }
 
-  updatePropertyKpis();
-  renderProperties();
+  bannerData.push([headline, subtext, status, imgUrl]);
   renderBanners();
-  renderEnquiries();
-  renderTestimonials();
-  renderAccounts();
-  renderLogs();
-  setTrafficRange('1W');
-  lucide.createIcons();
+  closeModal('bannerModal');
+  showToast('New banner added');
 }
 
-syncBackendData();
+// BANNER DROPZONE
+const drop = document.getElementById('dropzone');
+const fileInput = document.getElementById('bannerFile');
+if (drop && fileInput) {
+  drop.onclick = () => fileInput.click();
+  drop.ondragover = e => { e.preventDefault(); drop.classList.add('drag'); };
+  drop.ondragleave = () => drop.classList.remove('drag');
+  drop.ondrop = e => {
+    e.preventDefault();
+    drop.classList.remove('drag');
+    if (e.dataTransfer.files.length > 0) {
+      showToast(`${e.dataTransfer.files.length} banner file(s) uploaded`);
+    }
+  };
+  fileInput.onchange = () => {
+    if (fileInput.files.length > 0) {
+      showToast(`${fileInput.files.length} banner file(s) selected`);
+    }
+  };
+}
+
+// TESTIMONIALS
+document.getElementById('testCards').innerHTML = [
+  ['Meena R', 'OMR, Chennai', 'Professional support throughout the process. Highly recommend V.V Properties for residential investments.'],
+  ['Karthik S', 'Kelambakkam', 'Clear communication, prompt site visits, and completely transparent documentation.'],
+  ['Priya Sharma', 'Chennai', 'They helped us find the right gated community villa for our family within our planned budget.']
+].map(t => `
+  <article class="testimonial">
+    <div class="stars">★★★★★</div>
+    <p>“${t[2]}”</p>
+    <b>${t[0]}</b>
+    <div class="muted">${t[1]}</div>
+    <div style="margin-top:14px; display:flex; gap:8px;">
+      <button class="btn sm" onclick="openModal('testimonialModal')">Edit</button>
+      <button class="btn sm danger" onclick="this.closest('.testimonial').remove(); showToast('Testimonial removed');">Delete</button>
+    </div>
+  </article>
+`).join('');
+
+// INITIAL RENDER
+renderProperties();
+renderBanners();
 </script>
 </body>
 </html>

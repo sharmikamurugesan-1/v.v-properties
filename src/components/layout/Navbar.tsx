@@ -48,23 +48,23 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
 
           {/* ── Logo ─────────────────────────────────────────────────── */}
-          <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-            <div className="relative w-10 h-10 rounded-lg overflow-hidden border border-[#E2EBF3] shadow-sm flex-shrink-0">
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0 group">
+            <div className="relative w-11 h-11 rounded-full overflow-hidden border-2 border-[#CDE6F5] shadow-sm flex-shrink-0 bg-white group-hover:scale-105 transition-transform">
               <Image
-                src="/brand/vv-properties-logo.jpg"
-                alt="V.V Properties"
+                src="/logo.png"
+                alt="V.V Properties Logo"
                 fill
-                sizes="40px"
+                sizes="44px"
                 className="object-cover"
                 priority
               />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="text-sm font-bold text-[#0E2138] tracking-wide">
-                V.V <span className="text-[#1565C0]">Properties</span>
+              <span className="text-base font-bold text-[#0D0221] tracking-wide group-hover:text-[#4062BB] transition-colors">
+                V.V <span className="text-[#4062BB]">PROPERTIES</span>
               </span>
-              <span className="text-[10px] text-[#94AAC0] uppercase tracking-widest">
-                Coimbatore
+              <span className="text-[10px] text-[#64748B] font-semibold tracking-wider uppercase">
+                Premium Real Estate
               </span>
             </div>
           </Link>
